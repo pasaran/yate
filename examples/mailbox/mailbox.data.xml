@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page>
+
+    <page-blocks>
+        <app>
+            <left-box>
+                <mail-left>
+                    <folders/>
+                    <labels/>
+                </mail-left>
+            </left-box>
+            <right-box>
+                <mail>
+                    <messages-box>
+                        <messages/>
+                    </messages-box>
+                </mail>
+            </right-box>
+            <search/>
+            <labels-actions/>
+            <folders-actions/>
+        </app>
+    </page-blocks>
+
+    <page-params>
+        <_page>messages</_page>
+        <current_folder>2170000780000001053</current_folder>
+    </page-params>
+
+    <folders>
+        <new>114</new>
+        <folder id="2170000780000001053">
+            <symbol>inbox</symbol>
+            <name>Входящие</name>
+            <count>6044</count>
+            <new>107</new>
+            <default/>
+            <pop3/>
+        </folder>
+        <folder id="2170000780000001057">
+            <symbol>sent</symbol>
+            <name>Отправленные</name>
+            <count>107</count>
+            <new>7</new>
+            <default/>
+        </folder>
+        <folder id="2170000780000001061">
+            <symbol>trash</symbol>
+            <name>Удаленные</name>
+            <count>65</count>
+            <new>30</new>
+            <default/>
+            <clear/>
+        </folder>
+        <folder id="2170000780000001059">
+            <symbol>spam</symbol>
+            <name>Спам</name>
+            <count>10</count>
+            <new>2</new>
+            <default/>
+            <clear/>
+        </folder>
+        <folder id="2170000780000001062">
+            <symbol>draft</symbol>
+            <name>Черновики</name>
+            <count>39</count>
+            <new>0</new>
+            <default/>
+        </folder>
+        <folder id="2170000780000001055">
+            <symbol>outbox</symbol>
+            <name>Исходящие</name>
+            <count>0</count>
+            <new>0</new>
+            <default/>
+        </folder>
+    </folders>
+    <labels>
+        <label id="1942060000000002874">
+            <name>yaru</name>
+            <count>1456</count>
+            <social/>
+            <title>Я.ру</title>
+        </label>
+        <label id="1672060000002532331">
+            <symbol>priority_high</symbol>
+            <name>Важные</name>
+            <count>385</count>
+            <default/>
+        </label>
+        <label id="2170000000000013226">
+            <name>orange</name>
+            <count>31</count>
+            <color>ef820e</color>
+            <user/>
+        </label>
+        <label id="2170000000000013205">
+            <name>gray</name>
+            <count>29</count>
+            <color>708090</color>
+            <user/>
+        </label>
+        <label id="2170000000000013142">
+            <name>green</name>
+            <count>24</count>
+            <color>228b22</color>
+            <user/>
+        </label>
+        <label id="2170000000000013198">
+            <name>blue</name>
+            <count>18</count>
+            <color>4169e1</color>
+            <user/>
+        </label>
+        <label id="2119130000000001079">
+            <name>yandexvideo</name>
+            <count>10</count>
+            <social/>
+            <title>Яндекс.Видео</title>
+        </label>
+        <label id="2170000000000013225">
+            <name>purple</name>
+            <count>10</count>
+            <color>c46fdf</color>
+            <user/>
+        </label>
+        <label id="2170000000000013173">
+            <name>black</name>
+            <count>8</count>
+            <color>0f0006</color>
+            <user/>
+        </label>
+        <label id="2135930000000001105">
+            <name>yacal</name>
+            <count>6</count>
+            <social/>
+            <title>Яндекс.Календарь</title>
+        </label>
+        <label id="2170000000000013224">
+            <name>aqua</name>
+            <count>4</count>
+            <color>2fb4bf</color>
+            <user/>
+        </label>
+        <label id="1942060000000002829">
+            <name>yandexfotki</name>
+            <count>3</count>
+            <social/>
+            <title>Яндекс.Фотки</title>
+        </label>
+        <label id="2119130000000001675">
+            <name>yacards</name>
+            <count>1</count>
+            <social/>
+            <title>Яндекс.Открытки</title>
+        </label>
+        <label id="2170000000001343123">
+            <name>vkontakte</name>
+            <count>1</count>
+            <social/>
+            <title>Vkontakte.ru</title>
+        </label>
+        <label id="2170000000004341407">
+            <name>odnoklassniki</name>
+            <count>1</count>
+            <social/>
+            <title>Odnoklassniki.ru</title>
+        </label>
+        <label id="2170000000000013427">
+            <name>red</name>
+            <count>0</count>
+            <color>ff0000</color>
+            <user/>
+        </label>
+        <label id="2170000000004148291">
+            <name>delivery_confirmation</name>
+            <count>0</count>
+            <default/>
+        </label>
+        <label id="2170000000005104922">
+            <name>moikrug</name>
+            <count>0</count>
+            <social/>
+            <title>Мой Круг</title>
+        </label>
+    </labels>
+
+    <messages>
+        <threaded/>
+        <details>
+            <pager items-per-page="30">
+                <prev/>
+                <next n="2"/>
+            </pager>
+            <sorts>
+                <sort type="from" title="по отправителю"/>
+                <sort type="subject" title="по теме"/>
+                <sort current="yes" order="desc" type="date" title="по дате"/>
+                <sort type="size" title="по размеру"/>
+            </sorts>
+            <orders>
+                <order current="yes" order="desc" type="date" title="сначала новые"/>
+                <order order="asc" type="date" title="сначала старые"/>
+            </orders>
+        </details>
+        <list>
+            <message id="2170000000006650871">
+                <thread id="2170000000008304490"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2011-04-21T16:01:46</iso>
+                    <short>21 апр.</short>
+                    <full>21 апреля 2011 в 16:01</full>
+                </date>
+                <size>3,8 КБ</size>
+                <new/>
+                <subject>Хранение Ваших файлов на Яндекс.Народе</subject>
+                <firstline>Сообщаем, что срок хранения Ваших файлов на сервисе Яндекс.Народ заканчивается.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Яндекс.Народ</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013226"/>
+                </labels>
+            </message>
+            <message id="2170000000005597816">
+                <thread id="2170000000007980117"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2011-01-24T20:14:30</iso>
+                    <short>24 янв.</short>
+                    <full>24 января 2011 в 20:14</full>
+                </date>
+                <size>3,8 КБ</size>
+                <subject>Вы подтвердили свои права на домен pasaran.ru</subject>
+                <firstline>Вы подтвердили свои права на pasaran.ru. Для того чтобы начать пользоваться сервисом Яндекс.Почта для домена, вам необходимо изменить MX-записи. Эта операция производится с помощью инструментов провайдера, обслужи</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>domain@yandex-team.ru</name>
+                    <email>domain@yandex-team.ru</email>
+                </from>
+                <labels/>
+            </message>
+            <message id="2170000000005480545">
+                <thread id="2170000000007939956"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2011-01-14T18:46:13</iso>
+                    <short>14 янв.</short>
+                    <full>14 января 2011 в 18:46</full>
+                </date>
+                <size>31 КБ</size>
+                <subject>У вас новая Яндекс.Почта!</subject>
+                <firstline>Вы заметили, насколько быстро открылось это письмо? Скорость — основное </firstline>
+                <to>
+                    <name>No address</name>
+                    <email/>
+                </to>
+                <from>
+                    <name>Яндекс</name>
+                    <email>hello@yandex.ru</email>
+                </from>
+                <labels/>
+            </message>
+            <message id="2170000000007346186">
+                <count>17</count>
+                <thread id="2170000000007346186"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-12-27T15:01:44</iso>
+                    <short>27.12.10</short>
+                    <full>27 декабря 2010 в 15:01</full>
+                </date>
+                <size>43 КБ</size>
+                <new/>
+                <subject>Хранение Ваших файлов на Яндекс.Народе</subject>
+                <firstline>28 декабря 2010г. истекает срок хранения Вашего файла "Noetra - Live 83.zip" на сервисе Яндекс.Народ. Если до этого времени Ваш файл никто не скачает, он будет удален.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Яндекс.Народ</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                    <label id="2170000000000013226"/>
+                </labels>
+            </message>
+            <message id="2170000000005105857">
+                <thread id="2170000000007812341"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-12-04T20:41:16</iso>
+                    <short>04.12.10</short>
+                    <full>4 декабря 2010 в 20:41</full>
+                </date>
+                <size>6,7 КБ</size>
+                <subject>Ваше видео добавили в коллекцию</subject>
+                <firstline>Пользователь fedosov1994 добавил ваш видео-ролик в свою коллекцию wow.</firstline>
+                <to>
+                    <name>nik.pasaran@gmail.com</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Яндекс.Видео</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2119130000000001079"/>
+                </labels>
+            </message>
+            <message id="2170000000003708163">
+                <thread id="2170000000007411738"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-08-04T18:38:02</iso>
+                    <short>04.08.10</short>
+                    <full>4 августа 2010 в 18:38</full>
+                </date>
+                <size>221 КБ</size>
+                <subject>Яндекс.Почта для домена: новости сервиса</subject>
+                <firstline>Вы получили это письмо, так как ваш домен подключен к Яндекс.Почте.</firstline>
+                <to>
+                    <name>alpha-san</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Команда Почты</name>
+                    <email>domain@yandex-team.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                </labels>
+            </message>
+            <message id="2170000000003662609">
+                <thread id="2170000000007398110"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-31T01:59:03</iso>
+                    <short>31.07.10</short>
+                    <full>31 июля 2010 в 01:59</full>
+                </date>
+                <size>13 КБ</size>
+                <subject>Завтра, или уже сегодня, концерт Рококо в Артефаке…</subject>
+                <firstline>Эх.</firstline>
+                <to>
+                    <name>α-san</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Виталя Харисов (Я.ру)</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1942060000000002874"/>
+                </labels>
+            </message>
+            <message id="2170000000003600141">
+                <thread id="2170000000007384589"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-26T23:39:10</iso>
+                    <short>26.07.10</short>
+                    <full>26 июля 2010 в 23:39</full>
+                </date>
+                <size>7,5 КБ</size>
+                <subject>Ваше видео сохранено на Яндекс.Видео</subject>
+                <firstline>Ваше видео сохранено на Яндекс.Видео    </firstline>
+                <to>
+                    <name>nik.pasaran@gmail.com</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Яндекс.Видео</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2119130000000001079"/>
+                </labels>
+            </message>
+            <message id="2170000000007362197">
+                <count>2</count>
+                <thread id="2170000000007362197"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-21T21:29:21</iso>
+                    <short>21.07.10</short>
+                    <full>21 июля 2010 в 21:29</full>
+                </date>
+                <size>4,4 КБ</size>
+                <subject>Хранение Ваших файлов на Яндекс.Народе</subject>
+                <firstline>22 июля 2010г. истекает срок хранения Вашего файла "High.Performance.JavaScript.rar" на сервисе Яндекс.Народ. Если до этого времени Ваш файл никто не скачает, он будет удален.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Яндекс.Народ</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013226"/>
+                </labels>
+            </message>
+            <message id="2170000000007359016">
+                <count>131</count>
+                <thread id="2170000000007359016"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-21T17:25:17</iso>
+                    <short>21.07.10</short>
+                    <full>21 июля 2010 в 17:25</full>
+                </date>
+                <size>1,9 МБ</size>
+                <new/>
+                <subject>Открытое бета-тестирование новой Почты</subject>
+                <firstline>побольше бы тем.</firstline>
+                <to>
+                    <name>α-san</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>chubarov-m (Я.ру)</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1942060000000002874"/>
+                    <label id="2170000000000013226"/>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000003519539">
+                <thread id="2170000000007361401"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-19T19:24:54</iso>
+                    <short>19.07.10</short>
+                    <full>19 июля 2010 в 19:24</full>
+                </date>
+                <size>8,1 КБ</size>
+                <subject>Вас добавили в друзья</subject>
+                <firstline>Вас добавили в друзья kost BebiX добавил вас в список своих друзей.</firstline>
+                <to>
+                    <name>α-san</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>kost BebiX (Я.ру)</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1942060000000002874"/>
+                </labels>
+            </message>
+            <message id="2170000000003519013">
+                <thread id="2170000000007361256"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-19T18:42:43</iso>
+                    <short>19.07.10</short>
+                    <full>19 июля 2010 в 18:42</full>
+                </date>
+                <size>8,1 КБ</size>
+                <new/>
+                <subject>Вас добавили в друзья</subject>
+                <firstline>Вас добавили в друзья Voins добавил вас в список своих друзей.</firstline>
+                <to>
+                    <name>α-san</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Voins (Я.ру)</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1942060000000002874"/>
+                </labels>
+            </message>
+            <message id="2170000000003418673">
+                <thread id="2170000000007336381"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-07-13T20:37:54</iso>
+                    <short>13.07.10</short>
+                    <full>13 июля 2010 в 20:37</full>
+                </date>
+                <size>2,3 КБ</size>
+                <subject>Внутреннее тестирование нового поиска</subject>
+                <firstline>С сегодняшнего дня в вашем ящике в интерфейсе Дарья в тестовом режиме &#13;</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>daria-problems@yandex-team.ru</name>
+                    <email>daria-problems@yandex-team.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000003027974">
+                <thread id="2170000000007237194"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-06-17T19:56:52</iso>
+                    <short>17.06.10</short>
+                    <full>17 июня 2010 в 19:56</full>
+                </date>
+                <size>43 КБ</size>
+                <subject fwd="Fwd:">Отчет производительности сервера - CITADEL (письмо с внутренними якорями)</subject>
+                <firstline>Если что - я euclid@yandex-team.ru</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Степан Резников</name>
+                    <email>stepanvr@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000002831510">
+                <thread id="2170000000007186051"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-05-31T14:01:41</iso>
+                    <short>31.05.10</short>
+                    <full>31 мая 2010 в 14:01</full>
+                </date>
+                <size>133 КБ</size>
+                <subject>Картинка</subject>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Anton Zabannykh</name>
+                    <email>aaz@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000002745836">
+                <thread id="2170000000007164711"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-05-26T06:18:54</iso>
+                    <short>26.05.10</short>
+                    <full>26 мая 2010 в 06:18</full>
+                </date>
+                <size>2,1 КБ</size>
+                <subject>Анна modelo Клементьева написала что-то на Вашей стене...</subject>
+                <firstline>Melanie Miller&#13;</firstline>
+                <to>
+                    <name>Любовь Гауэр</name>
+                    <email>lacivert@yandex.ru</email>
+                </to>
+                <from>
+                    <name>ВКонтакте.ру</name>
+                    <email>admin@vkontakte.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000001343123"/>
+                </labels>
+            </message>
+            <message id="2170000000002669707">
+                <thread id="2170000000007146164"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-05-19T19:12:24</iso>
+                    <short>19.05.10</short>
+                    <full>19 мая 2010 в 19:12</full>
+                </date>
+                <size>4,3 КБ</size>
+                <subject>Вы подключили Яндекс.Почту для домена pasaran.ru</subject>
+                <firstline>Вы успешно подключили Яндекс.Почту для домена pasaran.ru.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>domain@yandex-team.ru</name>
+                    <email>domain@yandex-team.ru</email>
+                </from>
+                <labels/>
+            </message>
+            <message id="2170000000006780758">
+                <count>5</count>
+                <thread id="2170000000006780758"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-05-19T16:14:34</iso>
+                    <short>19.05.10</short>
+                    <full>19 мая 2010 в 16:14</full>
+                </date>
+                <size>17 КБ</size>
+                <subject>Ajax error callback in 1.4</subject>
+                <to>
+                    <name>jquery-dev@googlegroups.com</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2149230000003926805">
+                <count>4</count>
+                <thread id="2149230000003926805"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-05-11T11:56:38</iso>
+                    <short>11.05.10</short>
+                    <full>11 мая 2010 в 11:56</full>
+                </date>
+                <size>163 КБ</size>
+                <subject>Bug</subject>
+                <firstline>Попробуйте в дарье аттач открыть -это стандартная фотка, отправленная  &#13;</firstline>
+                <to>
+                    <name>stepanvr@yandex.ru</name>
+                    <email>stepanvr@yandex.ru</email>
+                </to>
+                <to>
+                    <name>panfilovamarina@yandex.ru</name>
+                    <email>panfilovamarina@yandex.ru</email>
+                </to>
+                <to>
+                    <name>Егор</name>
+                    <email>ganinegor@yandex.ru</email>
+                </to>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Anton Zabannykh</name>
+                    <email>aaz@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000006972608">
+                <count>2</count>
+                <thread id="2170000000006972608"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-03-21T12:18:59</iso>
+                    <short>21.03.10</short>
+                    <full>21 марта 2010 в 12:18</full>
+                </date>
+                <size>5 КБ</size>
+                <subject>Хранение Вашего файла "Version Control with Git [O'Reilly].pdf" на Яндекс.Народе</subject>
+                <firstline>Сообщаем, что срок хранения Вашего файла "Version Control with Git [O'Reilly].pdf" на сервисе Яндекс.Народ заканчивается 22 марта 2010г.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <from>
+                    <name>Яндекс.Народ</name>
+                    <email>devnull@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="1672060000002532331"/>
+                    <label id="2170000000000013226"/>
+                </labels>
+            </message>
+            <message id="2170000000005238262">
+                <thread id="2170000000007854038"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-02-11T17:08:37</iso>
+                    <short>11.02.10</short>
+                    <full>11 февраля 2010 в 17:08</full>
+                </date>
+                <size>2,8 КБ</size>
+                <new/>
+                <subject>Пользователь arigatoalisa добавил вас в друзья!</subject>
+                <firstline>porno55.ru</firstline>
+                <to>
+                    <name>lvovna-lvova@narod.ru</name>
+                    <email>lvovna-lvova@narod.ru</email>
+                </to>
+                <from>
+                    <name>LiveJournal</name>
+                    <email>lj_notify@livejournal.com</email>
+                </from>
+                <labels/>
+            </message>
+            <message id="2170000000001377258">
+                <thread id="2170000000006858411"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-02-05T20:20:26</iso>
+                    <short>05.02.10</short>
+                    <full>5 февраля 2010 в 20:20</full>
+                </date>
+                <size>6,3 КБ</size>
+                <subject>[jquery-dev] Closing jQuery-dev Google Group</subject>
+                <firstline>The jQuery-dev mailing list has had a fantastic run, lasting about 4&#13;</firstline>
+                <to>
+                    <name>jquery-dev</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>John Resig</name>
+                    <email>jeresig@gmail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2170000000006832587">
+                <count>2</count>
+                <thread id="2170000000006832587"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-29T18:23:56</iso>
+                    <short>29.01.10</short>
+                    <full>29 января 2010 в 18:23</full>
+                </date>
+                <size>14 КБ</size>
+                <subject>My first clip</subject>
+                <firstline>Yeah, moderation has been turned off, the team has all moved over to</firstline>
+                <to>
+                    <name>jquery-dev@googlegroups.com</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>John Resig</name>
+                    <email>jeresig@gmail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2170000000001248620">
+                <thread id="2170000000006822362"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-27T13:54:49</iso>
+                    <short>27.01.10</short>
+                    <full>27 января 2010 в 13:54</full>
+                </date>
+                <size>96 КБ</size>
+                <new/>
+                <subject fwd="Fwd:">Your personalised summary | Anton</subject>
+                <firstline>News from your Viadeo network</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <to>
+                    <name>nik.pasaran@gmail.com</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Anton Zabannykh</name>
+                    <email>aaz@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000001248561">
+                <thread id="2170000000006822358"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-27T13:53:34</iso>
+                    <short>27.01.10</short>
+                    <full>27 января 2010 в 13:53</full>
+                </date>
+                <size>17 КБ</size>
+                <subject fwd="Fwd:">Nikolay Belousov is now following you on Twitter!</subject>
+                <firstline>Nikolay Belousov (ni404) is now following your tweets on Twitter.</firstline>
+                <to>
+                    <name>alpha-san@yandex.ru</name>
+                    <email>alpha-san@yandex.ru</email>
+                </to>
+                <to>
+                    <name>nik.pasaran@gmail.com</name>
+                    <email>nik.pasaran@gmail.com</email>
+                </to>
+                <from>
+                    <name>Anton Zabannykh</name>
+                    <email>aaz@yandex.ru</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013142"/>
+                </labels>
+            </message>
+            <message id="2170000000006810922">
+                <count>4</count>
+                <thread id="2170000000006810922"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-26T00:02:06</iso>
+                    <short>26.01.10</short>
+                    <full>26 января 2010 в 00:02</full>
+                </date>
+                <size>29 КБ</size>
+                <subject>Can we have an honest discussion about Zoho?</subject>
+                <firstline>http://forum.jquery.com/#Forum/about-the-jquery-forum&#13;</firstline>
+                <to>
+                    <name>jQuery Development</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>Dave Methvin</name>
+                    <email>dave.methvin@gmail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2170000000006782892">
+                <count>6</count>
+                <thread id="2170000000006782892"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-25T15:51:45</iso>
+                    <short>25.01.10</short>
+                    <full>25 января 2010 в 15:51</full>
+                </date>
+                <size>33 КБ</size>
+                <subject>Binding "change" on an select though .live() doesn't  seem to work in IE using jQuery 1.4</subject>
+                <firstline>Great news :-)</firstline>
+                <to>
+                    <name>jQuery Development</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>Mattias Hallström</name>
+                    <email>mattias@problem.se</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2170000000001219255">
+                <thread id="2170000000006783934"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-25T10:52:54</iso>
+                    <short>25.01.10</short>
+                    <full>25 января 2010 в 10:52</full>
+                </date>
+                <size>7,1 КБ</size>
+                <subject>[jquery-dev] Re: aborting Ajax calls the success callback</subject>
+                <firstline>I agree with alexander farkas. When I get success, I expect full</firstline>
+                <to>
+                    <name>jQuery Development</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>homm</name>
+                    <email>homm86@googlemail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+            <message id="2170000000006788994">
+                <count>9</count>
+                <thread id="2170000000006788994"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-20T16:02:45</iso>
+                    <short>20.01.10</short>
+                    <full>20 января 2010 в 16:02</full>
+                </date>
+                <size>87 КБ</size>
+                <subject>WebSockets is very faster than xhr. I hope to  support of jQuery for WebSockets.</subject>
+                <firstline>1.&#13;</firstline>
+                <to>
+                    <name>jquery-dev@googlegroups.com</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>Mike Taylor</name>
+                    <email>miketaylr@gmail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+                <flags>
+                    <attachment/>
+                </flags>
+            </message>
+            <message id="2170000000001154748">
+                <thread id="2170000000006793332"/>
+                <folder id="2170000780000001053"/>
+                <date>
+                    <iso>2010-01-19T21:52:24</iso>
+                    <short>19.01.10</short>
+                    <full>19 января 2010 в 21:52</full>
+                </date>
+                <size>5,4 КБ</size>
+                <subject>[jquery-dev] Namespaces custom live events broken in 1.4</subject>
+                <firstline>It seems that something has changed regarding namespaced live()&#13;</firstline>
+                <to>
+                    <name>jQuery Development</name>
+                    <email>jquery-dev@googlegroups.com</email>
+                </to>
+                <from>
+                    <name>gobagoo</name>
+                    <email>atistler@gmail.com</email>
+                </from>
+                <labels>
+                    <label id="2170000000000013205"/>
+                </labels>
+            </message>
+        </list>
+    </messages>
+
+    <toolbar>
+        <item id="compose" name="Написать" url="#compose" action="compose.go" icon="compose">
+            <page id="message"/>
+            <page id="messages"/>
+            <page id="compose"/>
+            <page id="done"/>
+            <page id="contacts"/>
+        </item>
+        <item id="check-mail" name="Проверить" action="mailbox.check" icon="check-mail">
+            <page id="message"/>
+            <page id="messages"/>
+            <page id="compose"/>
+            <page id="done"/>
+        </item>
+        <item id="reply" name="Ответить" action="reply" icon="reply">
+            <page id="message"/>
+        </item>
+        <item id="reply-all" name="Ответить всем" action="reply-all" icon="reply-all">
+            <page id="message"/>
+        </item>
+        <item id="forward" name="Переслать" action="forward" icon="forward">
+            <page id="message"/>
+            <page id="messages" disabled=""/>
+        </item>
+        <item id="delete" name="Удалить" action="delete" icon="delete">
+            <page id="message"/>
+            <page id="messages" disabled=""/>
+        </item>
+        <item id="spam" name="Это спам!" action="tospam" icon="spam">
+            <page id="message"/>
+            <page id="messages" disabled=""/>
+        </item>
+        <item id="not-spam" name="Не спам!" action="notspam" icon="not-spam">
+            <page id="message"/>
+            <page id="messages" disabled=""/>
+        </item>
+        <item id="mark-as-read" name="Прочитано" action="mark" icon="mark-as-read">
+            <page id="messages" disabled=""/>
+        </item>
+        <item id="mark-as-unread" name="Не прочитано" action="unmark" icon="mark-as-unread">
+            <page id="messages" disabled=""/>
+        </item>
+    </toolbar>
+
+    <settings>
+        <quotation_char>&gt;</quotation_char>
+        <signature/>
+        <default_mailbox>yandex.ru</default_mailbox>
+        <from_name>Sergey Nikitin</from_name>
+        <messages_per_page>30</messages_per_page>
+        <page_after_send>done</page_after_send>
+        <page_after_delete>next_message</page_after_delete>
+        <page_after_move>current_list</page_after_move>
+        <subs_messages_per_page>20</subs_messages_per_page>
+        <imap_status>on</imap_status>
+        <abook_page_size>50</abook_page_size>
+        <label_sort>by_count</label_sort>
+        <default_email>alpha-san@yandex.ru</default_email>
+        <skin_name>neo2</skin_name>
+        <mobile_messages_per_page>15</mobile_messages_per_page>
+        <color_scheme>mac</color_scheme>
+        <folder_thread_view/>
+        <enable_quoting/>
+        <enable_richedit/>
+        <enable_social_notification/>
+        <save_sent/>
+        <enable_autosave/>
+        <hide_daria_header/>
+        <no_advertisement/>
+        <subs_show_item/>
+        <dnd_enabled/>
+        <reply_to>nik.pasaran@gmail.com</reply_to>
+    </settings>
+
+</page>
