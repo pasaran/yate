@@ -5,11 +5,11 @@ if (typeof data == 'undefined') {
     eval( require('fs').readFileSync(process.argv[3], 'utf-8') );
 }
 
-if (console && console.time) {
+if (typeof console == 'object' && typeof console.time == 'function') {
     console.time('a');
 }
 var r = stylesheet(data);
-if (console && console.timeEnd) {
+if (typeof console == 'object' && typeof console.timeEnd == 'function') {
     console.timeEnd('a');
 }
 
