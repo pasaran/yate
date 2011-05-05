@@ -5,15 +5,17 @@ if (typeof data == 'undefined') {
     eval( require('fs').readFileSync(process.argv[3], 'utf-8') );
 }
 
-if (typeof console == 'object' && typeof console.time == 'function') {
+var isBrowser = (typeof document != 'undefined');
+
+if (isBrowser && typeof console == 'object' && typeof console.time == 'function') {
     console.time('a');
 }
 var r = stylesheet(data);
-if (typeof console == 'object' && typeof console.timeEnd == 'function') {
+if (isBrowser && typeof console == 'object' && typeof console.timeEnd == 'function') {
     console.timeEnd('a');
 }
 
-if (typeof document != 'undefined') { // В браузере вставляем результат в DOM.
+if (isBrowser) { // В браузере вставляем результат в DOM.
     setTimeout(function() { // FIXME: Ну это типа domReady.
         var div = document.createElement('div');
         div.innerHTML = r;
