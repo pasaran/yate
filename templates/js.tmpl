@@ -75,6 +75,7 @@ template:
 var t%tid = {
     jpath: j%jpath.jid,
     body: function (c%cid, r%rid, index, count, %!args) {
+        %!args.defaults()
         %body
     }
 };
@@ -97,6 +98,7 @@ function_:
 
 // %body.type()
 var f%fid = function(c0, index, count, %!args) {
+    %!args.defaults()
     var r;
     %body
 };
@@ -199,6 +201,8 @@ for (var i%cid = 0, l%cid = items%{cid}.length; i%cid < l%cid; i%cid++) {
 
 -------------------------------------------------------------------------------
 argListItem:                v%vid
+-------------------------------------------------------------------------------
+argListItemDefault:         v%vid = v%vid || %default;
 -------------------------------------------------------------------------------
 inlineString:               "%value"
 -------------------------------------------------------------------------------
