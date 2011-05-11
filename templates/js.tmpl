@@ -2,12 +2,12 @@ main:
 
 function stylesheet(data) {
 
-    %?runtime
+    %?Runtime
 
     var r0 = { buf: [], attrs: {} };
     var c0 = makeRoot(data);
 
-    %stylesheet
+    %Stylesheet
 
     apply([ c0 ], '', r0);
 
@@ -17,285 +17,285 @@ function stylesheet(data) {
 -------------------------------------------------------------------------------
 stylesheet:
 
-%predicates
+%Predicates
 
-%jpaths
+%Jpaths
 
-%templates
+%Templates
 
-var matcher = %matcher;
+var matcher = %Matcher;
 
-%?defs
+%?Defs
 
 -------------------------------------------------------------------------------
 stylesheet-jpaths-item:
 
-// %index. %jpath
+// %Index. %Jpath
 [
-    %steps,
-    %absolute,
-    %predicates
+    %Steps,
+    %Absolute,
+    %Predicates
 ]
 
 -------------------------------------------------------------------------------
 block:
 
-%?defs
+%?Defs
 
-%?prologue
-%?exprs
-%?epilogue
+%?Prologue
+%?Exprs
+%?Epilogue
 
 -------------------------------------------------------------------------------
 blockComplex:
-%body
+%Body
 
 -------------------------------------------------------------------------------
 if_:
 
-if (%condition) {
-    %then
+if (%Condition) {
+    %Then
 } else {
-    %!else
+    %!Else
 }
 
 -------------------------------------------------------------------------------
 if_:
 
-if (%condition) {
-    %then
+if (%Condition) {
+    %Then
 }
 
 -------------------------------------------------------------------------------
-ifInline:                   (%condition) ? %then : %else
+ifInline:                   (%Condition) ? %Then : %Else
 -------------------------------------------------------------------------------
 template:
 
-// %tid. match %jpath.key : %mode
-var t%tid = {
-    jpath: j%jpath.jid,
-    body: function (c%cid, r%rid, index, count, %!args) {
-        %!args.defaults()
-        %body
+// %Tid. match %Jpath.Key : %Mode
+var t%Tid = {
+    jpath: j%Jpath.Jid,
+    body: function (c%Cid, r%Rid, index, count, %!Args) {
+        %!Args.defaults()
+        %Body
     }
 };
 
 -------------------------------------------------------------------------------
 template:
 
-// %tid. match %jpath.key : %mode
-var t%tid = {
-    jpath: j%jpath.jid,
-    body: function (c%cid, r%rid, index, count) {
-        %body
+// %Tid. match %Jpath.Key : %Mode
+var t%Tid = {
+    jpath: j%Jpath.Jid,
+    body: function (c%Cid, r%Rid, index, count) {
+        %Body
     }
 };
 
 -------------------------------------------------------------------------------
-templateMode:               %!value
+templateMode:               %!Value
 -------------------------------------------------------------------------------
 function_:
 
-// %body.type()
-var f%fid = function(c0, index, count, %!args) {
-    %!args.defaults()
+// %Body.type()
+var f%Fid = function(c0, index, count, %!Args) {
+    %!Args.defaults()
     var r;
-    %body
+    %Body
 };
 
 -------------------------------------------------------------------------------
 function_:
 
-// %body.type()
-var f%fid = function(c0, index, count) {
+// %Body.type()
+var f%Fid = function(c0, index, count) {
     var r;
-    %body
+    %Body
 };
 
 -------------------------------------------------------------------------------
 var_:
 
-var v%vid = %value;
+var v%Vid = %Value;
 
 -------------------------------------------------------------------------------
 varBlock:
 
-var v%vid;
-%value
+var v%Vid;
+%Value
 
 -------------------------------------------------------------------------------
 varInline:
 
-var r%value.rid = [];
-%value
-var v%vid = r%value.rid[0];
+var r%Value.Rid = [];
+%Value
+var v%Vid = r%Value.Rid[0];
 
 -------------------------------------------------------------------------------
-apply:                      apply(%expr, '%mode', r%rid, %!args);
+apply:                      apply(%Expr, '%Mode', r%Rid, %!Args);
 -------------------------------------------------------------------------------
-apply:                      apply(%expr, '%mode', r%rid);
+apply:                      apply(%Expr, '%Mode', r%Rid);
 -------------------------------------------------------------------------------
-inlineOr:                   %left || %right
+inlineOr:                   %Left || %Right
 -------------------------------------------------------------------------------
-inlineAnd:                  %left && %right
+inlineAnd:                  %Left && %Right
 -------------------------------------------------------------------------------
-inlineNot:                  !%left
+inlineNot:                  !%Left
 -------------------------------------------------------------------------------
-inlineEq:                   %left %op %right
+inlineEq:                   %Left %Op %Right
 -------------------------------------------------------------------------------
-inlineRel:                  %left %op %right
+inlineRel:                  %Left %Op %Right
 -------------------------------------------------------------------------------
-inlineAdd:                  %left %op %right
+inlineAdd:                  %Left %Op %Right
 -------------------------------------------------------------------------------
-inlineMul:                  %left %op %right
+inlineMul:                  %Left %Op %Right
 -------------------------------------------------------------------------------
-inlineUnary:                -%expr
+inlineUnary:                -%Expr
 -------------------------------------------------------------------------------
-inlineUnion:                join(%left, %right)
+inlineUnion:                join(%Left, %Right)
 -------------------------------------------------------------------------------
-inlineComplex:              (%expr)
+inlineComplex:              (%Expr)
 -------------------------------------------------------------------------------
-inlineFunction:             f%!fid(c%cid, index, count, %!args)
+inlineFunction:             f%!Fid(c%Cid, index, count, %!Args)
 -------------------------------------------------------------------------------
-inlineFunction:             %name(c%cid, index, count, %!args)
+inlineFunction:             %Name(c%Cid, index, count, %!Args)
 -------------------------------------------------------------------------------
-inlineFunction:             f%!fid(c%cid, index, count)
+inlineFunction:             f%!Fid(c%Cid, index, count)
 -------------------------------------------------------------------------------
-inlineFunction:             %name(c%cid, index, count)
+inlineFunction:             %Name(c%Cid, index, count)
 -------------------------------------------------------------------------------
-inlineVar:                  v%vid
+inlineVar:                  v%Vid
 -------------------------------------------------------------------------------
-inlineNumber:               %value
+inlineNumber:               %Value
 -------------------------------------------------------------------------------
-string:                     %string
+string:                     %String
 -------------------------------------------------------------------------------
-jpath:                      selectContext(j%jid, %!context)
+jpath:                      selectContext(j%Jid, %!Context)
 -------------------------------------------------------------------------------
-jpath:                      select(j%jid, c%cid)
+jpath:                      select(j%Jid, c%Cid)
 -------------------------------------------------------------------------------
 predicate:
 
-// %key
-var p%pid = function(c%cid, index, count) {
-    return %expr;
+// %Key
+var p%Pid = function(c%Cid, index, count) {
+    return %Expr;
 };
 
 -------------------------------------------------------------------------------
 jpaths_item:
 
-// %jid. %key
-var j%jid = {
-    steps: %steps,
-    preds: %predicates,
-    abs: %absolute
+// %Jid. %Key
+var j%Jid = {
+    steps: %Steps,
+    preds: %Predicates,
+    abs: %Absolute
 };
 
 -------------------------------------------------------------------------------
 for_:
 
-var items%cid = %expr;
-for (var i%cid = 0, l%cid = items%{cid}.length; i%cid < l%cid; i%cid++) {
-    var c%body.cid = items%cid[ i%cid ];
-    %body
+var items%Cid = %Expr;
+for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
+    var c%Body.Cid = items%Cid[ i%Cid ];
+    %Body
 }
 
 -------------------------------------------------------------------------------
-argListItem:                v%vid
+argListItem:                v%Vid
 -------------------------------------------------------------------------------
-argListItemDefault:         v%vid = v%vid || %default;
+argListItemDefault:         v%Vid = v%Vid || %Default;
 -------------------------------------------------------------------------------
-inlineString:               "%value"
+inlineString:               "%Value"
 -------------------------------------------------------------------------------
-nodeset2scalar:             nodeset2scalar(%expr)
+nodeset2scalar:             nodeset2scalar(%Expr)
 -------------------------------------------------------------------------------
-nodeset2xml:                nodeset2scalar(%expr)
+nodeset2xml:                nodeset2scalar(%Expr)
 -------------------------------------------------------------------------------
-nodeset2boolean:            nodeset2boolean(%expr)
+nodeset2boolean:            nodeset2boolean(%Expr)
 -------------------------------------------------------------------------------
-scalar2boolean:             %expr
+scalar2boolean:             %Expr
 -------------------------------------------------------------------------------
-undef2scalar:               %expr
+undef2scalar:               %Expr
 -------------------------------------------------------------------------------
-xml2scalar:                 %expr
+xml2scalar:                 %Expr
 -------------------------------------------------------------------------------
-scalar2xml:                 %expr
+scalar2xml:                 %Expr
 -------------------------------------------------------------------------------
-undef2boolean:              %expr
+undef2boolean:              %Expr
 -------------------------------------------------------------------------------
-undef2nodeset:              %expr
+undef2nodeset:              %Expr
 -------------------------------------------------------------------------------
-stringExpr:                 %expr
+stringExpr:                 %Expr
 -------------------------------------------------------------------------------
 function_true:              true
 -------------------------------------------------------------------------------
 function_false:             false
 -------------------------------------------------------------------------------
-function_name:              c%{cid}.name
+function_name:              c%{Cid}.name
 -------------------------------------------------------------------------------
 function_position:          index
 -------------------------------------------------------------------------------
 function_count:             count
 -------------------------------------------------------------------------------
-function_slice:             slice(%args)
+function_slice:             slice(%Args)
 -------------------------------------------------------------------------------
 attr:
 
-r%{rid}.attrs["%name"] %op %expr;
+r%{Rid}.attrs["%Name"] %Op %Expr;
 
 -------------------------------------------------------------------------------
 attrBlock:
 
-var r%expr.rid = { buf: [], attrs: {} };
-%expr
-r%{rid}.attrs["%name"] %op r%{expr.rid}.buf.join("");
+var r%Expr.Rid = { buf: [], attrs: {} };
+%Expr
+r%{Rid}.attrs["%Name"] %Op r%{Expr.Rid}.buf.join("");
 
 -------------------------------------------------------------------------------
 closeAttrs:
 
-if (r%{rid}.open) { closeAttrs(r%rid); }
+if (r%{Rid}.open) { closeAttrs(r%Rid); }
 -------------------------------------------------------------------------------
-quote:                      %{mode}Quote(%expr)
+quote:                      %{Mode}Quote(%Expr)
 -------------------------------------------------------------------------------
 key:
 
-var k%{kid}_nodes;
-var k%{kid}_values = {};
-var k%{kid}_get = function(key) {
-    var value = k%{kid}_values[key];
+var k%{Kid}_nodes;
+var k%{Kid}_values = {};
+var k%{Kid}_get = function(key) {
+    var value = k%{Kid}_values[key];
     if (!value) {
-        var c%cid = k%{kid}_nodes[key];
-        if (c%cid) {
-            %body
+        var c%Cid = k%{Kid}_nodes[key];
+        if (c%Cid) {
+            %Body
         }
         if (value) {
-            k%{kid}_values[key] = value;
+            k%{Kid}_values[key] = value;
         }
     }
     return value || [];
 };
-var k%{kid} = function(key) {
-    if (!k%{kid}_nodes) {
-        var nodes = %nodes;
-        k%{kid}_nodes = {};
+var k%{Kid} = function(key) {
+    if (!k%{Kid}_nodes) {
+        var nodes = %Nodes;
+        k%{Kid}_nodes = {};
         for (var i = 0, l = nodes.length; i < l; i++) {
-            var c%use.cid = nodes[i];
-            var useNodes = %use;
+            var c%Use.Cid = nodes[i];
+            var useNodes = %Use;
             for (var j = 0, m = useNodes.length; j < m; j++) {
-                k%{kid}_nodes[ nodeValue(useNodes[j]) ] = c%use.cid;
+                k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
             }
         }
 
-        k%{kid} = k%{kid}_get;
+        k%{Kid} = k%{Kid}_get;
     }
 
-    return k%{kid}_get(key);
+    return k%{Kid}_get(key);
 };
 
 -------------------------------------------------------------------------------
-usekey:                     k%kid(%args)
+usekey:                     k%Kid(%Args)
 -------------------------------------------------------------------------------
-inlineGrep:                 grep(%expr, p%predicate.pid)
+inlineGrep:                 grep(%Expr, p%Predicate.Pid)
 -------------------------------------------------------------------------------
-inlineIndex:                byIndex(%expr, %index)
+inlineIndex:                byIndex(%Expr, %Index)
 -------------------------------------------------------------------------------
 
