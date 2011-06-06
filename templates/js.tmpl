@@ -1,301 +1,323 @@
-main:
+main
 
-function stylesheet(data) {
+    function stylesheet(data) {
 
-    %?Runtime
+        %Runtime
 
-    var r0 = { buf: [], attrs: {} };
-    var c0 = makeRoot(data);
+        var r0 = { buf: [], attrs: {} };
+        var c0 = makeRoot(data);
 
-    %Stylesheet
+        %Stylesheet
 
-    apply([ c0 ], '', r0);
+        apply([ c0 ], '', r0);
 
-    return r0.buf.join('');
-}
+        return r0.buf.join('');
+    }
 
--------------------------------------------------------------------------------
-stylesheet:
+# ------------------------------------------------------------------------------------------------------------------- #
 
-%Predicates
+stylesheet
 
-%Jpaths
-
-%Templates
-
-var matcher = %Matcher;
-
-%?Defs
-
--------------------------------------------------------------------------------
-stylesheet-jpaths-item:
-
-// %Index. %Jpath
-[
-    %Steps,
-    %Absolute,
     %Predicates
-]
 
--------------------------------------------------------------------------------
-block:
+    %Jpaths
 
-%?Defs
+    %Templates
 
-%?Prologue
-%?Exprs
-%?Epilogue
+    var matcher = %Matcher;
 
--------------------------------------------------------------------------------
-blockComplex:
-%Body
+    %Defs
 
--------------------------------------------------------------------------------
-if_:
+# ------------------------------------------------------------------------------------------------------------------- #
 
-if (%Condition) {
-    %Then
-} else {
-    %!Else
-}
+template [ %Args ]
 
--------------------------------------------------------------------------------
-if_:
-
-if (%Condition) {
-    %Then
-}
-
--------------------------------------------------------------------------------
-ifInline:                   (%Condition) ? %Then : %Else
--------------------------------------------------------------------------------
-template:
-
-// %Tid. match %Jpath.Key : %Mode
-var t%Tid = {
-    jpath: j%Jpath.Jid,
-    body: function (c%Cid, r%Rid, index, count, %!Args) {
-        %!Args.defaults()
-        %Body
-    }
-};
-
--------------------------------------------------------------------------------
-template:
-
-// %Tid. match %Jpath.Key : %Mode
-var t%Tid = {
-    jpath: j%Jpath.Jid,
-    body: function (c%Cid, r%Rid, index, count) {
-        %Body
-    }
-};
-
--------------------------------------------------------------------------------
-templateMode:               %!Value
--------------------------------------------------------------------------------
-function_:
-
-// %Body.type()
-var f%Fid = function(c0, index, count, %!Args) {
-    %!Args.defaults()
-    var r;
-    %Body
-};
-
--------------------------------------------------------------------------------
-function_:
-
-// %Body.type()
-var f%Fid = function(c0, index, count) {
-    var r;
-    %Body
-};
-
--------------------------------------------------------------------------------
-var_:
-
-var v%Vid = %Value;
-
--------------------------------------------------------------------------------
-varBlock:
-
-var v%Vid;
-%Value
-
--------------------------------------------------------------------------------
-varInline:
-
-var r%Value.Rid = [];
-%Value
-var v%Vid = r%Value.Rid[0];
-
--------------------------------------------------------------------------------
-apply:                      apply(%Expr, '%Mode', r%Rid, %!Args);
--------------------------------------------------------------------------------
-apply:                      apply(%Expr, '%Mode', r%Rid);
--------------------------------------------------------------------------------
-inlineOr:                   %Left || %Right
--------------------------------------------------------------------------------
-inlineAnd:                  %Left && %Right
--------------------------------------------------------------------------------
-inlineNot:                  !%Left
--------------------------------------------------------------------------------
-inlineEq:                   %Left %Op %Right
--------------------------------------------------------------------------------
-inlineRel:                  %Left %Op %Right
--------------------------------------------------------------------------------
-inlineAdd:                  %Left %Op %Right
--------------------------------------------------------------------------------
-inlineMul:                  %Left %Op %Right
--------------------------------------------------------------------------------
-inlineUnary:                -%Expr
--------------------------------------------------------------------------------
-inlineUnion:                join(%Left, %Right)
--------------------------------------------------------------------------------
-inlineComplex:              (%Expr)
--------------------------------------------------------------------------------
-inlineFunction:             f%!Fid(c%Cid, index, count, %!Args)
--------------------------------------------------------------------------------
-inlineFunction:             %Name(c%Cid, index, count, %!Args)
--------------------------------------------------------------------------------
-inlineFunction:             f%!Fid(c%Cid, index, count)
--------------------------------------------------------------------------------
-inlineFunction:             %Name(c%Cid, index, count)
--------------------------------------------------------------------------------
-inlineVar:                  v%Vid
--------------------------------------------------------------------------------
-inlineNumber:               %Value
--------------------------------------------------------------------------------
-string:                     %String
--------------------------------------------------------------------------------
-jpath:                      selectContext(j%Jid, %!Context)
--------------------------------------------------------------------------------
-jpath:                      select(j%Jid, c%Cid)
--------------------------------------------------------------------------------
-predicate:
-
-// %Key
-var p%Pid = function(c%Cid, index, count) {
-    return %Expr;
-};
-
--------------------------------------------------------------------------------
-jpaths_item:
-
-// %Jid. %Key
-var j%Jid = {
-    steps: %Steps,
-    preds: %Predicates,
-    abs: %Absolute
-};
-
--------------------------------------------------------------------------------
-for_:
-
-var items%Cid = %Expr;
-for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
-    var c%Body.Cid = items%Cid[ i%Cid ];
-    %Body
-}
-
--------------------------------------------------------------------------------
-argListItem:                v%Vid
--------------------------------------------------------------------------------
-argListItemDefault:         v%Vid = v%Vid || %Default;
--------------------------------------------------------------------------------
-inlineString:               "%Value"
--------------------------------------------------------------------------------
-nodeset2scalar:             nodeset2scalar(%Expr)
--------------------------------------------------------------------------------
-nodeset2xml:                nodeset2scalar(%Expr)
--------------------------------------------------------------------------------
-nodeset2boolean:            nodeset2boolean(%Expr)
--------------------------------------------------------------------------------
-scalar2boolean:             %Expr
--------------------------------------------------------------------------------
-undef2scalar:               %Expr
--------------------------------------------------------------------------------
-xml2scalar:                 %Expr
--------------------------------------------------------------------------------
-scalar2xml:                 %Expr
--------------------------------------------------------------------------------
-undef2boolean:              %Expr
--------------------------------------------------------------------------------
-undef2nodeset:              %Expr
--------------------------------------------------------------------------------
-stringExpr:                 %Expr
--------------------------------------------------------------------------------
-function_true:              true
--------------------------------------------------------------------------------
-function_false:             false
--------------------------------------------------------------------------------
-function_name:              c%{Cid}.name
--------------------------------------------------------------------------------
-function_position:          index
--------------------------------------------------------------------------------
-function_count:             count
--------------------------------------------------------------------------------
-function_slice:             slice(%Args)
--------------------------------------------------------------------------------
-attr:
-
-r%{Rid}.attrs["%Name"] %Op %Expr;
-
--------------------------------------------------------------------------------
-attrBlock:
-
-var r%Expr.Rid = { buf: [], attrs: {} };
-%Expr
-r%{Rid}.attrs["%Name"] %Op r%{Expr.Rid}.buf.join("");
-
--------------------------------------------------------------------------------
-closeAttrs:
-
-if (r%{Rid}.open) { closeAttrs(r%Rid); }
--------------------------------------------------------------------------------
-quote:                      %{Mode}Quote(%Expr)
--------------------------------------------------------------------------------
-key:
-
-var k%{Kid}_nodes;
-var k%{Kid}_values = {};
-var k%{Kid}_get = function(key) {
-    var value = k%{Kid}_values[key];
-    if (!value) {
-        var c%Cid = k%{Kid}_nodes[key];
-        if (c%Cid) {
+    // %Tid. match %Jpath.Key : %Mode
+    var t%Tid = {
+        jpath: j%Jpath.Jid,
+        body: function (c%Cid, r%Rid, index, count, %Args) {
+            %Args.defaults()
             %Body
         }
-        if (value) {
-            k%{Kid}_values[key] = value;
+    };
+
+template
+
+    // %Tid. match %Jpath.Key : %Mode
+    var t%Tid = {
+        jpath: j%Jpath.Jid,
+        body: function (c%Cid, r%Rid, index, count) {
+            %Body
         }
-    }
-    return value || [];
-};
-var k%{Kid} = function(key) {
-    if (!k%{Kid}_nodes) {
-        var nodes = %Nodes;
-        k%{Kid}_nodes = {};
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            var c%Use.Cid = nodes[i];
-            var useNodes = %Use;
-            for (var j = 0, m = useNodes.length; j < m; j++) {
-                k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
+    };
+
+templateMode
+    '%Value'
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+function_ [ %Args ]
+
+    // %Body.type()
+    var f%Fid = function(c0, index, count, %Args) {
+        %Args.defaults()
+        var r;
+        %Body
+    };
+
+function_
+
+    // %Body.type()
+    var f%Fid = function(c0, index, count) {
+        var r;
+        %Body
+    };
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+key
+
+    var k%{Kid}_nodes;
+    var k%{Kid}_values = {};
+    var k%{Kid}_get = function(key) {
+        var value = k%{Kid}_values[key];
+        if (!value) {
+            var c%Cid = k%{Kid}_nodes[key];
+            if (c%Cid) {
+                %Body
+            }
+            if (value) {
+                k%{Kid}_values[key] = value;
             }
         }
+        return value || [];
+    };
+    var k%{Kid} = function(key) {
+        if (!k%{Kid}_nodes) {
+            var nodes = %Nodes;
+            k%{Kid}_nodes = {};
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                var c%Use.Cid = nodes[i];
+                var useNodes = %Use;
+                for (var j = 0, m = useNodes.length; j < m; j++) {
+                    k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
+                }
+            }
 
-        k%{Kid} = k%{Kid}_get;
+            k%{Kid} = k%{Kid}_get;
+        }
+
+        return k%{Kid}_get(key);
+    };
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+var_
+
+    var v%Vid = %Value;
+
+varBlock
+
+    var v%Vid;
+    %Value
+
+varInline
+
+    var r%Value.Rid = [];
+    %Value
+    var v%Vid = r%Value.Rid[0];
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+block
+
+    %Defs
+    %Prologue
+    %Exprs
+    %Epilogue
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+blockComplex
+
+    %Body
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+if_ [ %Else ]
+
+    if (%Condition) {
+        %Then
+    } else {
+        %Else
     }
 
-    return k%{Kid}_get(key);
-};
+if_
 
--------------------------------------------------------------------------------
-usekey:                     k%Kid(%Args)
--------------------------------------------------------------------------------
-inlineGrep:                 grep(%Expr, p%Predicate.Pid)
--------------------------------------------------------------------------------
-inlineIndex:                byIndex(%Expr, %Index)
--------------------------------------------------------------------------------
+    if (%Condition) {
+        %Then
+    }
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+for_
+
+    var items%Cid = %Expr;
+    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
+        var c%Body.Cid = items%Cid[ i%Cid ];
+        %Body
+    }
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+apply [ %Args ]
+
+    apply(%Expr, %Mode, r%Rid, %Args);
+
+apply
+
+    apply(%Expr, %Mode, r%Rid);
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+attr
+
+    r%{Rid}.attrs["%Name"] %Op %Expr;
+
+attrBlock
+
+    var r%Expr.Rid = { buf: [], attrs: {} };
+    %Expr
+    r%{Rid}.attrs["%Name"] %Op r%{Expr.Rid}.buf.join("");
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+inlineOr
+    %Left || %Right
+
+inlineAnd
+    %Left && %Right
+
+inlineNot
+    !%Left
+
+inlineEq
+    %Left %Op %Right
+
+inlineRel
+    %Left %Op %Right
+
+inlineAdd
+    %Left %Op %Right
+
+inlineMul
+    %Left %Op %Right
+
+inlineUnary
+    -%Expr
+
+inlineUnion
+    join(%Left, %Right)
+
+inlineComplex
+    (%Expr)
+
+inlineFunction [ %Fid && %Args ]
+    f%Fid(c%Cid, index, count, %Args)
+
+inlineFunction [ %Args ]
+    %Name(c%Cid, index, count, %Args)
+
+inlineFunction [ %Fid ]
+    f%Fid(c%Cid, index, count)
+
+inlineFunction
+    %Name(c%Cid, index, count)
+
+inlineVar
+    v%Vid
+
+inlineNumber
+    %Value
+
+string
+    %String
+
+jpath [ %Context ]
+    selectContext(j%Jid, %Context)
+
+jpath
+    select(j%Jid, c%Cid)
+
+predicate
+
+    // %Key
+    var p%Pid = function(c%Cid, index, count) {
+        return %Expr;
+    };
+
+jpaths_item ( %Predicates = "[]", %Absolute = "0" )
+
+    // %Jid. %Key
+    var j%Jid = {
+        steps: %Steps,
+        preds: %Predicates,
+        abs: %Absolute
+    };
+
+argListItem
+    v%Vid
+
+argListItemDefault
+    v%Vid = v%Vid || %Default;
+
+inlineString
+    "%Value"
+
+cast
+    %Expr
+
+cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
+    nodeset2scalar(%Expr)
+
+cast [ %From == 'nodeset' && %To == 'boolean' ]
+    nodeset2boolean(%Expr)
+
+stringExpr
+    %Expr
+
+function_true
+    true
+
+function_false
+    false
+
+function_name
+    c%{Cid}.name
+
+function_position
+    index
+
+function_count
+    count
+
+function_slice
+    slice(%Args)
+
+closeAttrs
+
+    if (r%{Rid}.open) { closeAttrs(r%Rid); }
+
+quote
+    %{Mode}Quote(%Expr)
+
+usekey
+    k%Kid(%Args)
+
+inlineGrep
+    grep(%Expr, p%Predicate.Pid)
+
+inlineIndex
+    byIndex(%Expr, %Index)
+
 
