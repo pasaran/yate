@@ -32,7 +32,7 @@ stylesheet
 
 template [ %Args ]
 
-    // %Tid. match %Jpath.Key %Mode
+    // %Tid. match %Jpath.Key : %Mode
     var t%Tid = {
         jpath: j%Jpath.Jid,
         body: function (c%Cid, r%Rid, index, count, %Args) {
@@ -43,7 +43,7 @@ template [ %Args ]
 
 template
 
-    // %Tid. match %Jpath.Key %Mode
+    // %Tid. match %Jpath.Key : %Mode
     var t%Tid = {
         jpath: j%Jpath.Jid,
         body: function (c%Cid, r%Rid, index, count) {
@@ -51,8 +51,8 @@ template
         }
     };
 
-templateMode [ %Value ]
-    : %Value
+templateMode
+    '%Value'
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -274,14 +274,14 @@ argListItemDefault
 inlineString
     "%Value"
 
-cast
-    %Expr
-
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
     nodeset2scalar(%Expr)
 
 cast [ %From == 'nodeset' && %To == 'boolean' ]
     nodeset2boolean(%Expr)
+
+cast
+    %Expr
 
 stringExpr
     %Expr
