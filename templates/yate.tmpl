@@ -6,25 +6,33 @@ stylesheet
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
+template [ %Args ]
+
+    match %Jpath %Mode, %Args %Body
+
 template
 
-    match %Jpath %Mode %Args %Body
+    match %Jpath %Mode %Body
 
-templateMode [ %Value ]
+templateMode [ %Value != '' ]
 
     : %Value
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
+function_ [ %Args ]
+
+    func %Name, %Args %Body
+
 function_
 
-    function %Name(%Args) %Body
+    func %Name %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 key
 
-    key %Name (%Nodes, %Use) %Body
+    key %Name, %Nodes, %Use %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -44,23 +52,31 @@ var_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-block
+body [ %Type == 'object' ]
 
     {
-        %Defs
-
-        %Templates
-
-        %Exprs
+        %Block
     }
 
-# ------------------------------------------------------------------------------------------------------------------- #
+body [ %Type == 'array' ]
 
-blockComplex
+    [
+        %Block
+    ]
 
+body
     (
-        %Body
+        %Block
     )
+
+block
+
+    %Defs
+
+    %Templates
+
+    %Exprs
+
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -82,7 +98,7 @@ for_
 
 apply [ %Args ]
 
-    apply %Expr(%Args) %Mode
+    apply %Expr %Mode, %Args
 
 apply
 
@@ -124,7 +140,7 @@ inlineUnion
     %Left | %Right
 
 inlineComplex
-    (%Expr)
+    ( %Expr )
 
 inlineFunction
     %Name(%Args)
@@ -185,4 +201,21 @@ inlineGrep
 inlineIndex
     %Expr{ %Index }
 
+scalar
+    (
+        %Expr
+    )
+
+pair
+    %Key : %Value
+
+array
+    [
+        %Expr
+    ]
+
+object
+    {
+        %Expr
+    }
 
