@@ -8,7 +8,7 @@ stylesheet
 
 template [ %Args ]
 
-    match %Jpath %Mode, %Args %Body
+    match %Jpath %Mode (%Args) %Body
 
 template
 
@@ -22,7 +22,7 @@ templateMode [ %Value != '' ]
 
 function_ [ %Args ]
 
-    func %Name, %Args %Body
+    func %Name(%Args) %Body
 
 function_
 
@@ -32,7 +32,7 @@ function_
 
 key
 
-    key %Name, %Nodes, %Use %Body
+    key %Name (%Nodes, %Use) %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -52,22 +52,16 @@ var_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-body [ %Type == 'object' ]
-
-    {
-        %Block
-    }
-
-body [ %Type == 'array' ]
+body [ %Type == 'list' ]
 
     [
         %Block
     ]
 
 body
-    (
+    {
         %Block
-    )
+    }
 
 block
 
@@ -98,7 +92,7 @@ for_
 
 apply [ %Args ]
 
-    apply %Expr %Mode, %Args
+    apply %Expr %Mode (%Args)
 
 apply
 
