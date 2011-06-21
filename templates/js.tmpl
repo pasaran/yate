@@ -4,14 +4,11 @@ main
 
         %Runtime
 
-        var r0 = { buf: [], attrs: {} };
         var c0 = makeRoot(data);
 
         %Stylesheet
 
-        apply([ c0 ], '', r0);
-
-        return r0.buf.join('');
+        return applyValue([ c0 ], '');
     }
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -30,25 +27,12 @@ stylesheet
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-template [ %Args ]
-
-    // %Tid. match %Jpath.Key : %Mode
-    var t%Tid = {
-        jpath: j%Jpath.Jid,
-        body: function (c%Cid, r%Rid, index, count, %Args) {
-            %Args.defaults()
-            %Body
-        }
-    };
-
 template
 
-    // %Tid. match %Jpath.Key : %Mode
+    // match %Jpath.Key : %Mode
     var t%Tid = {
         jpath: j%Jpath.Jid,
-        body: function (c%Cid, r%Rid, index, count) {
-            %Body
-        }
+        body: %Body:function
     };
 
 templateMode
@@ -56,22 +40,78 @@ templateMode
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-function_ [ %Args ]
-
-    // %Body.type()
-    var f%Fid = function(c0, index, count, %Args) {
-        %Args.defaults()
-        var r;
-        %Body
-    };
-
 function_
 
-    // %Body.type()
-    var f%Fid = function(c0, index, count) {
-        var r;
-        %Body
-    };
+    // %Name()
+    var f%Fid = %Body:function
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+block
+
+    %Defs
+    %Exprs
+
+block:function [ %Body.Context == 'list' ]
+
+    function(c%Cid, r%Rid, index, count %Args) {
+        %.:function-body
+    }
+
+block:function
+
+    function(c%Cid, index, count %Args) {
+        %.:function-body
+        return r%Rid;
+    }
+
+block:function-body
+
+    %Args.defaults()
+    %.:prologue
+    %.
+
+block:prologue [ %Context != 'list' && %Type == 'array' ]
+
+    var r%Rid = [];
+
+block:prologue [ %Context != 'list' && %Type == 'object' ]
+
+    var r%Rid = {};
+
+block:prologue [ %Context != 'list' ]
+
+    var r%Rid = '', a%Rid = {};
+
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+listItem [ %Type == 'pair' && %Inline ]
+
+    r%Rid[ %Key ] = %Value;
+
+listItem [ %Type == 'pair' ]
+
+    %Value
+    r%Rid[ %Key ] = %Value.Rid;
+
+listItem [ %Context == 'list' && %Inline ]
+
+    r%Rid.push( %Value );
+
+listItem [ %Context == 'list' ]
+
+    %Value
+    r%Rid.push( %Value.Rid );
+
+listItem [ %Inline ]
+
+    r%Rid += %Value;
+
+listItem
+
+    %Value
+    r%Rid += %Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -112,35 +152,14 @@ key
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-var_
+var_ [ %Inline ]
 
     var v%Vid = %Value;
 
-varBlock
+var_
 
-    var v%Vid;
     %Value
-
-varInline
-
-    var r%Value.Rid = [];
-    %Value
-    var v%Vid = r%Value.Rid[0];
-
-# ------------------------------------------------------------------------------------------------------------------- #
-
-block
-
-    %Defs
-    %Prologue
-    %Exprs
-    %Epilogue
-
-# ------------------------------------------------------------------------------------------------------------------- #
-
-blockComplex
-
-    %Body
+    var v%Vid = %Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -170,25 +189,29 @@ for_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-apply [ %Args ]
+apply [ %Context == 'list' ]
 
-    apply(%Expr, %Mode, r%Rid, %Args);
+    applyList(%Expr, %Mode, r%Rid %Args);
 
 apply
 
-    apply(%Expr, %Mode, r%Rid);
+    r%Rid += applyValue(%Expr, %Mode, a%Rid %Args);
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
+attr [ %Inline ]
+
+    a%Rid['%Name'] %Op %Expr;
+
 attr
 
-    r%{Rid}.attrs["%Name"] %Op %Expr;
-
-attrBlock
-
-    var r%Expr.Rid = { buf: [], attrs: {} };
     %Expr
-    r%{Rid}.attrs["%Name"] %Op r%{Expr.Rid}.buf.join("");
+    a%Rid['%Name'] %Op r%Expr.Rid;
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+scalar
+    %Expr
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -256,7 +279,7 @@ predicate
         return %Expr;
     };
 
-jpaths_item ( %Predicates = "[]", %Absolute = "0" )
+jpaths_item ( %Predicates = '[]', %Absolute = '0' )
 
     // %Jid. %Key
     var j%Jid = {
@@ -266,13 +289,13 @@ jpaths_item ( %Predicates = "[]", %Absolute = "0" )
     };
 
 argListItem
-    v%Vid
+    , v%Vid
 
 argListItemDefault
     v%Vid = v%Vid || %Default;
 
 inlineString
-    "%Value"
+    %Value
 
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
     nodeset2scalar(%Expr)
@@ -285,6 +308,9 @@ cast
 
 stringExpr
     %Expr
+
+stringLiteral
+    '%Value'
 
 function_true
     true
