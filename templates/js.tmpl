@@ -62,6 +62,7 @@ block:function
 
     function(c%Cid, index, count %Args) {
         %.:function-body
+
         return r%Rid;
     }
 
@@ -69,6 +70,7 @@ block:function-body
 
     %Args.defaults()
     %.:prologue
+
     %.
 
 block:prologue [ %Context != 'list' && %Type == 'array' ]
@@ -86,32 +88,35 @@ block:prologue [ %Context != 'list' ]
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-listItem [ %Type == 'pair' && %Inline ]
+scalar [ %Context == 'list' && %Inline ]
+
+    r%{Rid}.push( %Expr );
+
+scalar [ %Inline ]
+
+    r%Rid += %Expr;
+
+scalar [ %Context == 'list' ]
+
+    %Expr:prologue
+    %Expr
+    r%{Rid}.push( r%Expr.Rid );
+
+scalar
+
+    %Expr:prologue
+    %Expr
+    r%Rid += r%Expr.Rid;
+
+pair [ %Value.Inline ]
 
     r%Rid[ %Key ] = %Value;
 
-listItem [ %Type == 'pair' ]
+pair
 
+    %Value:prologue
     %Value
-    r%Rid[ %Key ] = %Value.Rid;
-
-listItem [ %Context == 'list' && %Inline ]
-
-    r%Rid.push( %Value );
-
-listItem [ %Context == 'list' ]
-
-    %Value
-    r%Rid.push( %Value.Rid );
-
-listItem [ %Inline ]
-
-    r%Rid += %Value;
-
-listItem
-
-    %Value
-    r%Rid += %Value.Rid;
+    r%Rid[ %Key ] = r%Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -207,11 +212,6 @@ attr
 
     %Expr
     a%Rid['%Name'] %Op r%Expr.Rid;
-
-# ------------------------------------------------------------------------------------------------------------------- #
-
-scalar
-    %Expr
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
