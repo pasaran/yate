@@ -64,30 +64,36 @@ block [ %Context == 'list' ]
 
 block
 
-    {
-        %Defs
+    %Defs
 
-        %Templates
+    %Templates
 
-        %Exprs
-    }
+    %Exprs
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 if_ [ %Else ]
 
-    if %Condition %Then else %Else
+    if %Condition {
+        %Then
+    } : {
+        %Else
+    }
 
 if_
 
-    if %Condition %Then
+    if %Condition {
+        %Then
+    }
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 for_
 
-    for %Expr %Body
+    for %Expr {
+        %Body
+    }
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -198,7 +204,7 @@ inlineIndex
 
 scalar
     (
-        %Expr
+        %Body
     )
 
 pair
@@ -206,11 +212,11 @@ pair
 
 array
     [
-        %Expr
+        %Body
     ]
 
 object
     {
-        %Expr
+        %Body
     }
 

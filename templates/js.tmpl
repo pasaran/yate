@@ -50,6 +50,7 @@ function_
 block
 
     %Defs
+
     %Exprs
 
 block:function [ %AsList ]
@@ -73,54 +74,88 @@ block:function-body
 
     %.
 
-block:prologue [ !%AsList && %type() == 'array' ]
+# ------------------------------------------------------------------------------------------------------------------- #
+
+*:prologue [ %inline() ]
+
+*:prologue [ !%AsList && %type() == 'array' ]
 
     var r%Rid = [];
 
-block:prologue [ !%AsList && %type() == 'object' ]
+*:prologue [ !%AsList && %type() == 'object' ]
 
     var r%Rid = {};
 
-block:prologue [ !%AsList ]
+*:prologue [ !%AsList ]
 
     var r%Rid = '', a%Rid = {};
 
+# ------------------------------------------------------------------------------------------------------------------- #
+
+inlineScalar:listitem
+
+    r%{Rid}.push( %. );
+
+inlineScalar:output
+
+    r%Rid += %.;
+
+inlineScalar
+
+    %Expr
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-scalar:listitem [ %Inline ]
-
-    r%{Rid}.push( %Expr );
-
 scalar:listitem
-
-    %Expr:prologue
-    %Expr
-    r%{Rid}.push( r%Expr.Rid );
-
-scalar [ %Inline ]
-
-    r%Rid += %Expr;
-
-scalar:value
-
-    %Expr
-
-pair:listitem [ %Value.Inline ]
-
-    r%Rid[ %Key ] = %Value:value;
-
-pair:listitem
-
-    %Value:prologue
-    %Value
-    r%Rid[ %Key ] = r%Value.Rid;
-
-object:listitem
 
     %Body:prologue
     %Body
     r%{Rid}.push( r%Body.Rid );
+
+scalar:output
+
+    %Body
+
+scalar
+
+    %Body
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+pair:listitem [ %Value.inline() ]
+
+    r%Rid[ %Key ] = %Value;
+
+pair:listitem
+
+    %Body
+    r%Rid[ %Key ] = r%Body.Rid;
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+array:listitem
+
+    %Body
+    r{%Rid}.push( r%Body.Rid );
+
+array:output
+
+    %Body
+
+array
+
+    %Body
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+object:listitem
+
+    %Body
+    r%{Rid}.push( r%Body.Rid );
+
+object:output
+
+    %Body
 
 object
 
@@ -165,14 +200,22 @@ key
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-var_ [ %Value.Inline ]
+*:yate
+
+    /*
+        %yate()
+    */
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+var_ [ %Value.inline() ]
 
     var v%Vid = %Value;
 
 var_
 
     %Value:prologue
-    %Value
+    %Value:output
     var v%Vid = r%Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -185,14 +228,13 @@ var_
 #        r%{Rid}.push( %Else );
 #    }
 
-
 if_:listitem [ %Else ]
 
     %Then:prologue
     if (%Condition) {
-        %Then
+        %Then:body
     } else {
-        %Else
+        %Else:body
     }
     r%{Rid}.push( r%Then.Rid );
 
@@ -201,41 +243,51 @@ if_:listitem
 
     %Then:prologue
     if (%Condition) {
-        %Then
+        %Then:body
     }
     r%{Rid}.push( r%Then.Rid );
 
 
-if_ [ %Else ]
+if_:output [ %Else ]
 
     if (%Condition) {
-        %Then
+        %Then:body
     } else {
-        %Else
+        %Else:body
     }
 
 
-if_
+if_:output
 
     if (%Condition) {
-        %Then
+        %Then:body
     }
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+*:body [ %inline() ]
+
+    r%parent.Rid += %.;
+
+*:body
+
+    %.
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
+for_:listitem [ %Body.AsList ]
+
+    %.:output
+
 for_:listitem
 
-    var items%Cid = %Expr;
     %Body:prologue
-    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
-        var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body
-    }
+    %.:output
     r%{Rid}.push( r%Body.Rid );
 
 
-for_
+for_:output
 
     var items%Cid = %Expr;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
@@ -249,7 +301,7 @@ apply:listitem
 
     applyList(%Expr, %Mode, r%Rid %Args);
 
-apply
+apply:output
 
     r%Rid += applyValue(%Expr, %Mode, a%Rid %Args);
 
