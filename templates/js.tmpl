@@ -52,7 +52,7 @@ block
     %Defs
     %Exprs
 
-block:function [ %Body.Context == 'list' ]
+block:function [ %AsList ]
 
     function(c%Cid, r%Rid, index, count %Args) {
         %.:function-body
@@ -73,50 +73,58 @@ block:function-body
 
     %.
 
-block:prologue [ %Context != 'list' && %Type == 'array' ]
+block:prologue [ !%AsList && %type() == 'array' ]
 
     var r%Rid = [];
 
-block:prologue [ %Context != 'list' && %Type == 'object' ]
+block:prologue [ !%AsList && %type() == 'object' ]
 
     var r%Rid = {};
 
-block:prologue [ %Context != 'list' ]
+block:prologue [ !%AsList ]
 
     var r%Rid = '', a%Rid = {};
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-scalar [ %Context == 'list' && %Inline ]
+scalar:listitem [ %Inline ]
 
     r%{Rid}.push( %Expr );
 
-scalar [ %Inline ]
-
-    r%Rid += %Expr;
-
-scalar [ %Context == 'list' ]
+scalar:listitem
 
     %Expr:prologue
     %Expr
     r%{Rid}.push( r%Expr.Rid );
 
-scalar
+scalar [ %Inline ]
 
-    %Expr:prologue
+    r%Rid += %Expr;
+
+scalar:value
+
     %Expr
-    r%Rid += r%Expr.Rid;
 
-pair [ %Value.Inline ]
+pair:listitem [ %Value.Inline ]
 
-    r%Rid[ %Key ] = %Value;
+    r%Rid[ %Key ] = %Value:value;
 
-pair
+pair:listitem
 
     %Value:prologue
     %Value
     r%Rid[ %Key ] = r%Value.Rid;
+
+object:listitem
+
+    %Body:prologue
+    %Body
+    r%{Rid}.push( r%Body.Rid );
+
+object
+
+    %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -157,16 +165,46 @@ key
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-var_ [ %Inline ]
+var_ [ %Value.Inline ]
 
     var v%Vid = %Value;
 
 var_
 
+    %Value:prologue
     %Value
-    var v%Vid = %Value.Rid;
+    var v%Vid = r%Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
+
+#if_:listitem [ %Else && %Then.Inline && %Else.Inline ]
+#
+#    if (%Condition) {
+#        r%{Rid}.push( %Then );
+#    } else {
+#        r%{Rid}.push( %Else );
+#    }
+
+
+if_:listitem [ %Else ]
+
+    %Then:prologue
+    if (%Condition) {
+        %Then
+    } else {
+        %Else
+    }
+    r%{Rid}.push( r%Then.Rid );
+
+
+if_:listitem
+
+    %Then:prologue
+    if (%Condition) {
+        %Then
+    }
+    r%{Rid}.push( r%Then.Rid );
+
 
 if_ [ %Else ]
 
@@ -176,13 +214,26 @@ if_ [ %Else ]
         %Else
     }
 
+
 if_
 
     if (%Condition) {
         %Then
     }
 
+
 # ------------------------------------------------------------------------------------------------------------------- #
+
+for_:listitem
+
+    var items%Cid = %Expr;
+    %Body:prologue
+    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
+        var c%Body.Cid = items%Cid[ i%Cid ];
+        %Body
+    }
+    r%{Rid}.push( r%Body.Rid );
+
 
 for_
 
@@ -194,7 +245,7 @@ for_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-apply [ %Context == 'list' ]
+apply:listitem
 
     applyList(%Expr, %Mode, r%Rid %Args);
 
