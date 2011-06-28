@@ -220,13 +220,9 @@ var_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-#if_:listitem [ %Else && %Then.Inline && %Else.Inline ]
-#
-#    if (%Condition) {
-#        r%{Rid}.push( %Then );
-#    } else {
-#        r%{Rid}.push( %Else );
-#    }
+if_:listitem [ %Else && %Then.inline() && %Else.inline() ]
+
+    r%{Rid}.push( (%Condition) ? %Then : %Else );
 
 if_:listitem [ %AsListItem && %Else ]
 
@@ -237,7 +233,6 @@ if_:listitem [ %AsListItem && %Else ]
         %Else:body
     }
     r%{Rid}.push( r%Then.Rid );
-
 
 if_:listitem [ %AsListItem ]
 
@@ -250,6 +245,10 @@ if_:listitem [ %AsListItem ]
 if_:listitem
 
     %.:output
+
+if_:output [ %Else && %Then.inline() && %Else.inline() ]
+
+    r%Rid += (%Condition) ? %Then : %Else;
 
 if_:output [ %Else ]
 
