@@ -128,8 +128,9 @@ pair:listitem [ %Value.inline() ]
 
 pair:listitem
 
-    %Body
-    r%Rid[ %Key ] = r%Body.Rid;
+    %Value.Body:prologue
+    %Value
+    r%Rid[ %Key ] = r%Value.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -403,10 +404,10 @@ inlineString
     %Value
 
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
-    nodeset2scalar(%Expr)
+    nodeset2scalar( %Expr )
 
 cast [ %From == 'nodeset' && %To == 'boolean' ]
-    nodeset2boolean(%Expr)
+    nodeset2boolean( %Expr )
 
 cast
     %Expr
