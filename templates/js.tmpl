@@ -1,29 +1,29 @@
 main
 
-    function stylesheet(data) {
+#    function stylesheet(data) {
 
-        %Runtime
+#        %Runtime
 
-        var c0 = makeRoot(data);
+#        var c0 = makeRoot(data);
 
         %Stylesheet
 
-        return applyValue([ c0 ], '');
-    }
+#        return applyValue([ c0 ], '');
+#    }
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 stylesheet
 
-    %Predicates
+#    %Predicates
 
-    %Jpaths
+#    %Jpaths
 
     %Templates
 
-    var matcher = %Matcher;
+#    var matcher = %Matcher;
 
-    %Defs
+#    %Defs
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -228,7 +228,7 @@ var_
 #        r%{Rid}.push( %Else );
 #    }
 
-if_:listitem [ %Else ]
+if_:listitem [ %AsListItem && %Else ]
 
     %Then:prologue
     if (%Condition) {
@@ -239,14 +239,17 @@ if_:listitem [ %Else ]
     r%{Rid}.push( r%Then.Rid );
 
 
+if_:listitem [ %AsListItem ]
+
+    if (%Condition) {
+        %Then:prologue
+        %Then:body
+        r%{Rid}.push( r%Then.Rid );
+    }
+
 if_:listitem
 
-    %Then:prologue
-    if (%Condition) {
-        %Then:body
-    }
-    r%{Rid}.push( r%Then.Rid );
-
+    %.:output
 
 if_:output [ %Else ]
 
@@ -449,4 +452,34 @@ inlineGrep
 inlineIndex
     byIndex(%Expr, %Index)
 
+# ------------------------------------------------------------------------------------------------------------------- #
+
+xmlLine:listitem
+
+    r%{Rid}.push( %.:output );
+
+xmlLine:output
+
+    r%Rid += %.;
+
+xmlEmpty [ !%Attrs.empty() ]
+    '<%Name' + %Attrs + '/>'
+
+xmlEmpty
+    '<%Name/>'
+
+xmlStart [ !%Attrs.empty() ]
+    '<%Name' + %Attrs + '>'
+
+xmlStart
+    '<%Name>'
+
+xmlEnd
+    '</%Name>'
+
+xmlText
+    %Text
+
+xmlAttr
+    ' %Name="%Value"'
 
