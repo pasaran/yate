@@ -88,7 +88,7 @@ block:function-body
 
 *:prologue [ !%AsList ]
 
-    var r%Rid = '', a%Rid = {};
+    var r%Rid = '', a%Rid = { attrs: {} };
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -310,14 +310,18 @@ apply:output
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-attr [ %Inline ]
+attr:listitem
 
-    a%Rid['%Name'] %Op %Expr;
+    %.:output
 
-attr
+attr:output [ %Expr.inline() ]
+
+    a%{Rid}.attrs['%Name'] %Op %Expr;
+
+attr:output
 
     %Expr
-    a%Rid['%Name'] %Op r%Expr.Rid;
+    a%{Rid}.attrs['%Name'] %Op r%Expr.Rid;
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -364,7 +368,7 @@ inlineFunction
     %Name(c%Cid, index, count)
 
 inlineVar
-    v%Vid
+    v%def.Vid
 
 inlineNumber
     %Value
@@ -436,9 +440,28 @@ function_count
 function_slice
     slice(%Args)
 
-closeAttrs
+closeAttrs:listitem
 
-    if (r%{Rid}.open) { closeAttrs(r%Rid); }
+    %.:output
+
+closeAttrs:output
+
+    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
+
+openAttrs:listitem
+
+    %.:output
+
+openAttrs:output
+
+    a%{Rid}.attrs = {
+        %Attrs:open
+    }
+    a%{Rid}.open = true;
+
+xmlAttr:open
+
+    '%Name': %Value
 
 quote
     %{Mode}Quote(%Expr)
@@ -456,30 +479,9 @@ inlineIndex
 
 xmlLine:listitem
 
-    r%{Rid}.push( %.:output );
+    r%{Rid}.push( %. );
 
 xmlLine:output
 
     r%Rid += %.;
-
-xmlEmpty [ !%Attrs.empty() ]
-    '<%Name' + %Attrs + '/>'
-
-xmlEmpty
-    '<%Name/>'
-
-xmlStart [ !%Attrs.empty() ]
-    '<%Name' + %Attrs + '>'
-
-xmlStart
-    '<%Name>'
-
-xmlEnd
-    '</%Name>'
-
-xmlText
-    %Text
-
-xmlAttr
-    ' %Name="%Value"'
 
