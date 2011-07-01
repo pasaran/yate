@@ -1,29 +1,30 @@
 main
 
-#    function stylesheet(data) {
+    function stylesheet(data) {
 
-#        %Runtime
+        %Runtime
 
-#        var c0 = makeRoot(data);
+        var c0 = makeRoot(data);
+        var a0 = { attrs: {} };
 
         %Stylesheet
 
-#        return applyValue([ c0 ], '');
-#    }
+        return applyValue([ c0 ], '', a0);
+    }
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 stylesheet
 
-#    %Predicates
+    %Predicates
 
-#    %Jpaths
+    %Jpaths
 
     %Templates
 
-#    var matcher = %Matcher;
+    var matcher = %Matcher;
 
-#    %Defs
+    %Defs
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -88,7 +89,7 @@ block:function-body
 
 *:prologue [ !%AsList ]
 
-    var r%Rid = '';
+    var r%Rid = '', a%Rid = a%Rid || { attrs: {} };
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -173,6 +174,7 @@ key
         if (!value) {
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
+                %Body:prologue
                 %Body
             }
             if (value) {
@@ -300,13 +302,21 @@ for_:output
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
+apply:listitem [ !%Args.empty() ]
+
+    applyList(%Expr, %Mode, r%Rid, %Args);
+
 apply:listitem
 
-    applyList(%Expr, %Mode, r%Rid %Args);
+    applyList(%Expr, %Mode, r%Rid);
+
+apply:output [ !%Args.empty() ]
+
+    r%Rid += applyValue(%Expr, %Mode, a%Rid);
 
 apply:output
 
-    r%Rid += applyValue(%Expr, %Mode, a%Rid %Args);
+    r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -320,6 +330,7 @@ attr:output [ %Expr.inline() ]
 
 attr:output
 
+    %Expr:prologue
     %Expr
     a%{Rid}.attrs['%Name'] %Op r%Expr.Rid;
 
@@ -355,17 +366,33 @@ inlineUnion
 inlineComplex
     (%Expr)
 
-inlineFunction [ %Fid && %Args ]
-    f%Fid(c%Cid, index, count, %Args)
+# ------------------------------------------------------------------------------------------------------------------- #
 
-inlineFunction [ %Args ]
-    %Name(c%Cid, index, count, %Args)
+inlineFunction [ %Kid !== '' ]
+    k%Kid(%Args)
 
-inlineFunction [ %Fid ]
-    f%Fid(c%Cid, index, count)
+inlineFunction [ %Fid !== '' ]
+    f%Fid(c%Cid, index, count %Args)
 
-inlineFunction
-    %Name(c%Cid, index, count)
+inlineFunction [ %Name == 'true' ]
+    true
+
+inlineFunction [ %Name == 'false' ]
+    false
+
+inlineFunction [ %Name == 'name' ]
+    c%{Cid}.name
+
+inlineFunction [ %Name == 'position' ]
+    index
+
+inlineFunction [ %Name == 'count' ]
+    count
+
+inlineFunction [ %Name == 'slice' ]
+    slice(%Args)
+
+# ------------------------------------------------------------------------------------------------------------------- #
 
 inlineVar
     v%def.Vid
@@ -422,24 +449,6 @@ stringExpr
 stringLiteral
     '%Value'
 
-function_true
-    true
-
-function_false
-    false
-
-function_name
-    c%{Cid}.name
-
-function_position
-    index
-
-function_count
-    count
-
-function_slice
-    slice(%Args)
-
 closeAttrs:listitem
 
     %.:output
@@ -465,9 +474,6 @@ xmlAttr:open
 
 quote
     %{Mode}Quote(%Expr)
-
-usekey
-    k%Kid(%Args)
 
 inlineGrep
     grep(%Expr, p%Predicate.Pid)
