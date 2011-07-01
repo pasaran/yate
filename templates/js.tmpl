@@ -56,13 +56,13 @@ block
 
 block:function [ %AsList ]
 
-    function(c%Cid, r%Rid, a%Rid, index, count %Args) {
+    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
         %.:function-body
     }
 
 block:function
 
-    function(c%Cid, a%Rid, index, count %Args) {
+    function(c%Cid, a%Rid, index, count %parent.Args) {
         %.:function-body
 
         return r%Rid;
@@ -70,7 +70,7 @@ block:function
 
 block:function-body
 
-    %Args.defaults()
+    %parent.Args.defaults()
     %.:prologue
 
     %.
@@ -79,13 +79,17 @@ block:function-body
 
 *:prologue [ %inline() ]
 
-*:prologue [ !%AsList && %type() == 'array' ]
+*:prologue [ !%AsList && (%type() == 'array' || %type() == 'nodeset') ]
 
     var r%Rid = [];
 
 *:prologue [ !%AsList && %type() == 'object' ]
 
     var r%Rid = {};
+
+*:prologue [ !%AsList && %type() == 'boolean' ]
+
+    var r%Rid = false;
 
 *:prologue [ !%AsList ]
 
@@ -97,9 +101,15 @@ inlineScalar:listitem
 
     r%{Rid}.push( %. );
 
+inlineScalar:output [ %type() == 'nodeset' && !%AsType ]
+
+    r%Rid = %.;
+
 inlineScalar:output
 
     r%Rid += %.;
+
+# FIXME: Нужен ли этот шаблон?
 
 inlineScalar
 
@@ -175,7 +185,8 @@ key
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
                 %Body:prologue
-                %Body
+                %Body:body
+                value = r%Body.Rid;
             }
             if (value) {
                 k%{Kid}_values[key] = value;
@@ -269,6 +280,10 @@ if_:output
     }
 
 # ------------------------------------------------------------------------------------------------------------------- #
+
+*:body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') && !%AsType ]
+
+    r%parent.Rid = %.;
 
 *:body [ %inline() ]
 
