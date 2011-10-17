@@ -705,28 +705,17 @@ Yate.Grammar.rules.inlinePrimary = {
             this.error('number, string, jpath, variable or function call expected');
         }
 
-        // FIXME: Вот тут может быть сколько угодно продолжений вида /..., [...], {...}.
-        //        Пока что для разгону только по одной штуке.
-
-        /*
         if (this.test('[')) {
-            expr = Yate.AST.make('inlineGrep', expr, this.match('predicate'));
+            expr = Yate.AST.make('inlineGrep', expr, this.match('jpath_predicates'));
         }
 
-        if (this.testAll([ '/', 'jpath_steps' ])) {
+        if (this.test('.')) {
             var jpath = this.match('jpath');
             jpath.Context = expr;
             jpath.Absolute = false;
 
             expr = jpath;
         }
-
-        if (this.test('{')) {
-            this.match('{'); // FIXME: Запихнуть это в отдельное правило index.
-            expr = Yate.AST.make('inlineIndex', expr, this.match('inlineScalar'));
-            this.match('}');
-        }
-        */
 
         return expr;
     },

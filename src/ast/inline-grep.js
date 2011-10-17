@@ -4,9 +4,9 @@ Yate.AST.inlineGrep = {
         base: 'inlineExpr'
     },
 
-    _init: function(expr, predicate) {
+    _init: function(expr, predicates) {
         this.Expr = expr;
-        this.Predicate = predicate;
+        this.Predicates = predicates;
     },
 
     _type: Yate.Types.NODESET,
