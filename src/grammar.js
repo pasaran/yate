@@ -74,6 +74,7 @@ Yate.Grammar.keywords = [
     'func',
     'for',
     'if',
+    'else',
     'apply',
     'key',
     'nodeset',
@@ -148,7 +149,7 @@ Yate.Grammar.rules.block = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// body = '{' block '}' | '[' block ']' | inlineScalar
+// body = '{' block '}' | '[' block ']'
 
 Yate.Grammar.rules.body = function() {
 
@@ -167,7 +168,7 @@ Yate.Grammar.rules.body = function() {
 
         return block;
     } else {
-        return this.match('inlineScalar');
+        this.error('Expected { or [');
     }
 
 };
@@ -299,14 +300,14 @@ Yate.Grammar.rules.blockExpr = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// if_ = 'if' inlineExpr body ( ':' body )?
+// if_ = 'if' inlineExpr body ( 'else' body )?
 
 Yate.Grammar.rules.if_ = function(ast) {
     this.match('IF');
     ast.Condition = this.match('inlineExpr');
     ast.Then = this.match('body');
-    if (this.test(':')) {
-        this.match(':');
+    if (this.test('ELSE')) {
+        this.match('ELSE');
         ast.Else = this.match('body');
     }
 };
@@ -323,11 +324,16 @@ Yate.Grammar.rules.for_ = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// apply = 'apply' inlineExpr templateMode? ( callArgs )?
+// apply = 'apply' ( inlineExpr | array | object ) templateMode? ( callArgs )?
 
 Yate.Grammar.rules.apply = function(ast) {
     this.match('APPLY');
-    ast.Expr = this.match('inlineExpr');
+    var r = this.testAny([ 'inlineExpr', 'array', 'object' ]);
+    if (!r) {
+        this.error('Expected expr');
+    }
+
+    ast.Expr = this.match(r);
     ast.Mode = this.match('templateMode');
     if (this.test('(')) {
         ast.Args = this.match('callArgs');
@@ -369,7 +375,7 @@ Yate.Grammar.rules.attr = function(ast) {
 
 // array = '[' block ']'
 
-Yate.Grammar.rules.array = function(ast) {
+Yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инлайновый вариант: [ 1, 2, 3 ].
     this.match('[');
     ast.Body = this.match('block');
     this.match(']');
@@ -378,9 +384,9 @@ Yate.Grammar.rules.array = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// object = block
+// object = '{' block '}'
 
-Yate.Grammar.rules.object = function(ast) {
+Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42 }.
     this.match('{');
     ast.Body = this.match('block');
     this.match('}');
@@ -532,7 +538,7 @@ Yate.Grammar.rules.xmlAttr = function(ast) {
 
 // inlineScalar = inlineExpr+
 
-Yate.Grammar.rules.inlineScalar = {
+Yate.Grammar.rules.inlineScalar = { // FIXME: Кажется, нужно поменять местами inlineExpr и inlineScalar.
 
     rule: function(ast) {
         ast.add( this.match('inlineExpr') );
