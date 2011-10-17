@@ -1,4 +1,4 @@
-Yate.AST.jpathSteps.compile = function() {
+Yate.AST.jpath_steps.compile = function() {
     var steps = this.Items;
 
     var names = [];

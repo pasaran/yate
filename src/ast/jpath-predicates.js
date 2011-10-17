@@ -1,8 +1,9 @@
-Yate.AST.jpath_steps = {
+Yate.AST.jpath_predicates = {
 
     options: {
         mixin: 'items'
     }
 
 };
+
 

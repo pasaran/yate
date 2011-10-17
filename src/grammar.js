@@ -1,3 +1,44 @@
+/*
+    TODO:
+      * Новый синтаксис для jpath.
+            .               .
+            .foo            foo
+            .foo.bar        foo/bar
+
+            ..              ..
+            ..foo           ../foo
+            ...             ../..
+            ...foo          ../../foo
+            ...foo...bar    ../../foo/../../bar
+
+            /               /
+            /.
+            /..
+            /.foo           /foo
+            /.foo.bar       /foo/bar
+
+            foo()[ .count > 0 ]
+
+      * Переменные без $.
+            a = 42
+            b = a + 24
+
+      * Обязательные {...} в блоках.
+            if count > 0 {
+                // ...
+            }
+
+      * apply {...} и apply [...].
+            apply {
+                "foo": 42
+            }
+
+            apply [ 1, 2, 3 ]
+
+      * .item[ .count ] vs. .item[ count ].
+*/
+
+
 // ################################################################################################################# //
 //
 // Grammar
@@ -12,6 +53,7 @@ Yate.Grammar = {};
 
 Yate.Grammar.tokens = {
     QNAME: /^[a-zA-Z_][a-zA-Z0-9_-]*/,
+    DOTS: /^(?:\.{2,}(?=\.[a-zA-Z_*])|\.+(?![a-zA-Z_*]))/, // либо (...), либо (..)(.foo) -- то есть если после точек есть идентификатор, то последнюю точку не берем.
     ESC: /^["'\\nt]/,
     NUMBER: /^[0-9]+(\.[0-9]+)?/,
     EOL: /^\s*(\/\/.*)?$/,
@@ -666,11 +708,12 @@ Yate.Grammar.rules.inlinePrimary = {
         // FIXME: Вот тут может быть сколько угодно продолжений вида /..., [...], {...}.
         //        Пока что для разгону только по одной штуке.
 
+        /*
         if (this.test('[')) {
             expr = Yate.AST.make('inlineGrep', expr, this.match('predicate'));
         }
 
-        if (this.testAll([ '/', 'jpathSteps' ])) {
+        if (this.testAll([ '/', 'jpath_steps' ])) {
             var jpath = this.match('jpath');
             jpath.Context = expr;
             jpath.Absolute = false;
@@ -683,6 +726,7 @@ Yate.Grammar.rules.inlinePrimary = {
             expr = Yate.AST.make('inlineIndex', expr, this.match('inlineScalar'));
             this.match('}');
         }
+        */
 
         return expr;
     },
@@ -800,18 +844,21 @@ Yate.Grammar.rules.inlineFunction = function(ast) {
 // JPath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// jpath = '/' | ( '/' )? jpathSteps
+// jpath = '/'? jpath_steps
 
 Yate.Grammar.rules.jpath = {
 
     rule: function(ast) {
-        ast.Absolute = (this.test('/')) ? this.match('/') : '';
+        if (this.test('/')) { // FIXME: Нужно унести символ / в отдельную сущность -- root.
+                              //        А jpath типа /.foo расценивать как jpath с контекстом, а-ля foo().bar.
+            ast.Absolute = this.match('/');
+        }
 
-        if (this.test('jpathSteps')) {
-            ast.Steps = this.match('jpathSteps');
+        if (this.test('jpath_steps')) {
+            ast.Steps = this.match('jpath_steps');
         } else {
-            if (!ast.Absolute) { // Только один jpath не имеет steps: /
-                this.error("jpath expected");
+            if (!ast.Absolute) {
+                this.error('Expected jpath_steps');
             }
         }
     },
@@ -822,40 +869,58 @@ Yate.Grammar.rules.jpath = {
 
 };
 
-// jpathSteps = jpathStep ( '/' jpathStep )*
+// jpath_steps = ( jpath_dots | jpath_nametest )*
 
-Yate.Grammar.rules.jpathSteps = function(ast) {
-    ast.add( this.match('jpathStep') );
-    while (this.test('/')) {
-        this.match('/');
-        ast.add( this.match('jpathStep') );
-    }
-};
-
-// jpathStep = '.' | '..' | ( '*' | QNAME ) predicate?
-
-Yate.Grammar.rules.jpathStep = function(ast) {
+Yate.Grammar.rules.jpath_steps = function(ast) {
     var r;
-    if ((r = this.testAny([ '..', '.', '*' ]))) {
-        ast.Name = this.match(r);
-    } else {
-        ast.Name = this.match('QNAME');
-    }
-
-    if (ast.Name != '.' && ast.Name != '..') {
-        if (this.test('[')) { // FIXME: Предикатов может быть несколько.
-            ast.Predicate = this.match('predicate');
-        }
+    ast.add( this.match('jpath_step') );
+    while (this.test('jpath_step')) {
+        ast.add( this.match('jpath_step') );
     }
 };
 
-// predicate = '[' inlineScalar ']'
+Yate.Grammar.rules.jpath_step = function() {
+    if (this.test('DOTS')) {
+        return this.match('jpath_dots');
+    } else {
+        return this.match('jpath_nametest');
+    }
+};
 
-Yate.Grammar.rules.predicate = {
+// jpath_parents = '.'+
+
+Yate.Grammar.rules.jpath_dots = function(ast) {
+    ast.Dots = this.match('DOTS');
+};
+
+// jpath_nametest = '.' ( QNAME | '*' ) jpath_predicates?
+
+Yate.Grammar.rules.jpath_nametest = function(ast) {
+    this.match('.');
+
+    var nametest = this.testAny([ 'QNAME', '*' ]);
+    ast.Name = this.match(nametest); // FIXME: А почему еще нет matchAny?
+
+    if (this.test('[')) {
+        ast.Predicates = this.match('jpath_predicates');
+    }
+};
+
+// jpath_predicates = jpath_predicate+
+
+Yate.Grammar.rules.jpath_predicates = function(ast) {
+    while (this.test('[')) {
+        ast.add( this.match('jpath_predicate') );
+    }
+};
+
+// jpath_predicate = '[' inlineScalar ']'
+
+Yate.Grammar.rules.jpath_predicate = {
 
     rule: function(ast) {
         this.match('[');
-        ast.Expr = this.match('inlineScalar');
+        ast.Expr = this.match('inlineScalar'); // FIXME: Почему не inlineExpr?
         this.match(']');
     },
 
@@ -865,6 +930,11 @@ Yate.Grammar.rules.predicate = {
 
 };
 
+/*
+Yate.Grammar.rules.jpath_grep = function(ast) {
+    // TODO
+};
+*/
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Skippers
