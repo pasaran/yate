@@ -678,7 +678,7 @@ Yate.Grammar.rules.inlineUnion = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlinePrimary = inlineNumber | inlineString | inlineComplex | inlineVar | inlineFunction | jpath
+// inlinePrimary = inlineNumber | inlineString | inlineComplex | inlineRoot | jpath | inlineFunction | inlineVar
 
 Yate.Grammar.rules.inlinePrimary = {
 
@@ -695,12 +695,14 @@ Yate.Grammar.rules.inlinePrimary = {
 
         if (this.test('(')) {
             expr = this.match('inlineComplex');
-        } else if (this.test('$')) {
-            expr = this.match('inlineVar');
+        } else if (this.test('/')) {
+            expr = this.match('inlineRoot');
+        } else if (this.test('.')) {
+            expr = this.match('jpath');
         } else if (this.test('inlineFunction')) {
             expr = this.match('inlineFunction');
-        } else if (this.test('jpath')) {
-            expr = this.match('jpath');
+        } else if (this.test('inlineVar')) {
+            expr = this.match('inlineVar');
         } else {
             this.error('number, string, jpath, variable or function call expected');
         }
@@ -724,6 +726,14 @@ Yate.Grammar.rules.inlinePrimary = {
         skipper: 'none'
     }
 
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// inlineRoot = '/'
+
+Yate.Grammar.rules.inlineRoot = function(ast) {
+    this.match('/');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -812,10 +822,9 @@ Yate.Grammar.rules.inlineComplex = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineVar = '$' QNAME
+// inlineVar = QNAME
 
 Yate.Grammar.rules.inlineVar = function(ast) {
-    this.match('$');
     ast.Name = this.match('QNAME');
 };
 
@@ -833,23 +842,12 @@ Yate.Grammar.rules.inlineFunction = function(ast) {
 // JPath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// jpath = '/'? jpath_steps
+// jpath = jpath_steps
 
 Yate.Grammar.rules.jpath = {
 
     rule: function(ast) {
-        if (this.test('/')) { // FIXME: Нужно унести символ / в отдельную сущность -- root.
-                              //        А jpath типа /.foo расценивать как jpath с контекстом, а-ля foo().bar.
-            ast.Absolute = this.match('/');
-        }
-
-        if (this.test('jpath_steps')) {
-            ast.Steps = this.match('jpath_steps');
-        } else {
-            if (!ast.Absolute) {
-                this.error('Expected jpath_steps');
-            }
-        }
+        ast.Steps = this.match('jpath_steps'); // FIXME: Переименовать jpath_steps в jpath.
     },
 
     options: {
