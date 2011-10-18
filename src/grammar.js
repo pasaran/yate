@@ -33,7 +33,11 @@
                 "foo": 42
             }
 
-            apply [ 1, 2, 3 ]
+            apply [
+                1
+                2
+                3
+            ]
 
       * .item[ .count ] vs. .item[ count ].
 */
@@ -848,12 +852,15 @@ Yate.Grammar.rules.inlineFunction = function(ast) {
 // JPath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// jpath = jpath_steps
+// jpath = jpath_step+
 
 Yate.Grammar.rules.jpath = {
 
     rule: function(ast) {
-        ast.Steps = this.match('jpath_steps'); // FIXME: Переименовать jpath_steps в jpath.
+        ast.add( this.match('jpath_step') );
+        while (this.test('jpath_step')) {
+            ast.add( this.match('jpath_step') );
+        }
     },
 
     options: {
@@ -862,15 +869,7 @@ Yate.Grammar.rules.jpath = {
 
 };
 
-// jpath_steps = ( jpath_dots | jpath_nametest )*
-
-Yate.Grammar.rules.jpath_steps = function(ast) {
-    var r;
-    ast.add( this.match('jpath_step') );
-    while (this.test('jpath_step')) {
-        ast.add( this.match('jpath_step') );
-    }
-};
+// jpath_step = jpath_dots | jpath_nametest
 
 Yate.Grammar.rules.jpath_step = function() {
     if (this.test('DOTS')) {
