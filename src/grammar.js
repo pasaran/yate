@@ -98,7 +98,7 @@ Yate.Grammar.rules = {};
 // Blocks
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// stylesheet = block
+// stylesheet := block
 
 Yate.Grammar.rules.stylesheet = {
 
@@ -119,7 +119,7 @@ Yate.Grammar.rules.stylesheet = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// block = ( template | function_ | key | var_ | blockExpr )*
+// block := ( template | function_ | key | var_ | block_expr )*
 
 Yate.Grammar.rules.block = function(ast) {
 
@@ -131,16 +131,16 @@ Yate.Grammar.rules.block = function(ast) {
             continue;
         }
 
-        if (this.test('MATCH')) {
+        var r = null;
+        if (this.test('template')) {
             ast.Templates.add( this.match('template') );
-        } else if (this.test('FUNC')) {
-            ast.Defs.add( this.match('function_') );
-        } else if (this.test('KEY')) {
-            ast.Defs.add( this.match('key') );
-        } else if (this.testAll([ 'QNAME', '=' ])) {
-            ast.Defs.add( this.match('var_') );
+
+        } else if (( r = this.testAny([ 'key', 'function_', 'var_' ]) )) {
+            ast.Defs.add( this.match(r) );
+
         } else {
-            ast.Exprs.add( this.match('blockExpr') );
+            ast.Exprs.add( this.match('block_expr') );
+
         }
 
         if (!this.isEOL()) { // Если после выражения или определения нет перевода строки, то это конец блока.
@@ -153,7 +153,7 @@ Yate.Grammar.rules.block = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// body = '{' block '}' | '[' block ']'
+// body := '{' block '}' | '[' block ']'
 
 Yate.Grammar.rules.body = function() {
 
@@ -182,91 +182,89 @@ Yate.Grammar.rules.body = function() {
 // Declarations: templates, functions, keys, vars
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// template = 'match' jpath templateMode? argList? body
+// template := ( root | jpath ) template_mode? arglist? body
 
 Yate.Grammar.rules.template = function(ast) {
-    this.match('MATCH');
-    ast.Jpath = this.match('jpath');
-    ast.Mode = this.match('templateMode')
+    ast.Selector = this.matchAny([ 'root', 'jpath' ]);
+    ast.Mode = this.match('template_mode')
     if (this.test('(')) {
-        ast.Args = this.match('argList');
+        ast.Args = this.match('arglist');
     }
     ast.Body = this.match('body');
 };
 
-// templateMode = ':' QNAME
+// template_mode := '#' QNAME
 
-Yate.Grammar.rules.templateMode = function(ast) {
-    if (this.test(':')) {
-        this.match(':');
+Yate.Grammar.rules.template_mode = function(ast) {
+    if (this.test('#')) {
+        this.match('#');
         ast.Value = this.match('QNAME');
     } else {
         ast.Value = '';
     }
 };
 
-// argList = '(' argListItem ( ',' argListItem )* ')'
+// arglist := '(' arglist_item ( ',' arglist_item )* ')'
 
-Yate.Grammar.rules.argList = function(ast) {
+Yate.Grammar.rules.arglist = function(ast) {
     this.match('(');
-    if (this.test('argListItem')) {
-        ast.add( this.match('argListItem') );
+    if (this.test('arglist_item')) {
+        ast.add( this.match('arglist_item') );
         while (this.test(',')) {
             this.match(',');
-            ast.add(this.match('argListItem'));
+            ast.add(this.match('arglist_item'));
         }
     }
     this.match(')');
 };
 
-// argListItem = ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inlineScalar )?
+// arglist_item := ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inline_scalar )?
 
-Yate.Grammar.rules.argListItem = function(ast) {
+Yate.Grammar.rules.arglist_item = function(ast) {
     var r;
-    if (r = this.testAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ])) {
+    if (r = this.testAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ])) { // FIXME: Вынести это в отдельное правило.
         ast.Typedef = this.match(r);
     }
     ast.Name = this.match('QNAME');
     if (this.test('=')) {
         this.match('=');
-        ast.Default = this.match('inlineScalar');
+        ast.Default = this.match('inline_scalar');
     }
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// function_ = 'func' QNAME argList body
+// function_ := QNAME arglist body
 
 Yate.Grammar.rules.function_ = function(ast) {
-    this.match('FUNC');
-    var name = ast.Name = this.match('QNAME');
-    ast.Args = this.match('argList');
+    ast.Name = this.match('QNAME');
+    ast.Args = this.match('arglist');
     ast.Body = this.match('body');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// key = 'key' QNAME '(' inlineScalar ',' inlineScalar ')' body
+// key := 'key' QNAME '(' inline_scalar ',' inline_scalar ')' body
 
 Yate.Grammar.rules.key = function(ast) {
-    this.match('KEY');
+    this.match('KEY'); // FIXME: Подумать, нельзя ли отказаться от ключевого слова key.
     ast.Name = this.match('QNAME');
     this.match('(');
-    ast.Nodes = this.match('inlineScalar');
+    ast.Nodes = this.match('inline_scalar');
     this.match(',');
-    ast.Use = this.match('inlineScalar');
+    ast.Use = this.match('inline_scalar');
     this.match(')');
     ast.Body = this.match('body');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// var_ = QNAME '=' blockExpr
+// var_ := QNAME '=' block_expr
 
 Yate.Grammar.rules.var_ = function(ast) {
     ast.Name = this.match('QNAME');
     this.match('=');
-    ast.Value = this.match('blockExpr');
+    ast.Value = this.match('block_expr');
 };
 
 
@@ -274,21 +272,21 @@ Yate.Grammar.rules.var_ = function(ast) {
 // Block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// blockExpr = if_ | for_ | apply | attr | xmlLine | array | object | pair | scalar
+// block_expr := if_ | for_ | apply | attr | xml_line | array | object | pair | scalar
 
-Yate.Grammar.rules.blockExpr = function() {
+Yate.Grammar.rules.block_expr = function() {
     var r;
 
-    if (this.test('IF')) {
+    if (this.test('if_')) {
         r = this.match('if_');
-    } else if (this.test('FOR')) {
+    } else if (this.test('for_')) {
         r = this.match('for_');
-    } else if (this.test('APPLY')) {
+    } else if (this.test('apply')) {
         r = this.match('apply');
     } else if (this.test('@')) {
         r = this.match('attr');
     } else if (this.test('<')) {
-        r = this.match('xmlLine');
+        r = this.match('xml_line');
     } else if (this.test('[')) {
         r = this.match('array');
     } else if (this.test('{')) {
@@ -304,11 +302,11 @@ Yate.Grammar.rules.blockExpr = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// if_ = 'if' inlineExpr body ( 'else' body )?
+// if_ := 'if' inline_expr body ( 'else' body )?
 
 Yate.Grammar.rules.if_ = function(ast) {
     this.match('IF');
-    ast.Condition = this.match('inlineExpr');
+    ast.Condition = this.match('inline_scalar');
     ast.Then = this.match('body');
     if (this.test('ELSE')) {
         this.match('ELSE');
@@ -318,41 +316,41 @@ Yate.Grammar.rules.if_ = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// for_ = 'for' inlineExpr body
+// for_ := 'for' inline_expr body
 
 Yate.Grammar.rules.for_ = function(ast) {
     this.match('FOR');
-    ast.Expr = this.match('inlineExpr');
+    ast.Expr = this.match('inline_expr'); // Здесь не имеет смысла писать inline_scalar, т.к. нужен nodeset.
     ast.Body = this.match('body');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// apply = 'apply' ( inlineExpr | array | object ) templateMode? ( callArgs )?
+// apply := 'apply' ( inline_expr | array | object ) template_mode? callargs?
 
 Yate.Grammar.rules.apply = function(ast) {
     this.match('APPLY');
-    var r = this.testAny([ 'inlineExpr', 'array', 'object' ]);
+    var r = this.testAny([ 'inline_expr', 'array', 'object' ]);
     if (!r) {
         this.error('Expected expr');
     }
 
     ast.Expr = this.match(r);
-    ast.Mode = this.match('templateMode');
+    ast.Mode = this.match('template_mode');
     if (this.test('(')) {
-        ast.Args = this.match('callArgs');
+        ast.Args = this.match('callargs');
     }
 };
 
-// callArgs =( inlineScalar ( ',' inlineScalar )* )?
+// callargs := '(' ( inline_scalar ( ',' inline_scalar )* )? ')'
 
-Yate.Grammar.rules.callArgs = function(ast) {
+Yate.Grammar.rules.callargs = function(ast) {
     this.match('(');
-    if (this.test('inlineScalar')) {
-        ast.add( this.match('inlineScalar') );
+    if (this.test('inline_scalar')) {
+        ast.add( this.match('inline_scalar') );
         while (this.test(',')) {
             this.match(',');
-            ast.add( this.match('inlineScalar') );
+            ast.add( this.match('inline_scalar') );
         }
     }
     this.match(')');
@@ -360,7 +358,7 @@ Yate.Grammar.rules.callArgs = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// attr = '@' QNAME ( '=' | '+=' ) blockExpr
+// attr := '@' QNAME ( '=' | '+=' ) block_expr
 
 Yate.Grammar.rules.attr = function(ast) {
     this.match('@');
@@ -368,7 +366,7 @@ Yate.Grammar.rules.attr = function(ast) {
     var r;
     if (r = this.testAny([ '+=', '=' ])) {
         ast.Op = this.match(r);
-        ast.Expr = this.match('blockExpr');
+        ast.Expr = this.match('block_expr');
     } else {
         this.error('"=" or "+=" expected');
     }
@@ -377,7 +375,7 @@ Yate.Grammar.rules.attr = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// array = '[' block ']'
+// array := '[' block ']'
 
 Yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инлайновый вариант: [ 1, 2, 3 ].
     this.match('[');
@@ -388,9 +386,9 @@ Yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инл
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// object = '{' block '}'
+// object := '{' block '}'
 
-Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42 }.
+Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42, "bar": 24 }.
     this.match('{');
     ast.Body = this.match('block');
     this.match('}');
@@ -399,21 +397,21 @@ Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать ин�
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// pair = inlineScalar ':' blockExpr
+// pair := inline_scalar ':' block_expr
 
 Yate.Grammar.rules.pair = function(ast) {
-    ast.Key = this.match('inlineScalar');
+    ast.Key = this.match('inline_scalar');
     this.match(':');
-    ast.Value = this.match('blockExpr');
+    ast.Value = this.match('block_expr');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// scalar = inlineScalar | '(' block ')'
+// scalar := inline_scalar | '(' block ')'
 
 Yate.Grammar.rules.scalar = function(ast) {
-    if (this.test('inlineScalar')) {
-        return this.match('inlineScalar');
+    if (this.test('inline_scalar')) {
+        return this.match('inline_scalar');
     } else {
         this.match('(');
         ast.Body = this.match('block');
@@ -426,13 +424,13 @@ Yate.Grammar.rules.scalar = function(ast) {
 // XML
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlLine = (xmlFull | xmlEmpty | xmlStart | xmlEnd)+
+// xml_line := (xml_full | xml_empty | xml_start | xml_end)+
 
-Yate.Grammar.rules.xmlLine = {
+Yate.Grammar.rules.xml_line = {
 
     rule: function(ast) {
         var r;
-        while ((r = this.testAny([ 'xmlFull', 'xmlEmpty', 'xmlStart', 'xmlEnd' ]))) {
+        while ((r = this.testAny([ 'xml_full', 'xml_empty', 'xml_start', 'xml_end' ]))) {
             ast.add( this.match(r) );
         }
     },
@@ -445,18 +443,18 @@ Yate.Grammar.rules.xmlLine = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlFull = xmlStart ( xmlFull | xmlEmpty | xmlText )* xmlEnd
+// xml_full := xml_start ( xml_full | xml_empty | xml_text )* xml_end
 
-Yate.Grammar.rules.xmlFull = function(ast) {
-    var start = this.match('xmlStart');
+Yate.Grammar.rules.xml_full = function(ast) {
+    var start = this.match('xml_start');
     ast.add(start);
 
     var r;
-    while ((r = this.testAny([ 'xmlFull', 'xmlEmpty', 'xmlText' ]))) {
+    while ((r = this.testAny([ 'xml_full', 'xml_empty', 'xml_text' ]))) {
         ast.add( this.match(r) );
     }
 
-    var end = this.match('xmlEnd');
+    var end = this.match('xml_end');
     ast.add(end);
 
     if (start.Name != end.Name) {
@@ -466,31 +464,31 @@ Yate.Grammar.rules.xmlFull = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlStart = '<' QNAME ( xmlAttrs )? '>'
+// xml_start := '<' QNAME ( xml_attrs )? '>'
 
-Yate.Grammar.rules.xmlStart = function(ast) {
+Yate.Grammar.rules.xml_start = function(ast) {
     this.match('<');
     ast.Name = this.match('QNAME');
-    ast.Attrs = this.match('xmlAttrs');
+    ast.Attrs = this.match('xml_attrs');
     this.match('>');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlEmpty = '<' QNAME ( xmlAttrs )? '/>'
+// xml_empty := '<' QNAME ( xml_attrs )? '/>'
 
-Yate.Grammar.rules.xmlEmpty = function(ast) {
+Yate.Grammar.rules.xml_empty = function(ast) {
     this.match('<');
     ast.Name = this.match('QNAME');
-    ast.Attrs = this.match('xmlAttrs');
+    ast.Attrs = this.match('xml_attrs');
     this.match('/>');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlEnd = '</' QNAME '>'
+// xml_end := '</' QNAME '>'
 
-Yate.Grammar.rules.xmlEnd = function(ast) {
+Yate.Grammar.rules.xml_end = function(ast) {
     this.match('</');
     ast.Name = this.match('QNAME');
     this.skip('spaces');
@@ -499,10 +497,10 @@ Yate.Grammar.rules.xmlEnd = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlText = stringContent
+// xml_text := string_content
 
-Yate.Grammar.rules.xmlText = function(ast) {
-    var r = this.match('stringContent', '<');
+Yate.Grammar.rules.xml_text = function(ast) {
+    var r = this.match('string_content', '<');
     if (r.empty()) {
         this.backtrace();
     }
@@ -511,13 +509,13 @@ Yate.Grammar.rules.xmlText = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// xmlAttrs = xmlAttr*
+// xml_attrs := xml_attr*
 
-Yate.Grammar.rules.xmlAttrs = {
+Yate.Grammar.rules.xml_attrs = {
 
     rule: function(ast) {
-        while (this.test('xmlAttr')) {
-            ast.add( this.match('xmlAttr') );
+        while (this.test('xml_attr')) {
+            ast.add( this.match('xml_attr') );
         }
     },
 
@@ -527,27 +525,27 @@ Yate.Grammar.rules.xmlAttrs = {
 
 };
 
-// xmlAttr = QNAME '=' inlineString
+// xml_attr := QNAME '=' inline_string
 
-Yate.Grammar.rules.xmlAttr = function(ast) {
+Yate.Grammar.rules.xml_attr = function(ast) {
     ast.Name = this.match('QNAME');
     this.match('=');
-    ast.Value = this.match('inlineString');
+    ast.Value = this.match('inline_string');
 };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// inlineScalar values
+// inline_scalar values
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineScalar = inlineExpr+
+// inline_scalar := inline_expr+
 
-Yate.Grammar.rules.inlineScalar = { // FIXME: Кажется, нужно поменять местами inlineExpr и inlineScalar.
+Yate.Grammar.rules.inline_scalar = { // FIXME: Кажется, нужно поменять местами inline_expr и inline_scalar.
 
     rule: function(ast) {
-        ast.add( this.match('inlineExpr') );
-        while (this.test('inlineExpr')) {
-            ast.add( this.match('inlineExpr') );
+        ast.add( this.match('inline_expr') );
+        while (this.test('inline_expr')) {
+            ast.add( this.match('inline_expr') );
         }
     },
 
@@ -562,12 +560,12 @@ Yate.Grammar.rules.inlineScalar = { // FIXME: Кажется, нужно пом�
 // Inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineExpr = inlineOr
+// inline_expr := inline_or
 
-Yate.Grammar.rules.inlineExpr = {
+Yate.Grammar.rules.inline_expr = {
 
     rule: function() {
-        return this.match('inlineOr');
+        return this.match('inline_or');
     },
 
     options: {
@@ -576,111 +574,111 @@ Yate.Grammar.rules.inlineExpr = {
 
 };
 
-// inlineOr = inlineAnd ( '||' inlineOr )?
+// inline_or := inline_and ( '||' inline_or )?
 
-Yate.Grammar.rules.inlineOr = function(ast) {
-    ast.Left = this.match('inlineAnd');
+Yate.Grammar.rules.inline_or = function(ast) {
+    ast.Left = this.match('inline_and');
     if (this.test('||')) {
         ast.Op = this.match('||');
-        ast.Right = this.match('inlineOr');
+        ast.Right = this.match('inline_or');
     } else {
         return ast.Left;
     }
 };
 
-// inlineAnd = inlineEq ( '&&' inlineAnd )?
+// inline_and := inline_eq ( '&&' inline_and )?
 
-Yate.Grammar.rules.inlineAnd = function(ast) {
-    ast.Left = this.match('inlineEq');
+Yate.Grammar.rules.inline_and = function(ast) {
+    ast.Left = this.match('inline_eq');
     if (this.test('&&')) {
         ast.Op = this.match('&&');
-        ast.Right = this.match('inlineAnd');
+        ast.Right = this.match('inline_and');
     } else {
         return ast.Left;
     }
 };
 
-// inlineEq = inlineRel ( ( '==' | '!=' ) inlineRel )?
+// inline_eq := inline_rel ( ( '==' | '!=' ) inline_rel )?
 
-Yate.Grammar.rules.inlineEq = function(ast) {
-    ast.Left = this.match('inlineRel');
+Yate.Grammar.rules.inline_eq = function(ast) {
+    ast.Left = this.match('inline_rel');
     var op;
     if (op = this.testAny([ '==', '!=' ])) {
         ast.Op = this.match(op);
-        ast.Right = this.match('inlineRel');
+        ast.Right = this.match('inline_rel');
     } else {
         return ast.Left;
     }
 };
 
-// inlineRel = inlineAdd ( ( '<=' | '<' | '>=' | '>' ) inlineAdd )?
+// inline_rel := inline_add ( ( '<=' | '<' | '>=' | '>' ) inline_add )?
 
-Yate.Grammar.rules.inlineRel = function(ast) {
-    ast.Left = this.match('inlineAdd');
+Yate.Grammar.rules.inline_rel = function(ast) {
+    ast.Left = this.match('inline_add');
     var op;
     if (op = this.testAny([ '<=', '<', '>=', '>' ])) {
         ast.Op = this.match(op);
-        ast.Right = this.match('inlineAdd');
+        ast.Right = this.match('inline_add');
     } else {
         return ast.Left;
     }
 };
 
-// inlineAdd = inlineMul ( ( '+' | '-' ) inlineAdd )?
+// inline_add := inline_mul ( ( '+' | '-' ) inline_add )?
 
-Yate.Grammar.rules.inlineAdd = function(ast) {
-    ast.Left = this.match('inlineMul');
+Yate.Grammar.rules.inline_add = function(ast) {
+    ast.Left = this.match('inline_mul');
     var op;
     if (op = this.testAny([ '+', '-' ])) { // FIXME: Проблемы с порядком выполнения. Например, 1 - 2 - 3 превратится в -(1, -(2, 3)).
         ast.Op = this.match(op);
-        ast.Right = this.match('inlineAdd');
+        ast.Right = this.match('inline_add');
     } else {
         return ast.Left;
     }
 };
 
-// inlineMul = inlineUnary ( ( '/' | '*' | '%' ) inlineMul )?
+// inline_mul := inline_unary ( ( '/' | '*' | '%' ) inline_mul )?
 
-Yate.Grammar.rules.inlineMul = function(ast) {
-    ast.Left = this.match('inlineUnary');
+Yate.Grammar.rules.inline_mul = function(ast) {
+    ast.Left = this.match('inline_unary');
     var op;
     if (op = this.testAny([ '/', '*', '%' ])) {
         ast.Op = this.match(op);
-        ast.Right = this.match('inlineMul');
+        ast.Right = this.match('inline_mul');
     } else {
         return ast.Left;
     }
 };
 
-// inlineUnary = '-' inlineNot | inlineNot
+// inline_unary := '-' inline_not | inline_not
 
-Yate.Grammar.rules.inlineUnary = function(ast) {
+Yate.Grammar.rules.inline_unary = function(ast) {
     if (this.test('-')) {
         ast.Op = this.match('-');
-        ast.Left = this.match('inlineNot');
+        ast.Left = this.match('inline_not');
     } else {
-        return this.match('inlineNot');
+        return this.match('inline_not');
     }
 };
 
-// inlineNot = '!' inlineUnion | inlineUnion
+// inline_not := '!' inline_union | inline_union
 
-Yate.Grammar.rules.inlineNot = function(ast) {
+Yate.Grammar.rules.inline_not = function(ast) {
     if (this.test('!')) {
         ast.Op = this.match('!');
-        ast.Left = this.match('inlineUnion');
+        ast.Left = this.match('inline_union');
     } else {
-        return this.match('inlineUnion');
+        return this.match('inline_union');
     }
 };
 
-// inlineUnion = inlinePrimary ( '|' inlineUnion )?
+// inline_union := inline_primary ( '|' inline_union )?
 
-Yate.Grammar.rules.inlineUnion = function(ast) {
-    ast.Left = this.match('inlinePrimary');
+Yate.Grammar.rules.inline_union = function(ast) {
+    ast.Left = this.match('inline_primary');
     if (this.test('|')) {
         ast.Op = this.match('|');
-        ast.Right = this.match('inlineUnion');
+        ast.Right = this.match('inline_union');
     } else {
         return ast.Left;
     }
@@ -688,37 +686,37 @@ Yate.Grammar.rules.inlineUnion = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlinePrimary = inlineNumber | inlineString | inlineComplex | inlineRoot | jpath | inlineFunction | inlineVar
+// inline_primary := inline_number | inline_string | inline_complex | root | jpath | inline_function | inline_var
 
-Yate.Grammar.rules.inlinePrimary = {
+Yate.Grammar.rules.inline_primary = {
 
     rule: function(ast) {
         if (this.test('NUMBER')) {
-            return this.match('inlineNumber');
+            return this.match('inline_number');
         }
 
         if (this.test('"')) {
-            return this.match('inlineString');
+            return this.match('inline_string');
         }
 
         var expr;
 
         if (this.test('(')) {
-            expr = this.match('inlineComplex');
+            expr = this.match('inline_complex');
         } else if (this.test('/')) {
-            expr = this.match('inlineRoot');
+            expr = this.match('root');
         } else if (this.test('.')) {
             expr = this.match('jpath');
-        } else if (this.test('inlineFunction')) {
-            expr = this.match('inlineFunction');
-        } else if (this.test('inlineVar')) {
-            expr = this.match('inlineVar');
+        } else if (this.test('inline_function')) {
+            expr = this.match('inline_function');
+        } else if (this.test('inline_var')) {
+            expr = this.match('inline_var');
         } else {
             this.error('number, string, jpath, variable or function call expected');
         }
 
         if (this.test('[')) {
-            expr = Yate.AST.make('inlineGrep', expr, this.match('jpath_predicates'));
+            expr = Yate.AST.make('inline_grep', expr, this.match('jpath_predicates'));
         }
 
         if (this.test('.')) {
@@ -740,27 +738,29 @@ Yate.Grammar.rules.inlinePrimary = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineRoot = '/'
+// root := '/'
 
-Yate.Grammar.rules.inlineRoot = function(ast) {
+Yate.Grammar.rules.root = function(ast) {
     this.match('/');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineNumber = NUMBER
+// inline_number := NUMBER
 
-Yate.Grammar.rules.inlineNumber = function(ast) {
+Yate.Grammar.rules.inline_number = function(ast) {
     ast.Value = parseFloat( this.match('NUMBER') );
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Grammar.rules.inlineString = {
+// inline_string := '"' string_content '"'
+
+Yate.Grammar.rules.inline_string = {
 
     rule: function(ast) {
         this.match('"');
-        ast.Value = this.match('stringContent', '"', true);
+        ast.Value = this.match('string_content', '"', true);
         this.match('"');
     },
 
@@ -770,8 +770,10 @@ Yate.Grammar.rules.inlineString = {
 
 };
 
-Yate.Grammar.rules.stringContent = function(ast, delim, esc) { // Второй параметр задает символ, ограничивающий строковый контент.
-                                                               // Третий параметр означает, что нужно учитывать esc-последовательности типа \n, \t и т.д.
+// string_content := ...
+
+Yate.Grammar.rules.string_content = function(ast, delim, esc) { // Второй параметр задает символ, ограничивающий строковый контент.
+                                                                // Третий параметр означает, что нужно учитывать esc-последовательности типа \n, \t и т.д.
     var s = '';
 
     while (this.current() && !this.test(delim)) {
@@ -784,12 +786,12 @@ Yate.Grammar.rules.stringContent = function(ast, delim, esc) { // Второй �
 
         } else if (this.test('{')) {
             if (s) {
-                ast.add( Yate.AST.make('stringLiteral', s) );
+                ast.add( Yate.AST.make('string_literal', s) );
                 s = '';
             }
             this.match('{');
             this.skip('spaces');
-            ast.add( Yate.AST.make('stringExpr', this.match('inlineScalar')) );
+            ast.add( Yate.AST.make('string_expr', this.match('inline_scalar')) );
             this.skip('spaces');
             this.match('}');
 
@@ -811,20 +813,20 @@ Yate.Grammar.rules.stringContent = function(ast, delim, esc) { // Второй �
     }
 
     if (s) {
-        ast.add( Yate.AST.make('stringLiteral', s) );
+        ast.add( Yate.AST.make('string_literal', s) );
     }
 
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineComplex = '(' inlineScalar ')'
+// inline_complex := '(' inline_scalar ')'
 
-Yate.Grammar.rules.inlineComplex = {
+Yate.Grammar.rules.inline_complex = {
 
     rule: function(ast) {
         this.match('(');
-        ast.Expr = this.match('inlineScalar');
+        ast.Expr = this.match('inline_scalar');
         this.match(')');
     }
 
@@ -832,19 +834,19 @@ Yate.Grammar.rules.inlineComplex = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineVar = QNAME
+// inline_var := QNAME
 
-Yate.Grammar.rules.inlineVar = function(ast) {
+Yate.Grammar.rules.inline_var = function(ast) {
     ast.Name = this.match('QNAME');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inlineFunction = QNAME callArgs
+// inline_function := QNAME callargs
 
-Yate.Grammar.rules.inlineFunction = function(ast) {
+Yate.Grammar.rules.inline_function = function(ast) {
     ast.Name = this.match('QNAME');
-    ast.Args = this.match('callArgs');
+    ast.Args = this.match('callargs');
 };
 
 
@@ -852,7 +854,7 @@ Yate.Grammar.rules.inlineFunction = function(ast) {
 // JPath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// jpath = jpath_step+
+// jpath := jpath_step+
 
 Yate.Grammar.rules.jpath = {
 
@@ -869,36 +871,29 @@ Yate.Grammar.rules.jpath = {
 
 };
 
-// jpath_step = jpath_dots | jpath_nametest
+// jpath_step := jpath_dots | jpath_nametest
 
 Yate.Grammar.rules.jpath_step = function() {
-    if (this.test('DOTS')) {
-        return this.match('jpath_dots');
-    } else {
-        return this.match('jpath_nametest');
-    }
+    return this.matchAny([ 'jpath_dots', 'jpath_nametest' ]);
 };
 
-// jpath_parents = '.'+
+// jpath_parents := '.'+
 
 Yate.Grammar.rules.jpath_dots = function(ast) {
     ast.Dots = this.match('DOTS');
 };
 
-// jpath_nametest = '.' ( QNAME | '*' ) jpath_predicates?
+// jpath_nametest := '.' ( QNAME | '*' ) jpath_predicates?
 
 Yate.Grammar.rules.jpath_nametest = function(ast) {
     this.match('.');
-
-    var nametest = this.testAny([ 'QNAME', '*' ]);
-    ast.Name = this.match(nametest); // FIXME: А почему еще нет matchAny?
-
+    ast.Name = this.matchAny([ 'QNAME', '*' ]);
     if (this.test('[')) {
         ast.Predicates = this.match('jpath_predicates');
     }
 };
 
-// jpath_predicates = jpath_predicate+
+// jpath_predicates := jpath_predicate+
 
 Yate.Grammar.rules.jpath_predicates = function(ast) {
     while (this.test('[')) {
@@ -906,13 +901,13 @@ Yate.Grammar.rules.jpath_predicates = function(ast) {
     }
 };
 
-// jpath_predicate = '[' inlineScalar ']'
+// jpath_predicate := '[' inline_scalar ']'
 
 Yate.Grammar.rules.jpath_predicate = {
 
     rule: function(ast) {
         this.match('[');
-        ast.Expr = this.match('inlineScalar'); // FIXME: Почему не inlineExpr?
+        ast.Expr = this.match('inline_scalar'); // FIXME: Почему не inline_expr?
         this.match(']');
     },
 
@@ -921,12 +916,6 @@ Yate.Grammar.rules.jpath_predicate = {
     }
 
 };
-
-/*
-Yate.Grammar.rules.jpath_grep = function(ast) {
-    // TODO
-};
-*/
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Skippers

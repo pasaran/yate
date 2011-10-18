@@ -322,8 +322,15 @@ Yate.Parser.match = function(id) {
     return r;
 };
 
-Yate.Parser.matchAll = function(ids) {
+Yate.Parser.matchAny = function(ids) {
+    for (var i = 0, l = ids.length; i < l; i++) {
+        var id = ids[i];
+        if (this.test(id)) {
+            return this.match(id);
+        }
+    }
 
+    this.error('Nothing matched');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
