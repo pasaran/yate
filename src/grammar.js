@@ -155,24 +155,22 @@ Yate.Grammar.rules.block = function(ast) {
 
 // body := '{' block '}' | '[' block ']'
 
-Yate.Grammar.rules.body = function() {
+Yate.Grammar.rules.body = function(ast) {
 
     var start = this.testAny([ '{', '[' ]); // Блоки бывают двух видов. Обычные { ... } и со списочным контекстом [ ... ].
                                             // В [ ... ] каждое выражение верхнего уровня генерит отдельный элемент списка.
     if (start) {
         this.match(start);
 
-        var block = this.match('block');
+        ast.Block = this.match('block');
         if (start == '[') {
-            block.AsList = true;
+            ast.AsList = true;
         }
 
         var end = (start == '{') ? '}' : ']';
         this.match(end);
-
-        return block;
     } else {
-        this.error('Expected { or [');
+        this.error('Expected { or ['); // FIXME: Кажется, тут нужно использовать this.backtrace().
     }
 
 };
@@ -379,7 +377,7 @@ Yate.Grammar.rules.attr = function(ast) {
 
 Yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инлайновый вариант: [ 1, 2, 3 ].
     this.match('[');
-    ast.Body = this.match('block');
+    ast.Block = this.match('block');
     this.match(']');
 };
 
@@ -390,7 +388,7 @@ Yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инл
 
 Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42, "bar": 24 }.
     this.match('{');
-    ast.Body = this.match('block');
+    ast.Block = this.match('block');
     this.match('}');
 };
 
@@ -716,15 +714,11 @@ Yate.Grammar.rules.inline_primary = {
         }
 
         if (this.test('[')) {
-            expr = Yate.AST.make('inline_grep', expr, this.match('jpath_predicates'));
+            expr = Yate.AST.make('jpath_filter', expr, this.match('jpath_predicates'));
         }
 
         if (this.test('.')) {
-            var jpath = this.match('jpath');
-            jpath.Context = expr;
-            jpath.Absolute = false;
-
-            expr = jpath;
+            expr = Yate.AST.make('jpath_context', expr, this.match('jpath'));
         }
 
         return expr;

@@ -1,4 +1,4 @@
-Yate.AST.inline_grep = {
+Yate.AST.jpath_filter = {
 
     options: {
         base: 'inline_expr'

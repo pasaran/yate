@@ -8,25 +8,31 @@ stylesheet
 
 template [ %Args ]
 
-    match %Jpath %Mode (%Args) %Body
+    %Selector %Mode (%Args) %Body
 
 template
 
-    match %Jpath %Mode %Body
+    %Selector %Mode %Body
 
-templateMode [ %Value != '' ]
+template_mode [ %Value != '' ]
 
-    : %Value
+    #%Value
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+root
+
+    /
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 function_ [ %Args ]
 
-    func %Name(%Args) %Body
+    %Name(%Args) %Body
 
 function_
 
-    func %Name %Body
+    %Name %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -36,11 +42,11 @@ key
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-argListItem [ %Default ]
+arglist_item [ %Default ]
 
     %Typedef %Name = %Default
 
-argListItem
+arglist_item
 
     %Typedef %Name
 
@@ -52,15 +58,19 @@ var_
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-block [ %Context == 'list' ]
+body [ %AsList ]
 
     [
-        %Defs
-
-        %Templates
-
-        %Exprs
+        %Block
     ]
+
+body
+
+    {
+        %Block
+    }
+
+# ------------------------------------------------------------------------------------------------------------------- #
 
 block
 
@@ -70,30 +80,21 @@ block
 
     %Exprs
 
-
 # ------------------------------------------------------------------------------------------------------------------- #
 
 if_ [ %Else ]
 
-    if %Condition {
-        %Then
-    } : {
-        %Else
-    }
+    if %Condition %Then else %Else
 
 if_
 
-    if %Condition {
-        %Then
-    }
+    if %Condition %Then
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
 for_
 
-    for %Expr {
-        %Body
-    }
+    for %Expr %Body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -113,94 +114,91 @@ attr
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineOr
+inline_or
     %Left || %Right
 
-inlineAnd
+inline_and
     %Left && %Right
 
-inlineNot
+inline_not
     !%Left
 
-inlineEq
+inline_eq
     %Left %Op %Right
 
-inlineRel
+inline_rel
     %Left %Op %Right
 
-inlineAdd
+inline_add
     %Left %Op %Right
 
-inlineMul
+inline_mul
     %Left %Op %Right
 
-inlineUnary
+inline_unary
     -%Expr
 
-inlineUnion
+inline_union
     %Left | %Right
 
-inlineComplex
+inline_complex
     ( %Expr )
 
-inlineFunction
+inline_function
     %Name(%Args)
 
-inlineNumber
+inline_number
     %Value
 
-inlineVar
-    $%Name
+inline_var
+    %Name
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-jpath [ %Context ]
-    %Context/%Steps
+jpath_context
+    %Context%JPath
 
-jpath
-    %Absolute%Steps
+jpath_dots
+    %Dots
 
-predicate
+jpath_nametest
+    .%Name%Predicates
+
+jpath_predicate
     [ %Expr ]
 
-jpathStep
-    %Name%Predicate
+jpath_filter
+    %Expr%Predicates
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-xmlEmpty
+xml_empty
     <%Name%Attrs/>
 
-xmlStart
+xml_start
     <%Name%Attrs>
 
-xmlEnd
+xml_end
     </%Name>
 
-xmlText
+xml_text
     %Text
 
-xmlAttr
+xml_attr
     \ %Name=%Value
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineString
+inline_string
     "%Value"
 
-stringExpr
+string_expr
     { %Expr }
 
-stringLiteral
+string_literal
     %Value
 
 # ------------------------------------------------------------------------------------------------------------------- #
-
-inlineGrep
-    %Expr[ %Predicate.Expr ]
-
-inlineIndex
-    %Expr{ %Index }
 
 scalar
     (
@@ -212,11 +210,11 @@ pair
 
 array
     [
-        %Body
+        %Block
     ]
 
 object
     {
-        %Body
+        %Block
     }
 

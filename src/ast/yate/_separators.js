@@ -18,7 +18,3 @@ Yate.AST.inline_scalar.options.yate = {
     separator: ' '
 };
 
-Yate.AST.jpath.options.yate = {
-    separator: '/'
-};
-
