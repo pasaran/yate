@@ -82,11 +82,11 @@ Yate.AST.block_exprs = {
             var open = item.isOpen();
             if (open || last !== false && open === false) {
             // if (last === undefined && open !== undefined) {
-                o.push(that.make('closeAttrs'));
+                o.push(that.make('attrs_close'));
             }
             o.push(item);
             if (open) {
-                o.push(that.make('openAttrs', item.lastTag()));
+                o.push(that.make('attrs_open', item.lastTag()));
             }
             last = open;
         });

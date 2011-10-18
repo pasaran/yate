@@ -6,4 +6,3 @@ Yate.AST.jpath_predicates = {
 
 };
 
-

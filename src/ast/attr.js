@@ -12,7 +12,7 @@ Yate.AST.attr = {
         }
         this.Expr.cast(Yate.Types.SCALAR);
         this.Expr.trigger('set', 'mode', 'attr'); // FIXME: Непонятно, нужно ли тут квотить что-то?
-                                                  //        Или же оно в runtime должно заквотиться в closeAttrs?
+                                                  //        Или же оно в runtime должно заквотиться в attrs_close?
     }
 
 };
