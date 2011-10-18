@@ -1,4 +1,4 @@
-Yate.AST.inlineNot = {
+Yate.AST.inline_not = {
 
     signature: {
         left: Yate.Types.BOOLEAN,
@@ -6,7 +6,7 @@ Yate.AST.inlineNot = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

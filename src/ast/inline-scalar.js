@@ -1,7 +1,7 @@
-Yate.AST.inlineScalar = {
+Yate.AST.inline_scalar = {
 
     options: {
-        base: 'inlineExpr',
+        base: 'inline_expr',
         mixin: 'items'
     }
 

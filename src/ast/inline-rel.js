@@ -1,4 +1,4 @@
-Yate.AST.inlineRel = {
+Yate.AST.inline_rel = {
 
     signature: {
         left: Yate.Types.SCALAR,
@@ -7,7 +7,7 @@ Yate.AST.inlineRel = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

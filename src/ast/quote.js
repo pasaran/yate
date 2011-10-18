@@ -1,7 +1,7 @@
 Yate.AST.quote = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(expr, mode) {

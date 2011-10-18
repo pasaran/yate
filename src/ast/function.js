@@ -14,7 +14,7 @@ Yate.AST.function_ = {
         }
 
         this.Fid = this.state.fid++;
-        this.Type = Yate.AST.functionType.USER;
+        this.Type = Yate.AST.function_type.USER;
 
         functions[name] = this;
     },

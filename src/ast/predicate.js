@@ -1,4 +1,4 @@
-Yate.AST.predicate = {
+Yate.AST.jpath_predicate = {
 
     action: function() {
         var key = this.Expr.yate(); // Каноническая запись предиката.

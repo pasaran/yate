@@ -1,4 +1,4 @@
-Yate.AST.inlineUnion = {
+Yate.AST.inline_union = {
 
     signature: {
         left: Yate.Types.NODESET,
@@ -7,7 +7,7 @@ Yate.AST.inlineUnion = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

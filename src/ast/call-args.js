@@ -1,4 +1,4 @@
-Yate.AST.callArgs = {
+Yate.AST.callargs = {
 
     options: {
         mixin: 'items'

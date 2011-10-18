@@ -1,4 +1,4 @@
-Yate.AST.xmlAttr = {
+Yate.AST.xml_attr = {
 
     toResult: function(result) {
         result.push(' ' + this.Name + '="');

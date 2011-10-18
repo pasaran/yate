@@ -1,4 +1,4 @@
-Yate.AST.inlineUnary = {
+Yate.AST.inline_unary = {
 
     signature: {
         left: Yate.Types.SCALAR,
@@ -6,7 +6,7 @@ Yate.AST.inlineUnary = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

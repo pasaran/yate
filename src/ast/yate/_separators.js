@@ -1,20 +1,20 @@
-Yate.AST.blockTemplates.options.yate = {
+Yate.AST.block_templates.options.yate = {
     separator: '\n\n'
 };
 
-Yate.AST.blockDefs.options.yate = {
+Yate.AST.block_defs.options.yate = {
     separator: '\n\n'
 };
 
-Yate.AST.argList.options.yate = {
+Yate.AST.arglist.options.yate = {
     separator: ', '
 };
 
-Yate.AST.callArgs.options.yate = {
+Yate.AST.callargs.options.yate = {
     separator: ', '
 };
 
-Yate.AST.inlineScalar.options.yate = {
+Yate.AST.inline_scalar.options.yate = {
     separator: ' '
 };
 

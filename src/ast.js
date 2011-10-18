@@ -529,12 +529,12 @@ Yate.AST.prototype.toString = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.varType = {
+Yate.AST.var_type = {
     USER: 'user',
     ARGUMENT: 'argument'
 };
 
-Yate.AST.functionType = {
+Yate.AST.function_type = {
     USER: 'user',
     INTERNAL: 'internal',
     EXTERNAL: 'external',

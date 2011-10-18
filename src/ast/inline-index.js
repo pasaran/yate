@@ -1,7 +1,7 @@
-Yate.AST.inlineIndex = {
+Yate.AST.inline_index = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(expr, index) {

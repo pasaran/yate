@@ -1,4 +1,4 @@
-Yate.AST.stringContent = {
+Yate.AST.string_content = {
 
     options: {
         mixin: 'items'

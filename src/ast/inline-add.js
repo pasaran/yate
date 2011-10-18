@@ -1,4 +1,4 @@
-Yate.AST.inlineAdd = {
+Yate.AST.inline_add = {
 
     signature: {
         left: Yate.Types.SCALAR,
@@ -7,7 +7,7 @@ Yate.AST.inlineAdd = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

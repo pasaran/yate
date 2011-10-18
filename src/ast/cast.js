@@ -1,7 +1,7 @@
 Yate.AST.cast = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(to, expr) {

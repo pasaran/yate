@@ -1,2 +1,2 @@
-Yate.AST.templateMode = {};
+Yate.AST.template_mode = {};
 

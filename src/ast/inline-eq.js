@@ -1,4 +1,4 @@
-Yate.AST.inlineEq = {
+Yate.AST.inline_eq = {
 
     signature: {
         left: Yate.Types.SCALAR,
@@ -7,7 +7,7 @@ Yate.AST.inlineEq = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

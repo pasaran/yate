@@ -1,7 +1,7 @@
-Yate.AST.stringLiteral = {
+Yate.AST.string_literal = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(s) {

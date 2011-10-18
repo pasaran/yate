@@ -1,4 +1,4 @@
-Yate.AST.blockExprs = {
+Yate.AST.block_exprs = {
 
     options: {
         mixin: 'items'
@@ -34,7 +34,7 @@ Yate.AST.blockExprs = {
     validate: function() {
         var opened = [];
         this.iterate(function(item) {
-            if (item.is('xmlLine') || item.is('blockList')) {
+            if (item.is('xml_line') || item.is('block_list')) {
                 item.wellFormed(opened);
             }
         });

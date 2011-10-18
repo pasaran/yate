@@ -8,9 +8,9 @@ Yate.AST.block = {
     },
 
     _init: function(exprs) {
-        this.Defs = Yate.AST.make('blockDefs');
-        this.Templates = Yate.AST.make('blockTemplates');
-        this.Exprs = Yate.AST.make('blockExprs', exprs);
+        this.Defs = Yate.AST.make('block_defs');
+        this.Templates = Yate.AST.make('block_templates');
+        this.Exprs = Yate.AST.make('block_exprs', exprs);
     },
 
     _getType: function() {

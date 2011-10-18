@@ -1,7 +1,7 @@
-Yate.AST.inlineVar = {
+Yate.AST.inline_var = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     action: function() {

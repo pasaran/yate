@@ -1,4 +1,4 @@
-Yate.AST.argList = {
+Yate.AST.arglist = {
 
     options: {
         mixin: 'items'

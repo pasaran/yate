@@ -8,7 +8,7 @@ Yate.AST.key = {
         }
 
         this.Kid = this.state.kid++;
-        this.Type = Yate.AST.functionType.KEY;
+        this.Type = Yate.AST.function_type.KEY;
 
         functions[name] = this;
     },

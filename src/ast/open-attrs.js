@@ -1,4 +1,4 @@
-Yate.AST.openAttrs = {
+Yate.AST.attrs_open = {
 
     _init: function(item) {
         this.Attrs = item.Attrs;

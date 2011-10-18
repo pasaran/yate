@@ -1,7 +1,7 @@
-Yate.AST.inlineExpr.js = function(o) {
+Yate.AST.inline_expr.js = function(o) {
     if (this.AsType) {
         var cast = Yate.AST.make('cast', this.AsType, this);
-        this.AsType = null; // Чтобы не зациклиться (cast.js() вызызовет inlineExpr.js()), снимаем флаг о том,
+        this.AsType = null; // Чтобы не зациклиться (cast.js() вызызовет inline_expr.js()), снимаем флаг о том,
                             // что нужно преобразование типов.
         return cast.js(o);
     } else {
@@ -13,8 +13,8 @@ Yate.AST.inlineExpr.js = function(o) {
 Yate.AST.inlineFunction.js = function() {
     var type = this.def.Type;
     switch (type) {
-        case Yate.AST.functionType.INTERNAL: return this._js('function_' + this.Name);
-        case Yate.AST.functionType.KEY: return this._js('usekey');
+        case Yate.AST.function_type.INTERNAL: return this._js('function_' + this.Name);
+        case Yate.AST.function_type.KEY: return this._js('usekey');
         default: return this._js();
     }
 };

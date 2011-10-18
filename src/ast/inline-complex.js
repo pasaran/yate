@@ -1,7 +1,7 @@
-Yate.AST.inlineComplex = {
+Yate.AST.inline_complex = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _getType: function() {

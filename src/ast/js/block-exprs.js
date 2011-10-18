@@ -1,4 +1,4 @@
-Yate.AST.blockExprs.js = function() {
+Yate.AST.block_exprs.js = function() {
     var params = {
         mode: (this.AsList) ? 'listitem' : 'output'
     };

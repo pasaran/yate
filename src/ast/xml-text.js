@@ -1,4 +1,4 @@
-Yate.AST.xmlText = {
+Yate.AST.xml_text = {
 
     options: {
         base: 'xml'

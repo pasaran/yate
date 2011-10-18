@@ -1,4 +1,4 @@
-Yate.AST.argListItem = {
+Yate.AST.arglist_item = {
 
     action: function() {
         var vars = this.parent.scope.vars;
@@ -8,7 +8,7 @@ Yate.AST.argListItem = {
         }
 
         this.Vid = this.state.vid++;
-        this.Type = Yate.AST.varType.ARGUMENT;
+        this.Type = Yate.AST.var_type.ARGUMENT;
 
         vars[name] = this;
     },

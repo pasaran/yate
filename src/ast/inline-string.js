@@ -1,7 +1,7 @@
-Yate.AST.inlineString = {
+Yate.AST.inline_string = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _type: Yate.Types.SCALAR,

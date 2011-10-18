@@ -1,7 +1,7 @@
 Yate.AST.jpath = {
 
     options: {
-        base: 'inlineExpr',
+        base: 'inline_expr',
         mixin: 'items'
     },
 

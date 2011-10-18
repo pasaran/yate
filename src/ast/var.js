@@ -5,12 +5,12 @@ Yate.AST.var_ = {
         var name = this.Name;
 
         var var_ = vars[name];
-        if (var_ && var_.Type != Yate.AST.varType.ARGUMENT) { // Переменная может переопределить аргумент.
+        if (var_ && var_.Type != Yate.AST.var_type.ARGUMENT) { // Переменная может переопределить аргумент.
             this.error('Повторное определение переменной ' + this.Name);
         }
 
         this.Vid = this.state.vid++;
-        this.Type = Yate.AST.varType.USER;
+        this.Type = Yate.AST.var_type.USER;
 
         vars[name] = this;
     },

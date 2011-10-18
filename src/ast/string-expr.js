@@ -1,7 +1,7 @@
-Yate.AST.stringExpr = {
+Yate.AST.string_expr = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(expr) {

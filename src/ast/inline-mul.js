@@ -1,4 +1,4 @@
-Yate.AST.inlineMul = {
+Yate.AST.inline_mul = {
 
     signature: {
         left: Yate.Types.SCALAR,
@@ -7,7 +7,7 @@ Yate.AST.inlineMul = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

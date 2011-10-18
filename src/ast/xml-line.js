@@ -1,4 +1,4 @@
-Yate.AST.xmlLine = {
+Yate.AST.xml_line = {
 
     options: {
         base: 'xml',
@@ -9,9 +9,9 @@ Yate.AST.xmlLine = {
         var that = this;
 
         this.iterate(function(item) {
-            if (item.is('xmlStart')) {
+            if (item.is('xml_start')) {
                 opened.push(item.Name);
-            } else if (item.is('xmlEnd')) {
+            } else if (item.is('xml_end')) {
                 var name = opened.pop();
                 if (!name) {
                     that.error('Закрывающий тег </' + item.Name + '> не был предварительно открыт');
@@ -24,7 +24,7 @@ Yate.AST.xmlLine = {
 
     isOpen: function() {
         var lastTag = this.lastTag();
-        if (lastTag && lastTag.is('xmlStart')) {
+        if (lastTag && lastTag.is('xml_start')) {
             lastTag.open = true;
             return true;
         }
@@ -33,7 +33,7 @@ Yate.AST.xmlLine = {
 
     lastTag: function() {
         var last = this.last();
-        if (last.is('xmlStart')) {
+        if (last.is('xml_start')) {
             return last;
         }
     }

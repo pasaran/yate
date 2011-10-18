@@ -1,33 +1,32 @@
-
-Yate.AST.blockExprs.options.js = {
+Yate.AST.block_exprs.options.js = {
     separator: '\n'
 };
 
-Yate.AST.blockTemplates.options.js = {
+Yate.AST.block_templates.options.js = {
     separator: '\n\n'
 };
 
-Yate.AST.blockDefs.options.js = {
+Yate.AST.block_defs.options.js = {
     separator: '\n\n'
 };
 
-Yate.AST.argList.options.js = {
+Yate.AST.arglist.options.js = {
     separator: ', '
 };
 
-Yate.AST.callArgs.options.js = {
+Yate.AST.callargs.options.js = {
     separator: ', '
 };
 
-Yate.AST.stringContent.options.js = {
+Yate.AST.string_content.options.js = {
     separator: ' + '
 };
 
-Yate.AST.inlineScalar.options.js = {
+Yate.AST.inline_scalar.options.js = {
     separator: ' + '
 };
 
-Yate.AST.xmlAttrs.options.js = {
+Yate.AST.xml_attrs.options.js = {
     separator$open: ',\n'
 };
 

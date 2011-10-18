@@ -1,7 +1,7 @@
-Yate.AST.inlineOp = {
+Yate.AST.inline_op = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     prepare: function() {

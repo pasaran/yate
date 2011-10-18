@@ -1,4 +1,4 @@
-Yate.AST.inlineAnd = {
+Yate.AST.inline_and = {
 
     signature: {
         left: Yate.Types.BOOLEAN,
@@ -7,7 +7,7 @@ Yate.AST.inlineAnd = {
     },
 
     options: {
-        base: 'inlineOp'
+        base: 'inline_op'
     }
 
 };

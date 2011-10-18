@@ -1,4 +1,4 @@
-Yate.AST.blockTemplates = {
+Yate.AST.block_templates = {
 
     options: {
         mixin: 'items'

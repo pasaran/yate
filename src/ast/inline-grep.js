@@ -1,7 +1,7 @@
-Yate.AST.inlineGrep = {
+Yate.AST.inline_grep = {
 
     options: {
-        base: 'inlineExpr'
+        base: 'inline_expr'
     },
 
     _init: function(expr, predicates) {
