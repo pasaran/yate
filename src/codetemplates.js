@@ -190,7 +190,7 @@ CodeTemplates._evalLine = function(line, data, method) {
     }
 
     return r.join('')
-        .replace(/^\s*/, '')
+        .replace(/^\s*/, '') // А нужно ли это вообще? Из-за этого портятся string_literal.
         .replace(/\s*$/, '');
 
 };
