@@ -12,15 +12,16 @@ Yate.AST.template = {
 
     prepare: function() {
         var body = this.Body;
+        var block = body.Block;
 
         if (body.AsList) {
-            body.cast();
+            block.cast();
         } else {
-            var type = body.type();
+            var type = block.type();
             if (type == Yate.Types.ARRAY || type == Yate.Types.OBJECT) {
-                body.cast(type);
+                block.cast(type);
             } else {
-                body.cast(Yate.Types.XML);
+                block.cast(Yate.Types.XML);
             }
         }
     }

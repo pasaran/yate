@@ -7,7 +7,7 @@ Yate.AST.stylesheet.js = function() {
     var predicates = this.state.predicates;
     var r = [];
     for (var i = 0, l = predicates.length; i < l; i++) {
-        r.push(predicates[i].js());
+        r.push( predicates[i].js() );
     }
     data.Predicates = r.join('\n\n');
 
@@ -18,19 +18,19 @@ Yate.AST.stylesheet.js = function() {
     for (var i = 0, l = jpaths.length; i < l; i++) {
         r.push(jpaths[i].compile());
     }
-    data.Jpaths = r.join('\n\n');
+    data.Jpaths = r.join('\n');
 
     // Сериализуем список всех шаблонов, функций и переменных.
 
-    var body = this.Body;
+    var block = this.Block;
 
-    data.Templates = body.Templates.js();
-    data.Defs = body.Defs.js();
+    data.Templates = block.Templates.js();
+    data.Defs = block.Defs.js();
 
     // Сериализуем двухуровневый каталог шаблонов. Первый уровень -- по моде, второй по последнему nametest'у.
 
     var matcher = {};
-    body.Templates.iterate(function(template) {
+    block.Templates.iterate(function(template) {
         addToMatcher(template);
     });
 
@@ -59,7 +59,14 @@ Yate.AST.stylesheet.js = function() {
             modeTemplates = matcher[mode] = {};
         }
 
-        var step = template.Jpath.lastName();
+        var selector = template.Selector;
+        var step;
+        if (selector.is('root')) {
+            step = '';
+        } else {
+            step = selector.lastName();
+        }
+
         var stepTemplates = modeTemplates[step];
         if (!stepTemplates) {
             stepTemplates = modeTemplates[step] = [];

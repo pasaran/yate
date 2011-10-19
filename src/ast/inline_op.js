@@ -14,6 +14,10 @@ Yate.AST.inline_op = {
         }
     },
 
+    isLocal: function() {
+        return this.Left.isLocal() || ( (this.Right) ? this.Right.isLocal() : true );
+    },
+
     _getType: function() {
         return this.signature.result;
     }

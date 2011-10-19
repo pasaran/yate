@@ -12,6 +12,10 @@ Yate.AST.inline_var = {
         return this.def.type();
     },
 
+    isLocal: function() {
+        return false;
+    },
+
     validate: function() {
         if (!this.def) {
             this.error('Undefined variable ' + this.Name);

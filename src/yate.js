@@ -10,10 +10,6 @@ parser.open({ filename: process.argv[2] });
 
 var ast = parser.match('stylesheet');
 
-console.log( CodeTemplates.fill('yate', 'stylesheet', '', ast, 'yate') );
-
-process.exit(0);
-
 // console.log(CodeTemplates.fill('yate', 'stylesheet', '', ast, 'yate'));
 
 // console.log( require('util').inspect(ast, true, null) );

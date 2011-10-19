@@ -410,17 +410,22 @@ Yate.AST.items = {
 
         if (!l) { return Yate.Types.SCALAR; } // FIXME: А нужно ли это? Может быть UNDEF сработает?
 
-        var type = items[0].type();
+        var currentId = items[0].id;
+        var currentType = items[0].type();
 
         for (var i = 1; i < l; i++) {
             var item = items[i];
-            type = Yate.Types.joinType(type, item.type());
-            if (type == Yate.Types.NONE) {
-                item.error('Несовместимые типы ' + this.id); // FIXME
+            var nextType = item.type();
+
+            var commonType = Yate.Types.joinType(currentType, nextType);
+            if (commonType == Yate.Types.NONE) {
+                item.error('Несовместимые типы ' + currentType + ' (' + currentId + ') и ' + nextType + ' (' + item.id + ')');
             }
+            currentId = item.id;
+            currentType = commonType;
         };
 
-        return type;
+        return currentType;
     },
 
     add: function(item) {
@@ -493,6 +498,16 @@ Yate.AST.items = {
         this.iterate(function(item) {
             item.cast(to);
         });
+    },
+
+    isLocal: function() {
+        var items = this.Items;
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( items[i].isLocal() ) {
+                return true;
+            }
+        }
+        return false;
     }
 
 };

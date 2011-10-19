@@ -103,7 +103,7 @@ Yate.Grammar.rules = {};
 Yate.Grammar.rules.stylesheet = {
 
     rule: function(ast) {
-        ast.Body = this.match('block');
+        ast.Block = this.match('block');
 
         if (!this.isEOF()) {
             this.error('EOF expected');
@@ -318,7 +318,7 @@ Yate.Grammar.rules.if_ = function(ast) {
 
 Yate.Grammar.rules.for_ = function(ast) {
     this.match('FOR');
-    ast.Expr = this.match('inline_expr'); // Здесь не имеет смысла писать inline_scalar, т.к. нужен nodeset.
+    ast.Selector = this.match('inline_expr'); // Здесь не имеет смысла писать inline_scalar, т.к. нужен nodeset.
     ast.Body = this.match('body');
 };
 
@@ -364,7 +364,7 @@ Yate.Grammar.rules.attr = function(ast) {
     var r;
     if (r = this.testAny([ '+=', '=' ])) {
         ast.Op = this.match(r);
-        ast.Expr = this.match('block_expr');
+        ast.Value = this.match('block_expr');
     } else {
         this.error('"=" or "+=" expected');
     }
@@ -412,7 +412,7 @@ Yate.Grammar.rules.scalar = function(ast) {
         return this.match('inline_scalar');
     } else {
         this.match('(');
-        ast.Body = this.match('block');
+        ast.Block = this.match('block');
         this.match(')');
     }
 };
@@ -848,21 +848,28 @@ Yate.Grammar.rules.inline_function = function(ast) {
 // JPath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// jpath := jpath_step+
+// jpath := jpath_steps
 
 Yate.Grammar.rules.jpath = {
 
     rule: function(ast) {
-        ast.add( this.match('jpath_step') );
-        while (this.test('jpath_step')) {
-            ast.add( this.match('jpath_step') );
-        }
+        ast.Steps = this.match('jpath_steps'); // FIXME: Зачем нужен этот промежуточное правило? Потому что items.js() не ходит в шаблоны,
+                                               //        а просто склеивает item.js().
     },
 
     options: {
         skipper: 'none'
     }
 
+};
+
+// jpath_steps := jpath_step+
+
+Yate.Grammar.rules.jpath_steps = function(ast) {
+    ast.add( this.match('jpath_step') );
+    while (this.test('jpath_step')) {
+        ast.add( this.match('jpath_step') );
+    }
 };
 
 // jpath_step := jpath_dots | jpath_nametest

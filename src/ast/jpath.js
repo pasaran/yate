@@ -1,11 +1,14 @@
 Yate.AST.jpath = {
 
     options: {
-        base: 'inline_expr',
-        mixin: 'items'
+        base: 'inline_expr'
     },
 
     _type: Yate.Types.NODESET,
+
+    isLocal: function() {
+        return true;
+    },
 
     action: function() {
         var key = this.yate(); // Каноническая запись jpath.
@@ -34,9 +37,11 @@ Yate.AST.jpath = {
         }
     },
 
+    // oncast: function() {},
+
     // Возвращаем значение последнего nametest'а или же ''.
     // Например, lastName(/foo/bar[id]) == 'bar', lastName(/) == ''.
-    lastName: function() {
+    lastName: function() { // FIXME: Унести это в jpath_steps?
         var steps = this.Steps;
         if (!steps) { return ''; }
         var l = steps.Items.length;

@@ -7,13 +7,17 @@ Yate.AST.jpath_predicate = {
 
         // Если этот jpath еще не хранится в state, то добаляем его туда.
         var pid = state.pkeys[key];
-        if (pid === undefined) {
+        if (!pid) {
             pid = state.pkeys[key] = state.pid++;
             state.predicates.push(this);
         }
 
         this.Pid = pid;
         this.Key = key;
+    },
+
+    isLocal: function() {
+        return this.Expr.isLocal();
     },
 
     prepare: function() {

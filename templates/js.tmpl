@@ -2,14 +2,14 @@ main
 
     function stylesheet(data) {
 
-        %Runtime
+#        %Runtime
 
-        var c0 = makeRoot(data);
+        var root = makeRoot(data);
         var a0 = { attrs: {} };
 
         %Stylesheet
 
-        return applyValue([ c0 ], '', a0);
+        return applyValue([ root ], '', a0);
     }
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -30,14 +30,14 @@ stylesheet
 
 template
 
-    // match %Jpath.Key : %Mode
+    // %Selector.Key %Mode
     var t%Tid = {
-        jpath: j%Jpath.Jid,
-        body: %Body:function
+        jpath: j%Selector.Jid,
+        body: %Body.Block:function
     };
 
-templateMode
-    '%Value'
+template_mode [ %Value != '' ]
+    #%Value
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -97,21 +97,21 @@ block:function-body
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineScalar:listitem
+inline_scalar:listitem
 
     r%{Rid}.push( %. );
 
-inlineScalar:output [ %type() == 'nodeset' && !%AsType ]
+inline_scalar:output [ %type() == 'nodeset' && !%AsType ]
 
     r%Rid = %.;
 
-inlineScalar:output
+inline_scalar:output
 
     r%Rid += %.;
 
 # FIXME: Нужен ли этот шаблон?
 
-inlineScalar
+inline_scalar
 
     %Expr
 
@@ -312,7 +312,7 @@ for_:output
     var items%Cid = %Expr;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
         var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body
+        %Body.Block
     }
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -351,81 +351,86 @@ attr:output
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineOr
+inline_or
     %Left || %Right
 
-inlineAnd
+inline_and
     %Left && %Right
 
-inlineNot
+inline_not
     !%Left
 
-inlineEq
+inline_eq
     %Left %Op %Right
 
-inlineRel
+inline_rel
     %Left %Op %Right
 
-inlineAdd
+inline_add
     %Left %Op %Right
 
-inlineMul
+inline_mul
     %Left %Op %Right
 
-inlineUnary
+inline_unary
     -%Expr
 
-inlineUnion
+inline_union
     join(%Left, %Right)
 
-inlineComplex
+inline_complex
     (%Expr)
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineFunction [ %Kid !== '' ]
+inline_function [ %Kid !== '' ]
     k%Kid(%Args)
 
-inlineFunction [ %Fid !== '' ]
+inline_function [ %Fid !== '' ]
     f%Fid(c%Cid, index, count %Args)
 
-inlineFunction [ %Name == 'true' ]
+inline_function [ %Name == 'true' ]
     true
 
-inlineFunction [ %Name == 'false' ]
+inline_function [ %Name == 'false' ]
     false
 
-inlineFunction [ %Name == 'name' ]
+inline_function [ %Name == 'name' ]
     c%{Cid}.name
 
-inlineFunction [ %Name == 'position' ]
+inline_function [ %Name == 'position' ]
     index
 
-inlineFunction [ %Name == 'count' ]
+inline_function [ %Name == 'count' ]
     count
 
-inlineFunction [ %Name == 'slice' ]
+inline_function [ %Name == 'slice' ]
     slice(%Args)
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-inlineVar
+inline_var
     v%def.Vid
 
-inlineNumber
+inline_number
     %Value
 
 string
     %String
 
-jpath [ %Context ]
-    selectContext(j%Jid, %Context)
+jpath_context
+    selectContext(j%JPath.Jid, %Context:context)
+
+jpath:context
+    %Jid
+
+root:context
+    root
 
 jpath
     select(j%Jid, c%Cid)
 
-predicate
-
+jpath_predicate
     // %Key
     var p%Pid = function(c%Cid, index, count) {
         return %Expr;
@@ -433,20 +438,15 @@ predicate
 
 jpaths_item ( %Predicates = '[]', %Absolute = '0' )
 
-    // %Jid. %Key
-    var j%Jid = {
-        steps: %Steps,
-        preds: %Predicates,
-        abs: %Absolute
-    };
+    var j%Jid = [ %Actions ]; // %Key
 
-argListItem
+arglist_item
     , v%Vid
 
-argListItemDefault
+arglist_item_default
     v%Vid = v%Vid || %Default;
 
-inlineString
+inline_string
     %Value
 
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
@@ -458,51 +458,52 @@ cast [ %From == 'nodeset' && %To == 'boolean' ]
 cast
     %Expr
 
-stringExpr
+string_expr
     %Expr
 
-stringLiteral
+string_literal
     '%Value'
 
-closeAttrs:listitem
+attrs_close:listitem
 
     %.:output
 
-closeAttrs:output
+attrs_close:output
 
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
 
-openAttrs:listitem
+attrs_open:listitem
 
     %.:output
 
-openAttrs:output
+attrs_open:output
 
     a%{Rid}.attrs = {
         %Attrs:open
-    }
+    };
     a%{Rid}.open = true;
 
-xmlAttr:open
+xml_attr:open
 
     '%Name': %Value
 
 quote
     %{Mode}Quote(%Expr)
 
-inlineGrep
+inline_filter
     grep(%Expr, p%Predicate.Pid)
-
-inlineIndex
-    byIndex(%Expr, %Index)
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
-xmlLine:listitem
+xml_line:listitem
 
     r%{Rid}.push( %. );
 
-xmlLine:output
+xml_line:output
 
     r%Rid += %.;
+
+root
+
+    c0
 

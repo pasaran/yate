@@ -11,6 +11,10 @@ Yate.AST.jpath_context = {
 
     _type: Yate.Types.NODESET,
 
+    isLocal: function() {
+        return this.Context.isLocal();
+    },
+
     validate: function() {
         if (!this.Context.type( Yate.Types.NODESET )) {
             this.Context.error('Type should be NODESET');
