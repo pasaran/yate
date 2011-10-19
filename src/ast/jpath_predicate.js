@@ -21,7 +21,11 @@ Yate.AST.jpath_predicate = {
     },
 
     prepare: function() {
-        this.Expr.cast(Yate.Types.BOOLEAN);
+        if (this.isLocal()) {
+            this.Expr.cast( Yate.Types.BOOLEAN );
+        } else {
+            this.Expr.cast( Yate.Types.SCALAR );
+        }
     },
 
     validate: function() {
