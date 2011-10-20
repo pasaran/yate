@@ -78,18 +78,42 @@ Yate.AST.block_exprs = {
 
         var that = this;
 
+        var items = this.Items;
+        for (var i = 0, l = items.length; i < l - 1; i++) {
+            var item = items[i];
+            var next = items[i + 1];
+
+            var isOpen = item.isOpen();
+
+            o.push(item);
+
+            if (isOpen && next.isOpen() === undefined) {
+                item.lastTag().open = true;
+                o.push( this.make( 'attrs_open', item.lastTag() ) );
+            }
+
+            if (isOpen === undefined && !next.isOpen()) {
+                o.push( this.make('attrs_close') );
+            }
+
+        }
+        o.push( this.last() );
+
+        /*
         this.iterate(function(item) {
             var open = item.isOpen();
+            console.log( item.id, open, last );
             if (open || last !== false && open === false) {
             // if (last === undefined && open !== undefined) {
-                o.push(that.make('attrs_close'));
+                // o.push(that.make('attrs_close'));
             }
             o.push(item);
             if (open) {
-                o.push(that.make('attrs_open', item.lastTag()));
+                // o.push(that.make('attrs_open', item.lastTag()));
             }
             last = open;
         });
+        */
 
         this.Items = o;
 

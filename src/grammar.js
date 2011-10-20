@@ -180,9 +180,12 @@ Yate.Grammar.rules.body = function(ast) {
 // Declarations: templates, functions, keys, vars
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// template := ( root | jpath ) template_mode? arglist? body
+// template := 'match'? ( root | jpath ) template_mode? arglist? body
 
 Yate.Grammar.rules.template = function(ast) {
+    if (this.test('MATCH')) {
+        this.match('MATCH');
+    }
     ast.Selector = this.matchAny([ 'root', 'jpath' ]);
     ast.Mode = this.match('template_mode')
     if (this.test('(')) {
@@ -232,9 +235,12 @@ Yate.Grammar.rules.arglist_item = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// function_ := QNAME arglist body
+// function_ := 'func'? QNAME arglist body
 
 Yate.Grammar.rules.function_ = function(ast) {
+    if (this.test('FUNC')) {
+        this.match('FUNC');
+    }
     ast.Name = this.match('QNAME');
     ast.Args = this.match('arglist');
     ast.Body = this.match('body');

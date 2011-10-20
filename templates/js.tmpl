@@ -93,7 +93,8 @@ block:function-body
 
 *:prologue [ !%AsList ]
 
-    var r%Rid = '', a%Rid = a%Rid || { attrs: {} };
+    var r%Rid = '';
+    a%Rid || a%Rid = { attrs: {} };
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -327,11 +328,14 @@ apply:listitem
 
 apply:output [ !%Args.empty() ]
 
-    r%Rid += applyValue(%Expr, %Mode, a%Rid);
+    r%Rid += applyValue(%Expr, %Mode:string, a%Rid);
 
 apply:output
 
     r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
+
+template_mode:string
+    '%Value'
 
 # ------------------------------------------------------------------------------------------------------------------- #
 

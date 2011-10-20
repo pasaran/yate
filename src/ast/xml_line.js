@@ -23,12 +23,7 @@ Yate.AST.xml_line = {
     },
 
     isOpen: function() {
-        var lastTag = this.lastTag();
-        if (lastTag && lastTag.is('xml_start')) {
-            lastTag.open = true;
-            return true;
-        }
-        return false;
+        return !!this.lastTag();
     },
 
     lastTag: function() {
