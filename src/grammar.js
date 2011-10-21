@@ -219,7 +219,7 @@ Yate.Grammar.rules.arglist = function(ast) {
     this.match(')');
 };
 
-// arglist_item := ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inline_scalar )?
+// arglist_item := ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inline_expr )?
 
 Yate.Grammar.rules.arglist_item = function(ast) {
     var r;
@@ -229,7 +229,7 @@ Yate.Grammar.rules.arglist_item = function(ast) {
     ast.Name = this.match('QNAME');
     if (this.test('=')) {
         this.match('=');
-        ast.Default = this.match('inline_scalar');
+        ast.Default = this.match('inline_expr');
     }
 };
 
@@ -248,15 +248,15 @@ Yate.Grammar.rules.function_ = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// key := 'key' QNAME '(' inline_scalar ',' inline_scalar ')' body
+// key := 'key' QNAME '(' inline_expr ',' inline_expr ')' body
 
 Yate.Grammar.rules.key = function(ast) {
     this.match('KEY'); // FIXME: Подумать, нельзя ли отказаться от ключевого слова key.
     ast.Name = this.match('QNAME');
     this.match('(');
-    ast.Nodes = this.match('inline_scalar');
+    ast.Nodes = this.match('inline_expr');
     this.match(',');
-    ast.Use = this.match('inline_scalar');
+    ast.Use = this.match('inline_expr');
     this.match(')');
     ast.Body = this.match('body');
 };
@@ -310,7 +310,7 @@ Yate.Grammar.rules.block_expr = function() {
 
 Yate.Grammar.rules.if_ = function(ast) {
     this.match('IF');
-    ast.Condition = this.match('inline_scalar');
+    ast.Condition = this.match('inline_expr');
     ast.Then = this.match('body');
     if (this.test('ELSE')) {
         this.match('ELSE');
@@ -324,7 +324,7 @@ Yate.Grammar.rules.if_ = function(ast) {
 
 Yate.Grammar.rules.for_ = function(ast) {
     this.match('FOR');
-    ast.Selector = this.match('inline_expr'); // Здесь не имеет смысла писать inline_scalar, т.к. нужен nodeset.
+    ast.Selector = this.match('inline_expr');
     ast.Body = this.match('body');
 };
 
@@ -346,15 +346,15 @@ Yate.Grammar.rules.apply = function(ast) {
     }
 };
 
-// callargs := '(' ( inline_scalar ( ',' inline_scalar )* )? ')'
+// callargs := '(' ( inline_expr ( ',' inline_expr )* )? ')'
 
 Yate.Grammar.rules.callargs = function(ast) {
     this.match('(');
-    if (this.test('inline_scalar')) {
-        ast.add( this.match('inline_scalar') );
+    if (this.test('inline_expr')) {
+        ast.add( this.match('inline_expr') );
         while (this.test(',')) {
             this.match(',');
-            ast.add( this.match('inline_scalar') );
+            ast.add( this.match('inline_expr') );
         }
     }
     this.match(')');
@@ -401,21 +401,21 @@ Yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать ин�
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// pair := inline_scalar ':' block_expr
+// pair := inline_expr ':' block_expr
 
 Yate.Grammar.rules.pair = function(ast) {
-    ast.Key = this.match('inline_scalar');
+    ast.Key = this.match('inline_expr');
     this.match(':');
     ast.Value = this.match('block_expr');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// scalar := inline_scalar | '(' block ')'
+// scalar := inline_expr | '(' block ')'
 
 Yate.Grammar.rules.scalar = function(ast) {
-    if (this.test('inline_scalar')) {
-        return this.match('inline_scalar');
+    if (this.test('inline_expr')) {
+        return this.match('inline_expr');
     } else {
         this.match('(');
         ast.Block = this.match('block');
@@ -539,28 +539,6 @@ Yate.Grammar.rules.xml_attr = function(ast) {
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// inline_scalar values
-// ----------------------------------------------------------------------------------------------------------------- //
-
-// inline_scalar := inline_expr+
-
-Yate.Grammar.rules.inline_scalar = { // FIXME: Кажется, нужно поменять местами inline_expr и inline_scalar.
-
-    rule: function(ast) {
-        ast.add( this.match('inline_expr') );
-        while (this.test('inline_expr')) {
-            ast.add( this.match('inline_expr') );
-        }
-    },
-
-    options: {
-        skipper: 'spaces'
-    }
-
-};
-
-
-// ----------------------------------------------------------------------------------------------------------------- //
 // Inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -628,16 +606,25 @@ Yate.Grammar.rules.inline_rel = function(ast) {
     }
 };
 
-// inline_add := inline_mul ( ( '+' | '-' ) inline_add )?
+// inline_add := inline_scalar ( ( '+' | '-' ) inline_add )?
 
 Yate.Grammar.rules.inline_add = function(ast) {
-    ast.Left = this.match('inline_mul');
+    ast.Left = this.match('inline_scalar');
     var op;
     if (op = this.testAny([ '+', '-' ])) { // FIXME: Проблемы с порядком выполнения. Например, 1 - 2 - 3 превратится в -(1, -(2, 3)).
         ast.Op = this.match(op);
         ast.Right = this.match('inline_add');
     } else {
         return ast.Left;
+    }
+};
+
+// inline_scalar := inline_mul+
+
+Yate.Grammar.rules.inline_scalar = function(ast) {
+    ast.add( this.match('inline_mul') );
+    while (this.test('inline_mul')) {
+        ast.add( this.match('inline_mul') );
     }
 };
 
@@ -791,7 +778,7 @@ Yate.Grammar.rules.string_content = function(ast, delim, esc) { // Второй 
             }
             this.match('{');
             this.skip('spaces');
-            ast.add( Yate.AST.make('string_expr', this.match('inline_scalar')) );
+            ast.add( Yate.AST.make('string_expr', this.match('inline_expr')) );
             this.skip('spaces');
             this.match('}');
 
@@ -820,13 +807,13 @@ Yate.Grammar.rules.string_content = function(ast, delim, esc) { // Второй 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// inline_complex := '(' inline_scalar ')'
+// inline_complex := '(' inline_expr ')'
 
 Yate.Grammar.rules.inline_complex = {
 
     rule: function(ast) {
         this.match('(');
-        ast.Expr = this.match('inline_scalar');
+        ast.Expr = this.match('inline_expr');
         this.match(')');
     }
 
@@ -908,13 +895,13 @@ Yate.Grammar.rules.jpath_predicates = function(ast) {
     }
 };
 
-// jpath_predicate := '[' inline_scalar ']'
+// jpath_predicate := '[' inline_expr ']'
 
 Yate.Grammar.rules.jpath_predicate = {
 
     rule: function(ast) {
         this.match('[');
-        ast.Expr = this.match('inline_scalar'); // FIXME: Почему не inline_expr?
+        ast.Expr = this.match('inline_expr');
         this.match(']');
     },
 
