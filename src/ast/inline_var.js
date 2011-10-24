@@ -12,9 +12,7 @@ yate.AST.inline_var = {
         return this.def.type();
     },
 
-    isLocal: function() {
-        return false;
-    },
+    isLocal: yate.false,
 
     validate: function() {
         if (!this.def) {

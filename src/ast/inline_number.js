@@ -4,9 +4,7 @@ yate.AST.inline_number = {
         base: 'inline_expr'
     },
 
-    isLocal: function() {
-        return false;
-    },
+    isLocal: yate.false,
 
     _type: yate.types.SCALAR
 

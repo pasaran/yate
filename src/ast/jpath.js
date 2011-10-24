@@ -6,9 +6,7 @@ yate.AST.jpath = {
 
     _type: yate.types.NODESET,
 
-    isLocal: function() {
-        return true;
-    },
+    isLocal: yate.true,
 
     hasGlobalPredicate: function() {
         var steps = this.Steps.Items;
