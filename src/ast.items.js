@@ -100,6 +100,8 @@ yate.AST.items.toResult = function(result) {
     });
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
 yate.AST.items.toString = function() {
     if (this.Items.length > 0) {
         var r = this.Items.join('\n').replace(/^/gm, '    ');
@@ -118,13 +120,57 @@ yate.AST.items.oncast = function(to) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.items.isLocal = function() {
+yate.AST.items.someIs = function(callback) {
     var items = this.Items;
-    for (var i = 0, l = items.length; i < l; i++) {
-        if ( items[i].isLocal() ) {
-            return true;
+
+    if (typeof callback === 'function') {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if (callback( items[i] )) { return true; }
+        }
+    } else {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( items[i][callback]() ) { return true; }
         }
     }
+
     return false;
+};
+
+yate.AST.items.allIs = function(callback) {
+    var items = this.Items;
+
+    if (typeof callback === 'function') {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( !callback( items[i] ) ) { return false; }
+        }
+    } else {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( !items[i][callback]() ) { return false; }
+        }
+    }
+
+    return true;
+};
+
+yate.AST.items.noneIs = function(callback) {
+    var items = this.Items;
+
+    if (typeof callback === 'function') {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( callback( items[i] ) ) { return false; }
+        }
+    } else {
+        for (var i = 0, l = items.length; i < l; i++) {
+            if ( items[i][callback]() ) { return false; }
+        }
+    }
+
+    return true;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.AST.items.isLocal = function() {
+    return this.someIs('isLocal');
 };
 
