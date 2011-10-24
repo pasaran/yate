@@ -4,7 +4,7 @@
 //
 // ################################################################################################################# //
 
-Yate.Parser = {
+yate.Parser = {
 
     _patterns: {},
     _skippers: {},
@@ -17,7 +17,7 @@ Yate.Parser = {
 // Init
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.init = function(grammar) {
+yate.Parser.init = function(grammar) {
     this._addTokens(grammar.tokens);
     this._addKeywords(grammar.keywords);
     this._addRules(grammar.rules);
@@ -26,20 +26,20 @@ Yate.Parser.init = function(grammar) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._addTokens = function(tokens) {
+yate.Parser._addTokens = function(tokens) {
     tokens = tokens || {};
     for (var id in tokens) {
         this._addToken(id, tokens[id]);
     }
 };
 
-Yate.Parser._addToken = function(id, token) {
+yate.Parser._addToken = function(id, token) {
     token = this._makeToken(id, token);
     this._patterns[id.toUpperCase()] = token;
     return token;
 };
 
-Yate.Parser._makeToken = function(id, token) {
+yate.Parser._makeToken = function(id, token) {
     if (typeof token == 'string') {
         var l = token.length;
         return function() {
@@ -71,7 +71,7 @@ Yate.Parser._makeToken = function(id, token) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._addKeywords = function(keywords) {
+yate.Parser._addKeywords = function(keywords) {
     keywords = keywords || [];
     for (var i = 0, l = keywords.length; i < l; i++) {
         var keyword = keywords[i];
@@ -81,14 +81,14 @@ Yate.Parser._addKeywords = function(keywords) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._addRules = function(rules) {
+yate.Parser._addRules = function(rules) {
     rules = rules || {};
     for (var id in rules) {
         this._addRule(id, rules[id]);
     }
 };
 
-Yate.Parser._addRule = function(id, rule) {
+yate.Parser._addRule = function(id, rule) {
     if (typeof rule == 'function') {
         this._patterns[id] = this._makeRule(id, rule);
     } else {
@@ -96,7 +96,7 @@ Yate.Parser._addRule = function(id, rule) {
     }
 };
 
-Yate.Parser._makeRule = function(id, rule, options) {
+yate.Parser._makeRule = function(id, rule, options) {
     options = options || {};
 
     var that = this;
@@ -117,26 +117,26 @@ Yate.Parser._makeRule = function(id, rule, options) {
     return wrapper;
 };
 
-Yate.Parser._makeAST = function(id) {
-    var ast = Yate.AST.make(id);
+yate.Parser._makeAST = function(id) {
+    var ast = yate.AST.make(id);
     ast.where = this._getPos();
     return ast;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._addSkippers = function(skippers) {
+yate.Parser._addSkippers = function(skippers) {
     skippers = skippers || {};
     for (var id in skippers) {
         this._addSkipper(id, skippers[id]);
     }
 };
 
-Yate.Parser._addSkipper = function(id, skipper) {
+yate.Parser._addSkipper = function(id, skipper) {
     this._skippers[id] = this._makeSkipper(id, skipper);
 };
 
-Yate.Parser._makeSkipper = function(id, skipper) {
+yate.Parser._makeSkipper = function(id, skipper) {
     if (skipper instanceof RegExp) {
         return function() {
             var r = skipper.exec(this.current());
@@ -158,7 +158,7 @@ Yate.Parser._makeSkipper = function(id, skipper) {
 // Open
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.open = function(o) {
+yate.Parser.open = function(o) {
     var input = o.input;
 
     if (!input) {
@@ -176,26 +176,26 @@ Yate.Parser.open = function(o) {
 // Input manipulations
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.current = function(n) {
+yate.Parser.current = function(n) {
     return (n) ? this._current.substr(0, n) : this._current;
 };
 
-Yate.Parser.next = function(n) {
+yate.Parser.next = function(n) {
     this._x += n;
     this._current = this._current.substr(n);
 };
 
-Yate.Parser.nextLine = function(n) {
+yate.Parser.nextLine = function(n) {
     this._x = 0;
     this._y += (n || 1);
     this._current = this._lines[this._y];
 };
 
-Yate.Parser.isEOL = function() {
+yate.Parser.isEOL = function() {
     return /^\s*(\/\/.*)?$/.test(this.current());
 };
 
-Yate.Parser.eol = function() {
+yate.Parser.eol = function() {
     if (this.isEOL()) {
         this.nextLine();
         this.skip();
@@ -204,7 +204,7 @@ Yate.Parser.eol = function() {
     }
 };
 
-Yate.Parser.isEOF = function() {
+yate.Parser.isEOF = function() {
     return (this._current === undefined);
 };
 
@@ -212,7 +212,7 @@ Yate.Parser.isEOF = function() {
 // Errors
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.error = function(error) {
+yate.Parser.error = function(error) {
     error = error || 'Unknown error';
 
     var msg = 'SYNTAX ERROR: ' + error + '\n';
@@ -222,7 +222,7 @@ Yate.Parser.error = function(error) {
 };
 
 // Этот метод нужен для того, чтобы показать, что правило не смогло правильно сматчиться и нужно делать backtrace.
-Yate.Parser.backtrace = function(error) {
+yate.Parser.backtrace = function(error) {
     error = error || this.id + ' expected';
 
     throw 'PARSE ERROR: ' + error;
@@ -230,7 +230,7 @@ Yate.Parser.backtrace = function(error) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._where = function(pos) {
+yate.Parser._where = function(pos) {
     pos = pos || this;
 
     var where = 'at (' + (pos._x + 1) + ', ' + (pos._y + 1) + ')';
@@ -244,7 +244,7 @@ Yate.Parser._where = function(pos) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
-Yate.Parser.skip = function(id) {
+yate.Parser.skip = function(id) {
     id = id || this._skipper;
     var skipper = this._skippers[id];
     var r = skipper.call(this);
@@ -253,7 +253,7 @@ Yate.Parser.skip = function(id) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._$ = function(id) {
+yate.Parser._$ = function(id) {
     var pattern = this._patterns[id];
     if (!pattern) {
         pattern = this._addToken(id, id);
@@ -265,7 +265,7 @@ Yate.Parser._$ = function(id) {
 // Test / Match
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.test = function(id) {
+yate.Parser.test = function(id) {
     var state = this._getState();
     var r = true;
     try {
@@ -279,7 +279,7 @@ Yate.Parser.test = function(id) {
     return r;
 };
 
-Yate.Parser.testAny = function(ids) {
+yate.Parser.testAny = function(ids) {
     for (var i = 0, l = ids.length; i < l; i++) {
         var id = ids[i];
         if (this.test(id)) {
@@ -289,7 +289,7 @@ Yate.Parser.testAny = function(ids) {
     return false;
 };
 
-Yate.Parser.testAll = function(ids) {
+yate.Parser.testAll = function(ids) {
     var state = this._getState();
     var r = true;
     try {
@@ -309,7 +309,7 @@ Yate.Parser.testAll = function(ids) {
 // match('rule', 42)
 // match({ rule: 'rule', options: {} }, 42)
 
-Yate.Parser.match = function(id) {
+yate.Parser.match = function(id) {
     var options = {};
     if (typeof id == 'object') {
         options = id.options;
@@ -322,7 +322,7 @@ Yate.Parser.match = function(id) {
     return r;
 };
 
-Yate.Parser.matchAny = function(ids) {
+yate.Parser.matchAny = function(ids) {
     for (var i = 0, l = ids.length; i < l; i++) {
         var id = ids[i];
         if (this.test(id)) {
@@ -337,11 +337,11 @@ Yate.Parser.matchAny = function(ids) {
 // Getters / Setters
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser.getSkipper = function() {
+yate.Parser.getSkipper = function() {
     return this._skipper;
 };
 
-Yate.Parser.setSkipper = function(id) {
+yate.Parser.setSkipper = function(id) {
     var current = this._skipper;
     if (id) {
         this._skipper = id;
@@ -352,12 +352,12 @@ Yate.Parser.setSkipper = function(id) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._setState = function(state) {
+yate.Parser._setState = function(state) {
     this._setPos(state.pos);
     this.setSkipper(state.skipper);
 };
 
-Yate.Parser._getState = function() {
+yate.Parser._getState = function() {
     return {
         pos: this._getPos(),
         skipper: this.getSkipper()
@@ -366,13 +366,13 @@ Yate.Parser._getState = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Parser._setPos = function(pos) {
+yate.Parser._setPos = function(pos) {
     this._x = pos._x;
     this._y = pos._y;
     this._current = this._lines[this._y].substr(this._x);
 };
 
-Yate.Parser._getPos = function() {
+yate.Parser._getPos = function() {
     return {
         _x: this._x,
         _y: this._y

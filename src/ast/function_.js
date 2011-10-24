@@ -1,4 +1,4 @@
-Yate.AST.function_ = {
+yate.AST.function_ = {
 
     options: {
         locals: {
@@ -14,13 +14,13 @@ Yate.AST.function_ = {
         }
 
         this.Fid = this.state.fid++;
-        this.Type = Yate.AST.function_type.USER;
+        this.Type = yate.AST.function_type.USER;
 
         functions[name] = this;
     },
 
     validate: function() {
-        if (this.Body.type() === Yate.Types.UNDEF) {
+        if (this.Body.type() === yate.Types.UNDEF) {
             this.error('Undefined type of return value');
         }
     },

@@ -1,4 +1,4 @@
-Yate.AST.template = {
+yate.AST.template = {
 
     options: {
         locals: {
@@ -18,10 +18,10 @@ Yate.AST.template = {
             block.cast();
         } else {
             var type = block.type();
-            if (type == Yate.Types.ARRAY || type == Yate.Types.OBJECT) {
+            if (type == yate.Types.ARRAY || type == yate.Types.OBJECT) {
                 block.cast(type);
             } else {
-                block.cast(Yate.Types.XML);
+                block.cast(yate.Types.XML);
             }
         }
     }

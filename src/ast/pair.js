@@ -1,9 +1,9 @@
-Yate.AST.pair = {
+yate.AST.pair = {
 
-    _type: Yate.Types.PAIR,
+    _type: yate.Types.PAIR,
 
     prepare: function() {
-        this.Key.cast(Yate.Types.SCALAR);
+        this.Key.cast(yate.Types.SCALAR);
         this.Value.toValue();
     }
 

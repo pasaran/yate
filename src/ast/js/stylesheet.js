@@ -1,4 +1,4 @@
-Yate.AST.stylesheet.js = function() {
+yate.AST.stylesheet.js = function() {
 
     var data = {};
 

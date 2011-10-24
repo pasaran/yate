@@ -1,4 +1,4 @@
-Yate.AST.for_ = {
+yate.AST.for_ = {
 
     options: {
         base: 'expr'
@@ -7,7 +7,7 @@ Yate.AST.for_ = {
     _getType: function() {
         var type = this.Body.type();
 
-        return Yate.Types.joinType(type, type);
+        return yate.Types.joinType(type, type);
     },
 
     oncast: function(to) {

@@ -1,4 +1,4 @@
-Yate.AST.stylesheet = {
+yate.AST.stylesheet = {
 
     options: {
         locals: {

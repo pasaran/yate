@@ -1,6 +1,6 @@
-Yate.AST.inline_expr.js = function(o) {
+yate.AST.inline_expr.js = function(o) {
     if (this.AsType) {
-        var cast = Yate.AST.make('cast', this.AsType, this);
+        var cast = yate.AST.make('cast', this.AsType, this);
         this.AsType = null; // Чтобы не зациклиться (cast.js() вызызовет inline_expr.js()), снимаем флаг о том,
                             // что нужно преобразование типов.
         return cast.js(o);
@@ -10,25 +10,25 @@ Yate.AST.inline_expr.js = function(o) {
 };
 
 /*
-Yate.AST.inlineFunction.js = function() {
+yate.AST.inlineFunction.js = function() {
     var type = this.def.Type;
     switch (type) {
-        case Yate.AST.function_type.INTERNAL: return this._js('function_' + this.Name);
-        case Yate.AST.function_type.KEY: return this._js('usekey');
+        case yate.AST.function_type.INTERNAL: return this._js('function_' + this.Name);
+        case yate.AST.function_type.KEY: return this._js('usekey');
         default: return this._js();
     }
 };
 */
 
 /*
-Yate.AST.inlineString.js = function() {
+yate.AST.inlineString.js = function() {
     var r = [];
     this.toResult(r);
 
     for (var i = 0, l = r.length; i < l; i++) {
         var item = r[i];
         if (typeof item == 'string') {
-            r[i] = Yate.Common.quote(item);
+            r[i] = yate.Common.quote(item);
         } else {
             r[i] = item.js();
         }

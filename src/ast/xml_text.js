@@ -1,4 +1,4 @@
-Yate.AST.xml_text = {
+yate.AST.xml_text = {
 
     options: {
         base: 'xml'
@@ -6,7 +6,7 @@ Yate.AST.xml_text = {
 
     prepare: function() {
         this.trigger('set', 'mode', 'text');
-        this.Text.cast(Yate.Types.SCALAR);
+        this.Text.cast(yate.Types.SCALAR);
     },
 
     toResult: function(result) {

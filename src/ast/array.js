@@ -1,6 +1,6 @@
-Yate.AST.array = {
+yate.AST.array = {
 
-    _type: Yate.Types.ARRAY,
+    _type: yate.Types.ARRAY,
 
     action: function() {
         this.Block.AsList = true;

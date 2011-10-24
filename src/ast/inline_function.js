@@ -1,4 +1,4 @@
-Yate.AST.inline_function = {
+yate.AST.inline_function = {
 
     options: {
         base: 'inline_expr'
@@ -11,9 +11,9 @@ Yate.AST.inline_function = {
     action: function() {
         var def = this.def = this.scope.findFunction(this.Name);
         if (def) {
-            if (def.Type == Yate.AST.function_type.USER) {
+            if (def.Type == yate.AST.function_type.USER) {
                 this.Fid = def.Fid;
-            } else if (def.Type == Yate.AST.function_type.KEY) {
+            } else if (def.Type == yate.AST.function_type.KEY) {
                 this.Kid = def.Kid;
             }
         }
@@ -23,17 +23,17 @@ Yate.AST.inline_function = {
         var def = this.def;
         var args = this.Args.Items;
 
-        if (def.Type == Yate.AST.function_type.KEY) {
-            args[0].cast(Yate.Types.SCALAR);
-        } else if (def.Type == Yate.AST.function_type.INTERNAL) {
+        if (def.Type == yate.AST.function_type.KEY) {
+            args[0].cast(yate.Types.SCALAR);
+        } else if (def.Type == yate.AST.function_type.INTERNAL) {
             var argTypes = def._argTypes;
             for (var i = 0, l = args.length; i < l; i++) {
-                args[0].cast(argTypes[i] || Yate.Types.SCALAR);
+                args[0].cast(argTypes[i] || yate.Types.SCALAR);
             }
-        } else if (def.Type == Yate.AST.function_type.USER) {
+        } else if (def.Type == yate.AST.function_type.USER) {
             var defArgs = def.Args.Items;
             for (var i = 0, l = args.length; i < l; i++) {
-                args[0].cast(defArgs[i].Typedef || Yate.Types.SCALAR);
+                args[0].cast(defArgs[i].Typedef || yate.Types.SCALAR);
             }
         }
     },

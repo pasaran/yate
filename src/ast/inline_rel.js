@@ -1,9 +1,9 @@
-Yate.AST.inline_rel = {
+yate.AST.inline_rel = {
 
     signature: {
-        left: Yate.Types.SCALAR,
-        right: Yate.Types.SCALAR,
-        result: Yate.Types.BOOLEAN
+        left: yate.Types.SCALAR,
+        right: yate.Types.SCALAR,
+        result: yate.Types.BOOLEAN
     },
 
     options: {

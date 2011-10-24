@@ -1,10 +1,10 @@
-Yate.AST.string_content = {
+yate.AST.string_content = {
 
     options: {
         mixin: 'items'
     },
 
-    _type: Yate.Types.SCALAR
+    _type: yate.Types.SCALAR
 
 };
 

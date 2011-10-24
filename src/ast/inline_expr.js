@@ -1,4 +1,4 @@
-Yate.AST.inline_expr = {
+yate.AST.inline_expr = {
 
     options: {
         base: 'expr'

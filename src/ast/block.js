@@ -1,4 +1,4 @@
-Yate.AST.block = {
+yate.AST.block = {
 
     options: {
         locals: {
@@ -8,9 +8,9 @@ Yate.AST.block = {
     },
 
     _init: function(exprs) {
-        this.Defs = Yate.AST.make('block_defs');
-        this.Templates = Yate.AST.make('block_templates');
-        this.Exprs = Yate.AST.make('block_exprs', exprs);
+        this.Defs = yate.AST.make('block_defs');
+        this.Templates = yate.AST.make('block_templates');
+        this.Exprs = yate.AST.make('block_exprs', exprs);
     },
 
     _getType: function() {

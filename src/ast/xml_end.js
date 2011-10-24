@@ -1,4 +1,4 @@
-Yate.AST.xml_end = {
+yate.AST.xml_end = {
 
     options: {
         base: 'xml'

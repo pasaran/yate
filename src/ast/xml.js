@@ -1,10 +1,10 @@
-Yate.AST.xml = {
+yate.AST.xml = {
 
     options: {
         base: 'expr'
     },
 
-    _type: Yate.Types.XML
+    _type: yate.Types.XML
 
 };
 

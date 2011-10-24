@@ -1,4 +1,4 @@
-Yate.AST.jpath_nametest = {
+yate.AST.jpath_nametest = {
 
     hasGlobalPredicate: function() {
         var predicates = this.Predicates;

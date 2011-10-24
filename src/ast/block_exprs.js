@@ -1,4 +1,4 @@
-Yate.AST.block_exprs = {
+yate.AST.block_exprs = {
 
     options: {
         mixin: 'items'
@@ -6,9 +6,9 @@ Yate.AST.block_exprs = {
 
     _getType: function() {
         if (this.AsList) {
-            return Yate.Types.LIST;
+            return yate.Types.LIST;
         }
-        return Yate.AST.items._getType.call(this);
+        return yate.AST.items._getType.call(this);
     },
 
     oncast: function(to) {
@@ -71,7 +71,7 @@ Yate.AST.block_exprs = {
     */
 
     prepare: function() {
-        if (this.type() != Yate.Types.XML) { return; }
+        if (this.type() != yate.Types.XML) { return; }
 
         var o = [];
         var last;
@@ -129,7 +129,7 @@ Yate.AST.block_exprs = {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 /*
-Yate.AST.blockList = {
+yate.AST.blockList = {
 
     options: {
         mixin: 'items'

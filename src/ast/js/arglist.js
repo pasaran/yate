@@ -1,4 +1,4 @@
-Yate.AST.arglist.defaults = function() {
+yate.AST.arglist.defaults = function() {
     var r = [];
     this.iterate(function(arg) {
         if (arg.Default) {

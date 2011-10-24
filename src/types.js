@@ -4,7 +4,7 @@
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Types = {
+yate.Types = {
     NONE    : 'none',
     UNDEF   : 'undef',
     SCALAR  : 'scalar',
@@ -20,8 +20,8 @@ Yate.Types = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Types.joinType = function(left, right) {
-    var types = Yate.Types;
+yate.Types.joinType = function(left, right) {
+    var types = yate.Types;
 
     // NONE + ??? == NONE
     if (left == types.NONE || right == types.NONE) { return types.NONE; }
@@ -52,8 +52,8 @@ Yate.Types.joinType = function(left, right) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Types.convertable = function(from, to) {
-    var types = Yate.Types;
+yate.Types.convertable = function(from, to) {
+    var types = yate.Types;
 
     return (
         (from == to) ||
@@ -70,8 +70,8 @@ Yate.Types.convertable = function(from, to) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.Types.commonType = function(left, right) {
-    var types = Yate.Types;
+yate.Types.commonType = function(left, right) {
+    var types = yate.Types;
 
     if (left == right) { return left; }
 
@@ -91,13 +91,13 @@ Yate.Types.commonType = function(left, right) {
     }
 
     if (
-        left == Yate.Types.XML || right == Yate.Types.XML ||
-        left == Yate.Types.ATTR || right == Yate.Types.ATTR
+        left == yate.Types.XML || right == yate.Types.XML ||
+        left == yate.Types.ATTR || right == yate.Types.ATTR
     ) {
-        return Yate.Types.XML;
+        return yate.Types.XML;
     }
 
-    return Yate.Types.SCALAR;
+    return yate.Types.SCALAR;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

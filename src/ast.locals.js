@@ -2,10 +2,10 @@
 // Locals: state, context, scope
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.Local = function() {
+yate.AST.Local = function() {
 };
 
-Yate.AST.Local.prototype.child = function() {
+yate.AST.Local.prototype.child = function() {
     var local = new this.constructor();
     local.parent = this;
     return local;
@@ -13,7 +13,7 @@ Yate.AST.Local.prototype.child = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.Local.State = function() {
+yate.AST.Local.State = function() {
     this.jpaths = [];
     this.jkeys = {};
 
@@ -29,28 +29,28 @@ Yate.AST.Local.State = function() {
     this.kid = 0; // Ключи.
 };
 
-Yate.Common.inherits(Yate.AST.Local.State, Yate.AST.Local);
+yate.Common.inherits(yate.AST.Local.State, yate.AST.Local);
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.Local.Context = function() { // FIXME: Что предполагалось должен делать Context?
+yate.AST.Local.Context = function() { // FIXME: Что предполагалось должен делать Context?
 };
 
-Yate.Common.inherits(Yate.AST.Local.Context, Yate.AST.Local);
+yate.Common.inherits(yate.AST.Local.Context, yate.AST.Local);
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.Local.Scope = function() {
+yate.AST.Local.Scope = function() {
     this.vars = {};
     this.functions = {};
-    this.id = Yate.AST.Local.Scope._id++;
+    this.id = yate.AST.Local.Scope._id++;
 };
 
-Yate.AST.Local.Scope._id = 0;
+yate.AST.Local.Scope._id = 0;
 
-Yate.Common.inherits(Yate.AST.Local.Scope, Yate.AST.Local);
+yate.Common.inherits(yate.AST.Local.Scope, yate.AST.Local);
 
-Yate.AST.Local.Scope.prototype.findVar = function(name) {
+yate.AST.Local.Scope.prototype.findVar = function(name) {
     var scope = this;
     while (scope) {
         var value = scope.vars[name];
@@ -61,7 +61,7 @@ Yate.AST.Local.Scope.prototype.findVar = function(name) {
     }
 };
 
-Yate.AST.Local.Scope.prototype.findFunction = function(name) {
+yate.AST.Local.Scope.prototype.findFunction = function(name) {
     var scope = this;
     while (scope) {
         var value = scope.functions[name];
@@ -70,14 +70,14 @@ Yate.AST.Local.Scope.prototype.findFunction = function(name) {
         }
         scope = scope.parent;
     }
-    return Yate.AST.internalFunctions[name]; // Если ничего не нашли в scope'ах, смотрим на список встроенных функций.
+    return yate.AST.internalFunctions[name]; // Если ничего не нашли в scope'ах, смотрим на список встроенных функций.
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.locals = {
-    state: Yate.AST.Local.State,
-    context: Yate.AST.Local.Context,
-    scope: Yate.AST.Local.Scope
+yate.AST.locals = {
+    state: yate.AST.Local.State,
+    context: yate.AST.Local.Context,
+    scope: yate.AST.Local.Scope
 };
 

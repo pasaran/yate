@@ -1,8 +1,8 @@
-Yate.AST.inline_unary = {
+yate.AST.inline_unary = {
 
     signature: {
-        left: Yate.Types.SCALAR,
-        result: Yate.Types.SCALAR
+        left: yate.Types.SCALAR,
+        result: yate.Types.SCALAR
     },
 
     options: {

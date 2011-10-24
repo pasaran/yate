@@ -3,61 +3,61 @@
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST = function() {};
+yate.AST = function() {};
 
-Yate.AST._asts = {};
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-Yate.AST.prototype.options = {};
-
-Yate.AST.prototype.Rid = 0;
-Yate.AST.prototype.Cid = 0;
-
-Yate.AST.prototype._init = function() {};
+yate.AST._asts = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.error = function(s) {
+yate.AST.prototype.options = {};
+
+yate.AST.prototype.Rid = 0;
+yate.AST.prototype.Cid = 0;
+
+yate.AST.prototype._init = function() {};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.AST.prototype.error = function(s) {
     require('util').puts(new Error().stack);
-    throw 'ERROR: ' + s + '\n' + Yate.Parser._where(this.where);
+    throw 'ERROR: ' + s + '\n' + yate.Parser._where(this.where);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.make = function(id) {
-    var ast = new (Yate.AST.$(id))();
+yate.AST.make = function(id) {
+    var ast = new (yate.AST.$(id))();
     ast.id = id; // Если делать это в прототипе, то не видно в console.log.
     ast._init.apply(ast, Array.prototype.slice.call(arguments, 1));
     return ast;
 };
 
-Yate.AST.prototype.make = function() {
-    var ast = Yate.AST.make.apply(null, arguments);
+yate.AST.prototype.make = function() {
+    var ast = yate.AST.make.apply(null, arguments);
     ast.parent = this;
     ast.setLocals();
     return ast;
 };
 
 
-Yate.AST.$ = function(id) {
+yate.AST.$ = function(id) {
     var ast = this._asts[id];
 
     if (!ast) {
 
         ast = function() {};
 
-        var info = Yate.AST[id] || {};
+        var info = yate.AST[id] || {};
         var options = info.options = info.options || {};
 
-        var base = (options.base) ? this.$(options.base) : Yate.AST;
+        var base = (options.base) ? this.$(options.base) : yate.AST;
         var mixin = [];
         if (options.mixin) {
-            options.mixin = Yate.Common.makeArray(options.mixin);
-            mixin = mixin.concat(Yate.Common.map(options.mixin, function(id) { return Yate.AST[id] || {}; }));
+            options.mixin = yate.Common.makeArray(options.mixin);
+            mixin = mixin.concat(yate.Common.map(options.mixin, function(id) { return yate.AST[id] || {}; }));
         }
         mixin.push(info);
-        Yate.Common.inherits(ast, base, mixin);
+        yate.Common.inherits(ast, base, mixin);
 
         this._asts[id] = ast;
     }
@@ -67,23 +67,23 @@ Yate.AST.$ = function(id) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.yate = function(id, data, mode) {
+yate.AST.prototype.yate = function(id, data, mode) {
     return this._yate(id, data, mode);
 };
 
-Yate.AST.prototype._yate = function(id, data, mode) {
+yate.AST.prototype._yate = function(id, data, mode) {
     return this._fill('yate', id, data, mode);
 };
 
-Yate.AST.prototype.js = function(id, data, mode) {
+yate.AST.prototype.js = function(id, data, mode) {
     return this._js(id, data, mode);
 };
 
-Yate.AST.prototype._js = function(id, data, mode) {
+yate.AST.prototype._js = function(id, data, mode) {
     return this._fill('js', id, data, mode);
 };
 
-Yate.AST.prototype._fill = function(type, id, data, mode) {
+yate.AST.prototype._fill = function(type, id, data, mode) {
     if (typeof id == 'object') {
         data = id.data;
         mode = id.mode;
@@ -99,7 +99,7 @@ Yate.AST.prototype._fill = function(type, id, data, mode) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.childrenKeys = function() {
+yate.AST.prototype.childrenKeys = function() {
     var keys = [];
     var order = this.options.order;
     if (order) {
@@ -116,7 +116,7 @@ Yate.AST.prototype.childrenKeys = function() {
     return keys;
 };
 
-Yate.AST.prototype.children = function() {
+yate.AST.prototype.children = function() {
     var children = [];
 
     var keys = this.childrenKeys();
@@ -146,7 +146,7 @@ Yate.AST.prototype.children = function() {
     */
 };
 
-Yate.AST.prototype._apply = function(callback) {
+yate.AST.prototype._apply = function(callback) {
     var args = Array.prototype.slice.call(arguments, 1);
 
     var children = this.children();
@@ -159,13 +159,13 @@ Yate.AST.prototype._apply = function(callback) {
             for (var j = 0, m = child.length; j < m; j++) {
                 step(child[j]);
             }
-        } else if (child instanceof Yate.AST) {
+        } else if (child instanceof yate.AST) {
             callback.apply(child, args);
         }
     }
 };
 
-Yate.AST.prototype.trigger = function(method) {
+yate.AST.prototype.trigger = function(method) {
     var args = Array.prototype.slice.call(arguments, 1);
 
     run.apply(this, args);
@@ -187,7 +187,7 @@ Yate.AST.prototype.trigger = function(method) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.setParents = function() {
+yate.AST.prototype.setParents = function() {
     function set(parent) {
         this.parent = parent;
         this._apply(set, this);
@@ -200,27 +200,27 @@ Yate.AST.prototype.setParents = function() {
 // Type methods
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.type = function(to) {
+yate.AST.prototype.type = function(to) {
     var type = this._type;
     if (type === undefined) {
         type = this._type = this._getType();
     }
 
-    return (to) ? Yate.Types.convertable(type, to) : type;
+    return (to) ? yate.Types.convertable(type, to) : type;
 };
 
-Yate.AST.prototype._getType = function() {
-    return Yate.Types.NONE;
+yate.AST.prototype._getType = function() {
+    return yate.Types.NONE;
 };
 
-Yate.AST.prototype.cast = function(to) {
+yate.AST.prototype.cast = function(to) {
     var from = this.type();
     to = to || from;
 
     if (from != to) {
         this.AsType = to;
 
-        if (!Yate.Types.convertable(from, to)) {
+        if (!yate.Types.convertable(from, to)) {
             this.error('Cannot convert type from ' + from + ' to ' + to + ' ' + this.id);
         }
     }
@@ -228,33 +228,33 @@ Yate.AST.prototype.cast = function(to) {
     this.oncast(to);
 };
 
-Yate.AST.prototype.oncast = function(to) {
+yate.AST.prototype.oncast = function(to) {
     // Do nothing.
 };
 
-Yate.AST.prototype.toValue = function() {
+yate.AST.prototype.toValue = function() {
     var type = this.type();
 
-    if (type == Yate.Types.ARRAY || type == Yate.Types.OBJECT) {
+    if (type == yate.Types.ARRAY || type == yate.Types.OBJECT) {
         this.cast(type);
     } else {
-        this.cast(Yate.Types.XML);
+        this.cast(yate.Types.XML);
     }
 };
 
-Yate.AST.prototype.is = function(type) {
+yate.AST.prototype.is = function(type) {
     if (type instanceof Array) {
         for (var i = 0, l = type.length; i < l; i++) {
-            if (this instanceof Yate.AST.$(type[i])) {
+            if (this instanceof yate.AST.$(type[i])) {
                 return true;
             }
         }
     } else {
-        return this instanceof Yate.AST.$(type);
+        return this instanceof yate.AST.$(type);
     }
 };
 
-Yate.AST.prototype.inline = function() {
+yate.AST.prototype.inline = function() {
     return false;
 };
 
@@ -262,9 +262,9 @@ Yate.AST.prototype.inline = function() {
 // Walk methods
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.setLocals = function() {
+yate.AST.prototype.setLocals = function() {
     var options = this.options.locals || {};
-    var locals = Yate.AST.locals;
+    var locals = yate.AST.locals;
     var parent = this.parent;
 
     for (var local in locals) {
@@ -281,31 +281,31 @@ Yate.AST.prototype.setLocals = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.log = function() {
+yate.AST.prototype.log = function() {
     // console.log(this.id);
     return require('util').inspect(this, true, null);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.set = function(key, value) {
+yate.AST.prototype.set = function(key, value) {
     this.trigger(function() {
         this[key] = value;
     });
 };
 
-Yate.AST.prototype.rid = function() {
+yate.AST.prototype.rid = function() {
     this.set('Rid', this.Rid + 1);
 };
 
-Yate.AST.prototype.cid = function() {
+yate.AST.prototype.cid = function() {
     this.set('Cid', this.Cid + 1);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.isOpen = function() {
-    if (this.type() == Yate.Types.ATTR || this.type() == Yate.Types.XML) {
+yate.AST.prototype.isOpen = function() {
+    if (this.type() == yate.Types.ATTR || this.type() == yate.Types.XML) {
         return undefined;
     }
     return false;
@@ -313,14 +313,14 @@ Yate.AST.prototype.isOpen = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.prototype.toString = function() {
+yate.AST.prototype.toString = function() {
     var r = [];
     var keys = this.childrenKeys();
     for (var i = 0, l = keys.length; i < l; i++) {
         var key = keys[i];
         var child = this[key];
         if (child !== undefined) {
-            if (child instanceof Yate.AST) {
+            if (child instanceof yate.AST) {
                 var s = child.toString();
                 if (s) {
                     r.push( key.blue.bold + ': ' + s);
@@ -343,12 +343,12 @@ Yate.AST.prototype.toString = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.var_type = {
+yate.AST.var_type = {
     USER: 'user',
     ARGUMENT: 'argument'
 };
 
-Yate.AST.function_type = {
+yate.AST.function_type = {
     USER: 'user',
     INTERNAL: 'internal',
     EXTERNAL: 'external',

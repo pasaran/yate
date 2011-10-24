@@ -1,4 +1,4 @@
-Yate.AST.cast = {
+yate.AST.cast = {
 
     options: {
         base: 'inline_expr'

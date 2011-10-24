@@ -1,5 +1,5 @@
 /*
-Yate.AST.openAttrs.js = function() {
+yate.AST.openAttrs.js = function() {
     this.Attrs.trigger('set', 'mode', '');
 
     r = 'r' + this.Rid + '.attrs = {\n';

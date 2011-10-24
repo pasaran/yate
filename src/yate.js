@@ -1,11 +1,11 @@
 require('./colors.js');
 
-var parser = Yate.Parser;
+var parser = yate.Parser;
 
 var Fs = require('fs');
 var CodeTemplates = require('./src/codetemplates.js').CodeTemplates;
 
-parser.init(Yate.Grammar);
+parser.init(yate.Grammar);
 parser.open({ filename: process.argv[2] });
 
 var ast = parser.match('stylesheet');

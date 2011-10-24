@@ -1,4 +1,4 @@
-Yate.AST.xml_line = {
+yate.AST.xml_line = {
 
     options: {
         base: 'xml',

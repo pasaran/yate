@@ -1,2 +1,2 @@
-Yate.AST.jpath_step = {};
+yate.AST.jpath_step = {};
 

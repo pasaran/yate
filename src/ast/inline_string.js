@@ -1,13 +1,13 @@
-Yate.AST.inline_string = {
+yate.AST.inline_string = {
 
     options: {
         base: 'inline_expr'
     },
 
-    _type: Yate.Types.SCALAR,
+    _type: yate.Types.SCALAR,
 
     prepare: function() {
-        this.Value.cast(Yate.Types.SCALAR);
+        this.Value.cast(yate.Types.SCALAR);
     },
 
     toResult: function(result) {

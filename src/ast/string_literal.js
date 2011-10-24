@@ -1,4 +1,4 @@
-Yate.AST.string_literal = {
+yate.AST.string_literal = {
 
     options: {
         base: 'inline_expr'
@@ -14,13 +14,13 @@ Yate.AST.string_literal = {
         return this.Value;
     },
 
-    _type: Yate.Types.SCALAR,
+    _type: yate.Types.SCALAR,
 
     toResult: function(result) {
         if (this.mode === 'attr') {
-            result.push(Yate.Common.quoteAttr(this.Value));
+            result.push(yate.Common.quoteAttr(this.Value));
         } else if (this.mode === 'text') {
-            result.push(Yate.Common.quoteText(this.Value));
+            result.push(yate.Common.quoteText(this.Value));
         } else {
             result.push(this.Value);
         }

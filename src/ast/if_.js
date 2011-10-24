@@ -1,4 +1,4 @@
-Yate.AST.if_ = {
+yate.AST.if_ = {
 
     options: {
         base: 'expr'
@@ -6,13 +6,13 @@ Yate.AST.if_ = {
 
     _getType: function() {
         var thenType = this.Then.type();
-        var elseType = (this.Else) ? this.Else.type() : Yate.Types.UNDEF;
+        var elseType = (this.Else) ? this.Else.type() : yate.Types.UNDEF;
 
-        return Yate.Types.commonType(thenType, elseType);
+        return yate.Types.commonType(thenType, elseType);
     },
 
     prepare: function() {
-        this.Condition.cast(Yate.Types.BOOLEAN);
+        this.Condition.cast(yate.Types.BOOLEAN);
 
         if (this.Then.AsList) {
             this.AsListItem = false;

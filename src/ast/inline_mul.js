@@ -1,9 +1,9 @@
-Yate.AST.inline_mul = {
+yate.AST.inline_mul = {
 
     signature: {
-        left: Yate.Types.SCALAR,
-        right: Yate.Types.SCALAR,
-        result: Yate.Types.SCALAR
+        left: yate.Types.SCALAR,
+        right: yate.Types.SCALAR,
+        result: yate.Types.SCALAR
     },
 
     options: {

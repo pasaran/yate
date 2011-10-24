@@ -2,17 +2,17 @@
 // AST.items
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.items = {
+yate.AST.items = {
 
     _init: function(items) {
-        this.Items = Yate.Common.makeArray(items || []);
+        this.Items = yate.Common.makeArray(items || []);
     },
 
     _getType: function() {
         var items = this.Items;
         var l = items.length;
 
-        if (!l) { return Yate.Types.SCALAR; } // FIXME: А нужно ли это? Может быть UNDEF сработает?
+        if (!l) { return yate.Types.SCALAR; } // FIXME: А нужно ли это? Может быть UNDEF сработает?
 
         var currentId = items[0].id;
         var currentType = items[0].type();
@@ -21,8 +21,8 @@ Yate.AST.items = {
             var item = items[i];
             var nextType = item.type();
 
-            var commonType = Yate.Types.joinType(currentType, nextType);
-            if (commonType == Yate.Types.NONE) {
+            var commonType = yate.Types.joinType(currentType, nextType);
+            if (commonType == yate.Types.NONE) {
                 item.error('Несовместимые типы ' + currentType + ' (' + currentId + ') и ' + nextType + ' (' + item.id + ')');
             }
             currentId = item.id;
@@ -65,7 +65,7 @@ Yate.AST.items = {
     },
 
     map: function(callback) {
-        return Yate.Common.map(this.Items, callback);
+        return yate.Common.map(this.Items, callback);
     },
 
     yate: function() {

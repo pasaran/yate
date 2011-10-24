@@ -1,4 +1,4 @@
-Yate.AST.inline_complex = {
+yate.AST.inline_complex = {
 
     options: {
         base: 'inline_expr'

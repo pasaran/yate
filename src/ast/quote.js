@@ -1,4 +1,4 @@
-Yate.AST.quote = {
+yate.AST.quote = {
 
     options: {
         base: 'inline_expr'

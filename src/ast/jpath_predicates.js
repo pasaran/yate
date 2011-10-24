@@ -1,4 +1,4 @@
-Yate.AST.jpath_predicates = {
+yate.AST.jpath_predicates = {
 
     options: {
         mixin: 'items'

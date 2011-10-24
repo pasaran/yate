@@ -1,4 +1,4 @@
-Yate.AST.xml_empty = {
+yate.AST.xml_empty = {
 
     options: {
         base: 'xml'
