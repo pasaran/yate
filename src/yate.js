@@ -5,7 +5,7 @@ var parser = yate.parser;
 var Fs = require('fs');
 var CodeTemplates = require('./src/codetemplates.js').CodeTemplates;
 
-parser.init(yate.Grammar);
+parser.init(yate.grammar);
 parser.open({ filename: process.argv[2] });
 
 var ast = parser.match('stylesheet');

@@ -49,13 +49,13 @@
 //
 // ################################################################################################################# //
 
-yate.Grammar = {};
+yate.grammar = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // Tokens
 
-yate.Grammar.tokens = {
+yate.grammar.tokens = {
     QNAME: /^[a-zA-Z_][a-zA-Z0-9_-]*/,
     DOTS: /^(?:\.{2,}(?=\.[a-zA-Z_*])|\.+(?![a-zA-Z_*]))/, // либо (...), либо (..)(.foo) -- то есть если после точек есть идентификатор, то последнюю точку не берем.
     ESC: /^["'\\nt]/,
@@ -73,7 +73,7 @@ yate.Grammar.tokens = {
 
 // Keywords
 
-yate.Grammar.keywords = [
+yate.grammar.keywords = [
     'match',
     'func',
     'for',
@@ -91,7 +91,7 @@ yate.Grammar.keywords = [
 
 // Rules
 
-yate.Grammar.rules = {};
+yate.grammar.rules = {};
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -100,7 +100,7 @@ yate.Grammar.rules = {};
 
 // stylesheet := block
 
-yate.Grammar.rules.stylesheet = {
+yate.grammar.rules.stylesheet = {
 
     rule: function(ast) {
         ast.Block = this.match('block');
@@ -121,7 +121,7 @@ yate.Grammar.rules.stylesheet = {
 
 // block := ( template | function_ | key | var_ | block_expr )*
 
-yate.Grammar.rules.block = function(ast) {
+yate.grammar.rules.block = function(ast) {
 
     while (!( this.isEOF() || this.testAny([ '}', ']', ')' ]) )) { // Блок верхнего уровня (stylesheet) заканчивается с концом файла.
                                                                    // Вложенные блоки заканчиваются закрывающей скобкой '}', ']' или ')'.
@@ -155,7 +155,7 @@ yate.Grammar.rules.block = function(ast) {
 
 // body := '{' block '}' | '[' block ']'
 
-yate.Grammar.rules.body = function(ast) {
+yate.grammar.rules.body = function(ast) {
 
     var start = this.testAny([ '{', '[' ]); // Блоки бывают двух видов. Обычные { ... } и со списочным контекстом [ ... ].
                                             // В [ ... ] каждое выражение верхнего уровня генерит отдельный элемент списка.
@@ -182,7 +182,7 @@ yate.Grammar.rules.body = function(ast) {
 
 // template := 'match'? ( root | jpath ) template_mode? arglist? body
 
-yate.Grammar.rules.template = function(ast) {
+yate.grammar.rules.template = function(ast) {
     if (this.test('MATCH')) {
         this.match('MATCH');
     }
@@ -196,7 +196,7 @@ yate.Grammar.rules.template = function(ast) {
 
 // template_mode := '#' QNAME
 
-yate.Grammar.rules.template_mode = function(ast) {
+yate.grammar.rules.template_mode = function(ast) {
     if (this.test('#')) {
         this.match('#');
         ast.Value = this.match('QNAME');
@@ -207,7 +207,7 @@ yate.Grammar.rules.template_mode = function(ast) {
 
 // arglist := '(' arglist_item ( ',' arglist_item )* ')'
 
-yate.Grammar.rules.arglist = function(ast) {
+yate.grammar.rules.arglist = function(ast) {
     this.match('(');
     if (this.test('arglist_item')) {
         ast.add( this.match('arglist_item') );
@@ -221,7 +221,7 @@ yate.Grammar.rules.arglist = function(ast) {
 
 // arglist_item := ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inline_expr )?
 
-yate.Grammar.rules.arglist_item = function(ast) {
+yate.grammar.rules.arglist_item = function(ast) {
     var r;
     if (r = this.testAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ])) { // FIXME: Вынести это в отдельное правило.
         ast.Typedef = this.match(r);
@@ -237,7 +237,7 @@ yate.Grammar.rules.arglist_item = function(ast) {
 
 // function_ := 'func'? QNAME arglist body
 
-yate.Grammar.rules.function_ = function(ast) {
+yate.grammar.rules.function_ = function(ast) {
     if (this.test('FUNC')) {
         this.match('FUNC');
     }
@@ -250,7 +250,7 @@ yate.Grammar.rules.function_ = function(ast) {
 
 // key := 'key' QNAME '(' inline_expr ',' inline_expr ')' body
 
-yate.Grammar.rules.key = function(ast) {
+yate.grammar.rules.key = function(ast) {
     this.match('KEY'); // FIXME: Подумать, нельзя ли отказаться от ключевого слова key.
     ast.Name = this.match('QNAME');
     this.match('(');
@@ -265,7 +265,7 @@ yate.Grammar.rules.key = function(ast) {
 
 // var_ := QNAME '=' block_expr
 
-yate.Grammar.rules.var_ = function(ast) {
+yate.grammar.rules.var_ = function(ast) {
     ast.Name = this.match('QNAME');
     this.match('=');
     ast.Value = this.match('block_expr');
@@ -278,7 +278,7 @@ yate.Grammar.rules.var_ = function(ast) {
 
 // block_expr := if_ | for_ | apply | attr | xml_line | array | object | pair | scalar
 
-yate.Grammar.rules.block_expr = function() {
+yate.grammar.rules.block_expr = function() {
     var r;
 
     if (this.test('if_')) {
@@ -308,7 +308,7 @@ yate.Grammar.rules.block_expr = function() {
 
 // if_ := 'if' inline_expr body ( 'else' body )?
 
-yate.Grammar.rules.if_ = function(ast) {
+yate.grammar.rules.if_ = function(ast) {
     this.match('IF');
     ast.Condition = this.match('inline_expr');
     ast.Then = this.match('body');
@@ -322,7 +322,7 @@ yate.Grammar.rules.if_ = function(ast) {
 
 // for_ := 'for' inline_expr body
 
-yate.Grammar.rules.for_ = function(ast) {
+yate.grammar.rules.for_ = function(ast) {
     this.match('FOR');
     ast.Selector = this.match('inline_expr');
     ast.Body = this.match('body');
@@ -332,7 +332,7 @@ yate.Grammar.rules.for_ = function(ast) {
 
 // apply := 'apply' ( inline_expr | array | object ) template_mode? callargs?
 
-yate.Grammar.rules.apply = function(ast) {
+yate.grammar.rules.apply = function(ast) {
     this.match('APPLY');
     var r = this.testAny([ 'inline_expr', 'array', 'object' ]);
     if (!r) {
@@ -348,7 +348,7 @@ yate.Grammar.rules.apply = function(ast) {
 
 // callargs := '(' ( inline_expr ( ',' inline_expr )* )? ')'
 
-yate.Grammar.rules.callargs = function(ast) {
+yate.grammar.rules.callargs = function(ast) {
     this.match('(');
     if (this.test('inline_expr')) {
         ast.add( this.match('inline_expr') );
@@ -364,7 +364,7 @@ yate.Grammar.rules.callargs = function(ast) {
 
 // attr := '@' QNAME ( '=' | '+=' ) block_expr
 
-yate.Grammar.rules.attr = function(ast) {
+yate.grammar.rules.attr = function(ast) {
     this.match('@');
     ast.Name = this.match('QNAME');
     var r;
@@ -381,7 +381,7 @@ yate.Grammar.rules.attr = function(ast) {
 
 // array := '[' block ']'
 
-yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инлайновый вариант: [ 1, 2, 3 ].
+yate.grammar.rules.array = function(ast) { // FIXME: Поддержать инлайновый вариант: [ 1, 2, 3 ].
     this.match('[');
     ast.Block = this.match('block');
     this.match(']');
@@ -392,7 +392,7 @@ yate.Grammar.rules.array = function(ast) { // FIXME: Поддержать инл
 
 // object := '{' block '}'
 
-yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42, "bar": 24 }.
+yate.grammar.rules.object = function(ast) { // FIXME: Поддержать инлайновый вариант: { "foo": 42, "bar": 24 }.
     this.match('{');
     ast.Block = this.match('block');
     this.match('}');
@@ -403,7 +403,7 @@ yate.Grammar.rules.object = function(ast) { // FIXME: Поддержать ин�
 
 // pair := inline_expr ':' block_expr
 
-yate.Grammar.rules.pair = function(ast) {
+yate.grammar.rules.pair = function(ast) {
     ast.Key = this.match('inline_expr');
     this.match(':');
     ast.Value = this.match('block_expr');
@@ -413,7 +413,7 @@ yate.Grammar.rules.pair = function(ast) {
 
 // scalar := inline_expr | '(' block ')'
 
-yate.Grammar.rules.scalar = function(ast) {
+yate.grammar.rules.scalar = function(ast) {
     if (this.test('inline_expr')) {
         return this.match('inline_expr');
     } else {
@@ -430,7 +430,7 @@ yate.Grammar.rules.scalar = function(ast) {
 
 // xml_line := (xml_full | xml_empty | xml_start | xml_end)+
 
-yate.Grammar.rules.xml_line = {
+yate.grammar.rules.xml_line = {
 
     rule: function(ast) {
         var r;
@@ -449,7 +449,7 @@ yate.Grammar.rules.xml_line = {
 
 // xml_full := xml_start ( xml_full | xml_empty | xml_text )* xml_end
 
-yate.Grammar.rules.xml_full = function(ast) {
+yate.grammar.rules.xml_full = function(ast) {
     var start = this.match('xml_start');
     ast.add(start);
 
@@ -470,7 +470,7 @@ yate.Grammar.rules.xml_full = function(ast) {
 
 // xml_start := '<' QNAME ( xml_attrs )? '>'
 
-yate.Grammar.rules.xml_start = function(ast) {
+yate.grammar.rules.xml_start = function(ast) {
     this.match('<');
     ast.Name = this.match('QNAME');
     ast.Attrs = this.match('xml_attrs');
@@ -481,7 +481,7 @@ yate.Grammar.rules.xml_start = function(ast) {
 
 // xml_empty := '<' QNAME ( xml_attrs )? '/>'
 
-yate.Grammar.rules.xml_empty = function(ast) {
+yate.grammar.rules.xml_empty = function(ast) {
     this.match('<');
     ast.Name = this.match('QNAME');
     ast.Attrs = this.match('xml_attrs');
@@ -492,7 +492,7 @@ yate.Grammar.rules.xml_empty = function(ast) {
 
 // xml_end := '</' QNAME '>'
 
-yate.Grammar.rules.xml_end = function(ast) {
+yate.grammar.rules.xml_end = function(ast) {
     this.match('</');
     ast.Name = this.match('QNAME');
     this.skip('spaces');
@@ -503,7 +503,7 @@ yate.Grammar.rules.xml_end = function(ast) {
 
 // xml_text := string_content
 
-yate.Grammar.rules.xml_text = function(ast) {
+yate.grammar.rules.xml_text = function(ast) {
     var r = this.match('string_content', '<');
     if (r.empty()) {
         this.backtrace();
@@ -515,7 +515,7 @@ yate.Grammar.rules.xml_text = function(ast) {
 
 // xml_attrs := xml_attr*
 
-yate.Grammar.rules.xml_attrs = {
+yate.grammar.rules.xml_attrs = {
 
     rule: function(ast) {
         while (this.test('xml_attr')) {
@@ -531,7 +531,7 @@ yate.Grammar.rules.xml_attrs = {
 
 // xml_attr := QNAME '=' inline_string
 
-yate.Grammar.rules.xml_attr = function(ast) {
+yate.grammar.rules.xml_attr = function(ast) {
     ast.Name = this.match('QNAME');
     this.match('=');
     ast.Value = this.match('inline_string');
@@ -544,7 +544,7 @@ yate.Grammar.rules.xml_attr = function(ast) {
 
 // inline_expr := inline_or
 
-yate.Grammar.rules.inline_expr = {
+yate.grammar.rules.inline_expr = {
 
     rule: function() {
         return this.match('inline_or');
@@ -558,7 +558,7 @@ yate.Grammar.rules.inline_expr = {
 
 // inline_or := inline_and ( '||' inline_or )?
 
-yate.Grammar.rules.inline_or = function(ast) {
+yate.grammar.rules.inline_or = function(ast) {
     ast.Left = this.match('inline_and');
     if (this.test('||')) {
         ast.Op = this.match('||');
@@ -570,7 +570,7 @@ yate.Grammar.rules.inline_or = function(ast) {
 
 // inline_and := inline_eq ( '&&' inline_and )?
 
-yate.Grammar.rules.inline_and = function(ast) {
+yate.grammar.rules.inline_and = function(ast) {
     ast.Left = this.match('inline_eq');
     if (this.test('&&')) {
         ast.Op = this.match('&&');
@@ -582,7 +582,7 @@ yate.Grammar.rules.inline_and = function(ast) {
 
 // inline_eq := inline_rel ( ( '==' | '!=' ) inline_rel )?
 
-yate.Grammar.rules.inline_eq = function(ast) {
+yate.grammar.rules.inline_eq = function(ast) {
     ast.Left = this.match('inline_rel');
     var op;
     if (op = this.testAny([ '==', '!=' ])) {
@@ -595,7 +595,7 @@ yate.Grammar.rules.inline_eq = function(ast) {
 
 // inline_rel := inline_add ( ( '<=' | '<' | '>=' | '>' ) inline_add )?
 
-yate.Grammar.rules.inline_rel = function(ast) {
+yate.grammar.rules.inline_rel = function(ast) {
     ast.Left = this.match('inline_add');
     var op;
     if (op = this.testAny([ '<=', '<', '>=', '>' ])) {
@@ -608,7 +608,7 @@ yate.Grammar.rules.inline_rel = function(ast) {
 
 // inline_add := inline_scalar ( ( '+' | '-' ) inline_add )?
 
-yate.Grammar.rules.inline_add = function(ast) {
+yate.grammar.rules.inline_add = function(ast) {
     ast.Left = this.match('inline_scalar');
     var op;
     if (op = this.testAny([ '+', '-' ])) { // FIXME: Проблемы с порядком выполнения. Например, 1 - 2 - 3 превратится в -(1, -(2, 3)).
@@ -621,7 +621,7 @@ yate.Grammar.rules.inline_add = function(ast) {
 
 // inline_scalar := inline_mul+
 
-yate.Grammar.rules.inline_scalar = function(ast) {
+yate.grammar.rules.inline_scalar = function(ast) {
     ast.add( this.match('inline_mul') );
     while (this.test('inline_mul')) {
         ast.add( this.match('inline_mul') );
@@ -630,7 +630,7 @@ yate.Grammar.rules.inline_scalar = function(ast) {
 
 // inline_mul := inline_unary ( ( '/' | '*' | '%' ) inline_mul )?
 
-yate.Grammar.rules.inline_mul = function(ast) {
+yate.grammar.rules.inline_mul = function(ast) {
     ast.Left = this.match('inline_unary');
     var op;
     if (op = this.testAny([ '/', '*', '%' ])) {
@@ -643,7 +643,7 @@ yate.Grammar.rules.inline_mul = function(ast) {
 
 // inline_unary := '-' inline_not | inline_not
 
-yate.Grammar.rules.inline_unary = function(ast) {
+yate.grammar.rules.inline_unary = function(ast) {
     if (this.test('-')) {
         ast.Op = this.match('-');
         ast.Left = this.match('inline_not');
@@ -654,7 +654,7 @@ yate.Grammar.rules.inline_unary = function(ast) {
 
 // inline_not := '!' inline_union | inline_union
 
-yate.Grammar.rules.inline_not = function(ast) {
+yate.grammar.rules.inline_not = function(ast) {
     if (this.test('!')) {
         ast.Op = this.match('!');
         ast.Left = this.match('inline_union');
@@ -665,7 +665,7 @@ yate.Grammar.rules.inline_not = function(ast) {
 
 // inline_union := inline_primary ( '|' inline_union )?
 
-yate.Grammar.rules.inline_union = function(ast) {
+yate.grammar.rules.inline_union = function(ast) {
     ast.Left = this.match('inline_primary');
     if (this.test('|')) {
         ast.Op = this.match('|');
@@ -679,7 +679,7 @@ yate.Grammar.rules.inline_union = function(ast) {
 
 // inline_primary := inline_number | inline_string | inline_complex | root | jpath | inline_function | inline_var
 
-yate.Grammar.rules.inline_primary = {
+yate.grammar.rules.inline_primary = {
 
     rule: function(ast) {
         if (this.test('NUMBER')) {
@@ -727,7 +727,7 @@ yate.Grammar.rules.inline_primary = {
 
 // root := '/'
 
-yate.Grammar.rules.root = function(ast) {
+yate.grammar.rules.root = function(ast) {
     this.match('/');
 };
 
@@ -735,7 +735,7 @@ yate.Grammar.rules.root = function(ast) {
 
 // inline_number := NUMBER
 
-yate.Grammar.rules.inline_number = function(ast) {
+yate.grammar.rules.inline_number = function(ast) {
     ast.Value = parseFloat( this.match('NUMBER') );
 };
 
@@ -743,7 +743,7 @@ yate.Grammar.rules.inline_number = function(ast) {
 
 // inline_string := '"' string_content '"'
 
-yate.Grammar.rules.inline_string = {
+yate.grammar.rules.inline_string = {
 
     rule: function(ast) {
         this.match('"');
@@ -759,7 +759,7 @@ yate.Grammar.rules.inline_string = {
 
 // string_content := ...
 
-yate.Grammar.rules.string_content = function(ast, delim, esc) { // Второй параметр задает символ, ограничивающий строковый контент.
+yate.grammar.rules.string_content = function(ast, delim, esc) { // Второй параметр задает символ, ограничивающий строковый контент.
                                                                 // Третий параметр означает, что нужно учитывать esc-последовательности типа \n, \t и т.д.
     var s = '';
 
@@ -809,7 +809,7 @@ yate.Grammar.rules.string_content = function(ast, delim, esc) { // Второй 
 
 // inline_complex := '(' inline_expr ')'
 
-yate.Grammar.rules.inline_complex = {
+yate.grammar.rules.inline_complex = {
 
     rule: function(ast) {
         this.match('(');
@@ -823,7 +823,7 @@ yate.Grammar.rules.inline_complex = {
 
 // inline_var := QNAME
 
-yate.Grammar.rules.inline_var = function(ast) {
+yate.grammar.rules.inline_var = function(ast) {
     ast.Name = this.match('QNAME');
 };
 
@@ -831,7 +831,7 @@ yate.Grammar.rules.inline_var = function(ast) {
 
 // inline_function := QNAME callargs
 
-yate.Grammar.rules.inline_function = function(ast) {
+yate.grammar.rules.inline_function = function(ast) {
     ast.Name = this.match('QNAME');
     ast.Args = this.match('callargs');
 };
@@ -843,7 +843,7 @@ yate.Grammar.rules.inline_function = function(ast) {
 
 // jpath := jpath_steps
 
-yate.Grammar.rules.jpath = {
+yate.grammar.rules.jpath = {
 
     rule: function(ast) {
         ast.Steps = this.match('jpath_steps'); // FIXME: Зачем нужен этот промежуточное правило? Потому что items.js() не ходит в шаблоны,
@@ -858,7 +858,7 @@ yate.Grammar.rules.jpath = {
 
 // jpath_steps := jpath_step+
 
-yate.Grammar.rules.jpath_steps = function(ast) {
+yate.grammar.rules.jpath_steps = function(ast) {
     ast.add( this.match('jpath_step') );
     while (this.test('jpath_step')) {
         ast.add( this.match('jpath_step') );
@@ -867,19 +867,19 @@ yate.Grammar.rules.jpath_steps = function(ast) {
 
 // jpath_step := jpath_dots | jpath_nametest
 
-yate.Grammar.rules.jpath_step = function() {
+yate.grammar.rules.jpath_step = function() {
     return this.matchAny([ 'jpath_dots', 'jpath_nametest' ]);
 };
 
 // jpath_parents := '.'+
 
-yate.Grammar.rules.jpath_dots = function(ast) {
+yate.grammar.rules.jpath_dots = function(ast) {
     ast.Dots = this.match('DOTS');
 };
 
 // jpath_nametest := '.' ( QNAME | '*' ) jpath_predicates?
 
-yate.Grammar.rules.jpath_nametest = function(ast) {
+yate.grammar.rules.jpath_nametest = function(ast) {
     this.match('.');
     ast.Name = this.matchAny([ 'QNAME', '*' ]);
     if (this.test('[')) {
@@ -889,7 +889,7 @@ yate.Grammar.rules.jpath_nametest = function(ast) {
 
 // jpath_predicates := jpath_predicate+
 
-yate.Grammar.rules.jpath_predicates = function(ast) {
+yate.grammar.rules.jpath_predicates = function(ast) {
     while (this.test('[')) {
         ast.add( this.match('jpath_predicate') );
     }
@@ -897,7 +897,7 @@ yate.Grammar.rules.jpath_predicates = function(ast) {
 
 // jpath_predicate := '[' inline_expr ']'
 
-yate.Grammar.rules.jpath_predicate = {
+yate.grammar.rules.jpath_predicate = {
 
     rule: function(ast) {
         this.match('[');
@@ -915,11 +915,11 @@ yate.Grammar.rules.jpath_predicate = {
 // Skippers
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Grammar.skippers = {};
+yate.grammar.skippers = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Grammar.skippers.default_ = function() {
+yate.grammar.skippers.default_ = function() {
     var r = false;
     while (1) {
         var l = this.skip('spaces') || this.skip('blockComments');
@@ -929,11 +929,11 @@ yate.Grammar.skippers.default_ = function() {
     return r;
 };
 
-yate.Grammar.skippers.spaces = /^\ +/;
+yate.grammar.skippers.spaces = /^\ +/;
 
-yate.Grammar.skippers.none = function() {};
+yate.grammar.skippers.none = function() {};
 
-yate.Grammar.skippers.blockComments = function() {
+yate.grammar.skippers.blockComments = function() {
     if (this.isEOF()) { return; }
 
     if (this.current(2) != '/*') { return; }
