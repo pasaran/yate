@@ -1,15 +1,10 @@
 Yate.AST.jpath.compile = function() {
-    var data = {
-        Jid: this.Jid,
-        Key: this.Key
-    }
-
     var steps = this.Steps.Items;
     var actions = [];
     for (var i = 0, l = steps.length; i < l; i++) {
         var step = steps[i];
         if ( step.is('jpath_dots') ) {
-            actions.push( 1, step.Dots.length );
+            actions.push( 1, step.Dots.length - 1 );
         } else {
             actions.push( 0, JSON.stringify(step.Name) );
             var predicates = step.Predicates;
@@ -17,14 +12,16 @@ Yate.AST.jpath.compile = function() {
                 predicates = predicates.Items;
                 for (var j = 0, m = predicates.length; j < m; j++) {
                     var predicate = predicates[j];
-                    actions.push( predicate.isLocal() ? 2 : 3 );
-                    actions.push( 'p' + predicate.Pid );
+                    if (predicate.isLocal()) {
+                        actions.push( 2, 'p' + predicate.Pid );
+                    } else {
+                        actions.push( 3, predicate.Expr.js() );
+                    }
                 }
             }
         }
     }
-    data.Actions = actions.join(', ');
 
-    return this._js('jpaths_item', data);
+    return '[ ' + actions.join(', ') + ' ]'; // FIXME: Унести в шаблоны.
 };
 

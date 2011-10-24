@@ -10,6 +10,17 @@ Yate.AST.jpath = {
         return true;
     },
 
+    hasGlobalPredicate: function() {
+        var steps = this.Steps.Items;
+        for (var i = 0, l = steps.length; i < l; i++) {
+            var step = steps[i];
+            if ( step.is('jpath_nametest') && step.hasGlobalPredicate() ) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     action: function() {
         var key = this.yate(); // Каноническая запись jpath.
 

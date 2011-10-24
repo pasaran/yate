@@ -293,7 +293,7 @@ Yate.Common.inherits(Yate.AST.Local.State, Yate.AST.Local);
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-Yate.AST.Local.Context = function() {
+Yate.AST.Local.Context = function() { // FIXME: Что предполагалось должен делать Context?
 };
 
 Yate.Common.inherits(Yate.AST.Local.Context, Yate.AST.Local);

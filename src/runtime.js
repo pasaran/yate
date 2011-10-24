@@ -136,29 +136,57 @@ function applyValue(nodeset, mode, attrs, _) {
 
 function select(jpath, context) {
 
-    if (jpath.abs) {
-        context = c0;
-    }
-
-    var steps = jpath.steps;
-    if (!steps.length) {
-        return [ c0 ];
-    }
-
-    var preds = jpath.preds || [];
-
-    var i, n = steps.length;
-    var j, m = 1;
     var current = [ context ];
-    var result;
+    var m = 1;
 
-    for (i = 0; i < n; i++) {
+    var result;
+    for (var i = 0, n = jpath.length; i < n; i += 2) {
         result = [];
-        for (j = 0; j < m; j++) {
-            _selectStep(steps[i], preds[i], current[j], result);
+
+        var type = jpath[i];
+        var step = jpath[i + 1];
+
+        switch (type) {
+
+            case 0: // Это nametest (.foo или .*), в step 'foo' или '*'.
+                for (var j = 0; j < m; j++) {
+                    selectNametest(step, current[j], result);
+                }
+                break;
+
+            case 1: // Это dots (., .., ...), в step количество шагов минус один ( . -- 0, .. -- 1, ... -- 2 и т.д. ).
+                for (var j = 0; j < m; j++) {
+                    var k = 0;
+                    var node = context;
+                    while (k < step && node) {
+                        node = node.parent;
+                        k++;
+                    }
+                    if (node) {
+                        result.push(node);
+                    }
+                }
+                break;
+
+            case 2: // Это filter, в step предикат.
+                for (var j = 0; j < m; j++) {
+                    var node = current[j];
+                    if (step(node, j, m)) { // Предикат принимает три параметра: node, index и count.
+                        result.push(node);
+                    }
+                }
+                break;
+
+            case 3: // Это index, в step индекс нужного элемента.
+                var node = current[step];
+                result = (node) ? [node] : [];
+                break;
+
         }
 
-        current = result; m = current.length;
+        current = result;
+        m = current.length;
+
         if (!m) { return []; }
     }
 
@@ -167,37 +195,21 @@ function select(jpath, context) {
 
 function selectContext(jpath, nodeset) {
     var result = [];
-    for (var i = 0, l = nodeset.length; i < l; i++) {
-        Array.prototype.push.apply(result, select(jpath, nodeset[i]));
+    for (var i = 0, n = nodeset.length; i < n; i++) {
+        result = result.concat( select( jpath, nodeset[i] ) );
     }
     return result;
 };
 
-function _selectStep(step, predicate, context, result) {
-
-    // '.'
-    if (step === '.') {
-        result.push(context);
-        return;
-    }
-
-    // '..'
-    if (step === '..') {
-        var parent = context.parent;
-        if (parent) { // У корневой ноды нет parent'а.
-            result.push(parent);
-        }
-        return;
-    }
+function selectNametest(step, context, result) {
 
     var data = context.data;
 
     if (typeof data !== 'object') { return; }
 
-    // '*'
     if (step === '*') {
         for (step in data) {
-            _selectStep(step, predicate, context, result);
+            selectNametest(step, context, result);
         }
         return;
     }
@@ -206,46 +218,20 @@ function _selectStep(step, predicate, context, result) {
     if (data === undefined) { return; }
 
     if (data instanceof Array) {
-        var count = data.length;
-        if (predicate) {
-            for (var index = 0; index < count; index++) {
-                var node = {
-                    data: data[index],
-                    parent: context,
-                    name: step
-                };
-                if (predicate(node, index, count)) {
-                    result.push(node);
-                }
-            }
-        } else {
-            for (var index = 0; index < count; index++) {
-                result.push({
-                    data: data[index],
-                    parent: context,
-                    name: step
-                });
-            }
-        }
-    } else {
-        if (predicate) {
-            var node = {
-                data: data,
-                parent: context,
-                name: step
-            };
-            if (predicate(node, 0, 1)) {
-                result.push(node);
-            }
-        } else {
+        for (var i = 0, l = data.length; i < l; i++) {
             result.push({
-                data: data,
+                data: data[i],
                 parent: context,
                 name: step
             });
         }
+    } else {
+        result.push({
+            data: data,
+            parent: context,
+            name: step
+        });
     }
-
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

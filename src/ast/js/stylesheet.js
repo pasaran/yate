@@ -16,7 +16,10 @@ Yate.AST.stylesheet.js = function() {
     var jpaths = this.state.jpaths;
     var r = [];
     for (var i = 0, l = jpaths.length; i < l; i++) {
-        r.push(jpaths[i].compile());
+        var jpath = jpaths[i];
+        if (!jpath.hasGlobalPredicate()) {
+            r.push( jpaths[i]._js('jpath_var') );
+        }
     }
     data.Jpaths = r.join('\n');
 

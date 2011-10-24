@@ -1,19 +1,21 @@
 Yate.AST.jpath_predicate = {
 
     action: function() {
-        var key = this.Expr.yate(); // Каноническая запись предиката.
+        if (this.isLocal()) {
+            var key = this.Expr.yate(); // Каноническая запись предиката.
 
-        var state = this.state;
+            var state = this.state;
 
-        // Если этот jpath еще не хранится в state, то добаляем его туда.
-        var pid = state.pkeys[key];
-        if (!pid) {
-            pid = state.pkeys[key] = state.pid++;
-            state.predicates.push(this);
+            // Если этот jpath еще не хранится в state/scope, то добаляем его туда.
+            var pid = state.pkeys[key];
+            if (!pid) {
+                pid = state.pkeys[key] = state.pid++;
+                state.predicates.push(this);
+            }
+
+            this.Pid = pid;
+            this.Key = key;
         }
-
-        this.Pid = pid;
-        this.Key = key;
     },
 
     isLocal: function() {

@@ -292,7 +292,7 @@ if_:output
 
 *:body
 
-    %.
+    %Block
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -431,6 +431,9 @@ jpath:context
 root:context
     root
 
+jpath [ %hasGlobalPredicate() ]
+    select( %compile(), c%Cid)
+
 jpath
     select(j%Jid, c%Cid)
 
@@ -440,9 +443,8 @@ jpath_predicate
         return %Expr;
     };
 
-jpaths_item ( %Predicates = '[]', %Absolute = '0' )
-
-    var j%Jid = [ %Actions ]; // %Key
+jpath_var
+    var j%Jid = %compile(); // %Key
 
 arglist_item
     , v%Vid
@@ -509,5 +511,5 @@ xml_line:output
 
 root
 
-    c0
+    root
 
