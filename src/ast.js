@@ -20,7 +20,7 @@ yate.AST.prototype._init = function() {};
 
 yate.AST.prototype.error = function(s) {
     require('util').puts(new Error().stack);
-    throw 'ERROR: ' + s + '\n' + yate.Parser._where(this.where);
+    throw 'ERROR: ' + s + '\n' + yate.parser._where(this.where);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

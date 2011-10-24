@@ -1,6 +1,6 @@
 require('./colors.js');
 
-var parser = yate.Parser;
+var parser = yate.parser;
 
 var Fs = require('fs');
 var CodeTemplates = require('./src/codetemplates.js').CodeTemplates;
