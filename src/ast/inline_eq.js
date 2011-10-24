@@ -1,9 +1,9 @@
 yate.AST.inline_eq = {
 
     signature: {
-        left: yate.Types.SCALAR,
-        right: yate.Types.SCALAR,
-        result: yate.Types.BOOLEAN
+        left: yate.types.SCALAR,
+        right: yate.types.SCALAR,
+        result: yate.types.BOOLEAN
     },
 
     options: {

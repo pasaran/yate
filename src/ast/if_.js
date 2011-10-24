@@ -6,13 +6,13 @@ yate.AST.if_ = {
 
     _getType: function() {
         var thenType = this.Then.type();
-        var elseType = (this.Else) ? this.Else.type() : yate.Types.UNDEF;
+        var elseType = (this.Else) ? this.Else.type() : yate.types.UNDEF;
 
-        return yate.Types.commonType(thenType, elseType);
+        return yate.types.commonType(thenType, elseType);
     },
 
     prepare: function() {
-        this.Condition.cast(yate.Types.BOOLEAN);
+        this.Condition.cast(yate.types.BOOLEAN);
 
         if (this.Then.AsList) {
             this.AsListItem = false;

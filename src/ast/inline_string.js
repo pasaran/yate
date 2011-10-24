@@ -4,10 +4,10 @@ yate.AST.inline_string = {
         base: 'inline_expr'
     },
 
-    _type: yate.Types.SCALAR,
+    _type: yate.types.SCALAR,
 
     prepare: function() {
-        this.Value.cast(yate.Types.SCALAR);
+        this.Value.cast(yate.types.SCALAR);
     },
 
     toResult: function(result) {

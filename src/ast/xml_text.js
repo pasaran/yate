@@ -6,7 +6,7 @@ yate.AST.xml_text = {
 
     prepare: function() {
         this.trigger('set', 'mode', 'text');
-        this.Text.cast(yate.Types.SCALAR);
+        this.Text.cast(yate.types.SCALAR);
     },
 
     toResult: function(result) {

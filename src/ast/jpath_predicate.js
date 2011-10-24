@@ -24,14 +24,14 @@ yate.AST.jpath_predicate = {
 
     prepare: function() {
         if (this.isLocal()) {
-            this.Expr.cast( yate.Types.BOOLEAN );
+            this.Expr.cast( yate.types.BOOLEAN );
         } else {
-            this.Expr.cast( yate.Types.SCALAR );
+            this.Expr.cast( yate.types.SCALAR );
         }
     },
 
     validate: function() {
-        if (!this.Expr.type( yate.Types.BOOLEAN )) {
+        if (!this.Expr.type( yate.types.BOOLEAN )) {
             this.Expr.error('Type must be BOOLEAN');
         }
     }

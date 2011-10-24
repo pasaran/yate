@@ -14,10 +14,10 @@ yate.AST.key = {
     },
 
     validate: function() {
-        if (!this.Nodes.type( yate.Types.NODESET )) {
+        if (!this.Nodes.type( yate.types.NODESET )) {
             this.Nodes.error('Nodeset is required');
         }
-        if (!this.Use.type( yate.Types.SCALAR )) {
+        if (!this.Use.type( yate.types.SCALAR )) {
             this.Use.error('Scalar is required');
         }
     },

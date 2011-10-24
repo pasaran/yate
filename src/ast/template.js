@@ -18,10 +18,10 @@ yate.AST.template = {
             block.cast();
         } else {
             var type = block.type();
-            if (type == yate.Types.ARRAY || type == yate.Types.OBJECT) {
+            if (type == yate.types.ARRAY || type == yate.types.OBJECT) {
                 block.cast(type);
             } else {
-                block.cast(yate.Types.XML);
+                block.cast(yate.types.XML);
             }
         }
     }

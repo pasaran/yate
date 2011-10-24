@@ -1,8 +1,8 @@
 yate.AST.inline_not = {
 
     signature: {
-        left: yate.Types.BOOLEAN,
-        result: yate.Types.BOOLEAN
+        left: yate.types.BOOLEAN,
+        result: yate.types.BOOLEAN
     },
 
     options: {

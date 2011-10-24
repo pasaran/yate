@@ -1,9 +1,9 @@
 yate.AST.inline_or = {
 
     signature: {
-        left: yate.Types.BOOLEAN,
-        right: yate.Types.BOOLEAN,
-        result: yate.Types.BOOLEAN
+        left: yate.types.BOOLEAN,
+        right: yate.types.BOOLEAN,
+        result: yate.types.BOOLEAN
     },
 
     options: {

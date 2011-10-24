@@ -8,7 +8,7 @@ yate.AST.inline_number = {
         return false;
     },
 
-    _type: yate.Types.SCALAR
+    _type: yate.types.SCALAR
 
 };
 

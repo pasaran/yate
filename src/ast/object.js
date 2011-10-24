@@ -1,6 +1,6 @@
 yate.AST.object = {
 
-    _type: yate.Types.OBJECT,
+    _type: yate.types.OBJECT,
 
     action: function() {
         this.Block.AsList = true;

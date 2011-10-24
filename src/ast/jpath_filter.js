@@ -9,10 +9,10 @@ yate.AST.jpath_filter = {
         this.Predicates = predicates;
     },
 
-    _type: yate.Types.NODESET,
+    _type: yate.types.NODESET,
 
     validate: function() {
-        if (!this.Expr.type( yate.Types.NODESET )) {
+        if (!this.Expr.type( yate.types.NODESET )) {
             this.Expr.error('Type should be NODESET');
         }
     }

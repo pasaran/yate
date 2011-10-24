@@ -206,11 +206,11 @@ yate.AST.prototype.type = function(to) {
         type = this._type = this._getType();
     }
 
-    return (to) ? yate.Types.convertable(type, to) : type;
+    return (to) ? yate.types.convertable(type, to) : type;
 };
 
 yate.AST.prototype._getType = function() {
-    return yate.Types.NONE;
+    return yate.types.NONE;
 };
 
 yate.AST.prototype.cast = function(to) {
@@ -220,7 +220,7 @@ yate.AST.prototype.cast = function(to) {
     if (from != to) {
         this.AsType = to;
 
-        if (!yate.Types.convertable(from, to)) {
+        if (!yate.types.convertable(from, to)) {
             this.error('Cannot convert type from ' + from + ' to ' + to + ' ' + this.id);
         }
     }
@@ -235,10 +235,10 @@ yate.AST.prototype.oncast = function(to) {
 yate.AST.prototype.toValue = function() {
     var type = this.type();
 
-    if (type == yate.Types.ARRAY || type == yate.Types.OBJECT) {
+    if (type == yate.types.ARRAY || type == yate.types.OBJECT) {
         this.cast(type);
     } else {
-        this.cast(yate.Types.XML);
+        this.cast(yate.types.XML);
     }
 };
 
@@ -305,7 +305,7 @@ yate.AST.prototype.cid = function() {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.prototype.isOpen = function() {
-    if (this.type() == yate.Types.ATTR || this.type() == yate.Types.XML) {
+    if (this.type() == yate.types.ATTR || this.type() == yate.types.XML) {
         return undefined;
     }
     return false;

@@ -1,6 +1,6 @@
 yate.AST.attrs_close = {
 
-    _type: yate.Types.XML
+    _type: yate.types.XML
 
 };
 

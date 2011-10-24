@@ -4,10 +4,10 @@ yate.AST.apply = {
         base: 'expr'
     },
 
-    _type: yate.Types.UNDEF,
+    _type: yate.types.UNDEF,
 
     validate: function() {
-        if (!this.Expr.type( yate.Types.NODESET )) {
+        if (!this.Expr.type( yate.types.NODESET )) {
             this.error('Type of expression should be NODESET');
         }
     },

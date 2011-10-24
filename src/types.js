@@ -1,10 +1,8 @@
 // ----------------------------------------------------------------------------------------------------------------- //
-
-// TYPES
-
+// yate.types
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Types = {
+yate.types = {
     NONE    : 'none',
     UNDEF   : 'undef',
     SCALAR  : 'scalar',
@@ -20,8 +18,8 @@ yate.Types = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Types.joinType = function(left, right) {
-    var types = yate.Types;
+yate.types.joinType = function(left, right) {
+    var types = yate.types;
 
     // NONE + ??? == NONE
     if (left == types.NONE || right == types.NONE) { return types.NONE; }
@@ -52,8 +50,8 @@ yate.Types.joinType = function(left, right) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Types.convertable = function(from, to) {
-    var types = yate.Types;
+yate.types.convertable = function(from, to) {
+    var types = yate.types;
 
     return (
         (from == to) ||
@@ -70,8 +68,8 @@ yate.Types.convertable = function(from, to) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.Types.commonType = function(left, right) {
-    var types = yate.Types;
+yate.types.commonType = function(left, right) {
+    var types = yate.types;
 
     if (left == right) { return left; }
 
@@ -91,13 +89,13 @@ yate.Types.commonType = function(left, right) {
     }
 
     if (
-        left == yate.Types.XML || right == yate.Types.XML ||
-        left == yate.Types.ATTR || right == yate.Types.ATTR
+        left == yate.types.XML || right == yate.types.XML ||
+        left == yate.types.ATTR || right == yate.types.ATTR
     ) {
-        return yate.Types.XML;
+        return yate.types.XML;
     }
 
-    return yate.Types.SCALAR;
+    return yate.types.SCALAR;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

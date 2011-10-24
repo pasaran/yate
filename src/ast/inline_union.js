@@ -1,9 +1,9 @@
 yate.AST.inline_union = {
 
     signature: {
-        left: yate.Types.NODESET,
-        right: yate.Types.NODESET,
-        result: yate.Types.NODESET
+        left: yate.types.NODESET,
+        right: yate.types.NODESET,
+        result: yate.types.NODESET
     },
 
     options: {

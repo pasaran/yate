@@ -1,6 +1,6 @@
 yate.AST.root = {
 
-    _type: yate.Types.NODESET,
+    _type: yate.types.NODESET,
 
     isLocal: function() {
         return false;

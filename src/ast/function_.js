@@ -20,7 +20,7 @@ yate.AST.function_ = {
     },
 
     validate: function() {
-        if (this.Body.type() === yate.Types.UNDEF) {
+        if (this.Body.type() === yate.types.UNDEF) {
             this.error('Undefined type of return value');
         }
     },

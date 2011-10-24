@@ -4,7 +4,7 @@ yate.AST.string_content = {
         mixin: 'items'
     },
 
-    _type: yate.Types.SCALAR
+    _type: yate.types.SCALAR
 
 };
 

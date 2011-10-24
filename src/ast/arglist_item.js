@@ -14,9 +14,9 @@ yate.AST.arglist_item = {
     },
 
     _getType: function() {
-        if (this.Typedef == 'nodeset') { return yate.Types.NODESET; }
-        if (this.Typedef == 'boolean') { return yate.Types.BOOLEAN; }
-        return yate.Types.SCALAR;
+        if (this.Typedef == 'nodeset') { return yate.types.NODESET; }
+        if (this.Typedef == 'boolean') { return yate.types.BOOLEAN; }
+        return yate.types.SCALAR;
     }
 
 };

@@ -5,7 +5,7 @@ yate.AST.attrs_open = {
         item.Attrs = null; // FIXME: В правой части, похоже, можно что угодно написать. Нужна ли эта строчка вообще?
     },
 
-    _type: yate.Types.XML
+    _type: yate.types.XML
 
 };
 

@@ -1,9 +1,9 @@
 yate.AST.inline_add = {
 
     signature: {
-        left: yate.Types.SCALAR,
-        right: yate.Types.SCALAR,
-        result: yate.Types.SCALAR
+        left: yate.types.SCALAR,
+        right: yate.types.SCALAR,
+        result: yate.types.SCALAR
     },
 
     options: {

@@ -6,7 +6,7 @@ yate.AST.block_exprs = {
 
     _getType: function() {
         if (this.AsList) {
-            return yate.Types.LIST;
+            return yate.types.LIST;
         }
         return yate.AST.items._getType.call(this);
     },
@@ -71,7 +71,7 @@ yate.AST.block_exprs = {
     */
 
     prepare: function() {
-        if (this.type() != yate.Types.XML) { return; }
+        if (this.type() != yate.types.XML) { return; }
 
         var o = [];
         var last;

@@ -7,7 +7,7 @@ yate.AST.for_ = {
     _getType: function() {
         var type = this.Body.type();
 
-        return yate.Types.joinType(type, type);
+        return yate.types.joinType(type, type);
     },
 
     oncast: function(to) {
