@@ -15,7 +15,7 @@ Yate.AST.inline_op = {
     },
 
     isLocal: function() {
-        return this.Left.isLocal() || ( (this.Right) ? this.Right.isLocal() : true );
+        return this.Left.isLocal() || ( this.Right && this.Right.isLocal() );
     },
 
     _getType: function() {
