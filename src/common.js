@@ -13,6 +13,8 @@ yate.inherits = function(class_, base, mixin) {
     }
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
 yate.mixin = function(class_, mixin) {
     mixin = yate.makeArray(mixin);
     for (var i = 0, l = mixin.length; i < l; i++) {
@@ -26,6 +28,8 @@ yate._mixinOne = function(class_, mixin) {
         proto[name] = mixin[name];
     }
 };
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 yate.makeArray = function(o) {
     return (o instanceof Array) ? o : [ o ];
@@ -70,6 +74,13 @@ yate.map = function(a, m) {
     }
     return r;
 };
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.nop = function() {};
+
+yate.true = function() { return true; };
+yate.false = function() { return false; };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
