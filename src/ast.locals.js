@@ -2,8 +2,9 @@
 // Locals: state, context, scope
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.Local = function() {
-};
+yate.AST.Local = function() {};
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.Local.prototype.child = function() {
     var local = new this.constructor();
@@ -71,6 +72,21 @@ yate.AST.Local.Scope.prototype.findFunction = function(name) {
         scope = scope.parent;
     }
     return yate.AST.internalFunctions[name]; // Если ничего не нашли в scope'ах, смотрим на список встроенных функций.
+};
+
+yate.AST.Local.Scope.prototype.inScope = function(scope) {
+    var that = this;
+
+    while (that) {
+        if (that === scope) { return true; }
+        that = that.parent;
+    }
+
+    return false;
+};
+
+yate.AST.Local.Scope.min = function(a, b) {
+    return (a.inScope(b)) ? a : b;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
