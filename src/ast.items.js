@@ -5,7 +5,7 @@
 yate.AST.items = {
 
     _init: function(items) {
-        this.Items = yate.Common.makeArray(items || []);
+        this.Items = yate.makeArray(items || []);
     },
 
     _getType: function() {
@@ -65,7 +65,7 @@ yate.AST.items = {
     },
 
     map: function(callback) {
-        return yate.Common.map(this.Items, callback);
+        return yate.map(this.Items, callback);
     },
 
     yate: function() {

@@ -23,7 +23,7 @@ yate.AST.xml_line.js = function() {
     for (var i = 0, l = r.length; i < l; i++) {
         var item = r[i];
         if (typeof item == 'string') {
-            r[i] = yate.Common.quote(item);
+            r[i] = yate.quote(item);
         } else {
             r[i] = item.js();
         }

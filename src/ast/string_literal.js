@@ -18,9 +18,9 @@ yate.AST.string_literal = {
 
     toResult: function(result) {
         if (this.mode === 'attr') {
-            result.push(yate.Common.quoteAttr(this.Value));
+            result.push(yate.quoteAttr(this.Value));
         } else if (this.mode === 'text') {
-            result.push(yate.Common.quoteText(this.Value));
+            result.push(yate.quoteText(this.Value));
         } else {
             result.push(this.Value);
         }

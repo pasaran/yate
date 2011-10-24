@@ -29,14 +29,14 @@ yate.AST.Local.State = function() {
     this.kid = 0; // Ключи.
 };
 
-yate.Common.inherits(yate.AST.Local.State, yate.AST.Local);
+yate.inherits(yate.AST.Local.State, yate.AST.Local);
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.Local.Context = function() { // FIXME: Что предполагалось должен делать Context?
 };
 
-yate.Common.inherits(yate.AST.Local.Context, yate.AST.Local);
+yate.inherits(yate.AST.Local.Context, yate.AST.Local);
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -48,7 +48,7 @@ yate.AST.Local.Scope = function() {
 
 yate.AST.Local.Scope._id = 0;
 
-yate.Common.inherits(yate.AST.Local.Scope, yate.AST.Local);
+yate.inherits(yate.AST.Local.Scope, yate.AST.Local);
 
 yate.AST.Local.Scope.prototype.findVar = function(name) {
     var scope = this;

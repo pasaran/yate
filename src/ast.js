@@ -53,11 +53,11 @@ yate.AST.$ = function(id) {
         var base = (options.base) ? this.$(options.base) : yate.AST;
         var mixin = [];
         if (options.mixin) {
-            options.mixin = yate.Common.makeArray(options.mixin);
-            mixin = mixin.concat(yate.Common.map(options.mixin, function(id) { return yate.AST[id] || {}; }));
+            options.mixin = yate.makeArray(options.mixin);
+            mixin = mixin.concat(yate.map(options.mixin, function(id) { return yate.AST[id] || {}; }));
         }
         mixin.push(info);
-        yate.Common.inherits(ast, base, mixin);
+        yate.inherits(ast, base, mixin);
 
         this._asts[id] = ast;
     }
