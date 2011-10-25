@@ -2,6 +2,7 @@ yate.AST.stylesheet.js = function() {
 
     var data = {};
 
+    /*
     // Сериализуем список всех предикатов.
 
     var predicates = this.state.predicates;
@@ -22,6 +23,7 @@ yate.AST.stylesheet.js = function() {
         }
     }
     data.Jpaths = r.join('\n');
+    */
 
     // Сериализуем список всех шаблонов, функций и переменных.
 

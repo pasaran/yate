@@ -19,9 +19,9 @@ var ast = parser.match('stylesheet');
 // Фазы-проходы по дереву:
 
 // 0. Каждой ноде выставляется поле parent,
-//    кроме того, создаются (или наследуются от parent'а) т.н. locals -- state, scope, context.
+//    кроме того, создается (или наследуются от parent'а) scope.
 ast.setParents();
-ast.trigger('setLocals');
+ast.trigger('setScope');
 
 // 1. Действие над каждой нодой в ast, не выходящее за рамки этой ноды и ее state/scope/context.
 ast.trigger('action');

@@ -882,12 +882,10 @@ yate.grammar.rules.jpath_dots = function(ast) {
 yate.grammar.rules.jpath_nametest = function(ast) {
     this.match('.');
     ast.Name = this.matchAny([ 'QNAME', '*' ]);
-    if (this.test('[')) {
-        ast.Predicates = this.match('jpath_predicates');
-    }
+    ast.Predicates = this.match('jpath_predicates');
 };
 
-// jpath_predicates := jpath_predicate+
+// jpath_predicates := jpath_predicate*
 
 yate.grammar.rules.jpath_predicates = function(ast) {
     while (this.test('[')) {

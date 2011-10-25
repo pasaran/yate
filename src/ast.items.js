@@ -174,3 +174,18 @@ yate.AST.items.isLocal = function() {
     return this.someIs('isLocal');
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.AST.items.getScope = function() {
+    var items = this.Items;
+    var l = items.length;
+    if (!l) { return this.scope; }
+
+    var scope = items[0].getScope();
+    for (var i = 1; i < l; i++) {
+        scope = yate.Scope.commonScope( scope, items[i].getScope() );
+    }
+
+    return scope;
+};
+

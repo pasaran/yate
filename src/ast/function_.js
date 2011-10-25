@@ -1,11 +1,5 @@
 yate.AST.function_ = {
 
-    options: {
-        locals: {
-            scope: true
-        }
-    },
-
     action: function() {
         var functions = this.parent.scope.functions;
         var name = this.Name;

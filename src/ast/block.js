@@ -1,9 +1,7 @@
 yate.AST.block = {
 
     options: {
-        locals: {
-            scope: true
-        },
+        scope: true,
         order: [ 'Defs', 'Templates', 'Exprs', 'AsList' ]
     },
 

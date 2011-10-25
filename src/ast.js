@@ -5,6 +5,8 @@
 
 yate.AST = function() {};
 
+yate.AST.prototype._init = function() {};
+
 yate.AST._asts = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -14,7 +16,15 @@ yate.AST.prototype.options = {};
 yate.AST.prototype.Rid = 0;
 yate.AST.prototype.Cid = 0;
 
-yate.AST.prototype._init = function() {};
+yate.AST.prototype.state = {
+    // Глобальные id-шники:
+    jid: 0, // jpath'ы.
+    pid: 0, // Предикаты.
+    tid: 0, // Шаблоны.
+    vid: 0, // Переменные.
+    fid: 0, // Функции.
+    kid: 0  // Ключи.
+};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -129,21 +139,6 @@ yate.AST.prototype.children = function() {
     }
 
     return children;
-    /*
-    var order = this.options.order;
-    if (order) {
-        for (var i = 0, l = order.length; i < l; i++) {
-            children.push(this[order[i]]);
-        }
-    } else {
-        for (var key in this) {
-            if (this.hasOwnProperty(key) && /^[A-Z]/.test(key)) {
-                children.push(this[key]);
-            }
-        }
-    }
-    return children;
-    */
 };
 
 yate.AST.prototype._apply = function(callback) {
@@ -260,21 +255,22 @@ yate.AST.prototype.inline = yate.false;
 // Walk methods
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.setLocals = function() {
-    var options = this.options.locals || {};
-    var locals = yate.AST.locals;
+yate.AST.prototype.setScope = function() {
+    var options = this.options || {};
     var parent = this.parent;
 
-    for (var local in locals) {
-        var parentLocal = (parent) ? parent[local] : null;
-        if (options[local]) {
-            this[local] = (parentLocal) ? parentLocal.child() : new locals[local]();
-        } else {
-            this[local] = parentLocal;
-        }
+    var parentScope = (parent) ? parent.scope : null;
+    if (options.scope) {
+        this.scope = (parentScope) ? parentScope.child() : new yate.Scope();
+    } else {
+        this.scope = parentScope;
     }
 
     this.Sid = this.scope.id;
+};
+
+yate.AST.prototype.getScope = function() {
+    return this.scope;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -340,6 +336,8 @@ yate.AST.prototype.toString = function() {
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+// FIXME: Унести в ast/var_.js и ast/function_.js соответственно.
 
 yate.AST.var_type = {
     USER: 'user',

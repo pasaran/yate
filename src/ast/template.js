@@ -1,11 +1,5 @@
 yate.AST.template = {
 
-    options: {
-        locals: {
-            scope: true
-        }
-    },
-
     action: function() {
         this.Tid = this.state.tid++;
     },
