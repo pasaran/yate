@@ -254,9 +254,7 @@ yate.AST.prototype.is = function(type) {
     }
 };
 
-yate.AST.prototype.inline = function() {
-    return false;
-};
+yate.AST.prototype.inline = yate.false;
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Walk methods
