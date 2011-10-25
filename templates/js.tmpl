@@ -16,15 +16,7 @@ main
 
 stylesheet
 
-    %Predicates
-
-    %Jpaths
-
-    %Templates
-
-    var matcher = %Matcher;
-
-    %Defs
+    %Block
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -37,6 +29,7 @@ template
     };
 
 template_mode [ %Value != '' ]
+
     #%Value
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -47,12 +40,6 @@ function_
     var f%Fid = %Body:function
 
 # ------------------------------------------------------------------------------------------------------------------- #
-
-block
-
-    %Defs
-
-    %Exprs
 
 block:function [ %AsList ]
 
@@ -74,6 +61,20 @@ block:function-body
     %.:prologue
 
     %.
+
+block
+
+    %Templates
+
+    %Defs
+
+    %JPaths
+
+    %Predicates
+
+    var matcher = %Matcher;
+
+    %Exprs
 
 # ------------------------------------------------------------------------------------------------------------------- #
 
@@ -430,9 +431,6 @@ jpath:context
 
 root:context
     root
-
-jpath [ %hasGlobalPredicate() ]
-    select( %compile(), c%Cid)
 
 jpath
     select(j%Jid, c%Cid)

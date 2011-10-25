@@ -8,17 +8,6 @@ yate.AST.jpath._type = yate.types.NODESET;
 
 yate.AST.jpath.isLocal = yate.true;
 
-yate.AST.jpath.hasGlobalPredicate = function() {
-    var steps = this.Steps.Items;
-    for (var i = 0, l = steps.length; i < l; i++) {
-        var step = steps[i];
-        if ( step.is('jpath_nametest') && step.hasGlobalPredicate() ) {
-            return true;
-        }
-    }
-    return false;
-};
-
 yate.AST.jpath.action = function() {
     var key = this.yate(); // Каноническая запись jpath.
 

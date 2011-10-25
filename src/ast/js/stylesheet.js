@@ -1,29 +1,7 @@
+/*
 yate.AST.stylesheet.js = function() {
 
     var data = {};
-
-    /*
-    // Сериализуем список всех предикатов.
-
-    var predicates = this.state.predicates;
-    var r = [];
-    for (var i = 0, l = predicates.length; i < l; i++) {
-        r.push( predicates[i].js() );
-    }
-    data.Predicates = r.join('\n\n');
-
-    // Сериализуем список всех jpath'ов. В дальнейшем во всех местах вместо собственно jpath'а используется его id в этом массиве.
-
-    var jpaths = this.state.jpaths;
-    var r = [];
-    for (var i = 0, l = jpaths.length; i < l; i++) {
-        var jpath = jpaths[i];
-        if (!jpath.hasGlobalPredicate()) {
-            r.push( jpaths[i]._js('jpath_var') );
-        }
-    }
-    data.Jpaths = r.join('\n');
-    */
 
     // Сериализуем список всех шаблонов, функций и переменных.
 
@@ -87,4 +65,5 @@ yate.AST.stylesheet.js = function() {
     }
 
 };
+*/
 

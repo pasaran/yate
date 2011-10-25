@@ -203,7 +203,6 @@ CodeTemplates._evalLine = function(line, data, method) {
 // %.
 // %.:mode
 CodeTemplates._evalMacro = function(macro, data, method) {
-
     // %{Foo} -> %Foo
     var r = /^(\s*)%{(.*)}$/.exec(macro);
     if (r) {
