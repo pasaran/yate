@@ -1,4 +1,4 @@
-yate.AST.xml_line.js = function() {
+yate.AST.xml_line.code$ = function() {
     var items = [];
     this.toResult(items);
 
@@ -13,11 +13,11 @@ yate.AST.xml_line.js = function() {
                 r.push(s);
                 s = '';
             }
-            r.push(item);
+            r.push(item); // FIXME: item -> make('string_literal')
         }
     }
     if (s) {
-        r.push(s);
+        r.push(s); // FIXME:
     }
 
     for (var i = 0, l = r.length; i < l; i++) {
@@ -25,10 +25,10 @@ yate.AST.xml_line.js = function() {
         if (typeof item == 'string') {
             r[i] = yate.quote(item);
         } else {
-            r[i] = item.js();
+            r[i] = item.code();
         }
     }
 
-    return r.join(' + ');
+    return this.codejoin(r);
 };
 

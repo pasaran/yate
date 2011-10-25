@@ -1,32 +1,22 @@
-yate.AST.block_exprs.options.js = {
-    separator: '\n'
-};
+yate.AST.block_exprs.jssep$ = '\n';
 
-yate.AST.block_templates.options.js = {
-    separator: '\n\n'
-};
+yate.AST.block_templates.jssep$ = '\n\n';
 
-yate.AST.block_defs.options.js = {
-    separator: '\n\n'
-};
+yate.AST.block_defs.jssep$ = '\n\n';
 
-yate.AST.arglist.options.js = {
-    separator: ', '
-};
+yate.AST.arglist.js = jssep$ = ', ';
 
-yate.AST.callargs.options.js = {
-    separator: ', '
-};
+yate.AST.callargs.jssep$ = ', ';
 
-yate.AST.string_content.options.js = {
-    separator: ' + '
-};
+yate.AST.string_content.jssep$ = ' + ';
 
-yate.AST.inline_scalar.options.js = {
-    separator: ' + '
-};
+yate.AST.inline_scalar.jssep$ = ' + ';
 
-yate.AST.xml_attrs.options.js = {
-    separator$open: ',\n'
-};
+yate.AST.xml_attrs.jssep$ = ',\n';
+
+yate.AST.xml_line.jssep$ = ' + ';
+
+yate.AST.jpath.jssep$compiled = ', ';
+
+yate.AST.arglist.codesep$defaults = '\n';
 

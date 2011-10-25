@@ -1,19 +1,34 @@
-/*
-yate.AST.stylesheet.js = function() {
+yate.AST.block.codedata$ = function() {
 
     var data = {};
 
+    // Сериализуем список всех предикатов.
+
+    var predicates = this.scope.predicates;
+    var r = [];
+    for (var i = 0, l = predicates.length; i < l; i++) {
+        r.push( predicates[i].code() );
+    }
+    data.Predicates = r.join('\n\n');
+
+    // Сериализуем список всех jpath'ов. В дальнейшем во всех местах вместо собственно jpath'а используется его id в этом массиве.
+
+    var jpaths = this.scope.jpaths;
+    var r = [];
+    for (var i = 0, l = jpaths.length; i < l; i++) {
+        r.push( jpaths[i].code('jpath_var') );
+    }
+    data.JPaths = r.join('\n');
+
     // Сериализуем список всех шаблонов, функций и переменных.
 
-    var block = this.Block;
-
-    data.Templates = block.Templates.js();
-    data.Defs = block.Defs.js();
+    data.Templates = this.Templates.code();
+    data.Defs = this.Defs.code();
 
     // Сериализуем двухуровневый каталог шаблонов. Первый уровень -- по моде, второй по последнему nametest'у.
 
     var matcher = {};
-    block.Templates.iterate(function(template) {
+    this.Templates.iterate(function(template) {
         addToMatcher(template);
     });
 
@@ -27,11 +42,13 @@ yate.AST.stylesheet.js = function() {
         }
         r1.push('    "' + k1 + '": {\n' + r2.join(',\n') + '\n    }');
     }
-    data.Matcher = '{\n' + r1.join(',\n') + '\n}';
+    if (r1.length) {
+        data.Matcher = '{\n' + r1.join(',\n') + '\n}';
+    }
 
     // Заполняем шаблон данными.
 
-    return this._js({ data: data });
+    return data;
 
     // local functions.
 
@@ -65,5 +82,4 @@ yate.AST.stylesheet.js = function() {
     }
 
 };
-*/
 

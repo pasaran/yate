@@ -57,7 +57,7 @@ block:function
 
 block:function-body
 
-    %parent.Args.defaults()
+    %parent.Args:defaults
     %.:prologue
 
     %.
@@ -447,7 +447,7 @@ jpath_var
 arglist_item
     , v%Vid
 
-arglist_item_default
+arglist_item:defaults
     v%Vid = v%Vid || %Default;
 
 inline_string
@@ -510,4 +510,26 @@ xml_line:output
 root
 
     root
+
+# ------------------------------------------------------------------------------------------------------------------- #
+
+jpath:compiled
+
+    [ %Steps ]
+
+jpath_nametest:compiled
+
+    0, %Name.stringify()
+
+jpath_dots:compiled
+
+    1, %Length
+
+jpath_predicate:compiled [ %isLocal() ]
+
+    2, p%Pid
+
+jpath_predicate:compiled
+
+    3, %Expr.stringify()
 
