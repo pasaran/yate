@@ -28,7 +28,7 @@ ast.trigger('action');
 
 // console.log( require('util').inspect(ast, true, null) );
 // 2. Оптимизация дерева. Группировка нод, перестановка, замена и т.д.
-ast.trigger('optimize');
+// ast.trigger('optimize');
 
 // 3. Валидация. Проверяем типы, определенность переменных/функций и т.д.
 ast.trigger('validate');
