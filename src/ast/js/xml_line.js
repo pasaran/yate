@@ -1,4 +1,4 @@
-yate.AST.xml_line.code$ = function() {
+yate.AST.xml_line.js$ = function() {
     var items = [];
     this.toResult(items);
 

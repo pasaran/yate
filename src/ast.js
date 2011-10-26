@@ -191,9 +191,7 @@ yate.AST.prototype.cast = function(to) {
     this.oncast(to);
 };
 
-yate.AST.prototype.oncast = function(to) {
-    // Do nothing.
-};
+yate.AST.prototype.oncast = yate.nop;
 
 yate.AST.prototype.toValue = function() {
     var type = this.type();
@@ -321,13 +319,8 @@ yate.AST.function_type = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.yate = function(mode) {
-    return this.code(mode, 'yate');
-};
-
-yate.AST.prototype.code = function(mode, lang) {
+yate.AST.prototype.code = function(lang, mode) {
     mode = mode || '';
-    lang = lang || target;
 
     // Скажем, lang == 'js', а mode == 'foo'
 
@@ -341,33 +334,36 @@ yate.AST.prototype.code = function(mode, lang) {
         return this[lang + '$'](mode);
     }
 
-    // Пробуем this.code$foo()
+    // Пробуем this.code$foo('js')
     if (this['code$' + mode]) {
-        return this['code$' + suffix]();
+        return this['code$' + mode](lang);
     }
 
-    // Пробуем this.code$('foo')
+    // Пробуем this.code$('js', 'foo')
     if (this['code$']) {
-        return this['code$'](mode);
+        return this['code$'](lang, mode);
     }
+
+    var data = (this[lang + 'data$' + mode]) ? this[lang + 'data$' + mode]() : this;
 
     // В конце концов, вызываем codetemplates.fill()
-    var data = (this[lang + 'data' + suffix]) ? this[lang + 'data' + suffix]() : this;
-    return codetemplates.fill(lang, this.id, mode, data);
+    return yate.codetemplates.fill(lang, this.id, mode, data);
 };
 
-yate.AST.prototype.codejoin = function(array) {
+yate.AST.prototype.codejoin = function(array, lang, mode) {
     var suffix = 'sep$' + (mode || '');
 
-    var sep;
-    if (this[target + suffix]) { // Пробуем this.jssep$mode()
-        sep = this[target + suffix]();
-    } else if (this['code' + suffix]) { // Пробуем this.codesep$mode()
-        sep = this['code' + suffix]();
-    } else {
-        sep = '';
-    }
+    // Пробуем this.jssep$mode(), затем this.codesep$mode().
+    var sep = this[lang + suffix] || this['code' + suffix] || '';
 
     return array.join(sep);
+};
+
+yate.AST.prototype.js = function(mode) {
+    return this.code('js', mode);
+};
+
+yate.AST.prototype.yate = function(mode) {
+    return this.code('yate', mode);
 };
 

@@ -1,5 +1,5 @@
 // FIXME: !!!
-yate.AST.block_exprs.code$ = function() {
+yate.AST.block_exprs.js$ = function() {
     var params = {
         mode: (this.AsList) ? 'listitem' : 'output'
     };

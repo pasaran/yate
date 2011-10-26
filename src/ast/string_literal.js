@@ -9,7 +9,7 @@ yate.AST.string_literal = {
     },
 
     // Чтобы при выводе не отрезались начальные и конечные пробелы.
-    // См. ../codetemplates.js +193
+    // См. codetemplates.js
     yate: function() {
         return this.Value;
     },

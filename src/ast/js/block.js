@@ -1,4 +1,4 @@
-yate.AST.block.codedata$ = function() {
+yate.AST.block.jsdata$ = function() {
 
     var data = {};
 

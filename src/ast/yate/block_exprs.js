@@ -1,4 +1,4 @@
-yate.AST.block_exprs.yate = function() {
+yate.AST.block_exprs.yate$ = function() {
     var exprs = [];
     var indent = 0;
 

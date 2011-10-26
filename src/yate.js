@@ -5,14 +5,14 @@ require('./colors.js');
 var parser = yate.parser;
 
 var Fs = require('fs');
-var codetemplates = require('./src/codetemplates.js').codetemplates;
 
 parser.init(yate.grammar);
 parser.open({ filename: process.argv[2] });
 
 var ast = parser.match('stylesheet');
 
-// console.log(codetemplates.fill('yate', 'stylesheet', '', ast, 'yate'));
+console.log( ast.yate() );
+process.exit(0);
 
 // console.log( require('util').inspect(ast, true, null) );
 
@@ -47,10 +47,12 @@ ast.trigger('prepare');
 
 var runtime = Fs.readFileSync(__dirname + '/src/runtime.js', 'utf-8');
 
-process.stdout.write( codetemplates.fill('js', 'main', '', {
+/*
+process.stdout.write( yate.codetemplates.fill('js', 'main', '', {
     Runtime: runtime,
     Stylesheet: ast
 }, 'js') );
+*/
 
 // console.log(ast.toString(), '\n\n');
 

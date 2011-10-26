@@ -18,5 +18,5 @@ yate.AST.xml_line.jssep$ = ' + ';
 
 yate.AST.jpath.jssep$compiled = ', ';
 
-yate.AST.arglist.codesep$defaults = '\n';
+yate.AST.arglist.jssep$defaults = '\n';
 

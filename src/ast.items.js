@@ -76,14 +76,14 @@ yate.AST.items.map = function(callback) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.items.code$ = function(mode) {
+yate.AST.items.code$ = function(lang, mode) {
     var r = [];
 
     this.iterate(function(item) {
-        r.push( item.code(mode) );
+        r.push( item.code(lang, mode) );
     });
 
-    return this.codejoin(r);
+    return this.codejoin(r, lang, mode);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
