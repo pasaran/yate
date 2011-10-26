@@ -21,6 +21,7 @@ yate.AST.inline_var.validate = function() {
 };
 
 yate.AST.inline_var.getScope = function() {
-    return this.def.scope;
+    // return this.def.scope; // FIXME: В этот момент метод action еще не отработал, видимо, нужно action выполнять снизу-вверх.
+    return this.scope.findVar(this.Name).scope;
 };
 

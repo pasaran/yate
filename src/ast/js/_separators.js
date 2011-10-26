@@ -14,7 +14,7 @@ yate.AST.inline_scalar.jssep$ = ' + ';
 
 yate.AST.xml_attrs.jssep$ = ',\n';
 
-yate.AST.jpath.jssep$compiled = ', ';
+yate.AST.jpath_steps.jssep$compiled = ', ';
 
 yate.AST.arglist.jssep$defaults = '\n';
 

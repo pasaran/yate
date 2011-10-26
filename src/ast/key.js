@@ -1,10 +1,11 @@
 yate.AST.key = {
 
     action: function() {
-        var functions = this.parent.scope.functions;
+        var functions = this.scope.functions;
         var name = this.Name;
+
         if (functions[name]) {
-            this.error('Повторное определение функции или ключа ' + this.Name);
+            this.error('Повторное определение функции или ключа ' + name);
         }
 
         this.Kid = this.state.kid++;
