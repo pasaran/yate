@@ -77,38 +77,6 @@ yate.AST.$ = function(id) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.yate = function(id, data, mode) {
-    return this._yate(id, data, mode);
-};
-
-yate.AST.prototype._yate = function(id, data, mode) {
-    return this._fill('yate', id, data, mode);
-};
-
-yate.AST.prototype.js = function(id, data, mode) {
-    return this._js(id, data, mode);
-};
-
-yate.AST.prototype._js = function(id, data, mode) {
-    return this._fill('js', id, data, mode);
-};
-
-yate.AST.prototype._fill = function(type, id, data, mode) {
-    if (typeof id == 'object') {
-        data = id.data;
-        mode = id.mode;
-        id = id.id;
-    }
-
-    id = id || this.id;
-    data = data || this;
-    mode = mode || '';
-
-    return CodeTemplates.fill(type, id, mode, data, type);
-};
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
 yate.AST.prototype.childrenKeys = function() {
     var keys = [];
     var order = this.options.order;
@@ -349,5 +317,57 @@ yate.AST.function_type = {
     INTERNAL: 'internal',
     EXTERNAL: 'external',
     KEY: 'key'
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.AST.prototype.yate = function(mode) {
+    return this.code(mode, 'yate');
+};
+
+yate.AST.prototype.code = function(mode, lang) {
+    mode = mode || '';
+    lang = lang || target;
+
+    // Скажем, lang == 'js', а mode == 'foo'
+
+    // Пробуем this.js$foo()
+    if (this[lang + '$' + mode]) {
+        return this[lang + '$' + mode]();
+    }
+
+    // Пробуем this.js$('foo')
+    if (this[lang + '$']) {
+        return this[lang + '$'](mode);
+    }
+
+    // Пробуем this.code$foo()
+    if (this['code$' + mode]) {
+        return this['code$' + suffix]();
+    }
+
+    // Пробуем this.code$('foo')
+    if (this['code$']) {
+        return this['code$'](mode);
+    }
+
+    // В конце концов, вызываем codetemplates.fill()
+    var data = (this[lang + 'data' + suffix]) ? this[lang + 'data' + suffix]() : this;
+    return codetemplates.fill(lang, this.id, mode, data);
+};
+
+yate.AST.prototype.codejoin = function(array) {
+    var suffix = 'sep$' + (mode || '');
+
+    var sep;
+    if (this[target + suffix]) { // Пробуем this.jssep$mode()
+        sep = this[target + suffix]();
+    } else if (this['code' + suffix]) { // Пробуем this.codesep$mode()
+        sep = this['code' + suffix]();
+    } else {
+        sep = '';
+    }
+
+    return array.join(sep);
 };
 

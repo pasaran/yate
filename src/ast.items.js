@@ -76,20 +76,14 @@ yate.AST.items.map = function(callback) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.items.yate = function() {
-    var options = this.options.yate || {};
-    return this.map('yate').join(options.separator || '');
-};
-
-yate.AST.items.js = function(id, data, mode) {
-    mode = mode || ((typeof id == 'object') ? id.mode : '') || '';
-
-    var options = this.options.js || {};
+yate.AST.items.code$ = function(mode) {
     var r = [];
+
     this.iterate(function(item) {
-        r.push(item.js(id, data, mode));
+        r.push( item.code(mode) );
     });
-    return r.join( ((mode) ? options['separator$' + mode] : options.separator) || '');
+
+    return this.codejoin(r);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

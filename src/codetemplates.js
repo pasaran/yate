@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------------------------------------------------- //
-// CodeTemplates
+// codetemplates
 // ----------------------------------------------------------------------------------------------------------------- //
 
-var CodeTemplates = {
+var codetemplates = {
     _templates: {}
 };
 
@@ -12,7 +12,7 @@ var Fs = require('fs');
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-CodeTemplates.add = function(lang, id, value) {
+codetemplates.add = function(lang, id, value) {
     var templates = this._templates[lang];
     if (!templates) {
         templates = this._templates[lang] = {};
@@ -26,7 +26,7 @@ CodeTemplates.add = function(lang, id, value) {
     items.push(value);
 };
 
-CodeTemplates.get = function(lang, id) {
+codetemplates.get = function(lang, id) {
     var templates = this._templates[lang];
     if (!templates) {
         templates = this.read(lang);
@@ -37,7 +37,7 @@ CodeTemplates.get = function(lang, id) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-CodeTemplates.read = function(lang, filename) {
+codetemplates.read = function(lang, filename) {
 
     filename = filename || __dirname + '/../templates/' + lang + '.tmpl';
 
@@ -66,7 +66,7 @@ CodeTemplates.read = function(lang, filename) {
         r = /^([\w-]+|\*)\ *(:[\w-]+)?\ *(\[.*\])?\ *(\(.*\))?\n([\S\s]*)$/.exec(part);
 
         if (!r) {
-            throw new Error("Ошибка синтаксиса в CodeTemplates:\n" + part);
+            throw new Error("Ошибка синтаксиса в codetemplates:\n" + part);
         }
 
         // id = name | name:mode
@@ -107,7 +107,7 @@ CodeTemplates.read = function(lang, filename) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-CodeTemplates.fill = function(lang, name, mode, data, method) {
+codetemplates.fill = function(lang, name, mode, data, method) {
     mode = (mode) ? ':' + mode : '';
 
     // Будем искать шаблоны по паре (name, mode), а потом по ('*', mode).
@@ -122,12 +122,12 @@ CodeTemplates.fill = function(lang, name, mode, data, method) {
     return '';
 };
 
-CodeTemplates._fillOne = function(template, data, method) {
+codetemplates._fillOne = function(template, data, method) {
     var defaults = template.defaults;
 
     var predicate = template.predicate;
     if (predicate) {
-        predicate = CodeTemplates._evalLine(predicate, data);
+        predicate = codetemplates._evalLine(predicate, data);
         if (!eval(predicate)) { return ''; }
     }
 
@@ -154,7 +154,7 @@ CodeTemplates._fillOne = function(template, data, method) {
         var indent = r[1];
         line = r[2];
 
-        line = CodeTemplates._evalLine(line, data, method);
+        line = codetemplates._evalLine(line, data, method);
 
         if (!line) {
             skip = true;
@@ -182,11 +182,11 @@ CodeTemplates._fillOne = function(template, data, method) {
 
 };
 
-CodeTemplates._evalLine = function(line, data, method) {
+codetemplates._evalLine = function(line, data, method) {
     var r = line.split(/(\s*%(?:{.*?}|(?:\.|[\w-]+(?:\.[\w-]+)*)(?::[\w-]+)?(?:\(\))?))/);
 
     for (var i = 1, l = r.length; i < l; i += 2) {
-        r[i] = CodeTemplates._evalMacro(r[i], data, method);
+        r[i] = codetemplates._evalMacro(r[i], data, method);
     }
 
     return r.join('')
@@ -202,7 +202,7 @@ CodeTemplates._evalLine = function(line, data, method) {
 // %foo:mode
 // %.
 // %.:mode
-CodeTemplates._evalMacro = function(macro, data, method) {
+codetemplates._evalMacro = function(macro, data, method) {
     // %{Foo} -> %Foo
     var r = /^(\s*)%{(.*)}$/.exec(macro);
     if (r) {
@@ -260,7 +260,7 @@ CodeTemplates._evalMacro = function(macro, data, method) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-exports.CodeTemplates = CodeTemplates;
+exports.codetemplates = codetemplates;
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
