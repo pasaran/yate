@@ -2,7 +2,7 @@ main
 
     function stylesheet(data) {
 
-#        %Runtime
+//        %Runtime
 
         var root = makeRoot(data);
         var a0 = { attrs: {} };
@@ -12,53 +12,53 @@ main
         return applyValue([ root ], '', a0);
     }
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 stylesheet
 
     %Block
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 template
 
     // %Selector.Key %Mode
     var t%Tid = {
         jpath: j%Selector.Jid,
-        body: %Body.Block:function
+        body: %Body.Block#function
     };
 
 template_mode [ %Value != '' ]
 
     #%Value
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 function_
 
     // %Name()
-    var f%Fid = %Body:function
+    var f%Fid = %Body#function
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-block:function [ %AsList ]
+block #function [ %AsList ]
 
     function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
-        %.:function-body
+        %.#function-body
     }
 
-block:function
+block #function
 
     function(c%Cid, a%Rid, index, count %parent.Args) {
-        %.:function-body
+        %.#function-body
 
         return r%Rid;
     }
 
-block:function-body
+block #function-body
 
-    %parent.Args:defaults
-    %.:prologue
+    %parent.Args#defaults
+    %.#prologue
 
     %.
 
@@ -68,64 +68,64 @@ block
 
     %Defs
 
-    %JPaths
+    %.#jpaths
 
-    %Predicates
+    %.#predicates
 
-    var matcher = %Matcher;
+    %.#matcher
 
     %Exprs
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-*:prologue [ %inline() ]
+* #prologue [ %inline() ]
 
-*:prologue [ !%AsList && (%type() == 'array' || %type() == 'nodeset') ]
+* #prologue [ !%AsList && (%type() == 'array' || %type() == 'nodeset') ]
 
     var r%Rid = [];
 
-*:prologue [ !%AsList && %type() == 'object' ]
+* #prologue [ !%AsList && %type() == 'object' ]
 
     var r%Rid = {};
 
-*:prologue [ !%AsList && %type() == 'boolean' ]
+* #prologue [ !%AsList && %type() == 'boolean' ]
 
     var r%Rid = false;
 
-*:prologue [ !%AsList ]
+* #prologue [ !%AsList ]
 
     var r%Rid = '';
     a%Rid || a%Rid = { attrs: {} };
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-inline_scalar:listitem
+inline_scalar #listitem
 
     r%{Rid}.push( %. );
 
-inline_scalar:output [ %type() == 'nodeset' && !%AsType ]
+inline_scalar #output [ %type() == 'nodeset' && !%AsType ]
 
     r%Rid = %.;
 
-inline_scalar:output
+inline_scalar #output
 
     r%Rid += %.;
 
-# FIXME: Нужен ли этот шаблон?
+// FIXME: Нужен ли этот шаблон?
 
 inline_scalar
 
     %Expr
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-scalar:listitem
+scalar #listitem
 
-    %Body:prologue
+    %Body#prologue
     %Body
     r%{Rid}.push( r%Body.Rid );
 
-scalar:output
+scalar#output
 
     %Body
 
@@ -133,26 +133,26 @@ scalar
 
     %Body
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-pair:listitem [ %Value.inline() ]
+pair #listitem [ %Value.inline() ]
 
     r%Rid[ %Key ] = %Value;
 
-pair:listitem
+pair #listitem
 
-    %Value.Body:prologue
+    %Value.Body#prologue
     %Value
     r%Rid[ %Key ] = r%Value.Rid;
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-array:listitem
+array #listitem
 
     %Body
     r{%Rid}.push( r%Body.Rid );
 
-array:output
+array #output
 
     %Body
 
@@ -160,14 +160,14 @@ array
 
     %Body
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-object:listitem
+object #listitem
 
     %Body
     r%{Rid}.push( r%Body.Rid );
 
-object:output
+object #output
 
     %Body
 
@@ -175,7 +175,7 @@ object
 
     %Body
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 key
 
@@ -186,8 +186,8 @@ key
         if (!value) {
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
-                %Body:prologue
-                %Body:body
+                %Body#prologue
+                %Body#body
                 value = r%Body.Rid;
             }
             if (value) {
@@ -214,15 +214,15 @@ key
         return k%{Kid}_get(key);
     };
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-*:yate
+* #yate
 
     /*
         %yate()
     */
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 var_ [ %Value.inline() ]
 
@@ -230,86 +230,86 @@ var_ [ %Value.inline() ]
 
 var_
 
-    %Value:prologue
-    %Value:output
+    %Value #prologue
+    %Value #output
     var v%Vid = r%Value.Rid;
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-if_:listitem [ %Else && %Then.inline() && %Else.inline() ]
+if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
 
     r%{Rid}.push( (%Condition) ? %Then : %Else );
 
-if_:listitem [ %AsListItem && %Else ]
+if_ #listitem [ %AsListItem && %Else ]
 
-    %Then:prologue
+    %Then#prologue
     if (%Condition) {
-        %Then:body
+        %Then#body
     } else {
-        %Else:body
+        %Else#body
     }
     r%{Rid}.push( r%Then.Rid );
 
-if_:listitem [ %AsListItem ]
+if_ #listitem [ %AsListItem ]
 
     if (%Condition) {
-        %Then:prologue
-        %Then:body
+        %Then#prologue
+        %Then#body
         r%{Rid}.push( r%Then.Rid );
     }
 
-if_:listitem
+if_ #listitem
 
-    %.:output
+    %.#output
 
-if_:output [ %Else && %Then.inline() && %Else.inline() ]
+if_ #output [ %Else && %Then.inline() && %Else.inline() ]
 
     r%Rid += (%Condition) ? %Then : %Else;
 
-if_:output [ %Else ]
+if_ #output [ %Else ]
 
     if (%Condition) {
-        %Then:body
+        %Then#body
     } else {
-        %Else:body
+        %Else#body
     }
 
 
-if_:output
+if_ #output
 
     if (%Condition) {
-        %Then:body
+        %Then#body
     }
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-*:body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') && !%AsType ]
+* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') && !%AsType ]
 
     r%parent.Rid = %.;
 
-*:body [ %inline() ]
+* #body [ %inline() ]
 
     r%parent.Rid += %.;
 
-*:body
+* #body
 
     %Block
 
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-for_:listitem [ %Body.AsList ]
+for_ #listitem [ %Body.AsList ]
 
-    %.:output
+    %.#output
 
-for_:listitem
+for_#listitem
 
-    %Body:prologue
-    %.:output
+    %Body#prologue
+    %.#output
     r%{Rid}.push( r%Body.Rid );
 
 
-for_:output
+for_ #output
 
     var items%Cid = %Expr;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
@@ -317,44 +317,44 @@ for_:output
         %Body.Block
     }
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-apply:listitem [ !%Args.empty() ]
+apply #listitem [ !%Args.empty() ]
 
     applyList(%Expr, %Mode, r%Rid, %Args);
 
-apply:listitem
+apply #listitem
 
     applyList(%Expr, %Mode, r%Rid);
 
-apply:output [ !%Args.empty() ]
+apply #output [ !%Args.empty() ]
 
-    r%Rid += applyValue(%Expr, %Mode:string, a%Rid);
+    r%Rid += applyValue(%Expr, %Mode#string, a%Rid);
 
-apply:output
+apply #output
 
     r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
 
-template_mode:string
+template_mode #string
     '%Value'
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-attr:listitem
+attr #listitem
 
-    %.:output
+    %.#output
 
-attr:output [ %Expr.inline() ]
+attr #output [ %Expr.inline() ]
 
     a%{Rid}.attrs['%Name'] %Op %Expr;
 
-attr:output
+attr #output
 
-    %Expr:prologue
+    %Expr#prologue
     %Expr
     a%{Rid}.attrs['%Name'] %Op r%Expr.Rid;
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 inline_or
     %Left || %Right
@@ -386,7 +386,7 @@ inline_union
 inline_complex
     (%Expr)
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 inline_function [ %Kid !== '' ]
     k%Kid(%Args)
@@ -412,7 +412,7 @@ inline_function [ %Name == 'count' ]
 inline_function [ %Name == 'slice' ]
     slice(%Args)
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
 inline_var
     v%def.Vid
@@ -424,30 +424,30 @@ string
     %String
 
 jpath_context
-    selectContext(j%JPath.Jid, %Context:context)
+    selectContext(j%JPath.Jid, %Context#context)
 
-jpath:context
+jpath #context
     %Jid
 
-root:context
+root #context
     root
 
 jpath
     select(j%Jid, c%Cid)
 
-jpath_predicate
+jpath_predicate #var
     // %Key
     var p%Pid = function(c%Cid, index, count) {
         return %Expr;
     };
 
-jpath_var
-    var j%Jid = %compile(); // %Key
+jpath #var
+    var j%Jid = %.#compiled; // %Key
 
 arglist_item
     , v%Vid
 
-arglist_item:defaults
+arglist_item #defaults
     v%Vid = v%Vid || %Default;
 
 inline_string
@@ -468,26 +468,26 @@ string_expr
 string_literal
     '%Value'
 
-attrs_close:listitem
+attrs_close #listitem
 
-    %.:output
+    %.#output
 
-attrs_close:output
+attrs_close #output
 
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
 
-attrs_open:listitem
+attrs_open #listitem
 
-    %.:output
+    %.#output
 
-attrs_open:output
+attrs_open#output
 
     a%{Rid}.attrs = {
-        %Attrs:open
+        %Attrs#open
     };
     a%{Rid}.open = true;
 
-xml_attr:open
+xml_attr #open
 
     '%Name': %Value
 
@@ -497,13 +497,13 @@ quote
 inline_filter
     grep(%Expr, p%Predicate.Pid)
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-xml_line:listitem
+xml_line #listitem
 
     r%{Rid}.push( %. );
 
-xml_line:output
+xml_line #output
 
     r%Rid += %.;
 
@@ -511,25 +511,25 @@ root
 
     root
 
-# ------------------------------------------------------------------------------------------------------------------- #
+//------------------------------------------------------------------------------------------------------------------ //
 
-jpath:compiled
+jpath #compiled
 
     [ %Steps ]
 
-jpath_nametest:compiled
+jpath_nametest #compiled
 
     0, %Name.stringify()
 
-jpath_dots:compiled
+jpath_dots #compiled
 
     1, %Length
 
-jpath_predicate:compiled [ %isLocal() ]
+jpath_predicate #compiled [ %isLocal() ]
 
     2, p%Pid
 
-jpath_predicate:compiled
+jpath_predicate #compiled
 
     3, %Expr.stringify()
 

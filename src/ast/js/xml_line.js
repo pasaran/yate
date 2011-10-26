@@ -29,6 +29,6 @@ yate.AST.xml_line.js$ = function() {
         }
     }
 
-    return this.codejoin(r);
+    return r.join(' + ');
 };
 

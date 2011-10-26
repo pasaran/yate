@@ -1,12 +1,10 @@
-// FIXME: !!!
 yate.AST.block_exprs.js$ = function() {
-    var params = {
-        mode: (this.AsList) ? 'listitem' : 'output'
-    };
+    var mode = (this.AsList) ? 'listitem' : 'output';
 
     var r = [];
     this.iterate(function(item) {
-        r.push( item._js(params) );
+        r.push( item.js(mode) );
     });
     return r.join('\n');
 };
+

@@ -17,6 +17,10 @@ yate.AST.jpath_predicate.action = function() {
     this.Key = key;
 };
 
+yate.AST.jpath_predicate.getScope = function() {
+    return this.Expr.getScope();
+};
+
 yate.AST.jpath_predicate.isLocal = function() {
     return this.Expr.isLocal();
 };
