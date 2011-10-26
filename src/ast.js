@@ -222,21 +222,21 @@ yate.AST.prototype.inline = yate.false;
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.prototype.setScope = function() {
-    var options = this.options || {};
     var parent = this.parent;
 
-    var parentScope = (parent) ? parent.scope : null;
-    if (options.scope) {
-        this.scope = (parentScope) ? parentScope.child() : new yate.Scope();
-    } else {
-        this.scope = parentScope;
+    var scope = (parent) ? parent.scope : null;
+    if (this.options.scope) {
+        scope = (scope) ? scope.child() : new yate.Scope();
     }
 
-    this.Sid = this.scope.id;
+    if (scope) {
+        this.scope = scope;
+        this.Sid = scope.id;
+    }
 };
 
 yate.AST.prototype.getScope = function() {
-    return this.scope;
+    return this.scope.top();
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

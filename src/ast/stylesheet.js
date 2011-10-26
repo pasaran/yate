@@ -1,6 +1,2 @@
-yate.AST.stylesheet = {
-    options: {
-        scope: true
-    }
-};
+yate.AST.stylesheet = {};
 
