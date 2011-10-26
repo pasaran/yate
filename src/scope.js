@@ -51,6 +51,16 @@ yate.Scope.prototype.findFunction = function(name) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+yate.Scope.prototype.top = function() {
+    var top = this;
+    while (top.parent) {
+        top = top.parent;
+    }
+    return top;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 yate.Scope.prototype.inScope = function(scope) {
     var that = this;
 
