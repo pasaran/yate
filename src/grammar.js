@@ -593,38 +593,38 @@ yate.grammar.rules.inline_eq = function(ast) {
     }
 };
 
-// inline_rel := inline_add ( ( '<=' | '<' | '>=' | '>' ) inline_add )?
+// inline_rel := inline_scalar ( ( '<=' | '<' | '>=' | '>' ) inline_scalar )?
 
 yate.grammar.rules.inline_rel = function(ast) {
-    ast.Left = this.match('inline_add');
+    ast.Left = this.match('inline_scalar');
     var op;
     if (op = this.testAny([ '<=', '<', '>=', '>' ])) {
         ast.Op = this.match(op);
-        ast.Right = this.match('inline_add');
+        ast.Right = this.match('inline_scalar');
     } else {
         return ast.Left;
     }
 };
 
-// inline_add := inline_scalar ( ( '+' | '-' ) inline_add )?
+// inline_scalar := inline_add
+
+yate.grammar.rules.inline_scalar = function(ast) {
+    ast.add( this.match('inline_add') );
+    while (this.test('inline_add')) {
+        ast.add( this.match('inline_add') );
+    }
+};
+
+// inline_add := inline_mul ( ( '+' | '-' ) inline_add )?
 
 yate.grammar.rules.inline_add = function(ast) {
-    ast.Left = this.match('inline_scalar');
+    ast.Left = this.match('inline_mul');
     var op;
     if (op = this.testAny([ '+', '-' ])) { // FIXME: Проблемы с порядком выполнения. Например, 1 - 2 - 3 превратится в -(1, -(2, 3)).
         ast.Op = this.match(op);
         ast.Right = this.match('inline_add');
     } else {
         return ast.Left;
-    }
-};
-
-// inline_scalar := inline_mul+
-
-yate.grammar.rules.inline_scalar = function(ast) {
-    ast.add( this.match('inline_mul') );
-    while (this.test('inline_mul')) {
-        ast.add( this.match('inline_mul') );
     }
 };
 
