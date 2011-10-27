@@ -706,12 +706,8 @@ yate.grammar.rules.inline_primary = {
             this.error('number, string, jpath, variable or function call expected');
         }
 
-        if (this.test('[')) {
-            expr = yate.AST.make('jpath_filter', expr, this.match('jpath_predicates'));
-        }
-
-        if (this.test('.')) {
-            expr = yate.AST.make('jpath_context', expr, this.match('jpath'));
+        if (this.testAny([ '[', '.' ])) {
+            expr = yate.AST.make( 'jpath_filter', expr, this.match('jpath', true) );
         }
 
         return expr;
@@ -845,9 +841,15 @@ yate.grammar.rules.inline_function = function(ast) {
 
 yate.grammar.rules.jpath = {
 
-    rule: function(ast) {
-        ast.Steps = this.match('jpath_steps'); // FIXME: Зачем нужен этот промежуточное правило? Потому что items.js() не ходит в шаблоны,
-                                               //        а просто склеивает item.js().
+    rule: function(ast, inContext) {
+        if (inContext) { // inContext означает, что это не полный jpath. Например, в выражении foo[42].bar это [42].bar.
+            ast.InContext = true;
+        } else {
+            if (!this.test('.')) { // Полный jpath всегда должен начинаться с точки.
+                this.error('Expected .');
+            }
+        }
+        ast.Steps = this.match('jpath_steps');
     },
 
     options: {
@@ -865,10 +867,10 @@ yate.grammar.rules.jpath_steps = function(ast) {
     }
 };
 
-// jpath_step := jpath_dots | jpath_nametest
+// jpath_step := jpath_dots | jpath_nametest | jpath_predicate
 
 yate.grammar.rules.jpath_step = function() {
-    return this.matchAny([ 'jpath_dots', 'jpath_nametest' ]);
+    return this.matchAny([ 'jpath_dots', 'jpath_nametest', 'jpath_predicate' ]);
 };
 
 // jpath_parents := '.'+
@@ -877,20 +879,11 @@ yate.grammar.rules.jpath_dots = function(ast) {
     ast.Dots = this.match('DOTS');
 };
 
-// jpath_nametest := '.' ( QNAME | '*' ) jpath_predicates?
+// jpath_nametest := '.' ( QNAME | '*' )
 
 yate.grammar.rules.jpath_nametest = function(ast) {
     this.match('.');
     ast.Name = this.matchAny([ 'QNAME', '*' ]);
-    ast.Predicates = this.match('jpath_predicates');
-};
-
-// jpath_predicates := jpath_predicate*
-
-yate.grammar.rules.jpath_predicates = function(ast) {
-    while (this.test('[')) {
-        ast.add( this.match('jpath_predicate') );
-    }
 };
 
 // jpath_predicate := '[' inline_expr ']'

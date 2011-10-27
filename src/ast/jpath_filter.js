@@ -4,12 +4,16 @@ yate.AST.jpath_filter = {
         base: 'inline_expr'
     },
 
-    _init: function(expr, predicates) {
+    _init: function(expr, jpath) {
         this.Expr = expr;
-        this.Predicates = predicates;
+        this.JPath = jpath;
     },
 
     _type: yate.types.NODESET,
+
+    isLocal: function() {
+        return this.Expr.isLocal() || this.JPath.isLocal();
+    },
 
     validate: function() {
         if (!this.Expr.type( yate.types.NODESET )) {

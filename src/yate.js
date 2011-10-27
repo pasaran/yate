@@ -9,7 +9,8 @@ parser.open({ filename: process.argv[2] });
 
 var ast = parser.match('stylesheet');
 
-// console.log( require('util').inspect(ast, true, null) );
+console.log( ast.yate() );
+process.exit(0);
 
 // ast.trigger('log');
 
