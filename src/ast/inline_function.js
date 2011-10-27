@@ -10,12 +10,14 @@ yate.AST.inline_function = {
 
     action: function() {
         var def = this.def = this.scope.findFunction(this.Name);
-        if (def) {
-            if (def.Type == yate.AST.function_type.USER) {
-                this.Fid = def.Fid;
-            } else if (def.Type == yate.AST.function_type.KEY) {
-                this.Kid = def.Kid;
-            }
+        if (!this.def) {
+            this.error('Undefined function ' + this.Name);
+        }
+
+        if (def.Type == yate.AST.function_type.USER) {
+            this.Fid = def.Fid;
+        } else if (def.Type == yate.AST.function_type.KEY) {
+            this.Kid = def.Kid;
         }
     },
 
@@ -37,12 +39,6 @@ yate.AST.inline_function = {
             }
         }
     },
-
-    validate: function() {
-        if (!this.def) {
-            this.error('Undefined function ' + this.Name);
-        }
-    }
 
 };
 

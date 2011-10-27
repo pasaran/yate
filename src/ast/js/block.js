@@ -2,7 +2,10 @@ yate.AST.block.js$predicates = function() {
     var predicates = this.scope.predicates;
     var r = [];
     for (var i = 0, l = predicates.length; i < l; i++) {
-        r.push( predicates[i].js('var') );
+        var predicate = predicates[i];
+        if (predicate.isLocal()) {
+            r.push( predicates[i].js('var') );
+        }
     }
     return r.join('\n\n');
 };

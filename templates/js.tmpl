@@ -111,12 +111,6 @@ inline_scalar #output
 
     r%Rid += %.;
 
-// FIXME: Нужен ли этот шаблон?
-
-inline_scalar
-
-    %Expr
-
 //------------------------------------------------------------------------------------------------------------------ //
 
 scalar #listitem
@@ -230,8 +224,8 @@ var_ [ %Value.inline() ]
 
 var_
 
-    %Value #prologue
-    %Value #output
+    %Value#prologue
+    %Value#output
     var v%Vid = r%Value.Rid;
 
 //------------------------------------------------------------------------------------------------------------------ //
@@ -311,7 +305,7 @@ for_#listitem
 
 for_ #output
 
-    var items%Cid = %Expr;
+    var items%Cid = %Selector;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
         var c%Body.Cid = items%Cid[ i%Cid ];
         %Body.Block
@@ -423,8 +417,8 @@ inline_number
 string
     %String
 
-jpath_context
-    selectContext(j%JPath.Jid, %Context#context)
+jpath_filter
+    selectContext(j%JPath.Jid, %Expr)
 
 jpath #context
     %Jid
@@ -437,7 +431,7 @@ jpath
 
 jpath_predicate #var
     // %Key
-    var p%Pid = function(c%Cid, index, count) {
+    function p%Pid(c%Cid, index, count) {
         return %Expr;
     };
 
@@ -501,11 +495,11 @@ inline_filter
 
 xml_line #listitem
 
-    r%{Rid}.push( %. );
+    r%{Rid}.push( %.#content );
 
 xml_line #output
 
-    r%Rid += %.;
+    r%Rid += %.#content;
 
 root
 

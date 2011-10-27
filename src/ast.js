@@ -45,7 +45,7 @@ yate.AST.make = function(id) {
 yate.AST.prototype.make = function() {
     var ast = yate.AST.make.apply(null, arguments);
     ast.parent = this;
-    ast.setLocals();
+    ast.setScope();
     return ast;
 };
 
@@ -322,32 +322,41 @@ yate.AST.function_type = {
 yate.AST.prototype.code = function(lang, mode) {
     mode = mode || '';
 
+    var data = this;
+    if (this[lang + 'data$' + mode]) {
+        data = this[lang + 'data$' + mode]();
+    } else if (this['codedata$' + mode]) {
+        data = this['codedata$' + mode]();
+    }
+
+    var result = yate.codetemplates.fill(lang, data.id, mode, data);
+    if (result !== undefined) {
+        return result;
+    }
+
     // Скажем, lang == 'js', а mode == 'foo'
 
     // Пробуем this.js$foo()
-    if (this[lang + '$' + mode]) {
-        return this[lang + '$' + mode]();
+    if (data[lang + '$' + mode]) {
+        return data[lang + '$' + mode]();
     }
 
     // Пробуем this.js$('foo')
-    if (this[lang + '$']) {
-        return this[lang + '$'](mode);
+    if (data[lang + '$']) {
+        return data[lang + '$'](mode);
     }
 
     // Пробуем this.code$foo('js')
-    if (this['code$' + mode]) {
-        return this['code$' + mode](lang);
+    if (data['code$' + mode]) {
+        return data['code$' + mode](lang);
     }
 
     // Пробуем this.code$('js', 'foo')
-    if (this['code$']) {
-        return this['code$'](lang, mode);
+    if (data['code$']) {
+        return data['code$'](lang, mode);
     }
 
-    var data = (this[lang + 'data$' + mode]) ? this[lang + 'data$' + mode]() : this;
-
-    // В конце концов, вызываем codetemplates.fill()
-    return yate.codetemplates.fill(lang, this.id, mode, data);
+    return '';
 };
 
 yate.AST.prototype.codejoin = function(array, lang, mode) {

@@ -107,8 +107,6 @@ yate.codetemplates.fill = function(lang, name, mode, data) {
         var r = this._fillOne( lang, templates[i], data );
         if (r !== undefined) { return r; }
     }
-
-    return '';
 };
 
 // Собственно код, который заполняет шаблон данными.

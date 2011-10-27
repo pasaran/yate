@@ -1,4 +1,4 @@
-yate.AST.xml_line.js$ = function() {
+yate.AST.xml_line.js$content = function() {
     var items = [];
     this.toResult(items);
 
@@ -25,7 +25,7 @@ yate.AST.xml_line.js$ = function() {
         if (typeof item == 'string') {
             r[i] = yate.quote(item);
         } else {
-            r[i] = item.code();
+            r[i] = item.js();
         }
     }
 
