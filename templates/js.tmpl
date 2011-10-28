@@ -338,15 +338,15 @@ attr #listitem
 
     %.#output
 
-attr #output [ %Expr.inline() ]
+attr #output [ %Value.inline() ]
 
-    a%{Rid}.attrs['%Name'] %Op %Expr;
+    a%{Rid}.attrs['%Name'] %Op %Value;
 
 attr #output
 
-    %Expr#prologue
-    %Expr
-    a%{Rid}.attrs['%Name'] %Op r%Expr.Rid;
+    %Value#prologue
+    %Value
+    a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
 //------------------------------------------------------------------------------------------------------------------ //
 

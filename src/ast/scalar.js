@@ -3,9 +3,9 @@ yate.AST.scalar = {
     _type: yate.types.SCALAR,
 
     prepare: function() {
-        this.Body.cast(yate.types.SCALAR);
+        this.Block.cast(yate.types.SCALAR);
         if (this.AsListItem) {
-            this.Body.rid();
+            this.Block.rid();
         }
     }
 
