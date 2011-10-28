@@ -1,26 +1,25 @@
 static = "http://mailstatic.yandex.net/neo2/2.12.0/static"
 
-params = /page/page-params
-page = $params/_page
+params = /.page.page-params
+page = params._page
 
-folders = /page/folders/folder
-labels = /page/labels/label
-// settings = /page/settings
+folders = /.page.folders.folder
+labels = /.page.labels.label
 
-key labels ($labels, symbol | id) .
-// key folders($folders, symbol | id) .
-// key settings($settings/*, name()) .
-
-key label-href ($labels, id) {
-    apply . : href-content
+key labels (labels, .symbol | .id) {
+    .
 }
 
-key folder-href ($folders, id) {
-    apply . : href-content
+key label-href (labels, .id) {
+    apply . #href-content
+}
+
+key folder-href (folders, .id) {
+    apply . #href-content
 }
 
 label-important = labels("priority_high")
-label-important-id = $label-important/id
+label-important-id = label-important.id
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -29,54 +28,54 @@ match / {
 // if settings("hide_daria_header") @class = "b-page_minified"
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="{ $static }/css/_mac.css"/>
+    <link rel="stylesheet" type="text/css" href="{ static }/css/_mac.css"/>
     <title>Яндекс.Почта</title>
 </head>
 <body>
-    apply page
+    apply .page
 </body>
 </html>
 }
 
-match page {
+match .page {
     <div class="b-page">
         <div class="b-page__content">
-            apply page-blocks/* : block
+            apply .page-blocks.* #block
         </div>
     </div>
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match * : block {
+match .* #block {
     <div class="block-{ name() }">
-        apply . : block-content
+        apply . #block-content
     </div>
 }
 
-match * : block-content {
-    apply * : block
+match .* #block-content {
+    apply .* #block
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match * : href {
-    @href = apply . : href-content
+match .* #href {
+    @href = apply . #href-content
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match app : block-content {
-    <img alt="-" title="Компактный вид" action="common.minify" class="b-mail-icon b-mail-icon_minify b-mail-icon_full-head-hide daria-action" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_full-head-hide.png"/>
+match .app #block-content {
+    <img alt="-" title="Компактный вид" action="common.minify" class="b-mail-icon b-mail-icon_minify b-mail-icon_full-head-hide daria-action" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_full-head-hide.png"/>
     <div class="b-layout">
         <div class="b-layout__left">
-            apply left-box : block
+            apply .left-box #block
         </div>
         <div class="b-layout__right">
             <div class="b-layout__right__content">
-                apply . : service-tabs
-                apply . : toolbar
-                apply right-box : block
+                apply . #service-tabs
+                apply . #toolbar
+                apply .right-box #block
             </div>
         </div>
     </div>
@@ -86,7 +85,7 @@ match app : block-content {
 
 // tabs
 
-match app : service-tabs {
+match .app #service-tabs {
     <div class="b-service-tabs">
         <a href="#inbox" class="b-service-tabs__item b-service-tabs__item_current b-service-tabs__item_mail">Письма</a>
         <a href="#contacts" class="b-service-tabs__item b-service-tabs__item_contacts">Контакты</a>
@@ -99,32 +98,32 @@ match app : service-tabs {
 
 // toolbar
 
-match app : toolbar {
+match .app #toolbar {
     <div class="b-toolbar">
         <div class="b-toolbar__i">
             <div class="b-toolbar__block b-toolbar__block_right">
-                apply search : block
+                apply .search #block
                 <div class="b-toolbar-dropdowns">
-                    apply labels-actions : block
-                    apply folders-actions : block
+                    apply .labels-actions #block
+                    apply .folders-actions #block
                 </div>
             </div>
             <div class="b-toolbar__block b-toolbar__block_chevron">
-                apply /page/toolbar/item : toolbar
+                apply /.page.toolbar.item #toolbar
             </div>
         </div>
     </div>
 }
 
-match item : toolbar {}
+match .item #toolbar {}
 
-match item[ page[ id == $page ] ] : toolbar {
-    <a href="#compose" class="b-toolbar__item b-toolbar__item_{ icon } daria-action" action="{ action }">
-        if url {
-            @href = url
+match .item[ .page[ .id == page ] ] #toolbar {
+    <a href="#compose" class="b-toolbar__item b-toolbar__item_{ .icon } daria-action" action="{ .action }">
+        if .url {
+            @href = .url
         }
-        <img src="{ $static }/lego/blocks/b-ico/b-ico.gif" class="b-ico b-ico_{ icon }"/>
-        <span class="b-toolbar__item__label">{ name }</span>
+        <img src="{ static }/lego/blocks/b-ico/b-ico.gif" class="b-ico b-ico_{ .icon }"/>
+        <span class="b-toolbar__item__label">{ .name }</span>
         <span class="b-toolbar__item__selected b-toolbar__item__selected_left-border"></span>
         <span class="b-toolbar__item__selected b-toolbar__item__selected_right-border"></span>
     </a>
@@ -134,7 +133,7 @@ match item[ page[ id == $page ] ] : toolbar {
 
 // search
 
-match search : block-content {
+match .search #block-content {
     <form class="b-toolbar__search" style="margin: 0pt;">
         <table class="b-search">
         <tr>
@@ -161,7 +160,7 @@ match search : block-content {
 
 // labels-actions
 
-match labels-actions : block-content {
+match .labels-actions #block-content {
     <div class="b-mail-dropdown b-mail-dropdown_disabled">
         <span class="b-mail-dropdown__handle">
             <a class="b-toolbar__item daria-action" action="dropdown.toggle">
@@ -173,24 +172,24 @@ match labels-actions : block-content {
             <div class="b-mail-dropdown__item unread"><a class="b-mail-dropdown__item__content daria-action" action="unmark" href="#">Не прочитано</a></div>
             <div class="b-mail-dropdown__separator"></div>
 
-            <div class="b-mail-dropdown__item label-{ $label-important-id }">
-                <a href="{ label-href($label-important-id) }" class="b-mail-dropdown__item__content daria-action" action="label">
+            <div class="b-mail-dropdown__item label-{ label-important-id }">
+                <a href="{ label-href(label-important-id) }" class="b-mail-dropdown__item__content daria-action" action="label">
                     "Важные"
-                    <img class="b-mail-icon b-mail-icon_important" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
+                    <img class="b-mail-icon b-mail-icon_important" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
                 </a>
             </div>
-            apply $labels[ user ] : labels-actions
+            apply .labels[ .user ] #labels-actions
 
             <div class="b-mail-dropdown__separator label-separator"></div>
             <div class="b-mail-dropdown__header unlabel-title">Снять метку:</div>
 
-            <div class="b-mail-dropdown__item unlabel-{ $label-important-id }">
-                <a href="{ label-href($label-important-id) }" class="b-mail-dropdown__item__content daria-action" action="unlabel">
+            <div class="b-mail-dropdown__item unlabel-{ label-important-id }">
+                <a href="{ label-href(label-important-id) }" class="b-mail-dropdown__item__content daria-action" action="unlabel">
                     "Важные"
-                    <img class="b-mail-icon b-mail-icon_important" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
+                    <img class="b-mail-icon b-mail-icon_important" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
                 </a>
             </div>
-            apply $labels[ user ] : labels-actions ( "unlabel" )
+            apply .labels[ .user ] #labels-actions ( "unlabel" )
 
             <div class="b-mail-dropdown__separator unlabel-separator"></div>
             <div class="b-mail-dropdown__item">
@@ -200,12 +199,12 @@ match labels-actions : block-content {
     </div>
 }
 
-match label : labels-actions ( action = "label" ) {
-    <div class="b-mail-dropdown__item b-mail-dropdown__item_simple label-{ id }">
-        <a href="{ label-href(id) }" class="b-mail-dropdown__item__content daria-action" action="{ $action }">
+match .label #labels-actions ( action = "label" ) {
+    <div class="b-mail-dropdown__item b-mail-dropdown__item_simple label-{ .id }">
+        <a href="{ label-href(.id) }" class="b-mail-dropdown__item__content daria-action" action="{ action }">
             <span class="b-mail-dropdown__item__content__wrapper">
-                <span class="b-label__first-letter" style="background: #{ color }">{ slice(name, 0, 1) }</span>
-                <span class="b-label__content">{ slice(name, 1) }</span>
+                <span class="b-label__first-letter" style="background: #{ .color }">{ slice(.name, 0, 1) }</span>
+                <span class="b-label__content">{ slice(.name, 1) }</span>
             </span>
         </a>
     </div>
@@ -215,14 +214,14 @@ match label : labels-actions ( action = "label" ) {
 
 // folders-actions
 
-match folders-actions : block-content {
+match .folders-actions #block-content {
     <div class="b-mail-dropdown b-mail-dropdown_disabled">
         <span class="b-mail-dropdown__handle">
             <a class="b-toolbar__item daria-action" action="dropdown.toggle"><span class="b-toolbar__item__label">Переложить в папку</span></a>
         </span>
         <div class="b-mail-dropdown__box__content">
             <div class="b-folders b-folders_dropdown">
-                apply $folders : folders-actions
+                apply folders #folders-actions
                 <div class="b-mail-dropdown__separator"></div>
                 <div class="b-mail-dropdown__item">
                     <a class="b-mail-dropdown__item__content daria-action" action="folders.add">Новая папка…</a>
@@ -232,12 +231,12 @@ match folders-actions : block-content {
     </div>
 }
 
-match folder : folders-actions {
-    <div class="b-folders__folder folder-{ id } b-folders__folder_custom">
+match .folder #folders-actions {
+    <div class="b-folders__folder folder-{ .id } b-folders__folder_custom">
         <span class="b-folders__folder__name">
-            <a href="{ folder-href(id) }" class="b-folders__folder__link daria-action" title="{ name }" action="move">
+            <a href="{ folder-href(.id) }" class="b-folders__folder__link daria-action" title="{ .name }" action="move">
                 <span class="b-folders__folder__marker">•</span>
-                name
+                .name
             </a>
         </span>
     </div>
@@ -247,127 +246,135 @@ match folder : folders-actions {
 
 // folders
 
-match folders : block-content {
-    apply /page/folders
+match .folders #block-content {
+    apply /.page.folders
 }
 
-match folders {
+match .folders {
     <div class="b-folders">
-        apply folder
+        apply .folder
         <div class="b-folders__setup"><a href="#setup/folders" class="b-folders__setup__link">настроить…</a></div>
     </div>
 }
 
-match folder {
-    is-count = count > 0
-    is-new = new > 0 && !(symbol == "sent" || symbol == "trash" || symbol == "draft")
-    href = folder-href(id)
+match .folder {
+    is-count = .count > 0
+    is-new = .new > 0 && !(.symbol == "sent" || .symbol == "trash" || .symbol == "draft")
+    href = folder-href(.id)
 
     <div>
         @class = (
-            "b-folders__folder fid-{ id }"
-            if $is-new " b-folders__folder_unread"
-            if id == $params/current_folder " b-folders__folder_current"
-            if clear " b-folders__folder_cleanable"
+            "b-folders__folder fid-{ .id }"
+            if is-new {
+                " b-folders__folder_unread"
+            }
+            if .id == params.current_folder {
+                " b-folders__folder_current"
+            }
+            if .clear {
+                " b-folders__folder_cleanable"
+            }
         )
         <span class="b-folders__folder__info">
-            if clear && $is-count {
-                <img class="b-folders__folder__clean daria-action" action="folder.clear" params="fid={ id }" alt="[x]" title="Очистить" src="{ $static }/blocks/b-folders/folder/b-folders__folder__clean.gif"/>
+            if .clear && is-count {
+                <img class="b-folders__folder__clean daria-action" action="folder.clear" params="fid={ .id }" alt="[x]" title="Очистить" src="{ static }/blocks/b-folders/folder/b-folders__folder__clean.gif"/>
             }
             <span class="b-folders__counters">
-                if $is-count {
-                    if $is-new {
-                        <a class="b-folders__folder__link" href="{ $href }/extra_cond=only_new">
+                if is-count {
+                    if is-new {
+                        <a class="b-folders__folder__link" href="{ href }/extra_cond=only_new">
                             <span class="b-folders__folder__link__i"><span class="b-folders__folder__link__i"></span></span>
-                            new
+                            .new
                         </a>
                     }
                     <span class="b-folders__folder__counters__total">
-                        if $is-new " / "
-                        count
+                        if is-new {
+                            " / "
+                        }
+                        .count
                     </span>
                 }
             </span>
         </span>
         <span class="b-folders__folder__name">
-            <a class="b-folders__folder__link" title="Входящие" params="current_folder={ id }" href="{ $href }">
-                name
+            <a class="b-folders__folder__link" title="Входящие" params="current_folder={ .id }" href="{ href }">
+                .name
             </a>
         </span>
     </div>
 }
 
-match folder[ symbol == "outbox" ] {}
+match .folder[ .symbol == "outbox" ] {}
 
-match folder : href-content {
-    "#folder/{ id }"
+match .folder #href-content {
+    "#folder/{ .id }"
 }
 
-match folder[symbol] : href-content {
-    "#{ symbol }"
+match .folder[.symbol] #href-content {
+    "#{ .symbol }"
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // labels
 
-match labels : block-content {
-    apply /page/labels
+match .labels #block-content {
+    apply /.page.labels
 }
 
-match labels {
+match .labels {
     <div class="b-labels">
-        <a class="b-label b-label_important lid-{ $label-important-id }" action="label" href="{ label-href($label-important-id) }">
-            <img class="b-mail-icon b-mail-icon_important" alt="" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
+        <a class="b-label b-label_important lid-{ label-important-id }" action="label" href="{ label-href(label-important-id) }">
+            <img class="b-mail-icon b-mail-icon_important" alt="" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
             <span class="b-label__content">Важные</span>
-            <span class="b-label__count">{ $label-important/count }</span>
+            <span class="b-label__count">{ label-important.count }</span>
         </a>
         <a class="b-label b-label_unread lid-only_new" action="unmark" href="#unread">
             <span class="b-label__content">Непрочитанные</span>
-            <span class="b-label__count">{ /page/folders/new }</span>
+            <span class="b-label__count">{ /.page.folders.new }</span>
         </a>
         <a class="b-label b-label_attach lid-only_atta" href="#attachments">
-            <img class="b-ico b-ico_attach-small" alt="" src="{ $static }/lego/blocks/b-ico/b-ico.gif"/>
+            <img class="b-ico b-ico_attach-small" alt="" src="{ static }/lego/blocks/b-ico/b-ico.gif"/>
             <span class="b-label__content">С вложениями</span>
         </a>
         <div class="b-labels__users">
-            apply label[ user ]
+            apply .label[ .user ]
         </div>
     </div>
 }
 
-match label {
-    <a href="{ label-href(id) }" class="b-label b-label_user lid-{ id }" action="label">
-        <span class="b-label__first-letter" style="background: #{ color }">{ slice(name, 0, 1) }</span>
-        <span class="b-label__content">{ slice(name, 1) }</span>
-        if count > 0 {
-            <span class="b-label__count">{ count }</span>
+match .label {
+    <a href="{ label-href(.id) }" class="b-label b-label_user lid-{ .id }" action="label">
+        <span class="b-label__first-letter" style="background: #{ .color }">{ slice(.name, 0, 1) }</span>
+        <span class="b-label__content">{ slice(.name, 1) }</span>
+        if .count > 0 {
+            <span class="b-label__count">{ .count }</span>
         }
     </a>
 }
 
-match label : href-content {
-    "#label/{ id }"
+match .label #href-content {
+    "#label/{ .id }"
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match messages : block-content {
-    apply /page/messages
+match .messages #block-content {
+    apply /.page.messages
 }
 
-match messages {
+match .messages {
     <div class="b-layout__inner">
-        apply . : head
+        apply . #head
         <i class="b-toolbar-hr"></i>
-        apply . : list
-        apply details/pager
+        apply . #list
+        apply .details.pager
     </div>
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match messages : head {
+match .messages #head {
     <div class="b-messages-head b-messages-head_threaded">
         <label class="b-messages-head__title"><input type="checkbox" class="b-messages-head__checkbox" value="0"/>Входящие</label>
         <span class="b-messages-head__action">
@@ -392,7 +399,7 @@ match messages : head {
             </div>
         </span>
         <span class="b-messages-head__action b-messages-head__action_checkbox daria-action" action="messages.threaded">
-            <img class="b-mail-icon b-mail-icon_checkbox" alt="[x]" title="" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_checkbox.gif"/>
+            <img class="b-mail-icon b-mail-icon_checkbox" alt="[x]" title="" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_checkbox.gif"/>
             "группировать по теме"
         </span>
         <span class="b-messages-head__infoline"></span>
@@ -401,62 +408,66 @@ match messages : head {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match messages : list {
+match .messages #list {
     <div class="b-messages b-messages_threaded">
-        apply list/message
+        apply .list.message
     </div>
 }
 
-match message {
-    is-thread = count > 0
+match .message {
+    is-thread = .count > 0
 
-    message-labels = label
-    is-important = $message-labels[. == $label-important-id]
+    message-labels = .label
+    is-important = message-labels[. == label-important-id]
 
-    href = apply . : href-content
+    href = apply . #href-content
 
     important-params = (
-        "current_label={ $label-important-id }&"
-        if $is-thread "thread-id=" else "message-id="
-        id
+        "current_label={ label-important-id }&"
+        if is-thread {
+            "thread-id="
+        } else {
+            "message-id="
+        }
+        .id
     )
 
-    <div class="b-messages__message mid-{ id }">
-        if new {
+    <div class="b-messages__message mid-{ .id }">
+        if .new {
             @class += " b-messages__message_unread"
         }
-        if $is-thread {
+        if is-thread {
             @class += " b-messages__message_thread"
-            @count = count
-            <a href="{ $href }" class="b-messages__thread-count daria-action" action="thread.toggle">
-                <img class="b-ico b-ico_closed" alt="" src="{ $static }/lego/blocks/b-ico/b-ico.gif"/>
+            @count = .count
+            <a href="{ href }" class="b-messages__thread-count daria-action" action="thread.toggle">
+                <img class="b-ico b-ico_closed" alt="" src="{ static }/lego/blocks/b-ico/b-ico.gif"/>
             </a>
         }
-        <label class="b-messages__message__checkbox"><input type="checkbox" value="{ id }" class="b-messages__message__checkbox__input"/></label>
-        if $is-important {
-            <img class="b-mail-icon_important daria-action" action="unlabel" params="{ $important-params }" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
-        } : {
-            <img class="b-mail-icon_unimportant daria-action" action="label" params="{ $important-params }" src="{ $static }/blocks/b-mail-icon/_type/b-mail-icon_unimportant.gif"/>
+        <label class="b-messages__message__checkbox"><input type="checkbox" value="{ .id }" class="b-messages__message__checkbox__input"/></label>
+        if is-important {
+            <img class="b-mail-icon_important daria-action" action="unlabel" params="{ important-params }" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_important.gif"/>
+        } else {
+            <img class="b-mail-icon_unimportant daria-action" action="label" params="{ important-params }" src="{ static }/blocks/b-mail-icon/_type/b-mail-icon_unimportant.gif"/>
         }
-        <span class="b-messages__date" title="Отправлено { date/full }">{ date/short }</span>
+        <span class="b-messages__date" title="Отправлено { .date.full }">{ .date.short }</span>
         <span class="b-messages__message__left">
-            for $message-labels {
-                apply labels(.) : message-social-label
+            for message-labels {
+                apply labels(.) #message-social-label
             }
-            for $message-labels {
-                apply labels(.) : message-user-label
+            for message-labels {
+                apply labels(.) #message-user-label
             }
             " "
-            <a href="{ $href }" class="b-messages__message__link daria-action" action="thread.toggle">
+            <a href="{ href }" class="b-messages__message__link daria-action" action="thread.toggle">
                 <span class="b-messages__from">
-                    <span class="b-messages__from__text" title="{ from/email }">{ from/name }</span>
+                    <span class="b-messages__from__text" title="{ .from.email }">{ .from.name }</span>
                 </span>
-                <span class="b-messages__subject" title="{ subject }">{ subject }</span>
+                <span class="b-messages__subject" title="{ .subject }">{ .subject }</span>
                 <span class="b-messages__firstline">
-                    if $is-thread {
-                        count " писем" // FIXME
-                    } : {
-                        firstline
+                    if is-thread {
+                        .count " писем" // FIXME
+                    } else {
+                        .firstline
                     }
                 </span>
                 "&#160;"
@@ -465,58 +476,58 @@ match message {
     </div>
 }
 
-match label : message-social-label {}
+match .label #message-social-label {}
 
-match label[ social ] : message-social-label {
-    <a href="{ label-href(id) }" class="b-messages__service-icon">
-        <img alt="" class="b-site-icon" src="{ $static }/blocks/b-site-icon/_type/b-site-icon_{ name }.png" title="Все письма от сайта { title }"/>
+match .label[ .social ] #message-social-label {
+    <a href="{ label-href(.id) }" class="b-messages__service-icon">
+        <img alt="" class="b-site-icon" src="{ static }/blocks/b-site-icon/_type/b-site-icon_{ .name }.png" title="Все письма от сайта { .title }"/>
     </a>
 }
 
-match label : message-user-label {}
+match .label #message-user-label {}
 
-match label[ user ] : message-user-label {
+match .label[ .user ] #message-user-label {
     " "
-    <a href="{ label-href(id) }" class="b-label b-label_rounded lid-{ id }" style="background: #{ color }">
-        name
+    <a href="{ label-href(.id) }" class="b-label b-label_rounded lid-{ .id }" style="background: #{ .color }">
+        .name
     </a>
 }
 
-match message : href-content {
-    "#message/{ id }"
+match .message #href-content {
+    "#message/{ .id }"
 }
 
-match message[ count > 0 ] : href-content {
-    "#thread/{ id }"
+match .message[ .count > 0 ] #href-content {
+    "#thread/{ .id }"
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-match pager {
+match .pager {
     <div class="b-pager">
         <b class="b-pager__title">Страницы</b>
-        apply prev | next : pager
+        apply .prev | .next #pager
     </div>
 }
 
-match prev : pager {
+match .prev #pager {
     <span class="b-pager__inactive">
         <i class="b-pager__key"><i class="b-pager__arr">←</i> Ctrl</i>
         " предыдущая"
     </span>
 }
 
-match prev[n] : pager {
+match .prev[.n] #pager {
     // ...
 }
 
-match next : pager {
+match .next #pager {
     // ...
 }
 
-match next[n] : pager {
+match .next[.n] #pager {
     <span class="b-pager__active">
-        <a href="#inbox/sort_type=date&page_number={ n }" class="b-pager__next">следующая</a>
+        <a href="#inbox/sort_type=date&page_number={ .n }" class="b-pager__next">следующая</a>
         " "
         <i class="b-pager__key">Ctrl <i class="b-pager__arr">→</i></i>
     </span>
