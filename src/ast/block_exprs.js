@@ -79,6 +79,7 @@ yate.AST.block_exprs = {
         var that = this;
 
         var items = this.Items;
+        o.push( this.make('attrs_close') );
         for (var i = 0, l = items.length; i < l - 1; i++) {
             var item = items[i];
             var next = items[i + 1];

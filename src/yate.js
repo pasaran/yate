@@ -5,11 +5,14 @@ var parser = yate.parser;
 var Fs = require('fs');
 
 parser.init(yate.grammar);
+
 parser.open({ filename: process.argv[2] });
+var data;
+if (process.argv[3]) {
+    data = JSON.parse( Fs.readFileSync( process.argv[3], 'utf-8' ) );
+}
 
 var ast = parser.match('stylesheet');
-
-// ast.trigger('log');
 
 // Фазы-проходы по дереву:
 
@@ -21,7 +24,6 @@ ast.trigger('setScope');
 // 1. Действие над каждой нодой в ast, не выходящее за рамки этой ноды и ее state/scope/context.
 ast.trigger('action');
 
-// console.log( require('util').inspect(ast, true, null) );
 // 2. Оптимизация дерева. Группировка нод, перестановка, замена и т.д.
 // ast.trigger('optimize');
 
@@ -34,16 +36,21 @@ ast.trigger('validate');
 // 4. Подготовка к кодогенерации.
 ast.trigger('prepare');
 
-// ast.trigger('log');
-// console.log( require('util').inspect(ast, true, null) );
-// console.log(ast.yate());
-
 var runtime = Fs.readFileSync(__dirname + '/src/runtime.js', 'utf-8');
 
-console.log( yate.codetemplates.fill('js', 'main', '', {
+var js = yate.codetemplates.fill('js', 'main', '', {
     Runtime: runtime,
     Stylesheet: ast
-}) );
+});
 
-// console.log(ast.toString(), '\n\n');
+if (data) {
+    var stylesheet = eval( '(' + js + ')' );
+    var result = require('vm').runInNewContext('(stylesheet(data))', {
+        data: data,
+        stylesheet: stylesheet
+    });
+    console.log(result);
+} else {
+    console.log(js);
+}
 

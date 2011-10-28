@@ -9,7 +9,7 @@ main
 
         %Stylesheet
 
-        return applyValue([ root ], '', a0);
+        return applyValue(root, '', a0);
     }
 
 //------------------------------------------------------------------------------------------------------------------ //
@@ -22,11 +22,19 @@ stylesheet
 
 template
 
-    // %Selector.Key %Mode
+    // %Selector.yate() %Mode
     var t%Tid = {
-        jpath: j%Selector.Jid,
+        jpath: %Selector#ref,
         body: %Body.Block#function
     };
+
+jpath #ref
+
+    j%Jid
+
+root #ref
+
+    null
 
 template_mode [ %Value != '' ]
 
@@ -64,13 +72,13 @@ block #function-body
 
 block
 
-    %Templates
-
-    %Defs
-
     %.#jpaths
 
     %.#predicates
+
+    %Defs
+
+    %Templates
 
     %.#matcher
 
@@ -95,7 +103,7 @@ block
 * #prologue [ !%AsList ]
 
     var r%Rid = '';
-    a%Rid = a%Rid || { attrs: {} };
+    var a%Rid = a%Rid || { attrs: {} };
 
 //------------------------------------------------------------------------------------------------------------------ //
 
@@ -115,17 +123,17 @@ inline_scalar #output
 
 scalar #listitem
 
-    %Body#prologue
-    %Body
-    r%{Rid}.push( r%Body.Rid );
+    %Block#prologue
+    %Block
+    r%{Rid}.push( r%Block.Rid );
 
 scalar#output
 
-    %Body
+    %Block
 
 scalar
 
-    %Body
+    %Block
 
 //------------------------------------------------------------------------------------------------------------------ //
 

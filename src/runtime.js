@@ -90,11 +90,13 @@
 // Создаем из js-объекта корневую ноду.
 
 function makeRoot(data) {
-    return {
-        data: data,
-        parent: null,
-        name: ''
-    };
+    return [
+        {
+            data: data,
+            parent: null,
+            name: ''
+        }
+    ];
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -243,6 +245,9 @@ function join(left, right) {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 function matched(jpath, context, index, count) {
+    if (jpath === null) { // Это jpath /
+        return !context.parent;
+    }
 
     var steps = jpath.steps || [];
     var preds = jpath.preds || [];
