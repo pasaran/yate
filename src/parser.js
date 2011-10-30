@@ -243,6 +243,10 @@ yate.parser._where = function(pos) {
     return where;
 };
 
+yate.parser._whereKey = function() {
+    return this._x + '|' + this._y;
+};
+
 // ----------------------------------------------------------------------------------------------------------------- //
 yate.parser.skip = function(id) {
     id = id || this._skipper;
@@ -265,7 +269,13 @@ yate.parser._$ = function(id) {
 // Test / Match
 // ----------------------------------------------------------------------------------------------------------------- //
 
+yate.parser._cache = {};
+
 yate.parser.test = function(id) {
+    var key = this._whereKey() + '|' + id;
+    var cached = this._cache[key];
+    if (cached !== undefined) { return cached; }
+
     var state = this._getState();
     var r = true;
     try {
@@ -275,6 +285,8 @@ yate.parser.test = function(id) {
         // console.log(e);
     }
     this._setState(state);
+
+    this._cache[key] = r;
 
     return r;
 };
@@ -315,10 +327,12 @@ yate.parser.match = function(id) {
         options = id.options;
         id = id.rule
     }
+
     var skipper = this.setSkipper(options.skipper);
     var args = Array.prototype.slice.call(arguments, 1);
     var r = this._$(id).apply(this, args);
     this.setSkipper(skipper);
+
     return r;
 };
 
