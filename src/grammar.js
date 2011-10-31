@@ -593,25 +593,16 @@ yate.grammar.rules.inline_eq = function(ast) {
     }
 };
 
-// inline_rel := inline_scalar ( ( '<=' | '<' | '>=' | '>' ) inline_scalar )?
+// inline_rel := inline_add ( ( '<=' | '<' | '>=' | '>' ) inline_add )?
 
 yate.grammar.rules.inline_rel = function(ast) {
-    ast.Left = this.match('inline_scalar');
+    ast.Left = this.match('inline_add');
     var op;
     if (op = this.testAny([ '<=', '<', '>=', '>' ])) {
         ast.Op = this.match(op);
-        ast.Right = this.match('inline_scalar');
+        ast.Right = this.match('inline_add');
     } else {
         return ast.Left;
-    }
-};
-
-// inline_scalar := inline_add
-
-yate.grammar.rules.inline_scalar = function(ast) {
-    ast.add( this.match('inline_add') );
-    while (this.test('inline_add')) {
-        ast.add( this.match('inline_add') );
     }
 };
 

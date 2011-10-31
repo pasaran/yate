@@ -10,8 +10,6 @@ yate.AST.callargs.jssep$ = ', ';
 
 yate.AST.string_content.jssep$ = ' + ';
 
-yate.AST.inline_scalar.jssep$ = ' + ';
-
 yate.AST.xml_attrs.jssep$open = ',\n';
 
 yate.AST.jpath_steps.jssep$compiled = ', ';

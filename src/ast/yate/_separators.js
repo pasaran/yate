@@ -6,5 +6,3 @@ yate.AST.arglist.yatesep$ = ', ';
 
 yate.AST.callargs.yatesep$ = ', ';
 
-yate.AST.inline_scalar.yatesep$ = ' ';
-
