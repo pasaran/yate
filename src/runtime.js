@@ -249,24 +249,27 @@ function matched(jpath, context, index, count) {
         return !context.parent;
     }
 
-    var steps = jpath.steps || [];
-    var preds = jpath.preds || [];
-
-    for (var i = steps.length; i--; ) {
+    var l = jpath.length;
+    var i = l - 2; // i всегда будет четное.
+    var j = i;
+    while (i >= 0) {
         if (!context) { return false; }
 
-        var step = steps[i];
-        var name = context.name;
+        var step = jpath[i]; // Тут step может быть либо 0 (nametest), либо 2 (predicate).
+                             // Варианты 1 (dots) и 3 (index) в jpath'ах в селекторах запрещены.
+        if (step === 0) { // Nametest.
+            var name = jpath[i + 1];
+            if ( name !== '*' && name !== context.name ) { return false; }
+            for (var k = i + 2; k <= j; k += 2) {
+                var predicate = jpath[k + 1];
+                if (!predicate(context, index, count)) { return false; }
+            }
+            context = context.parent;
+            j = i;
+        }
 
-        if (step !== '*' && step != name) { return false; }
-
-        var pred = preds[i];
-        if (pred && !pred(context, index, count)) { return false; }
-
-        context = context.parent;
+        i -= 2;
     }
-
-    if (jpath.abs && context.parent) { return false; }
 
     return true;
 };
