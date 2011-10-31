@@ -39,10 +39,14 @@ yate.AST.jpath.validate = function() {
 // Возвращаем значение последнего nametest'а или же ''.
 // Например, lastName(/foo/bar[id]) == 'bar', lastName(/) == ''.
 yate.AST.jpath.lastName = function() { // FIXME: Унести это в jpath_steps?
-    var steps = this.Steps;
-    if (!steps) { return ''; }
-    var l = steps.Items.length;
-    return (l) ? steps.Items[l - 1].Name : '';
+    var steps = this.Steps.Items;
+    for (var i = steps.length; i--; ) {
+        var step = steps[i];
+        if (step.is('jpath_nametest')) {
+            return step.Name;
+        }
+    }
+    return '';
 };
 
 yate.AST.jpath.getScope = function() {
