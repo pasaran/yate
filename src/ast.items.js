@@ -76,14 +76,22 @@ yate.AST.items.map = function(callback) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.items.code$ = function(lang, mode) {
+yate.AST.items.code = function(lang, mode) {
+    return this.code$join(lang, mode);
+};
+
+yate.AST.items.code$join = function(lang, mode) {
     var r = [];
 
     this.iterate(function(item) {
         r.push( item.code(lang, mode) );
     });
 
-    return this.codejoin(r, lang, mode);
+    // Пробуем this.jssep$mode(), затем this.codesep$mode().
+    var suffix = 'sep$' + (mode || '');
+    var sep = this[lang + suffix] || this['code' + suffix] || '';
+
+    return r.join(sep);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

@@ -359,15 +359,6 @@ yate.AST.prototype.code = function(lang, mode) {
     return '';
 };
 
-yate.AST.prototype.codejoin = function(array, lang, mode) {
-    var suffix = 'sep$' + (mode || '');
-
-    // Пробуем this.jssep$mode(), затем this.codesep$mode().
-    var sep = this[lang + suffix] || this['code' + suffix] || '';
-
-    return array.join(sep);
-};
-
 yate.AST.prototype.js = function(mode) {
     return this.code('js', mode);
 };
