@@ -1,3 +1,7 @@
+//------------------------------------------------------------------------------------------------------------------ //
+// main
+//------------------------------------------------------------------------------------------------------------------ //
+
 main
 
     function stylesheet(data) {
@@ -12,12 +16,20 @@ main
         return applyValue(root, '', a0);
     }
 
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// stylesheet
 //------------------------------------------------------------------------------------------------------------------ //
 
 stylesheet
 
     %Block
 
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// defs: template, function_, key, var_
 //------------------------------------------------------------------------------------------------------------------ //
 
 template
@@ -30,21 +42,321 @@ template
 
 //------------------------------------------------------------------------------------------------------------------ //
 
-// Для jpath выводим имя его переменной, для root -- null.
-
-jpath #selector_ref
-    j%Jid
-
-root #selector_ref
-    null
-
-//------------------------------------------------------------------------------------------------------------------ //
-
 function_
 
     // %Name
     var f%Fid = %Body.Block#function
 
+//------------------------------------------------------------------------------------------------------------------ //
+
+var_ [ %Value.inline() ]
+
+    var v%Vid = %Value;
+
+var_
+
+    %Value#prologue
+    %Value#output
+    var v%Vid = r%Value.Rid;
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+key
+
+    var k%{Kid}_nodes;
+    var k%{Kid}_values = {};
+    var k%{Kid}_get = function(key) {
+        var value = k%{Kid}_values[key];
+        if (!value) {
+            var c%Cid = k%{Kid}_nodes[key];
+            if (c%Cid) {
+                %Body#prologue
+                %Body#body
+                value = r%Body.Rid;
+            }
+            if (value) {
+                k%{Kid}_values[key] = value;
+            }
+        }
+        return value || [];
+    };
+    var k%{Kid} = function(key) {
+        if (!k%{Kid}_nodes) {
+            var nodes = %Nodes;
+            k%{Kid}_nodes = {};
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                var c%Use.Cid = nodes[i];
+                var useNodes = %Use;
+                for (var j = 0, m = useNodes.length; j < m; j++) {
+                    k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
+                }
+            }
+
+            k%{Kid} = k%{Kid}_get;
+        }
+
+        return k%{Kid}_get(key);
+    };
+
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// block expressions
+//------------------------------------------------------------------------------------------------------------------ //
+
+if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
+
+    r%{Rid}.push( (%Condition) ? %Then : %Else );
+
+if_ #listitem [ %AsListItem && %Else ]
+
+    %Then#prologue
+    if (%Condition) {
+        %Then#body
+    } else {
+        %Else#body
+    }
+    r%{Rid}.push( r%Then.Rid );
+
+if_ #listitem [ %AsListItem ]
+
+    if (%Condition) {
+        %Then#prologue
+        %Then#body
+        r%{Rid}.push( r%Then.Rid );
+    }
+
+if_ #listitem
+
+    %.#output
+
+if_ #output [ %Else && %Then.inline() && %Else.inline() ]
+
+    r%Rid += (%Condition) ? %Then : %Else;
+
+if_ #output [ %Else ]
+
+    if (%Condition) {
+        %Then#body
+    } else {
+        %Else#body
+    }
+
+if_ #output
+
+    if (%Condition) {
+        %Then#body
+    }
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+for_ #listitem [ %Body.AsList ]
+
+    %.#output
+
+for_#listitem
+
+    %Body#prologue
+    %.#output
+    r%{Rid}.push( r%Body.Rid );
+
+
+for_ #output
+
+    var items%Cid = %Selector;
+    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
+        var c%Body.Cid = items%Cid[ i%Cid ];
+        %Body.Block
+    }
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+apply #listitem [ !%Args.empty() ]
+
+    applyList(%Expr, %Mode, r%Rid, %Args);
+
+apply #listitem
+
+    applyList(%Expr, %Mode, r%Rid);
+
+apply #output [ !%Args.empty() ]
+
+    r%Rid += applyValue(%Expr, %Mode#string, a%Rid);
+
+apply #output
+
+    r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
+
+template_mode #string
+
+    '%Value'
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+xml_attr #open
+
+    '%Name': %Value
+
+xml_line #listitem
+
+    r%{Rid}.push( %.#content );
+
+xml_line #output
+
+    r%Rid += %.#content;
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+attr #listitem
+    %.#output
+
+attr #output [ %Value.inline() ]
+    a%{Rid}.attrs['%Name'] %Op %Value;
+
+attr #output
+
+    %Value#prologue
+    %Value
+    a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
+
+attrs_close #listitem
+    %.#output
+
+attrs_close #output
+    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
+
+attrs_open #listitem
+    %.#output
+
+attrs_open#output
+
+    a%{Rid}.attrs = {
+        %Attrs#open
+    };
+    a%{Rid}.open = true;
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+scalar #listitem
+
+    %Block#prologue
+    %Block
+    r%{Rid}.push( r%Block.Rid );
+
+scalar#output
+
+    %Block
+
+scalar
+
+    %Block
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+pair #listitem [ %Value.inline() ]
+
+    r%Rid[ %Key ] = %Value;
+
+pair #listitem
+
+    %Value.Body#prologue
+    %Value
+    r%Rid[ %Key ] = r%Value.Rid;
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+array #listitem
+
+    %Body
+    r{%Rid}.push( r%Body.Rid );
+
+array #output
+
+    %Body
+
+array
+
+    %Body
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+object #listitem
+
+    %Body
+    r%{Rid}.push( r%Body.Rid );
+
+object #output
+
+    %Body
+
+object
+
+    %Body
+
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// Selectors: jpath and root.
+//------------------------------------------------------------------------------------------------------------------ //
+
+root
+
+    root
+
+// Для jpath выводим имя его переменной, для root -- null.
+
+root #selector_ref
+
+    null
+
+jpath #selector_ref
+
+    j%Jid
+
+jpath
+
+    select(j%Jid, c%Cid)
+
+jpath_predicate #var
+
+    // %Key
+    function p%Pid(c%Cid, index, count) {
+        return %Expr;
+    };
+
+jpath #var
+
+    var j%Jid = %.#compiled; // %Key
+
+jpath #compiled
+
+    [ %Steps#compiled ]
+
+jpath_nametest #compiled
+
+    0, "%Name"
+
+jpath_dots #compiled
+
+    1, %Length
+
+jpath_predicate #compiled [ %isLocal() ]
+
+    2, p%Pid
+
+jpath_predicate #compiled
+
+    3, %Expr
+
+// FIXME: Переименовать в inline_filter
+jpath_filter
+
+    selectContext(j%JPath.Jid, %Expr)
+
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// block and body
 //------------------------------------------------------------------------------------------------------------------ //
 
 block #function [ %AsList ]
@@ -105,176 +417,6 @@ block
 
 //------------------------------------------------------------------------------------------------------------------ //
 
-inline_scalar #listitem
-
-    r%{Rid}.push( %. );
-
-inline_scalar #output [ %type() == 'nodeset' && !%AsType ]
-
-    r%Rid = %.;
-
-inline_scalar #output
-
-    r%Rid += %.;
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-scalar #listitem
-
-    %Block#prologue
-    %Block
-    r%{Rid}.push( r%Block.Rid );
-
-scalar#output
-
-    %Block
-
-scalar
-
-    %Block
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-pair #listitem [ %Value.inline() ]
-
-    r%Rid[ %Key ] = %Value;
-
-pair #listitem
-
-    %Value.Body#prologue
-    %Value
-    r%Rid[ %Key ] = r%Value.Rid;
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-array #listitem
-
-    %Body
-    r{%Rid}.push( r%Body.Rid );
-
-array #output
-
-    %Body
-
-array
-
-    %Body
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-object #listitem
-
-    %Body
-    r%{Rid}.push( r%Body.Rid );
-
-object #output
-
-    %Body
-
-object
-
-    %Body
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-key
-
-    var k%{Kid}_nodes;
-    var k%{Kid}_values = {};
-    var k%{Kid}_get = function(key) {
-        var value = k%{Kid}_values[key];
-        if (!value) {
-            var c%Cid = k%{Kid}_nodes[key];
-            if (c%Cid) {
-                %Body#prologue
-                %Body#body
-                value = r%Body.Rid;
-            }
-            if (value) {
-                k%{Kid}_values[key] = value;
-            }
-        }
-        return value || [];
-    };
-    var k%{Kid} = function(key) {
-        if (!k%{Kid}_nodes) {
-            var nodes = %Nodes;
-            k%{Kid}_nodes = {};
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                var c%Use.Cid = nodes[i];
-                var useNodes = %Use;
-                for (var j = 0, m = useNodes.length; j < m; j++) {
-                    k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
-                }
-            }
-
-            k%{Kid} = k%{Kid}_get;
-        }
-
-        return k%{Kid}_get(key);
-    };
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-var_ [ %Value.inline() ]
-
-    var v%Vid = %Value;
-
-var_
-
-    %Value#prologue
-    %Value#output
-    var v%Vid = r%Value.Rid;
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
-
-    r%{Rid}.push( (%Condition) ? %Then : %Else );
-
-if_ #listitem [ %AsListItem && %Else ]
-
-    %Then#prologue
-    if (%Condition) {
-        %Then#body
-    } else {
-        %Else#body
-    }
-    r%{Rid}.push( r%Then.Rid );
-
-if_ #listitem [ %AsListItem ]
-
-    if (%Condition) {
-        %Then#prologue
-        %Then#body
-        r%{Rid}.push( r%Then.Rid );
-    }
-
-if_ #listitem
-
-    %.#output
-
-if_ #output [ %Else && %Then.inline() && %Else.inline() ]
-
-    r%Rid += (%Condition) ? %Then : %Else;
-
-if_ #output [ %Else ]
-
-    if (%Condition) {
-        %Then#body
-    } else {
-        %Else#body
-    }
-
-
-if_ #output
-
-    if (%Condition) {
-        %Then#body
-    }
-
-//------------------------------------------------------------------------------------------------------------------ //
-
 * #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') && !%AsType ]
 
     r%parent.Rid = %.;
@@ -287,65 +429,18 @@ if_ #output
 
     %Block
 
-
 //------------------------------------------------------------------------------------------------------------------ //
 
-for_ #listitem [ %Body.AsList ]
+arglist_item
+    , v%Vid
 
-    %.#output
-
-for_#listitem
-
-    %Body#prologue
-    %.#output
-    r%{Rid}.push( r%Body.Rid );
+arglist_item #defaults
+    v%Vid = v%Vid || %Default;
 
 
-for_ #output
-
-    var items%Cid = %Selector;
-    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
-        var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body.Block
-    }
 
 //------------------------------------------------------------------------------------------------------------------ //
-
-apply #listitem [ !%Args.empty() ]
-
-    applyList(%Expr, %Mode, r%Rid, %Args);
-
-apply #listitem
-
-    applyList(%Expr, %Mode, r%Rid);
-
-apply #output [ !%Args.empty() ]
-
-    r%Rid += applyValue(%Expr, %Mode#string, a%Rid);
-
-apply #output
-
-    r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
-
-template_mode #string
-    '%Value'
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-attr #listitem
-
-    %.#output
-
-attr #output [ %Value.inline() ]
-
-    a%{Rid}.attrs['%Name'] %Op %Value;
-
-attr #output
-
-    %Value#prologue
-    %Value
-    a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
-
+// inline expressions
 //------------------------------------------------------------------------------------------------------------------ //
 
 inline_or
@@ -373,7 +468,7 @@ inline_unary
     -%Expr
 
 inline_union
-    join(%Left, %Right)
+    (%Left).concat(%Right)
 
 inline_complex
     (%Expr)
@@ -385,6 +480,10 @@ inline_function [ %Kid !== '' ]
 
 inline_function [ %Fid !== '' ]
     f%Fid(c%Cid, index, count %Args)
+
+//------------------------------------------------------------------------------------------------------------------ //
+
+// FIXME: Заменить на inline_function_true и т.д.
 
 inline_function [ %Name == 'true' ]
     true
@@ -412,38 +511,20 @@ inline_var
 inline_number
     %Value
 
-string
-    %String
-
-jpath_filter
-    selectContext(j%JPath.Jid, %Expr)
-
-jpath #context
-    %Jid
-
-root #context
-    root
-
-jpath
-    select(j%Jid, c%Cid)
-
-jpath_predicate #var
-    // %Key
-    function p%Pid(c%Cid, index, count) {
-        return %Expr;
-    };
-
-jpath #var
-    var j%Jid = %.#compiled; // %Key
-
-arglist_item
-    , v%Vid
-
-arglist_item #defaults
-    v%Vid = v%Vid || %Default;
-
 inline_string
     %Value
+
+string_expr
+    %Expr
+
+string_literal
+    '%Value'
+
+
+
+//------------------------------------------------------------------------------------------------------------------ //
+// cast and quote
+//------------------------------------------------------------------------------------------------------------------ //
 
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
     nodeset2scalar( %Expr )
@@ -454,79 +535,17 @@ cast [ %From == 'nodeset' && %To == 'boolean' ]
 cast
     %Expr
 
-string_expr
-    %Expr
-
-string_literal
-    '%Value'
-
-attrs_close #listitem
-
-    %.#output
-
-attrs_close #output
-
-    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
-
-attrs_open #listitem
-
-    %.#output
-
-attrs_open#output
-
-    a%{Rid}.attrs = {
-        %Attrs#open
-    };
-    a%{Rid}.open = true;
-
-xml_attr #open
-
-    '%Name': %Value
-
 quote
     %{Mode}Quote(%Expr)
 
-inline_filter
-    grep(%Expr, p%Predicate.Pid)
+
 
 //------------------------------------------------------------------------------------------------------------------ //
-
-xml_line #listitem
-
-    r%{Rid}.push( %.#content );
-
-xml_line #output
-
-    r%Rid += %.#content;
-
-root
-
-    root
-
-//------------------------------------------------------------------------------------------------------------------ //
-
-jpath #compiled
-
-    [ %Steps#compiled ]
-
-jpath_nametest #compiled
-
-    0, "%Name"
-
-jpath_dots #compiled
-
-    1, %Length
-
-jpath_predicate #compiled [ %isLocal() ]
-
-    2, p%Pid
-
-jpath_predicate #compiled
-
-    3, %Expr
-
+// misc
 //------------------------------------------------------------------------------------------------------------------ //
 
 * #yate
     %yate()
+
+
 
