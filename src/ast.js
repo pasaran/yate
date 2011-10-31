@@ -264,12 +264,9 @@ yate.AST.prototype.cid = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.isOpen = function() {
-    if (this.type() == yate.types.ATTR || this.type() == yate.types.XML) {
-        return undefined;
-    }
-    return false;
-};
+yate.AST.prototype.opens = yate.false;
+
+yate.AST.prototype.closes = yate.true;
 
 // ----------------------------------------------------------------------------------------------------------------- //
 

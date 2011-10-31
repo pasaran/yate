@@ -6,7 +6,7 @@ main
 
     function stylesheet(data) {
 
-//        %Runtime
+        %Runtime
 
         var root = makeRoot(data);
         var a0 = { attrs: {} };
@@ -37,8 +37,34 @@ template
     // match %Selector#yate %Mode#yate
     var t%Tid = {
         jpath: %Selector#selector_ref,
-        body: %Body.Block#function
+        body: %.#function
     };
+
+template #function [ %AsList ]
+
+    function(c%Cid, r%Rid, a%Rid, index, count %Args) {
+        %.#function-body
+    }
+
+template #function
+
+    function(c%Cid, a%Rid, index, count %Args) {
+        %.#function-body
+
+        return r%Rid;
+    }
+
+template #function-body
+
+    %parent.Args#defaults
+    %.#prologue
+    %.#attrs_close
+
+    %Body.Block
+
+template #attrs_close [ %Body.Block.closes() ]
+
+    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
 
 //------------------------------------------------------------------------------------------------------------------ //
 
@@ -322,6 +348,10 @@ root #selector_ref
 jpath #selector_ref
 
     j%Jid
+
+jpath [ %yate() == '.' ]
+
+    [ c%Cid ]
 
 jpath
 

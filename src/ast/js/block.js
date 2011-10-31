@@ -14,7 +14,10 @@ yate.AST.block.js$jpaths = function() {
     var jpaths = this.scope.jpaths;
     var r = [];
     for (var i = 0, l = jpaths.length; i < l; i++) {
-        r.push( jpaths[i].js('var') );
+        var jpath = jpaths[i];
+        if (jpath.Key !== '.') { // FIXME: Что-то нужно сделать с .
+            r.push( jpaths[i].js('var') );
+        }
     }
     return r.join('\n');
 };

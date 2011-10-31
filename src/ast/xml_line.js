@@ -22,7 +22,7 @@ yate.AST.xml_line.wellFormed = function(opened) {
     });
 };
 
-yate.AST.xml_line.isOpen = function() {
+yate.AST.xml_line.opens = function() {
     return !!this.lastTag();
 };
 

@@ -1,25 +1,27 @@
-yate.AST.for_ = {
+yate.AST.for_ = {};
 
-    options: {
-        base: 'expr'
-    },
+yate.AST.for_.options = {
+    base: 'expr'
+};
 
-    _getType: function() {
-        var type = this.Body.type();
+yate.AST.for_._getType = function() {
+    var type = this.Body.type();
 
-        return yate.types.joinType(type, type);
-    },
+    return yate.types.joinType(type, type);
+};
 
-    oncast: function(to) {
-        this.Body.cast(to);
-    },
+yate.AST.for_.oncast = function(to) {
+    this.Body.cast(to);
+};
 
-    prepare: function() {
-        if (this.AsListItem && !this.Body.AsList) {
-            this.Body.rid();
-        }
-        this.Body.cid();
+yate.AST.for_.prepare = function() {
+    if (this.AsListItem && !this.Body.AsList) {
+        this.Body.rid();
     }
+    this.Body.cid();
+};
 
+yate.AST.for_.closes = function() {
+    return this.Body.closes();
 };
 
