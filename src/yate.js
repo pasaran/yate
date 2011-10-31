@@ -7,12 +7,17 @@ var Fs = require('fs');
 parser.init(yate.grammar);
 
 parser.open({ filename: process.argv[2] });
+var ast = parser.match('stylesheet');
+
+if (process.argv[3] === '--print') { // FIXME: Заюзать commander.js или еще что.
+    console.log( ast.yate() );
+    process.exit(0);
+}
+
 var data;
 if (process.argv[3]) {
     data = JSON.parse( Fs.readFileSync( process.argv[3], 'utf-8' ) );
 }
-
-var ast = parser.match('stylesheet');
 
 // Фазы-проходы по дереву:
 
