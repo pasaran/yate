@@ -415,13 +415,14 @@ yate.grammar.rules.pair = function(ast) {
 
 yate.grammar.rules.scalar = function(ast) {
     if (this.test('inline_expr')) {
-        return this.match('inline_expr');
+        return this.match('inline_scalar');
     } else {
         this.match('(');
         ast.Block = this.match('block');
         this.match(')');
     }
 };
+
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -540,6 +541,12 @@ yate.grammar.rules.xml_attr = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Inline expressions
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.grammar.rules.inline_scalar = function(ast) {
+    ast.Expr = this.match('inline_expr');
+};
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // inline_expr := inline_or
