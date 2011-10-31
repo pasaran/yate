@@ -18,7 +18,7 @@ yate.AST.jpath.action = function() {
 
     // Если этот jpath еще не хранится в scope, то добаляем его туда.
     var jid = scope.jkeys[key];
-    if (!jid) {
+    if (jid === undefined) {
         jid = scope.jkeys[key] = state.jid++;
         scope.jpaths.push(this);
     }
