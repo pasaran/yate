@@ -319,9 +319,9 @@ yate.AST.function_type = {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.code = function(lang, mode) {
-    mode = mode || '';
+yate.AST.prototype._code = function(lang, mode) {
 
+    // FIXME: Истребить в пользу AST.transform.
     var data = this;
     if (this[lang + 'data$' + mode]) {
         data = this[lang + 'data$' + mode]();
@@ -356,7 +356,12 @@ yate.AST.prototype.code = function(lang, mode) {
         return data['code$'](lang, mode);
     }
 
-    return '';
+};
+
+yate.AST.prototype.code = function(lang, mode) {
+    mode = mode || '';
+
+    return this._code(lang, mode) || '';
 };
 
 yate.AST.prototype.js = function(mode) {

@@ -77,10 +77,13 @@ yate.AST.items.map = function(callback) {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.items.code = function(lang, mode) {
-    return this.code$join(lang, mode);
-};
+    mode = mode || '';
 
-yate.AST.items.code$join = function(lang, mode) {
+    var result = this._code(lang, mode);
+    if (result !== undefined) {
+        return result;
+    }
+
     var r = [];
 
     this.iterate(function(item) {

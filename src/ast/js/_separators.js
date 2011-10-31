@@ -1,4 +1,5 @@
-yate.AST.block_exprs.jssep$ = '\n';
+yate.AST.block_exprs.jssep$output = '\n';
+yate.AST.block_exprs.jssep$listitem = '\n';
 
 yate.AST.block_templates.jssep$ = '\n\n';
 
