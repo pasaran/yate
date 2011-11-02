@@ -15,9 +15,7 @@ yate.AST.block.js$jpaths = function() {
     var r = [];
     for (var i = 0, l = jpaths.length; i < l; i++) {
         var jpath = jpaths[i];
-        if (jpath.Key !== '.') { // FIXME: Что-то нужно сделать с .
-            r.push( jpaths[i].js('var') );
-        }
+        r.push( jpaths[i].js('var') );
     }
     return r.join('\n');
 };
