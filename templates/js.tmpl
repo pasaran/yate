@@ -96,9 +96,9 @@ key
         if (!value) {
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
-                %Body#prologue
-                %Body#body
-                value = r%Body.Rid;
+                %Body.Block#prologue
+                %Body.Block#body
+                value = r%Body.Block.Rid;
             }
             if (value) {
                 k%{Kid}_values[key] = value;
