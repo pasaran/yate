@@ -323,7 +323,7 @@ yate.AST.prototype._code = function(lang, mode) {
     if (this[lang + 'data$' + mode]) {
         data = this[lang + 'data$' + mode]();
     } else if (this['codedata$' + mode]) {
-        data = this['codedata$' + mode]();
+        data = this['codedata$' + mode](lang);
     }
 
     var result = yate.codetemplates.fill(lang, data.id, mode, data);
