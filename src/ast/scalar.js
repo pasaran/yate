@@ -1,13 +1,11 @@
-yate.AST.scalar = {
+yate.AST.scalar = {};
 
-    _type: yate.types.SCALAR,
+yate.AST.scalar._type = yate.types.SCALAR;
 
-    prepare: function() {
-        this.Block.cast(yate.types.SCALAR);
-        if (this.AsListItem) {
-            this.Block.rid();
-        }
+yate.AST.scalar.prepare = function() {
+    this.Block.cast(yate.types.SCALAR);
+    if (this.AsListItem) {
+        this.Block.rid();
     }
-
 };
 

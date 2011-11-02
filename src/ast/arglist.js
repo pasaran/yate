@@ -1,8 +1,6 @@
-yate.AST.arglist = {
+yate.AST.arglist = {};
 
-    options: {
-        mixin: 'items'
-    }
-
+yate.AST.arglist.options = {
+    mixin: 'items'
 };
 

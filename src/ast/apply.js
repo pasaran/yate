@@ -2,9 +2,9 @@ yate.AST.apply = {};
 
 yate.AST.apply.options = {
     base: 'expr'
-},
+};
 
-yate.AST.apply._type = yate.types.UNDEF,
+yate.AST.apply._type = yate.types.UNDEF;
 
 yate.AST.apply.validate = function() {
     if (!this.Expr.type( yate.types.NODESET )) {

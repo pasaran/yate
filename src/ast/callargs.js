@@ -1,8 +1,6 @@
-yate.AST.callargs = {
+yate.AST.callargs = {};
 
-    options: {
-        mixin: 'items'
-    }
-
+yate.AST.callargs.options = {
+    mixin: 'items'
 };
 

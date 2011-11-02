@@ -1,17 +1,15 @@
-yate.AST.xml_text = {
+yate.AST.xml_text = {};
 
-    options: {
-        base: 'xml'
-    },
+yate.AST.xml_text.options = {
+    base: 'xml'
+};
 
-    prepare: function() {
-        this.trigger('set', 'mode', 'text');
-        this.Text.cast(yate.types.SCALAR);
-    },
+yate.AST.xml_text.prepare = function() {
+    this.trigger('set', 'mode', 'text');
+    this.Text.cast(yate.types.SCALAR);
+};
 
-    toResult: function(result) {
-        this.Text.toResult(result);
-    }
-
+yate.AST.xml_text.toResult = function(result) {
+    this.Text.toResult(result);
 };
 
