@@ -5,6 +5,7 @@ yate.AST.inline_scalar.options = {
 };
 
 yate.AST.inline_scalar.oncast = function(to) {
+    this.AsType = null;
     this.Expr.cast(to);
 };
 
