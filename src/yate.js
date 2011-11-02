@@ -13,16 +13,6 @@ if (process.argv[3] === '--print') { // FIXME: Заюзать commander.js ил�
     console.log( ast.yate() );
     process.exit(0);
 }
-if (process.argv[3] === '--ast') {
-    console.log( ast.toString() );
-    process.exit(0);
-}
-
-var data;
-if (process.argv[3]) {
-    data = JSON.parse( Fs.readFileSync( process.argv[3], 'utf-8' ) );
-}
-
 // Фазы-проходы по дереву:
 
 // 0. Каждой ноде выставляется поле parent,
@@ -45,12 +35,22 @@ ast.trigger('validate');
 // 4. Подготовка к кодогенерации.
 ast.trigger('prepare');
 
+if (process.argv[3] === '--ast') {
+    console.log( ast.toString() );
+    process.exit(0);
+}
+
 var runtime = Fs.readFileSync(__dirname + '/src/runtime.js', 'utf-8');
 
 var js = yate.codetemplates.fill('js', 'main', '', {
     Runtime: runtime,
     Stylesheet: ast
 });
+
+var data;
+if (process.argv[3]) {
+    data = JSON.parse( Fs.readFileSync( process.argv[3], 'utf-8' ) );
+}
 
 if (data) {
     var stylesheet = eval( '(' + js + ')' );
