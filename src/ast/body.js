@@ -8,3 +8,7 @@ yate.AST.body.closes = function() {
     return this.Block.closes();
 };
 
+yate.AST.body.oncast = function(to) {
+    this.Block.cast(to);
+};
+
