@@ -13,6 +13,10 @@ if (process.argv[3] === '--print') { // FIXME: Заюзать commander.js ил�
     console.log( ast.yate() );
     process.exit(0);
 }
+if (process.argv[3] === '--ast') {
+    console.log( ast.toString() );
+    process.exit(0);
+}
 
 var data;
 if (process.argv[3]) {
