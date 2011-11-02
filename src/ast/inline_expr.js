@@ -14,8 +14,8 @@ yate.AST.inline_expr.toResult = function(result) {
 
 yate.AST.inline_expr.inline = yate.true;
 
-yate.AST.inline_expr.codedata$ = function() {
-    if (this.AsType) {
+yate.AST.inline_expr.codedata$ = function(lang) {
+    if (this.AsType && lang !== 'yate') {
         var cast = yate.AST.make('cast', this.AsType, this);
         this.AsType = null; // Чтобы не зациклиться (cast.js() вызызовет inline_expr.js()), снимаем флаг о том,
                             // что нужно преобразование типов.
