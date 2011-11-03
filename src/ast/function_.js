@@ -29,3 +29,7 @@ yate.AST.function_.prepare = function() {
     body.cast( body.type() );
 };
 
+yate.AST.function_.extractDefs = function() {
+    this.scope.defs.push(this);
+};
+

@@ -5,13 +5,12 @@
 yate.Scope = function() {
     this.id = yate.Scope._id++;
 
-    this.jpaths = [];
-    this.jkeys = {};
-    this.predicates = [];
-    this.pkeys = {};
+    this.defs = [];
 
     this.vars = {};
     this.functions = {};
+    this.jkeys = {};
+    this.pkeys = {};
 };
 
 yate.Scope._id = 0;

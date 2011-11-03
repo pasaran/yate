@@ -23,3 +23,7 @@ yate.AST.var_.prepare = function() {
     this.Value.rid();
 };
 
+yate.AST.var_.extractDefs = function() {
+    this.scope.defs.push(this);
+};
+

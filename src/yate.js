@@ -44,6 +44,10 @@ ast.walkBefore(function(ast) {
 // Важно! Только после этого момента разрешается вызывать метод type() у нод.
 // В фазах 0-3 он никогда не должен вызываться.
 
+ast.walkAfter(function(ast) {
+    ast.extractDefs();
+});
+
 // 4. Подготовка к кодогенерации.
 ast.walkBefore(function(ast) {
     ast.prepare();

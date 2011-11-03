@@ -1,23 +1,15 @@
-yate.AST.block.js$predicates = function() {
-    var predicates = this.scope.predicates;
+yate.AST.block.js$defs = function() {
+    var defs = this.scope.defs;
     var r = [];
-    for (var i = 0, l = predicates.length; i < l; i++) {
-        var predicate = predicates[i];
-        if (predicate.isLocal()) {
-            r.push( predicates[i].js('var') );
+    for (var i = 0, l = defs.length; i < l; i++) {
+        var def = defs[i];
+        if (def.is('jpath') || def.is('jpath_predicate')) {
+            r.push( def.js('var') );
+        } else {
+            r.push( def.js() );
         }
     }
     return r.join('\n\n');
-};
-
-yate.AST.block.js$jpaths = function() {
-    var jpaths = this.scope.jpaths;
-    var r = [];
-    for (var i = 0, l = jpaths.length; i < l; i++) {
-        var jpath = jpaths[i];
-        r.push( jpaths[i].js('var') );
-    }
-    return r.join('\n');
 };
 
 yate.AST.block.js$matcher = function() {

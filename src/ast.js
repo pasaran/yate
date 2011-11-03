@@ -376,4 +376,5 @@ yate.AST.prototype.yate = function(mode) {
 yate.AST.prototype.action = yate.nop;
 yate.AST.prototype.validate = yate.nop;
 yate.AST.prototype.prepare = yate.nop;
+yate.AST.prototype.extractDefs = yate.nop;
 
