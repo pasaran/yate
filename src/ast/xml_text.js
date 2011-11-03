@@ -5,7 +5,9 @@ yate.AST.xml_text.options = {
 };
 
 yate.AST.xml_text.prepare = function() {
-    this.trigger('set', 'mode', 'text');
+    this.walkBefore(function(ast) {
+        ast.mode = 'text';
+    });
     this.Text.cast(yate.types.SCALAR);
 };
 

@@ -194,3 +194,30 @@ yate.AST.items.getScope = function() {
     return scope;
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
+yate.AST.items.applyChildren = function(callback, params) {
+    var items = this.Items;
+    for (var i = 0, l = items.length; i < l; i++) {
+        callback( items[i], params );
+    }
+};
+
+yate.AST.items.walkAfter = function(callback, params) {
+    var items = this.Items;
+    for (var i = 0, l = items.length; i < l; i++) {
+        items[i].walkAfter(callback, params);
+    }
+
+    callback(this, params);
+};
+
+yate.AST.items.walkBefore = function(callback, params) {
+    callback(this, params);
+
+    var items = this.Items;
+    for (var i = 0, l = items.length; i < l; i++) {
+        items[i].walkBefore(callback, params);
+    }
+};
+

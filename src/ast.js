@@ -79,6 +79,7 @@ yate.AST.$ = function(id) {
 
 yate.AST.prototype.childrenKeys = function() {
     var keys = [];
+
     var order = this.options.order;
     if (order) {
         for (var i = 0, l = order.length; i < l; i++) {
@@ -91,6 +92,7 @@ yate.AST.prototype.childrenKeys = function() {
             }
         }
     }
+
     return keys;
 };
 
@@ -109,54 +111,48 @@ yate.AST.prototype.children = function() {
     return children;
 };
 
-yate.AST.prototype._apply = function(callback) {
-    var args = Array.prototype.slice.call(arguments, 1);
-
+yate.AST.prototype.applyChildren = function(callback, params) {
     var children = this.children();
     for (var i = 0, l = children.length; i < l; i++) {
-        step(children[i]);
-    }
-
-    function step(child) {
-        if (child instanceof Array) {
-            for (var j = 0, m = child.length; j < m; j++) {
-                step(child[j]);
-            }
-        } else if (child instanceof yate.AST) {
-            callback.apply(child, args);
+        var child = children[i];
+        if (child && typeof child === 'object') {
+            callback(child, params);
         }
     }
 };
 
-yate.AST.prototype.trigger = function(method) {
-    var args = Array.prototype.slice.call(arguments, 1);
-
-    run.apply(this, args);
-
-    function run() {
-        var callback;
-        if ((typeof method == 'function')) {
-            callback = method;
-        } else if (typeof method == 'string' && typeof this[method] == 'function') {
-            callback = this[method];
+yate.AST.prototype.walkAfter = function(callback, params) {
+    var children = this.children();
+    for (var i = 0, l = children.length; i < l; i++) {
+        var child = children[i];
+        if (child && typeof child === 'object') {
+            child.walkAfter(callback, params);
         }
-        var args = Array.prototype.slice.call(arguments);
-        if (callback) {
-            callback.apply(this, args);
+    }
+
+    callback(this, params);
+};
+
+yate.AST.prototype.walkBefore = function(callback, params) {
+    callback(this, params);
+
+    var children = this.children();
+    for (var i = 0, l = children.length; i < l; i++) {
+        var child = children[i];
+        if (child && typeof child === 'object') {
+            child.walkBefore(callback, params);
         }
-        this._apply.apply(this, [ run ].concat(args));
-    };
+    }
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.AST.prototype.setParents = function() {
-    function set(parent) {
-        this.parent = parent;
-        this._apply(set, this);
-    }
-
-    set.call(this, null);
+yate.AST.prototype.setParents = function(parent) {
+    this.parent = parent;
+    var that = this;
+    this.applyChildren(function(ast, parent) {
+        ast.setParents(that);
+    });
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -248,18 +244,26 @@ yate.AST.prototype.log = function() {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+/*
 yate.AST.prototype.set = function(key, value) {
     this.trigger(function() {
         this[key] = value;
     });
 };
+*/
 
 yate.AST.prototype.rid = function() {
-    this.set('Rid', this.Rid + 1);
+    var rid = this.Rid + 1;
+    this.walkBefore(function(ast) {
+        ast.Rid = rid;
+    });
 };
 
 yate.AST.prototype.cid = function() {
-    this.set('Cid', this.Cid + 1);
+    var cid = this.Cid + 1;
+    this.walkBefore(function(ast) {
+        ast.Cid = cid;
+    });
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -368,4 +372,8 @@ yate.AST.prototype.js = function(mode) {
 yate.AST.prototype.yate = function(mode) {
     return this.code('yate', mode);
 };
+
+yate.AST.prototype.action = yate.nop;
+yate.AST.prototype.validate = yate.nop;
+yate.AST.prototype.prepare = yate.nop;
 

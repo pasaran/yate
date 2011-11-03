@@ -7,6 +7,8 @@ yate.AST.xml_attr.toResult = function(result) {
 };
 
 yate.AST.xml_attr.prepare = function() {
-    this.trigger('set', 'mode', 'attr');
+    this.walkBefore(function(ast) {
+        ast.mode = 'attr';
+    });
 };
 
