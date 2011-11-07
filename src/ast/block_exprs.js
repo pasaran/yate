@@ -67,7 +67,7 @@ yate.AST.block_exprs.prepare = function() {
         }
 
         if (opened && next.closes()) {
-            o.push( this.make('attrs_close') );
+            o.push( this.make('attrs_close', this) );
             opened = false;
         }
 

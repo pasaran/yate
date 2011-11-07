@@ -149,22 +149,19 @@ module.exports = [
                 description: 'variable with scalar block value',
                 yate: 'variables.01.yate',
                 data: '01.json',
-                result: '<h1>Hello, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello">Hello, nop</h1>'
             },
             {
                 description: 'variable with if value',
                 yate: 'variables.02.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello">Hello, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello">Hello, nop</h1>'
             },
             {
                 description: 'variable with for value',
                 yate: 'variables.03.yate',
                 data: '01.json',
-                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>',
-                known: true
+                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>'
             },
             {
                 description: 'variable with if value, type nodeset',
