@@ -46,6 +46,8 @@ yate.AST.prototype.make = function() {
     var ast = yate.AST.make.apply(null, arguments);
     ast.parent = this;
     ast.setScope();
+    ast.Rid = this.Rid;
+    ast.Cid = this.Cid;
     return ast;
 };
 
