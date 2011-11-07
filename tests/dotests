@@ -12,9 +12,9 @@ for (var i = 0, l = tests.length; i < l; i++) {
     var result = yate.run( test.yate, test.data );
 
     if (result == test.result) {
-        console.log( test.yate, 'ok'.green );
+        console.log('%s\t%s\t%s', test.yate.gray, 'ok'.green, test.description.gray );
     } else {
-        console.log( test.yate, 'fail'.red );
+        console.log('%s\t%s\t%s', test.yate.white, 'fail'.red, test.description.white );
     }
 }
 
