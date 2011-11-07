@@ -4,17 +4,35 @@ require('../colors.js');
 
 var fs = require('fs');
 var yate = require('../yatelib.js');
-var tests = require('./tests.js');
+var sections = require('./tests.js');
 
-for (var i = 0, l = tests.length; i < l; i++) {
-    var test = tests[i];
+console.log('');
 
-    var result = yate.run( test.yate, test.data );
+for (var i = 0, l = sections.length; i < l; i++) {
+    var section = sections[i];
 
-    if (result == test.result) {
-        console.log('%s\t%s\t%s', test.yate.gray, 'ok'.green, test.description.gray );
-    } else {
-        console.log('%s\t%s\t%s', test.yate.white, 'fail'.red, test.description.white );
+    console.log('%s:', section.title.blue);
+
+    var tests = section.tests;
+    for (var j = 0, m = tests.length; j < m; j++) {
+        var test = tests[j];
+        var result = yate.run( test.yate, test.data );
+
+        if (result == test.result) {
+            console.log('    %s    %s\t%s', strpad(test.yate).gray, 'ok'.green, test.description.gray );
+        } else {
+            console.log('    %s    %s\t%s', strpad(test.yate).white, 'fail'.red, test.description.white );
+        }
     }
+
+    console.log('');
+}
+
+function strpad(s) {
+    var l = 36 - s.length;
+    if (l > 0) {
+        return Array(l - 1).join(' ') + s;
+    }
+    return s;
 }
 

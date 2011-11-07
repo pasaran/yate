@@ -1,0 +1,6 @@
+match / {
+    <h1 class="b-hello b-hello-{ .username } b-hello-{ .id }">
+        "Hello, { .username }"
+    </h1>
+}
+
