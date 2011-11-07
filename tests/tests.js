@@ -44,7 +44,7 @@ module.exports = [
                 yate: 'string-interpolation.06.yate',
                 data: '01.json',
                 result: '<h1 class="b-hello b-hello-nop b-hello-33662468">Hello, nop</h1>'
-            }
+            },
         ]
     },
 
@@ -105,7 +105,7 @@ module.exports = [
                 description: 'attributes in nested applies',
                 yate: 'attributes.09.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
+                result: '<h1 class="b-hello b-items b-first b-second b-third">Hello, nop</h1>'
             },
 
         ]
@@ -139,7 +139,41 @@ module.exports = [
                 yate: 'escaping.03.yate',
                 data: '01.json',
                 result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
-            }
+            },
+        ]
+    },
+
+    {
+        title: 'variables',
+        tests: [
+            {
+                description: 'variable with scalar block value',
+                yate: 'variables.01.yate',
+                data: '01.json',
+                result: '<h1>Hello, nop</h1>',
+                known: true
+            },
+            {
+                description: 'variable with if value',
+                yate: 'variables.02.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello">Hello, nop</h1>',
+                known: true
+            },
+            {
+                description: 'variable with for value',
+                yate: 'variables.03.yate',
+                data: '01.json',
+                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>',
+                known: true
+            },
+            {
+                description: 'variable with if value, type nodeset',
+                yate: 'variables.04.yate',
+                data: '01.json',
+                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>',
+                known: true
+            },
         ]
     },
 
@@ -151,8 +185,9 @@ module.exports = [
                 yate: 'misc.01.yate',
                 data: '01.json',
                 result: '<h1>Hello, nop</h1>'
-            }
+            },
         ]
-    }
+    },
+
 ];
 

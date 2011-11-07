@@ -6,6 +6,7 @@ match / {
 }
 
 match .items {
+    @class += " b-items"
     apply .item
 }
 

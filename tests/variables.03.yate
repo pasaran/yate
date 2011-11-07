@@ -1,0 +1,13 @@
+match / {
+    a = for .items.item {
+        <li>
+            @class = "b-{ .id }"
+            .title
+        </li>
+    }
+
+    <ul>
+        a
+    </ul>
+}
+
