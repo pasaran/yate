@@ -225,7 +225,7 @@ yate.parser.error = function(error) {
 yate.parser.backtrace = function(error) {
     error = error || this.id + ' expected';
 
-    throw 'PARSE ERROR: ' + error;
+    throw new Error('PARSE ERROR: ' + error);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

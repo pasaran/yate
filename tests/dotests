@@ -8,6 +8,11 @@ var sections = require('./tests.js');
 
 console.log('');
 
+var format = '    %s    %s\t%s';
+
+var total = 0;
+var failed = 0;
+
 for (var i = 0, l = sections.length; i < l; i++) {
     var section = sections[i];
 
@@ -16,17 +21,42 @@ for (var i = 0, l = sections.length; i < l; i++) {
     var tests = section.tests;
     for (var j = 0, m = tests.length; j < m; j++) {
         var test = tests[j];
-        var result = yate.run( test.yate, test.data );
 
-        if (result == test.result) {
-            console.log('    %s    %s\t%s', strpad(test.yate).gray, 'ok'.green, test.description.gray );
-        } else {
-            console.log('    %s    %s\t%s', strpad(test.yate).white, 'fail'.red, test.description.white );
+        var filename = strpad( test.yate );
+
+        total++;
+
+        try {
+            var result = yate.run( test.yate, test.data );
+
+            if (result == test.result) {
+                console.log(format, filename.gray, 'ok'.green, test.description.gray );
+            } else if (test.known) {
+                console.log(format, filename.white, 'fail'.yellow, test.description.white );
+            } else {
+                console.log(format, filename.white, 'fail'.red, test.description.white );
+                failed++;
+            }
+        } catch (e) {
+            if (test.known) {
+                console.log(format, filename.white, 'throw'.yellow, test.description.white);
+            } else {
+                console.log(format, filename.red, 'throw'.red, e.message.red);
+                failed++;
+            }
         }
     }
 
     console.log('');
 }
+
+if (failed) {
+    console.log('Failed: %s'.red, failed.toString());
+} else {
+    console.log('Passed'.green);
+}
+
+process.exit(failed);
 
 function strpad(s) {
     var l = 36 - s.length;

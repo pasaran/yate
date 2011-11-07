@@ -69,6 +69,32 @@ module.exports = [
                 data: '01.json',
                 result: '<h1 class="b-hello">Hello, nop</h1>'
             },
+            {
+                description: 'add class to empty (undefined) class',
+                yate: 'attributes.04.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello">Hello, nop</h1>',
+                known: true
+            },
+            {
+                description: 'several attributes in variable',
+                yate: 'attributes.05.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello" id="33662468">Hello, nop</h1>',
+                known: true
+            },
+            {
+                description: 'several attributes in if',
+                yate: 'attributes.06.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello" id="33662468">Hello, nop</h1>'
+            },
+            {
+                description: 'attributes in for',
+                yate: 'attributes.07.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
+            },
 
         ]
     },
@@ -86,7 +112,15 @@ module.exports = [
                 description: 'escape text',
                 yate: 'escaping.02.yate',
                 data: '01.json',
-                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
+                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>',
+                known: true
+            },
+            {
+                description: 'escape text inside interpolation',
+                yate: 'escaping.04.yate',
+                data: '01.json',
+                result: '&lt;b&gt;Some &amp;text&lt;/b&gt;',
+                known: true
             },
             {
                 description: 'escape xml text',

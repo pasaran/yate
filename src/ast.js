@@ -29,8 +29,8 @@ yate.AST.prototype.state = {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.AST.prototype.error = function(s) {
-    require('util').puts(new Error().stack);
-    throw 'ERROR: ' + s + '\n' + yate.parser._where(this.where);
+    // require('util').puts(new Error().stack);
+    throw new Error('ERROR: ' + s + '\n' + yate.parser._where(this.where));
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
