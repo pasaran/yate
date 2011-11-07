@@ -246,6 +246,10 @@ xml_line #output
 attr #listitem
     %.#output
 
+// FIXME: Закэшировать a0.attrs в отдельную переменную.
+attr #output [ %Value.inline() && %Op == '+=' ]
+    a%{Rid}.attrs['%Name'] = (a%{Rid}.attrs['%Name'] || '') + %Value;
+
 attr #output [ %Value.inline() ]
     a%{Rid}.attrs['%Name'] %Op %Value;
 

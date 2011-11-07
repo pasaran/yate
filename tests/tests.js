@@ -73,8 +73,7 @@ module.exports = [
                 description: 'add class to empty (undefined) class',
                 yate: 'attributes.04.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello">Hello, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello">Hello, nop</h1>'
             },
             {
                 description: 'several attributes in variable',
