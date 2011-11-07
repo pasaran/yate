@@ -178,6 +178,19 @@ module.exports = [
     },
 
     {
+        title: 'keys',
+        tests: [
+            {
+                description: 'xslt-styled key',
+                yate: 'keys.01.yate',
+                data: '01.json',
+                result: 'First',
+                known: true
+            },
+        ]
+    },
+
+    {
         title: 'misc',
         tests: [
             {
