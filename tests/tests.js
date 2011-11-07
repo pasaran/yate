@@ -95,6 +95,18 @@ module.exports = [
                 data: '01.json',
                 result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
             },
+            {
+                description: 'attributes in apply',
+                yate: 'attributes.08.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
+            },
+            {
+                description: 'attributes in nested applies',
+                yate: 'attributes.09.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
+            },
 
         ]
     },

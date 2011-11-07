@@ -1,0 +1,10 @@
+match / {
+    <h1>
+        if .valid {
+            @class = "b-hello"
+            @id = .id
+        }
+        "Hello, { .username }"
+    </h1>
+}
+

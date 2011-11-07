@@ -10,9 +10,6 @@ console.log('');
 
 var format = '    %s    %s\t%s';
 
-var total = 0;
-var failed = 0;
-
 for (var i = 0, l = sections.length; i < l; i++) {
     var section = sections[i];
 
@@ -24,39 +21,34 @@ for (var i = 0, l = sections.length; i < l; i++) {
 
         var filename = strpad( test.yate );
 
-        total++;
+        var status, desc;
 
         try {
             var result = yate.run( test.yate, test.data );
 
-            if (result == test.result) {
-                console.log(format, filename.gray, 'ok'.green, test.description.gray );
-            } else if (test.known) {
-                console.log(format, filename.white, 'fail'.yellow, test.description.white );
-            } else {
-                console.log(format, filename.white, 'fail'.red, test.description.white );
-                failed++;
-            }
+            status = (result == test.result) ? 'ok' : 'fail';
+            desc = test.description;
         } catch (e) {
-            if (test.known) {
-                console.log(format, filename.white, 'throw'.yellow, test.description.white);
-            } else {
-                console.log(format, filename.red, 'throw'.red, e.message.red);
-                failed++;
-            }
+            status = 'throw';
+            desc = e.message;
         }
+
+        var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';
+
+        if (status != 'ok') {
+            statusColor = 'red';
+            filenameColor = descColor = 'white';
+        }
+
+        if (test.known) {
+            statusColor = 'yellow';
+        }
+
+        console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
     }
 
     console.log('');
 }
-
-if (failed) {
-    console.log('Failed: %s'.red, failed.toString());
-} else {
-    console.log('Passed'.green);
-}
-
-process.exit(failed);
 
 function strpad(s) {
     var l = 36 - s.length;
@@ -65,4 +57,6 @@ function strpad(s) {
     }
     return s;
 }
+
+// vim: set ft=javascript: //
 
