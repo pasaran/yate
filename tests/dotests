@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+require('../colors.js');
+
+var fs = require('fs');
+var yate = require('../yatelib.js');
+var tests = require('./tests.js');
+
+for (var i = 0, l = tests.length; i < l; i++) {
+    var test = tests[i];
+
+    var result = yate.run( test.yate, test.data );
+
+    if (result == test.result) {
+        console.log( test.yate, 'ok'.green );
+    } else {
+        console.log( test.yate, 'fail'.red );
+    }
+}
+

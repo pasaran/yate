@@ -4,20 +4,18 @@
 //
 // ################################################################################################################# //
 
-yate.parser = {
-
-    _patterns: {},
-    _skippers: {},
-
-    _skipper: null
-
-};
+yate.parser = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Init
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.parser.init = function(grammar) {
+    this._patterns = {},
+    this._skippers = {},
+
+    this._skipper = null
+
     this._addTokens(grammar.tokens);
     this._addKeywords(grammar.keywords);
     this._addRules(grammar.rules);
@@ -170,6 +168,8 @@ yate.parser.open = function(o) {
     this._x = 0;
     this._y = 0;
     this._current = this._lines[0];
+
+    this._cache = {};
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -218,7 +218,7 @@ yate.parser.error = function(error) {
     var msg = 'SYNTAX ERROR: ' + error + '\n';
     msg += this._where();
 
-    throw msg;
+    throw new Error(msg);
 };
 
 // Этот метод нужен для того, чтобы показать, что правило не смогло правильно сматчиться и нужно делать backtrace.
@@ -268,8 +268,6 @@ yate.parser._$ = function(id) {
 // ----------------------------------------------------------------------------------------------------------------- //
 // Test / Match
 // ----------------------------------------------------------------------------------------------------------------- //
-
-yate.parser._cache = {};
 
 yate.parser.test = function(id) {
     var key = this._whereKey() + '|' + id;

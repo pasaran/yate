@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+require('./colors.js');
+
+var yate = require('./yatelib.js');
+
+console.log( yate.compile( process.argv[2] ) );
+

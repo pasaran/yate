@@ -1,0 +1,25 @@
+{
+    "id": "33662468",
+    "username": "nop",
+    "valid": true,
+    "items": {
+        "item": [
+            {
+                "id": 1,
+                "title": "First"
+            },
+            {
+                "id": 2,
+                "title": "Second",
+                "disabled": true
+            },
+            {
+                "id": 3,
+                "title": "Third"
+            }
+        ]
+    },
+    "text": "<b>Some &text</b>",
+    "attr": "\"Some <b>&attribute</b>\""
+}
+

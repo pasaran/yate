@@ -313,6 +313,7 @@ function closeAttrs(a) {
 function attrQuote(s) {
     if (!s) { return ''; }
     s = s.toString();
+    s = s.replace(/&/g, '&amp;');
     s = s.replace(/</g, '&lt;');
     s = s.replace(/>/g, '&gt;');
     s = s.replace(/"/g, '&quot;');
@@ -322,6 +323,7 @@ function attrQuote(s) {
 function textQuote(s) {
     if (!s) { return ''; }
     s = s.toString();
+    s = s.replace(/&/g, '&amp;');
     s = s.replace(/</g, '&lt;');
     s = s.replace(/>/g, '&gt;');
     return s;
