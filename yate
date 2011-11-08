@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+require('./colors.js');
+
+var yate = require('./yatelib.js');
+
+if ( process.argv[3] ) {
+    console.log( yate.run( process.argv[2], process.argv[3] ) );
+} else {
+    console.log( yate.compile( process.argv[2] ) );
+}
+
