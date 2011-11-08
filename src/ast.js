@@ -123,26 +123,28 @@ yate.AST.prototype.applyChildren = function(callback, params) {
     }
 };
 
-yate.AST.prototype.walkAfter = function(callback, params) {
-    var children = this.children();
-    for (var i = 0, l = children.length; i < l; i++) {
-        var child = children[i];
+yate.AST.prototype.walkAfter = function(callback, params, pKey, pObject) {
+    var keys = this.childrenKeys();
+    for (var i = 0, l = keys.length; i < l; i++) {
+        var key = keys[i];
+        var child = this[key];
         if (child && typeof child === 'object') {
-            child.walkAfter(callback, params);
+            child.walkAfter(callback, params, key, this);
         }
     }
 
-    callback(this, params);
+    callback(this, params, pKey, pObject);
 };
 
-yate.AST.prototype.walkBefore = function(callback, params) {
-    callback(this, params);
+yate.AST.prototype.walkBefore = function(callback, params, pKey, pObject) {
+    callback(this, params, pKey, pObject);
 
-    var children = this.children();
-    for (var i = 0, l = children.length; i < l; i++) {
-        var child = children[i];
+    var keys = this.childrenKeys();
+    for (var i = 0, l = keys.length; i < l; i++) {
+        var key = keys[i];
+        var child = this[key];
         if (child && typeof child === 'object') {
-            child.walkBefore(callback, params);
+            child.walkBefore(callback, params, key, this);
         }
     }
 };
@@ -379,4 +381,5 @@ yate.AST.prototype.action = yate.nop;
 yate.AST.prototype.validate = yate.nop;
 yate.AST.prototype.prepare = yate.nop;
 yate.AST.prototype.extractDefs = yate.nop;
+yate.AST.prototype.transform = yate.nop;
 

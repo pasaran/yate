@@ -206,7 +206,7 @@ yate.AST.items.applyChildren = function(callback, params) {
 yate.AST.items.walkAfter = function(callback, params) {
     var items = this.Items;
     for (var i = 0, l = items.length; i < l; i++) {
-        items[i].walkAfter(callback, params);
+        items[i].walkAfter(callback, params, i, items);
     }
 
     callback(this, params);
@@ -217,7 +217,7 @@ yate.AST.items.walkBefore = function(callback, params) {
 
     var items = this.Items;
     for (var i = 0, l = items.length; i < l; i++) {
-        items[i].walkBefore(callback, params);
+        items[i].walkBefore(callback, params, i, items);
     }
 };
 

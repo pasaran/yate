@@ -16,8 +16,7 @@ yate.parse = function(filename) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.compile = function(filename) {
-    var ast = yate.parse(filename);
+yate.walk = function(ast) {
 
     // Фазы-проходы по дереву:
 
@@ -57,7 +56,25 @@ yate.compile = function(filename) {
         ast.prepare();
     });
 
+    /*
+    ast.walkAfter(function(ast, params, pKey, pObject) {
+        if (pKey && pObject) {
+            var ast_ = ast.transform();
+            if (ast_) {
+                pObject[pKey] = ast_;
+            }
+        }
+    });
+    */
+
+    return ast;
+};
+
+yate.compile = function(filename) {
     // console.timeEnd('walking');
+
+    var ast = yate.parse(filename);
+    ast = yate.walk(ast);
 
     var runtime = require('fs').readFileSync(__dirname + '/src/runtime.js', 'utf-8'); // FIXME: Не нужно runtime совать в генерируемый код.
 
