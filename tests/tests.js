@@ -184,6 +184,12 @@ module.exports = [
                 result: '<h1 class="b-hello">Hello, nop</h1><h1 class="b-hello">Bye, nop</h1>',
                 known: true
             },
+            {
+                description: 'variable with xml value',
+                yate: 'variables.07.yate',
+                data: '01.json',
+                result: '<h1>Hello, nop</h1>'
+            },
         ]
     },
 
