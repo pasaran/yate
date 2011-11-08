@@ -25,3 +25,11 @@ yate.AST.inline_expr.codedata$ = function(lang) {
     }
 };
 
+/*
+yate.AST.inline_expr.transform = function() {
+    if (this.AsType) {
+        return this.make('cast', this.AsType, this);
+    }
+};
+*/
+
