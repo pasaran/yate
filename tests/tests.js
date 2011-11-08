@@ -177,6 +177,13 @@ module.exports = [
                 result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>',
                 known: true
             },
+            {
+                description: 'variable with attribute value can be used multiple times',
+                yate: 'variables.06.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello">Hello, nop</h1><h1 class="b-hello">Bye, nop</h1>',
+                known: true
+            },
         ]
     },
 

@@ -1,0 +1,14 @@
+match / {
+    attrs = (
+        @class = "b-hello"
+    )
+    <h1>
+        attrs
+        "Hello, { .username }"
+    </h1>
+    <h1>
+        attrs
+        "Bye, { .username }"
+    </h1>
+}
+
