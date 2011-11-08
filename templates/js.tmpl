@@ -40,11 +40,11 @@ template
         body: %.#function
     };
 
-template #function [ %AsList ]
-
-    function(c%Cid, r%Rid, a%Rid, index, count %Args) {
-        %.#function-body
-    }
+//template #function [ %AsList ]
+//
+//    function(c%Cid, r%Rid, a%Rid, index, count %Args) {
+//        %.#function-body
+//    }
 
 template #function
 
@@ -130,9 +130,9 @@ key
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-* #block_expr [ %AsList ]
-
-    %.#listitem
+//* #block_expr [ %AsList ]
+//
+//    %.#listitem
 
 * #block_expr
 
@@ -140,31 +140,31 @@ key
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
-
-    r%{Rid}.push( (%Condition) ? %Then : %Else );
-
-if_ #listitem [ %AsListItem && %Else ]
-
-    %Then#prologue
-    if (%Condition) {
-        %Then#body
-    } else {
-        %Else#body
-    }
-    r%{Rid}.push( r%Then.Rid );
-
-if_ #listitem [ %AsListItem ]
-
-    if (%Condition) {
-        %Then#prologue
-        %Then#body
-        r%{Rid}.push( r%Then.Rid );
-    }
-
-if_ #listitem
-
-    %.#output
+//if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
+//
+//    r%{Rid}.push( (%Condition) ? %Then : %Else );
+//
+//if_ #listitem [ %AsListItem && %Else ]
+//
+//    %Then#prologue
+//    if (%Condition) {
+//        %Then#body
+//    } else {
+//        %Else#body
+//    }
+//    r%{Rid}.push( r%Then.Rid );
+//
+//if_ #listitem [ %AsListItem ]
+//
+//    if (%Condition) {
+//        %Then#prologue
+//        %Then#body
+//        r%{Rid}.push( r%Then.Rid );
+//    }
+//
+//if_ #listitem
+//
+//    %.#output
 
 if_ #output [ %Else && %Then.inline() && %Else.inline() ]
 
@@ -186,16 +186,16 @@ if_ #output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-for_ #listitem [ %Body.AsList ]
-
-    %.#output
-
-for_#listitem
-
-    %Body#prologue
-    %.#output
-    r%{Rid}.push( r%Body.Rid );
-
+//for_ #listitem [ %Body.AsList ]
+//
+//    %.#output
+//
+//for_#listitem
+//
+//    %Body#prologue
+//    %.#output
+//    r%{Rid}.push( r%Body.Rid );
+//
 
 for_ #output
 
@@ -207,13 +207,13 @@ for_ #output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply #listitem [ !%Args.empty() ]
-
-    applyList(%Expr, %Mode, r%Rid, %Args);
-
-apply #listitem
-
-    applyList(%Expr, %Mode, r%Rid);
+//apply #listitem [ !%Args.empty() ]
+//
+//    applyList(%Expr, %Mode, r%Rid, %Args);
+//
+//apply #listitem
+//
+//    applyList(%Expr, %Mode, r%Rid);
 
 apply #output [ !%Args.empty() ]
 
@@ -233,9 +233,9 @@ xml_attr #open
 
     '%Name': %Value
 
-xml_line #listitem
-
-    r%{Rid}.push( %.#content );
+//xml_line #listitem
+//
+//    r%{Rid}.push( %.#content );
 
 xml_line #output
 
@@ -243,8 +243,8 @@ xml_line #output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-attr #listitem
-    %.#output
+//attr #listitem
+//    %.#output
 
 // FIXME: Закэшировать a0.attrs в отдельную переменную.
 attr #output [ %Value.inline() && %Op == '+=' ]
@@ -259,14 +259,14 @@ attr #output
     %Value
     a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
-attrs_close #listitem
-    %.#output
+//attrs_close #listitem
+//    %.#output
 
 attrs_close #output
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
 
-attrs_open #listitem
-    %.#output
+//attrs_open #listitem
+//    %.#output
 
 attrs_open#output
 
@@ -277,11 +277,11 @@ attrs_open#output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-scalar #listitem
-
-    %Block#prologue
-    %Block
-    r%{Rid}.push( r%Block.Rid );
+//scalar #listitem
+//
+//    %Block#prologue
+//    %Block
+//    r%{Rid}.push( r%Block.Rid );
 
 scalar#output
 
@@ -293,45 +293,45 @@ scalar
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-pair #listitem [ %Value.inline() ]
-
-    r%Rid[ %Key ] = %Value;
-
-pair #listitem
-
-    %Value.Body#prologue
-    %Value
-    r%Rid[ %Key ] = r%Value.Rid;
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-array #listitem
-
-    %Body
-    r{%Rid}.push( r%Body.Rid );
-
-array #output
-
-    %Body
-
-array
-
-    %Body
+//pair #listitem [ %Value.inline() ]
+//
+//    r%Rid[ %Key ] = %Value;
+//
+//pair #listitem
+//
+//    %Value.Body#prologue
+//    %Value
+//    r%Rid[ %Key ] = r%Value.Rid;
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-object #listitem
+//array #listitem
+//
+//    %Body
+//    r{%Rid}.push( r%Body.Rid );
+//
+//array #output
+//
+//    %Body
+//
+//array
+//
+//    %Body
 
-    %Body
-    r%{Rid}.push( r%Body.Rid );
+// ----------------------------------------------------------------------------------------------------------------- //
 
-object #output
-
-    %Body
-
-object
-
-    %Body
+//object #listitem
+//
+//    %Body
+//    r%{Rid}.push( r%Body.Rid );
+//
+//object #output
+//
+//    %Body
+//
+//object
+//
+//    %Body
 
 
 
@@ -403,11 +403,11 @@ jpath_filter
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
-block #function [ %AsList ]
-
-    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
-        %.#function-body
-    }
+//block #function [ %AsList ]
+//
+//    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
+//        %.#function-body
+//    }
 
 block #function
 
@@ -457,7 +457,7 @@ block
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') && !%AsType ]
+* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') ]
 
     r%parent.Rid = %.;
 
