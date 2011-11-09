@@ -32,7 +32,7 @@ stylesheet
 // defs: template, function_, key, var_
 // ----------------------------------------------------------------------------------------------------------------- //
 
-template
+template #defs
 
     // match %Selector#yate %Mode#yate
     var t%Tid = {
@@ -68,18 +68,18 @@ template #attrs_close [ %Body.Block.closes() ]
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function_
+function_ #defs
 
     // %Name
     var f%Fid = %Body.Block#function
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-var_ [ %Value.inline() ]
+var_ #defs [ %Value.inline() ]
 
     var v%Vid = %Value;
 
-var_
+var_ #defs
 
     %Value#prologue
     %Value#output
@@ -87,7 +87,7 @@ var_
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key
+key #defs
 
     var k%{Kid}_nodes;
     var k%{Kid}_values = {};
@@ -361,14 +361,14 @@ jpath
 
     select(j%Jid, c%Cid)
 
-jpath_predicate #var
+jpath_predicate #defs
 
     // %Key
     function p%Pid(c%Cid, index, count) {
         return %Expr;
     };
 
-jpath #var
+jpath #defs
 
     var j%Jid = %.#compiled; // %Key
 
@@ -428,7 +428,7 @@ block
 
     %.#defs
 
-    %Templates
+    %Templates#defs
 
     %.#matcher
 

@@ -1,13 +1,9 @@
+// FIXME: Если сделать scope.defs не массивом, а AST.items, то этот метод можно убрать совсем.
 yate.AST.block.js$defs = function() {
     var defs = this.scope.defs;
     var r = [];
     for (var i = 0, l = defs.length; i < l; i++) {
-        var def = defs[i];
-        if (def.is('jpath') || def.is('jpath_predicate')) {
-            r.push( def.js('var') );
-        } else {
-            r.push( def.js() );
-        }
+        r.push( defs[i].js('defs') );
     }
     return r.join('\n\n');
 };
