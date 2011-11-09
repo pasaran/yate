@@ -37,26 +37,9 @@ stylesheet
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
-//block #function [ %AsList ]
-//
-//    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
-//        %.#function-body
-//    }
-//
-//block #function
-//
-//    function(c%Cid, a%Rid, index, count %parent.Args) {
-//        %.#function-body
-//
-//        return r%Rid;
-//    }
-//
-//block #function-body
-//
-//    %parent.Args#defaults
-//    %.#prologue
-//
-//    %.
+body
+
+    %Block
 
 block
 
@@ -76,38 +59,12 @@ block
 
     var r%Rid = false;
 
-//* #prologue [ %type() == 'object' ]
-//
-//    var r%Rid = {};
-
 * #prologue
 
     var r%Rid = '';
     var a%Rid = a%Rid || { attrs: {} };
 
-// ----------------------------------------------------------------------------------------------------------------- //
 
-* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') ]
-
-    r%parent.Rid = %.;
-
-* #body [ %inline() ]
-
-    r%parent.Rid += %.;
-
-* #body
-
-    %Block
-
-//* #block_expr [ %AsList ]
-//
-//    %.#listitem
-
-//* #block_expr
-//
-//    %.#output
-
-// ----------------------------------------------------------------------------------------------------------------- //
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
@@ -120,12 +77,6 @@ template #defs
         jpath: %Selector#selector_ref,
         body: %.
     };
-
-//template #function [ %AsList ]
-//
-//    function(c%Cid, r%Rid, a%Rid, index, count %Args) {
-//        %.#function-body
-//    }
 
 template
 
@@ -181,7 +132,7 @@ key #defs
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
                 %Body.Block#prologue
-                %Body.Block#body
+                %Body.Block
                 value = r%Body.Block.Rid;
             }
             if (value) {
@@ -214,62 +165,21 @@ key #defs
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-//if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
-//
-//    r%{Rid}.push( (%Condition) ? %Then : %Else );
-//
-//if_ #listitem [ %AsListItem && %Else ]
-//
-//    %Then#prologue
-//    if (%Condition) {
-//        %Then#body
-//    } else {
-//        %Else#body
-//    }
-//    r%{Rid}.push( r%Then.Rid );
-//
-//if_ #listitem [ %AsListItem ]
-//
-//    if (%Condition) {
-//        %Then#prologue
-//        %Then#body
-//        r%{Rid}.push( r%Then.Rid );
-//    }
-//
-//if_ #listitem
-//
-//    %.#output
-
-if_ #output [ %Else && %Then.inline() && %Else.inline() ]
-
-    r%Rid += (%Condition) ? %Then : %Else;
-
 if_ #output [ %Else ]
 
     if (%Condition) {
-        %Then#body
+        %Then
     } else {
-        %Else#body
+        %Else.Block
     }
 
 if_ #output
 
     if (%Condition) {
-        %Then#body
+        %Then
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-//for_ #listitem [ %Body.AsList ]
-//
-//    %.#output
-//
-//for_#listitem
-//
-//    %Body#prologue
-//    %.#output
-//    r%{Rid}.push( r%Body.Rid );
-//
 
 for_ #output
 
@@ -280,14 +190,6 @@ for_ #output
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-//apply #listitem [ !%Args.empty() ]
-//
-//    applyList(%Expr, %Mode, r%Rid, %Args);
-//
-//apply #listitem
-//
-//    applyList(%Expr, %Mode, r%Rid);
 
 apply #output [ !%Args.empty() ]
 
@@ -307,18 +209,11 @@ xml_attr #open
 
     '%Name': %Value
 
-//xml_line #listitem
-//
-//    r%{Rid}.push( %.#content );
-
 xml_line #output
 
     r%Rid += %.#content;
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-//attr #listitem
-//    %.#output
 
 // FIXME: Закэшировать a0.attrs в отдельную переменную.
 attr #output [ %Value.inline() && %Op == '+=' ]
@@ -333,14 +228,8 @@ attr #output
     %Value
     a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
-//attrs_close #listitem
-//    %.#output
-
 attrs_close #output
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
-
-//attrs_open #listitem
-//    %.#output
 
 attrs_open#output
 
@@ -351,12 +240,6 @@ attrs_open#output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-//scalar #listitem
-//
-//    %Block#prologue
-//    %Block
-//    r%{Rid}.push( r%Block.Rid );
-
 scalar#output
 
     %Block
@@ -364,48 +247,6 @@ scalar#output
 scalar
 
     %Block
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-//pair #listitem [ %Value.inline() ]
-//
-//    r%Rid[ %Key ] = %Value;
-//
-//pair #listitem
-//
-//    %Value.Body#prologue
-//    %Value
-//    r%Rid[ %Key ] = r%Value.Rid;
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-//array #listitem
-//
-//    %Body
-//    r{%Rid}.push( r%Body.Rid );
-//
-//array #output
-//
-//    %Body
-//
-//array
-//
-//    %Body
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-//object #listitem
-//
-//    %Body
-//    r%{Rid}.push( r%Body.Rid );
-//
-//object #output
-//
-//    %Body
-//
-//object
-//
-//    %Body
 
 
 
