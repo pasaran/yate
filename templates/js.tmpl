@@ -186,7 +186,7 @@ for_ #output
     var items%Cid = %Selector;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
         var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body.Block
+        %Body
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -197,7 +197,7 @@ apply #output [ !%Args.empty() ]
 
 apply #output
 
-    r%Rid += applyValue(%Expr, %Mode, a%Rid, %Args);
+    r%Rid += applyValue(%Expr, %Mode#string, a%Rid, %Args);
 
 template_mode #string
 
