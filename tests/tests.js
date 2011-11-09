@@ -79,8 +79,7 @@ module.exports = [
                 description: 'several attributes in variable',
                 yate: 'attributes.05.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello" id="33662468">Hello, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello" id="33662468">Hello, nop</h1>'
             },
             {
                 description: 'several attributes in if',
@@ -181,8 +180,7 @@ module.exports = [
                 description: 'variable with attribute value can be used multiple times',
                 yate: 'variables.06.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello">Hello, nop</h1><h1 class="b-hello">Bye, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello">Hello, nop</h1><h1 class="b-hello">Bye, nop</h1>'
             },
             {
                 description: 'variable with xml value',

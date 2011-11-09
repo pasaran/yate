@@ -34,41 +34,10 @@ stylesheet
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// block and body
-// ----------------------------------------------------------------------------------------------------------------- //
-
-body
-
-    %Block
-
-block
-
-    %.#defs
-
-    %Exprs#output
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-* #prologue [ %inline() ]
-
-* #prologue [ %type() == 'array' || %type() == 'nodeset' ]
-
-    var r%Rid = [];
-
-* #prologue [ %type() == 'boolean' ]
-
-    var r%Rid = false;
-
-* #prologue
-
-    var r%Rid = '';
-    var a%Rid = a%Rid || { attrs: {} };
-
-
-
-// ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
 // ----------------------------------------------------------------------------------------------------------------- //
+
+// template.
 
 template #defs
 
@@ -82,21 +51,60 @@ template
 
     function(c%Cid, a%Rid, index, count %Args) {
         %Args#defaults
-        %Body#template
+        %.#prologue
+        %Body.Block#attrs_close
+
+        %Body.Block#output
 
         return r%Rid;
     }
 
-body #template
+//template #prologue [ %type() == 'array' ]
+//
+//    var r%Rid = [];
+//
+//template #prologue [ %type() == 'object' ]
+//
+//    var r%Rid = {};
 
-    %Block#prologue
-    %Block#attrs_close
+template #prologue
 
-    %Block
+    var r%Rid = '';
 
 block #attrs_close [ %closes() ]
 
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
+
+
+
+// ----------------------------------------------------------------------------------------------------------------- //
+// block and body
+// ----------------------------------------------------------------------------------------------------------------- //
+
+body #output
+
+    %Block#output
+
+block#output
+
+    %.#defs
+
+    %Exprs#output
+
+
+* #prologue [ %type() == 'nodeset' ]
+
+    var r%Rid = [];
+
+* #prologue [ %type() == 'boolean' ]
+
+    var r%Rid = false;
+
+* #prologue
+
+    var r%Rid = '';
+    var a%Rid = { attrs: {} };
+
 
 
 
@@ -113,6 +121,12 @@ function_ #defs
 var_ #defs [ %Value.inline() ]
 
     var v%Vid = %Value;
+
+var_ #defs [ %Value.type() == 'attr' ]
+
+    %Value#prologue
+    %Value#output
+    var v%Vid = a%{Value.Rid}.attrs;
 
 var_ #defs
 
@@ -132,7 +146,7 @@ key #defs
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
                 %Body.Block#prologue
-                %Body.Block
+                %Body.Block#output
                 value = r%Body.Block.Rid;
             }
             if (value) {
@@ -168,15 +182,15 @@ key #defs
 if_ #output [ %Else ]
 
     if (%Condition) {
-        %Then
+        %Then#output
     } else {
-        %Else
+        %Else#output
     }
 
 if_ #output
 
     if (%Condition) {
-        %Then
+        %Then#output
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -186,7 +200,7 @@ for_ #output
     var items%Cid = %Selector;
     for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
         var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body
+        %Body#output
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -225,7 +239,7 @@ attr #output [ %Value.inline() ]
 attr #output
 
     %Value#prologue
-    %Value
+    %Value#output
     a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
 attrs_close #output
@@ -242,7 +256,7 @@ attrs_open#output
 
 scalar#output
 
-    %Block
+    %Block#output
 
 scalar
 
@@ -397,6 +411,9 @@ inline_function [ %Name == 'slice' ]
     slice(%Args)
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+inline_var [ %type() == 'attr' ]
+    writeAttrs(v%def.Vid)
 
 inline_var
     v%def.Vid

@@ -20,3 +20,11 @@ yate.AST.template.prepare = function() {
     }
 };
 
+yate.AST.template._getType = function() {
+    var type = this.type();
+    if (type == yate.Types.ARRAY || type == yate.types.OBJECT) {
+        return type;
+    }
+    return yate.types.XML;
+};
+

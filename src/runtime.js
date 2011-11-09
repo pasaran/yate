@@ -308,6 +308,16 @@ function closeAttrs(a) {
     return r;
 };
 
+function writeAttrs(attrs) {
+    var r = '';
+
+    for (var attr in attrs) {
+        r += ' ' + attr + '="' + attrQuote(attrs[attr]) + '"';
+    }
+
+    return r;
+};
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 function attrQuote(s) {
