@@ -22,11 +22,92 @@ main
 // stylesheet
 // ----------------------------------------------------------------------------------------------------------------- //
 
+// На первое время, шаблоны (и соответственно matcher) выводятся только на верхнем уровне.
+
 stylesheet
+
+    %Block#defs
+    %Block.Templates#defs
+
+    %Block#matcher
+
+
+
+// ----------------------------------------------------------------------------------------------------------------- //
+// block and body
+// ----------------------------------------------------------------------------------------------------------------- //
+
+//block #function [ %AsList ]
+//
+//    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
+//        %.#function-body
+//    }
+//
+//block #function
+//
+//    function(c%Cid, a%Rid, index, count %parent.Args) {
+//        %.#function-body
+//
+//        return r%Rid;
+//    }
+//
+//block #function-body
+//
+//    %parent.Args#defaults
+//    %.#prologue
+//
+//    %.
+
+block
+
+    %.#defs
+
+    %Exprs#output
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+* #prologue [ %inline() ]
+
+* #prologue [ %type() == 'array' || %type() == 'nodeset' ]
+
+    var r%Rid = [];
+
+* #prologue [ %type() == 'boolean' ]
+
+    var r%Rid = false;
+
+//* #prologue [ %type() == 'object' ]
+//
+//    var r%Rid = {};
+
+* #prologue
+
+    var r%Rid = '';
+    var a%Rid = a%Rid || { attrs: {} };
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') ]
+
+    r%parent.Rid = %.;
+
+* #body [ %inline() ]
+
+    r%parent.Rid += %.;
+
+* #body
 
     %Block
 
+//* #block_expr [ %AsList ]
+//
+//    %.#listitem
 
+//* #block_expr
+//
+//    %.#output
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
@@ -37,7 +118,7 @@ template #defs
     // match %Selector#yate %Mode#yate
     var t%Tid = {
         jpath: %Selector#selector_ref,
-        body: %.#function
+        body: %.
     };
 
 //template #function [ %AsList ]
@@ -46,25 +127,28 @@ template #defs
 //        %.#function-body
 //    }
 
-template #function
+template
 
     function(c%Cid, a%Rid, index, count %Args) {
-        %.#function-body
+        %Args#defaults
+        %Body#template
 
         return r%Rid;
     }
 
-template #function-body
+body #template
 
-    %parent.Args#defaults
-    %.#prologue
-    %.#attrs_close
+    %Block#prologue
+    %Block#attrs_close
 
-    %Body.Block
+    %Block
 
-template #attrs_close [ %Body.Block.closes() ]
+block #attrs_close [ %closes() ]
 
     if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
+
+
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -128,16 +212,6 @@ key #defs
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // block expressions
-// ----------------------------------------------------------------------------------------------------------------- //
-
-//* #block_expr [ %AsList ]
-//
-//    %.#listitem
-
-* #block_expr
-
-    %.#output
-
 // ----------------------------------------------------------------------------------------------------------------- //
 
 //if_ #listitem [ %Else && %Then.inline() && %Else.inline() ]
@@ -398,76 +472,6 @@ jpath_filter
     selectContext(j%JPath.Jid, %Expr)
 
 
-
-// ----------------------------------------------------------------------------------------------------------------- //
-// block and body
-// ----------------------------------------------------------------------------------------------------------------- //
-
-//block #function [ %AsList ]
-//
-//    function(c%Cid, r%Rid, a%Rid, index, count %parent.Args) {
-//        %.#function-body
-//    }
-
-block #function
-
-    function(c%Cid, a%Rid, index, count %parent.Args) {
-        %.#function-body
-
-        return r%Rid;
-    }
-
-block #function-body
-
-    %parent.Args#defaults
-    %.#prologue
-
-    %.
-
-block
-
-    %.#defs
-
-    %Templates#defs
-
-    %.#matcher
-
-    %Exprs#block_expr
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-* #prologue [ %inline() ]
-
-* #prologue [ !%AsList && (%type() == 'array' || %type() == 'nodeset') ]
-
-    var r%Rid = [];
-
-* #prologue [ !%AsList && %type() == 'object' ]
-
-    var r%Rid = {};
-
-* #prologue [ !%AsList && %type() == 'boolean' ]
-
-    var r%Rid = false;
-
-* #prologue [ !%AsList ]
-
-    var r%Rid = '';
-    var a%Rid = a%Rid || { attrs: {} };
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-* #body [ %inline() && (%type() == 'nodeset' || %type() == 'boolean') ]
-
-    r%parent.Rid = %.;
-
-* #body [ %inline() ]
-
-    r%parent.Rid += %.;
-
-* #body
-
-    %Block
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
