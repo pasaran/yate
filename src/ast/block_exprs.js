@@ -4,35 +4,10 @@ yate.AST.block_exprs.options = {
     mixin: 'items'
 };
 
-yate.AST.block_exprs._getType = function() {
-    /*
-    if (this.AsList) {
-        return 'list';
-    }
-    */
-    return yate.AST.items._getType.call(this);
-};
-
 yate.AST.block_exprs.oncast = function(to) {
-    if (to == 'list') {
-        this.iterate(function(item) {
-            item.cast(null);
-        });
-    } else {
-        this.iterate(function(item) {
-            item.cast(to);
-        });
-    }
-};
-
-yate.AST.block_exprs.action = function() {
-    /*
-    if (this.AsList) {
-        this.iterate(function(item) {
-            item.AsListItem = true;
-        });
-    }
-    */
+    this.iterate(function(item) {
+        item.cast(to);
+    });
 };
 
 yate.AST.block_exprs.validate = function() {
@@ -80,31 +55,4 @@ yate.AST.block_exprs.prepare = function() {
 
     this.Items = o;
 };
-
-/*
-yate.AST.block_exprs.optimize = function() {
-    var o = [];
-    var r = [];
-
-    var that = this;
-
-    // Собираем несколько подряд идущих xmlLine/inlineList в один blockList.
-    this.iterate(function(item) {
-        if (item.is('xmlLine') || item.is('inlineList')) {
-            r.push(item);
-        } else {
-            if (r.length) {
-                o.push(that.make('blockList', r));
-                r = [];
-            }
-            o.push(item);
-        }
-    });
-    if (r.length) {
-        o.push(that.make('blockList', r));
-    }
-
-    this.Items = o;
-};
-*/
 
