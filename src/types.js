@@ -45,13 +45,14 @@ yate.types.convertable = function(from, to) {
         (from == 'nodeset' && to == 'boolean') ||
         (from == 'scalar' && to == 'boolean') ||
         (from == 'scalar' && to == 'xml') ||
-        // (from == 'xml' && to == 'scalar') ||
+        (from == 'scalar' && to == 'attrvalue') ||
         (from == 'attr' && to == 'xml')
     );
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+// FIXME: Этот метод используется только в if_._getType. Унести его туда.
 yate.types.commonType = function(left, right) {
     if (left == right) { return left; }
 
