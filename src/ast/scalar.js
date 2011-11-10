@@ -9,8 +9,10 @@ yate.AST.scalar._getType = function() {
 yate.AST.scalar.prepare = function() {
     //// this.Block.cast(yate.types.SCALAR);
     this.Block.cast();
+    /*
     if (this.AsListItem) {
         this.Block.rid();
     }
+    */
 };
 

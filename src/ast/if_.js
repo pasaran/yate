@@ -14,6 +14,7 @@ yate.AST.if_._getType = function() {
 yate.AST.if_.prepare = function() {
     this.Condition.cast(yate.types.BOOLEAN);
 
+    /*
     if (this.Then.AsList) {
         this.AsListItem = false;
     }
@@ -24,6 +25,7 @@ yate.AST.if_.prepare = function() {
             this.Else.rid();
         }
     }
+    */
 };
 
 yate.AST.if_.oncast = function(to) {

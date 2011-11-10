@@ -2,7 +2,7 @@ yate.AST.block = {};
 
 yate.AST.block.options = {
     scope: true,
-    order: [ 'Defs', 'Templates', 'Exprs', 'AsList' ]
+    order: [ 'Defs', 'Templates', 'Exprs' ] //// , 'AsList' ]
 };
 
 yate.AST.block._init = function(exprs) {
@@ -16,7 +16,7 @@ yate.AST.block._getType = function() {
 };
 
 yate.AST.block.action = function() {
-    this.Exprs.AsList = this.AsList;
+    // this.Exprs.AsList = this.AsList;
 
     if ( this.Defs.empty() && this.Templates.empty() && this.Exprs.inline() ) {
         this.Inline = true;

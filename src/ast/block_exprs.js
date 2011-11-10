@@ -5,9 +5,11 @@ yate.AST.block_exprs.options = {
 };
 
 yate.AST.block_exprs._getType = function() {
+    /*
     if (this.AsList) {
         return yate.types.LIST;
     }
+    */
     return yate.AST.items._getType.call(this);
 };
 
@@ -24,11 +26,13 @@ yate.AST.block_exprs.oncast = function(to) {
 };
 
 yate.AST.block_exprs.action = function() {
+    /*
     if (this.AsList) {
         this.iterate(function(item) {
             item.AsListItem = true;
         });
     }
+    */
 };
 
 yate.AST.block_exprs.validate = function() {

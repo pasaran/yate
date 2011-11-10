@@ -163,9 +163,11 @@ yate.grammar.rules.body = function(ast) {
         this.match(start);
 
         ast.Block = this.match('block');
+        /*
         if (start == '[') {
             ast.AsList = true;
         }
+        */
 
         var end = (start == '{') ? '}' : ']';
         this.match(end);
