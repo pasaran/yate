@@ -14,13 +14,8 @@ yate.AST.template.prepare = function() {
     } else {
     }
     */
-    // FIXME: Просто this.cast() ?
-    var type = block.type();
-    if (type == yate.types.ARRAY || type == yate.types.OBJECT) {
-        block.cast(type);
-    } else {
-        block.cast(yate.types.XML);
-    }
+
+    block.cast();
 };
 
 yate.AST.template._getType = function() {
