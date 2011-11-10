@@ -10,14 +10,14 @@ yate.AST.jpath_predicate.isLocal = function() {
 
 yate.AST.jpath_predicate.prepare = function() {
     if (this.isLocal()) {
-        this.Expr.cast( yate.types.BOOLEAN );
+        this.Expr.cast( 'boolean' );
     } else {
-        this.Expr.cast( yate.types.SCALAR );
+        this.Expr.cast( 'scalar' );
     }
 };
 
 yate.AST.jpath_predicate.validate = function() {
-    if (!this.Expr.type( yate.types.BOOLEAN )) {
+    if (!this.Expr.type( 'boolean' )) {
         this.Expr.error('Type must be BOOLEAN');
     }
 };

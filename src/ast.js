@@ -173,7 +173,7 @@ yate.AST.prototype.type = function(to) {
 };
 
 yate.AST.prototype._getType = function() {
-    return yate.types.NONE;
+    return 'none';
 };
 
 yate.AST.prototype.cast = function(to) {
@@ -196,10 +196,10 @@ yate.AST.prototype.oncast = yate.nop;
 yate.AST.prototype.toValue = function() {
     var type = this.type();
 
-    if (type == yate.types.ARRAY || type == yate.types.OBJECT) {
+    if (type == 'array' || type == 'object') {
         this.cast(type);
     } else {
-        this.cast(yate.types.XML);
+        this.cast('xml');
     }
 };
 

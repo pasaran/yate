@@ -9,11 +9,11 @@ yate.AST.inline_internal_function._init = function(name, type, argTypes) {
 
 // FIXME: Не место этому здесь.
 yate.AST.internalFunctions = {
-    'true': yate.AST.make('inline_internal_function', 'true', yate.types.BOOLEAN),
-    'false': yate.AST.make('inline_internal_function', 'false', yate.types.BOOLEAN),
-    'name': yate.AST.make('inline_internal_function', 'name', yate.types.SCALAR),
-    'position': yate.AST.make('inline_internal_function', 'position', yate.types.SCALAR),
-    'count': yate.AST.make('inline_internal_function', 'count', yate.types.SCALAR),
-    'slice': yate.AST.make('inline_internal_function', 'slice', yate.types.SCALAR, [ yate.types.SCALAR, yate.types.SCALAR, yate.types.SCALAR ])
+    'true': yate.AST.make('inline_internal_function', 'true', 'boolean'),
+    'false': yate.AST.make('inline_internal_function', 'false', 'boolean'),
+    'name': yate.AST.make('inline_internal_function', 'name', 'scalar'),
+    'position': yate.AST.make('inline_internal_function', 'position', 'scalar'),
+    'count': yate.AST.make('inline_internal_function', 'count', 'scalar'),
+    'slice': yate.AST.make('inline_internal_function', 'slice', 'scalar', [ 'scalar', 'scalar', 'scalar' ])
 };
 

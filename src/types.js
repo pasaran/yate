@@ -2,100 +2,82 @@
 // yate.types
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.types = {
-    NONE    : 'none',
-    UNDEF   : 'undef',
-    SCALAR  : 'scalar',
-    BOOLEAN : 'boolean',
-    NODESET : 'nodeset',
-    XML     : 'xml',
-    ATTR    : 'attr',
-    PAIR    : 'pair',
-    ARRAY   : 'array',
-    OBJECT  : 'object',
-    LIST    : 'list'
-};
+yate.types = {};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.types.joinType = function(left, right) {
-    var types = yate.types;
-
     // NONE + ??? == NONE
-    if (left == types.NONE || right == types.NONE) { return types.NONE; }
+    if (left == 'none' || right == 'none') { return 'none'; }
 
     // ARRAY + ??? == NONE, OBJECT + ??? == NONE, BOOLEAN + ??? == NONE
-    if (left == types.ARRAY || right == types.ARRAY) { return types.NONE; }
-    if (left == types.OBJECT || right == types.OBJECT) { return types.NONE; }
-    if (left == types.BOOLEAN || right == types.BOOLEAN) { return types.NONE; }
+    if (left == 'array' || right == 'array') { return 'none'; }
+    if (left == 'object' || right == 'object') { return 'none'; }
+    if (left == 'boolean' || right == 'boolean') { return 'none'; }
 
     // UNDEF + UNDEF == UNDEF
-    if (left == types.UNDEF && right == types.UNDEF) { return types.UNDEF; }
+    if (left == 'undef' && right == 'undef') { return 'undef'; }
 
     // PAIR + ??? == PAIR
-    if (left == types.PAIR || right == types.PAIR) { return types.PAIR; }
+    if (left == 'pair' || right == 'pair') { return 'pair'; }
 
     // ATTR + ATTR == ATTR
-    if (left == types.ATTR && right == types.ATTR) { return types.ATTR; }
+    if (left == 'attr' && right == 'attr') { return 'attr'; }
 
     // ATTR + ??? == XML, XML + ??? == XML.
-    if (left == types.XML || left == types.ATTR || right == types.XML || right == types.ATTR) { return types.XML; }
+    if (left == 'xml' || left == 'attr' || right == 'xml' || right == 'attr') { return 'xml'; }
 
     // LIST + LIST == LIST
-    if (left == types.LIST && right == types.LIST) { return types.LIST; }
+    if (left == 'list' && right == 'list') { return 'list'; }
 
     // Все остальное это SCALAR.
-    return types.SCALAR;
+    return 'scalar';
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.types.convertable = function(from, to) {
-    var types = yate.types;
-
     return (
         (from == to) ||
-        (from == types.UNDEF) ||
-        (from == types.NODESET && to == types.SCALAR) ||
-        (from == types.NODESET && to == types.XML) ||
-        (from == types.NODESET && to == types.BOOLEAN) ||
-        (from == types.SCALAR && to == types.BOOLEAN) ||
-        (from == types.SCALAR && to == types.XML) ||
-        // (from == types.XML && to == types.SCALAR) ||
-        (from == types.ATTR && to == types.XML)
+        (from == 'undef') ||
+        (from == 'nodeset' && to == 'scalar') ||
+        (from == 'nodeset' && to == 'xml') ||
+        (from == 'nodeset' && to == 'boolean') ||
+        (from == 'scalar' && to == 'boolean') ||
+        (from == 'scalar' && to == 'xml') ||
+        // (from == 'xml' && to == 'scalar') ||
+        (from == 'attr' && to == 'xml')
     );
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.types.commonType = function(left, right) {
-    var types = yate.types;
-
     if (left == right) { return left; }
 
-    if (left == types.UNDEF) { return right; }
-    if (right == types.UNDEF) { return left; }
+    if (left == 'undef') { return right; }
+    if (right == 'undef') { return left; }
 
     if (
-        left == types.ARRAY || right == types.ARRAY ||
-        left == types.OBJECT || right == types.OBJECT ||
-        left == types.PAIR || right == types.PAIR
+        left == 'array' || right == 'array' ||
+        left == 'object' || right == 'object' ||
+        left == 'pair' || right == 'pair'
     ) {
-        return types.NONE;
+        return 'none';
     }
 
-    if (left == types.BOOLEAN || right == types.BOOLEAN) {
-        return types.BOOLEAN;
+    if (left == 'boolean' || right == 'boolean') {
+        return 'boolean';
     }
 
     if (
-        left == yate.types.XML || right == yate.types.XML ||
-        left == yate.types.ATTR || right == yate.types.ATTR
+        left == 'xml' || right == 'xml' ||
+        left == 'attr' || right == 'attr'
     ) {
-        return yate.types.XML;
+        return 'xml';
     }
 
-    return yate.types.SCALAR;
+    return 'scalar';
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

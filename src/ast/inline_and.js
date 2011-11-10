@@ -1,9 +1,9 @@
 yate.AST.inline_and = {};
 
 yate.AST.inline_and.signature = {
-    left: yate.types.BOOLEAN,
-    right: yate.types.BOOLEAN,
-    result: yate.types.BOOLEAN
+    left: 'boolean',
+    right: 'boolean',
+    result: 'boolean'
 };
 
 yate.AST.inline_and.options = {

@@ -15,7 +15,7 @@ yate.AST.function_.action = function() {
 };
 
 yate.AST.function_.validate = function() {
-    if (this.Body.type() === yate.types.UNDEF) {
+    if (this.Body.type() === 'undef') {
         this.error('Undefined type of return value');
     }
 };

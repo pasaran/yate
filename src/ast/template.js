@@ -20,9 +20,9 @@ yate.AST.template.prepare = function() {
 
 yate.AST.template._getType = function() {
     var type = this.Body.type();
-    if (type == yate.types.ARRAY || type == yate.types.OBJECT) {
+    if (type == 'array' || type == 'object') {
         return type;
     }
-    return yate.types.XML;
+    return 'xml';
 };
 

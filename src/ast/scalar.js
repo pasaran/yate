@@ -17,6 +17,6 @@ yate.AST.scalar.oncast = function(to) {
 };
 
 yate.AST.scalar.closes = function() {
-    return ( this.type() != yate.types.ATTR ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
+    return ( this.type() != 'attr' ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
 };
 

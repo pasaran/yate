@@ -6,5 +6,5 @@ yate.AST.inline_number.options = {
 
 yate.AST.inline_number.isLocal = yate.false;
 
-yate.AST.inline_number._type = yate.types.SCALAR;
+yate.AST.inline_number._type = 'scalar';
 

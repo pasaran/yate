@@ -7,7 +7,7 @@ yate.AST.block_exprs.options = {
 yate.AST.block_exprs._getType = function() {
     /*
     if (this.AsList) {
-        return yate.types.LIST;
+        return 'list';
     }
     */
     return yate.AST.items._getType.call(this);
@@ -48,7 +48,7 @@ yate.AST.block_exprs.validate = function() {
 };
 
 yate.AST.block_exprs.prepare = function() {
-    if (this.type() != yate.types.XML) { return; }
+    if (this.type() != 'xml') { return; }
 
     var o = [];
     var last;

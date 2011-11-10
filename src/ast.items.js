@@ -16,7 +16,7 @@ yate.AST.items._getType = function() {
     var items = this.Items;
     var l = items.length;
 
-    if (!l) { return yate.types.SCALAR; } // FIXME: А нужно ли это? Может быть UNDEF сработает?
+    if (!l) { return 'scalar'; } // FIXME: А нужно ли это? Может быть UNDEF сработает?
 
     var currentId = items[0].id;
     var currentType = items[0].type();
@@ -26,7 +26,7 @@ yate.AST.items._getType = function() {
         var nextType = item.type();
 
         var commonType = yate.types.joinType(currentType, nextType);
-        if (commonType == yate.types.NONE) {
+        if (commonType == 'none') {
             item.error('Несовместимые типы ' + currentType + ' (' + currentId + ') и ' + nextType + ' (' + item.id + ')');
         }
         currentId = item.id;

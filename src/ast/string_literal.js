@@ -14,7 +14,7 @@ yate.AST.string_literal.yate = function() {
     return this.Value;
 };
 
-yate.AST.string_literal._type = yate.types.SCALAR;
+yate.AST.string_literal._type = 'scalar';
 
 yate.AST.string_literal.toResult = function(result) {
     if (this.mode === 'attr') {

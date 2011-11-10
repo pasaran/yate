@@ -30,7 +30,7 @@ yate.AST.inline_expr.code$output = function() {
 };
 
 yate.AST.inline_expr.closes = function() {
-    return ( this.type() != yate.types.ATTR ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
+    return ( this.type() != 'attr' ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
 };
 
 /*

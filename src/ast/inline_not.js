@@ -1,8 +1,8 @@
 yate.AST.inline_not = {};
 
 yate.AST.inline_not.signature = {
-    left: yate.types.BOOLEAN,
-    result: yate.types.BOOLEAN
+    left: 'boolean',
+    result: 'boolean'
 };
 
 yate.AST.inline_not.options = {

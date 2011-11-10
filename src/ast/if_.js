@@ -6,13 +6,13 @@ yate.AST.if_.options = {
 
 yate.AST.if_._getType = function() {
     var thenType = this.Then.type();
-    var elseType = (this.Else) ? this.Else.type() : yate.types.UNDEF;
+    var elseType = (this.Else) ? this.Else.type() : 'undef';
 
     return yate.types.commonType(thenType, elseType);
 };
 
 yate.AST.if_.prepare = function() {
-    this.Condition.cast(yate.types.BOOLEAN);
+    this.Condition.cast('boolean');
 
     /*
     if (this.Then.AsList) {

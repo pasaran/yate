@@ -15,10 +15,10 @@ yate.AST.key.action = function() {
 };
 
 yate.AST.key.validate = function() {
-    if (!this.Nodes.type( yate.types.NODESET )) {
+    if (!this.Nodes.type( 'nodeset' )) {
         this.Nodes.error('Nodeset is required');
     }
-    if (!this.Use.type( yate.types.SCALAR )) {
+    if (!this.Use.type( 'scalar' )) {
         this.Use.error('Scalar is required');
     }
 };

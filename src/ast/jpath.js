@@ -4,13 +4,13 @@ yate.AST.jpath.options = {
     base: 'inline_expr'
 };
 
-yate.AST.jpath._type = yate.types.NODESET;
+yate.AST.jpath._type = 'nodeset';
 
 yate.AST.jpath.isLocal = yate.true;
 
 yate.AST.jpath.validate = function() {
     var context = this.Context;
-    if (context && !context.type( yate.types.NODESET )) {
+    if (context && !context.type( 'nodeset' )) {
         context.error('Invalid type. Should be NODESET');
     }
 };

@@ -9,7 +9,7 @@ yate.AST.jpath_filter._init = function(expr, jpath) {
     this.JPath = jpath;
 };
 
-yate.AST.jpath_filter._type = yate.types.NODESET,
+yate.AST.jpath_filter._type = 'nodeset',
 
 yate.AST.jpath_filter.isLocal = function() {
     return this.Expr.isLocal() || this.JPath.isLocal();
@@ -20,7 +20,7 @@ yate.AST.jpath_filter.getScope = function() {
 };
 
 yate.AST.jpath_filter.validate = function() {
-    if (!this.Expr.type( yate.types.NODESET )) {
+    if (!this.Expr.type( 'nodeset' )) {
         this.Expr.error('Type should be NODESET');
     }
 };
