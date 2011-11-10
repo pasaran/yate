@@ -105,6 +105,13 @@ module.exports = [
                 data: '01.json',
                 result: '<h1 class="b-hello b-items b-first b-second b-third">Hello, nop</h1>'
             },
+            {
+                description: 'attribute inside scalar block',
+                yate: 'attributes.10.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello">Hello, nop</h1>',
+                known: true
+            },
 
         ]
     },
