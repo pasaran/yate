@@ -25,6 +25,14 @@ yate.AST.inline_expr.codedata$ = function(lang) {
     }
 };
 
+yate.AST.inline_expr.code$output = function() {
+    return this.js('inline_output');
+};
+
+yate.AST.inline_expr.closes = function() {
+    return ( this.type() != yate.types.ATTR ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
+};
+
 /*
 yate.AST.inline_expr.transform = function() {
     if (this.AsType) {

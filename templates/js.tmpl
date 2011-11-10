@@ -338,13 +338,9 @@ arglist_item #defaults
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_scalar #output
+* #inline_output
 
-    r%Rid += %Expr;
-
-inline_scalar
-
-    %Expr
+    r%Rid += %.; // %id
 
 inline_or
     %Left || %Right
