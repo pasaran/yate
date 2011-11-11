@@ -465,7 +465,7 @@ match .message {
                 <span class="b-messages__subject" title="{ .subject }">{ .subject }</span>
                 <span class="b-messages__firstline">
                     if is-thread {
-                        .count + " писем" // FIXME
+                        "{ .count } писем"
                     } else {
                         .firstline
                     }
