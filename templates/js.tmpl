@@ -146,7 +146,7 @@ key #defs
             var c%Cid = k%{Kid}_nodes[key];
             if (c%Cid) {
                 %Body.Block#prologue
-                %Body.Block#output
+                %Body#output
                 value = r%Body.Block.Rid;
             }
             if (value) {
@@ -157,6 +157,7 @@ key #defs
     };
     var k%{Kid} = function(key) {
         if (!k%{Kid}_nodes) {
+            var c%Cid = root[0]; // FIXME: Сделать root[0] отдельной переменной.
             var nodes = %Nodes;
             k%{Kid}_nodes = {};
             for (var i = 0, l = nodes.length; i < l; i++) {
@@ -337,6 +338,10 @@ arglist_item #defaults
 // ----------------------------------------------------------------------------------------------------------------- //
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
+
+* #inline_output [ ( %type() == 'nodeset' || %type() == 'boolean' ) && !%AsType ]
+
+    r%Rid = %.;
 
 * #inline_output
 
