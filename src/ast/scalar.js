@@ -9,6 +9,7 @@ yate.AST.scalar.oncast = function(to) {
 };
 
 yate.AST.scalar.closes = function() {
+    // FIXME: Или нужно так: return this.Block.closes(); ?
     return ( this.type() != 'attr' ); // Если тип атрибут, то после него все еще могут быть другие атрибуты.
 };
 
