@@ -18,8 +18,11 @@ yate.AST.var_._getType = function() {
     return this.Value.type();
 };
 
-yate.AST.var_.prepare = function() {
+yate.AST.var_.setTypes = function() {
     this.Value.cast();
+};
+
+yate.AST.var_.prepare = function() {
     this.Value.rid();
 };
 

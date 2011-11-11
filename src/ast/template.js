@@ -4,18 +4,8 @@ yate.AST.template.action = function() {
     this.Tid = this.state.tid++;
 };
 
-yate.AST.template.prepare = function() {
-    var body = this.Body;
-    var block = body.Block;
-
-    /*
-    if (body.AsList) {
-        block.cast();
-    } else {
-    }
-    */
-
-    block.cast();
+yate.AST.template.setTypes = function() {
+    this.Body.cast( this.type() );
 };
 
 yate.AST.template._getType = function() {

@@ -6,15 +6,14 @@ yate.AST.attr.options = {
 
 yate.AST.attr._type = 'attr';
 
+yate.AST.attr.setTypes = function() {
+    this.Value.cast('scalar');
+};
+
 yate.AST.attr.prepare = function() {
     if (!this.Value.inline()) {
         this.Value.rid();
     }
-    this.Value.cast( 'scalar' );
-    this.Value.walkBefore(function(ast) {
-        ast.mode = 'attr';; // FIXME: Непонятно, нужно ли тут квотить что-то?
-                            //        Или же оно в runtime должно заквотиться в attrs_close?
-    });
 };
 
 yate.AST.attr.closes = yate.false;

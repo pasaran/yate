@@ -6,9 +6,7 @@ yate.AST.xml_attr.toResult = function(result) {
     result.push('"');
 };
 
-yate.AST.xml_attr.prepare = function() {
-    this.walkBefore(function(ast) {
-        ast.mode = 'attr';
-    });
+yate.AST.xml_attr.setTypes = function() {
+    this.Value.cast('attrvalue');
 };
 

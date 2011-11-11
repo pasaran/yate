@@ -277,19 +277,50 @@ function matched(jpath, context, index, count) {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 function nodeValue(node) {
-    node = node.data;
-    return (typeof node == 'object') ? '': node;
+    var data = node.data;
+    return (typeof data == 'object') ? '': data;
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
 function nodeset2scalar(nodeset) {
-    var item = nodeset[0];
-    if (!item) { return ''; }
-    item = item.data;
-    return (typeof item == 'object') ? '': item;
+    if (!nodeset.length) { return ''; }
+
+    var data = nodeset[0].data;
+    return (typeof data == 'object') ? '': data;
 };
 
 function nodeset2boolean(nodeset) {
-    return nodeset[0];
+    return (nodeset.length > 0);
+};
+
+function nodeset2xml(nodeset) {
+    return scalar2xml( nodeset2scalar(nodeset) );
+};
+
+function nodeset2attrvalue(nodeset) {
+    return scalar2attrvalue( nodeset2scalar(nodeset) );
+};
+
+function scalar2xml(scalar) {
+    if (!scalar) { return ''; }
+
+    return scalar
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+};
+
+function scalar2attrvalue(scalar) {
+    if (!scalar) { return ''; }
+
+    return scalar
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

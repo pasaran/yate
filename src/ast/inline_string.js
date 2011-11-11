@@ -6,8 +6,10 @@ yate.AST.inline_string.options = {
 
 yate.AST.inline_string._type = 'scalar';
 
-yate.AST.inline_string.prepare = function() {
-    this.Value.cast('scalar');
+yate.AST.inline_string.oncast = function(to) {
+    this.Value.cast(to);
+
+    return false;
 };
 
 yate.AST.inline_string.toResult = function(result) {

@@ -4,12 +4,6 @@ yate.AST.block_exprs.options = {
     mixin: 'items'
 };
 
-yate.AST.block_exprs.oncast = function(to) {
-    this.iterate(function(item) {
-        item.cast(to);
-    });
-};
-
 yate.AST.block_exprs.validate = function() {
     var opened = [];
     this.iterate(function(item) {

@@ -340,7 +340,7 @@ arglist_item #defaults
 
 * #inline_output
 
-    r%Rid += %.; // %id
+    r%Rid += %.;
 
 inline_or
     %Left || %Right
@@ -428,11 +428,11 @@ string_literal
 // cast and quote
 // ----------------------------------------------------------------------------------------------------------------- //
 
-cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml') ]
-    nodeset2scalar( %Expr )
+cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml' || %To == 'attrvalue' || %To == 'boolean') ]
+    nodeset2%To( %Expr )
 
-cast [ %From == 'nodeset' && %To == 'boolean' ]
-    nodeset2boolean( %Expr )
+cast [ %From == 'scalar' && (%To == 'boolean' || %To == 'xml' || %To == 'attrvalue') ]
+    scalar2%To( %Expr )
 
 cast
     %Expr

@@ -11,21 +11,8 @@ yate.AST.if_._getType = function() {
     return yate.types.commonType(thenType, elseType);
 };
 
-yate.AST.if_.prepare = function() {
+yate.AST.if_.setTypes = function() {
     this.Condition.cast('boolean');
-
-    /*
-    if (this.Then.AsList) {
-        this.AsListItem = false;
-    }
-
-    if (this.AsListItem) {
-        this.Then.rid();
-        if (this.Else) {
-            this.Else.rid();
-        }
-    }
-    */
 };
 
 yate.AST.if_.oncast = function(to) {

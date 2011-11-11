@@ -129,15 +129,13 @@ module.exports = [
                 description: 'escape text',
                 yate: 'escaping.02.yate',
                 data: '01.json',
-                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>',
-                known: true
+                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
             },
             {
                 description: 'escape text inside interpolation',
                 yate: 'escaping.04.yate',
                 data: '01.json',
-                result: '&lt;b&gt;Some &amp;text&lt;/b&gt;',
-                known: true
+                result: '&lt;b&gt;Some &amp;text&lt;/b&gt;'
             },
             {
                 description: 'escape xml text',

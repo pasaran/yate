@@ -4,7 +4,7 @@ yate.AST.inline_op.options = {
     base: 'inline_expr'
 };
 
-yate.AST.inline_op.prepare = function() {
+yate.AST.inline_op.setTypes = function() {
     var signature = this.signature;
     if (signature) {
         this.Left.cast(signature.left);

@@ -15,11 +15,6 @@ yate.AST.for_.oncast = function(to) {
 };
 
 yate.AST.for_.prepare = function() {
-    /*
-    if (this.AsListItem && !this.Body.AsList) {
-        this.Body.rid();
-    }
-    */
     this.Body.cid();
 };
 

@@ -8,17 +8,11 @@ yate.AST.jpath_predicate.isLocal = function() {
     return this.Expr.isLocal();
 };
 
-yate.AST.jpath_predicate.prepare = function() {
-    if (this.isLocal()) {
+yate.AST.jpath_predicate.setTypes = function() {
+    if (this.isLocal()) { // .items[ .count ] -- Expr является значением, зависящим от контекста. Это предикат.
         this.Expr.cast( 'boolean' );
-    } else {
+    } else { // .items[ count ] -- Expr не зависит от контекста. Это индекс.
         this.Expr.cast( 'scalar' );
-    }
-};
-
-yate.AST.jpath_predicate.validate = function() {
-    if (!this.Expr.type( 'boolean' )) {
-        this.Expr.error('Type must be BOOLEAN');
     }
 };
 

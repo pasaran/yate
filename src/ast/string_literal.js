@@ -16,13 +16,13 @@ yate.AST.string_literal.yate = function() {
 
 yate.AST.string_literal._type = 'scalar';
 
-yate.AST.string_literal.toResult = function(result) {
-    if (this.mode === 'attr') {
-        result.push(yate.quoteAttr(this.Value));
-    } else if (this.mode === 'text') {
-        result.push(yate.quoteText(this.Value));
-    } else {
-        result.push(this.Value);
+yate.AST.string_literal.oncast = function(to) {
+    if (to === 'attrvalue') {
+        this.Value = yate.quoteAttr(this.Value);
+    } else if (to === 'xml') {
+        this.Value = yate.quoteText(this.Value);
     }
+
+    return false;
 };
 

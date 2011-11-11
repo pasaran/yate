@@ -4,14 +4,6 @@ yate.AST.scalar._getType = function() {
     return this.Block.type();
 };
 
-yate.AST.scalar.prepare = function() {
-    /*
-    if (this.AsListItem) {
-        this.Block.rid();
-    }
-    */
-};
-
 yate.AST.scalar.oncast = function(to) {
     this.Block.cast(to);
 };

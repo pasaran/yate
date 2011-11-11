@@ -24,9 +24,8 @@ yate.AST.function_._getType = function() {
     return this.Body.type();
 };
 
-yate.AST.function_.prepare = function() {
-    var body = this.Body;
-    body.cast( body.type() );
+yate.AST.function_.setTypes = function() {
+    this.Body.cast();
 };
 
 yate.AST.function_.extractDefs = function() {

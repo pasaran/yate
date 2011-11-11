@@ -42,6 +42,7 @@ yate.types.convertable = function(from, to) {
         (from == 'undef') ||
         (from == 'nodeset' && to == 'scalar') ||
         (from == 'nodeset' && to == 'xml') ||
+        (from == 'nodeset' && to == 'attrvalue') ||
         (from == 'nodeset' && to == 'boolean') ||
         (from == 'scalar' && to == 'boolean') ||
         (from == 'scalar' && to == 'xml') ||

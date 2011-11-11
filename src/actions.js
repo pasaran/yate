@@ -43,6 +43,10 @@ yate.walk = function(ast) {
         ast.validate();
     });
 
+    ast.walkBefore(function(ast) {
+        ast.setTypes();
+    });
+
     // Важно! Только после этого момента разрешается вызывать метод type() у нод.
     // В фазах 0-3 он никогда не должен вызываться.
 
@@ -56,7 +60,6 @@ yate.walk = function(ast) {
         ast.prepare();
     });
 
-    /*
     ast.walkAfter(function(ast, params, pKey, pObject) {
         if (pKey && pObject) {
             var ast_ = ast.transform();
@@ -65,7 +68,6 @@ yate.walk = function(ast) {
             }
         }
     });
-    */
 
     return ast;
 };

@@ -180,28 +180,17 @@ yate.AST.prototype.cast = function(to) {
     var from = this.type();
     to = to || from;
 
-    if (from != to) {
-        this.AsType = to;
-
+    var r = this.oncast(to);
+    if (from !== to && r !== false) {
         if (!yate.types.convertable(from, to)) {
-            this.error('Cannot convert type from ' + from + ' to ' + to + ' ' + this.id);
+            this.error( 'Cannot convert type from ' + from + ' to ' + to + ' ' + this.id );
         }
-    }
 
-    this.oncast(to);
+        this.AsType = to;
+    }
 };
 
 yate.AST.prototype.oncast = yate.nop;
-
-yate.AST.prototype.toValue = function() {
-    var type = this.type();
-
-    if (type == 'array' || type == 'object') {
-        this.cast(type);
-    } else {
-        this.cast('xml');
-    }
-};
 
 yate.AST.prototype.is = function(type) {
     if (type instanceof Array) {
@@ -382,4 +371,5 @@ yate.AST.prototype.validate = yate.nop;
 yate.AST.prototype.prepare = yate.nop;
 yate.AST.prototype.extractDefs = yate.nop;
 yate.AST.prototype.transform = yate.nop;
+yate.AST.prototype.setTypes = yate.nop;
 
