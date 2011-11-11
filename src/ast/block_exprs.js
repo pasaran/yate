@@ -17,7 +17,7 @@ yate.AST.block_exprs.validate = function() {
 };
 
 yate.AST.block_exprs.prepare = function() {
-    if (this.type() != 'xml') { return; }
+    if ( this.type() !== 'xml' && this.AsType !== 'xml' ) { return; }
 
     var o = [];
     var last;
