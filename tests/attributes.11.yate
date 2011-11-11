@@ -1,0 +1,9 @@
+match / {
+    <h1>
+        if .valid {
+            @class = "b-hello"
+            "Hello, { .username }"
+        }
+    </h1>
+}
+

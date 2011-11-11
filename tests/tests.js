@@ -112,6 +112,13 @@ module.exports = [
                 result: '<h1 class="b-hello">Hello, nop</h1>',
                 known: true
             },
+            {
+                description: 'attribute in the beginning of block block',
+                yate: 'attributes.11.yate',
+                data: '01.json',
+                result: '<h1 class="b-hello">Hello, nop</h1>',
+                known: true
+            },
 
         ]
     },
