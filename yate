@@ -4,15 +4,22 @@ require('./colors.js');
 
 var yate = require('./yatelib.js');
 
-if ( process.argv[3] == '--ast' ) {
-    var ast = yate.parse( process.argv[2] );
+var argv2 = process.argv[2];
+var argv3 = process.argv[3];
+
+if ( argv3 == '--ast' ) {
+    var ast = yate.parse(argv2);
     console.log( yate.walk(ast).toString() );
 
-} else if ( process.argv[3] ) {
-    console.log( yate.run( process.argv[2], process.argv[3] ) );
+} else if ( argv3 == '--print') {
+    var ast = yate.parse(argv2);
+    console.log( ast.yate() );
+
+} else if (argv3) {
+    console.log( yate.run(argv2, argv3) );
 
 } else {
-    console.log( yate.compile( process.argv[2] ) );
+    console.log( yate.compile(argv2) );
 
 }
 
