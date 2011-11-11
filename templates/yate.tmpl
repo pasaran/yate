@@ -6,11 +6,11 @@ stylesheet
 
 template [ %Args ]
 
-    %Selector %Mode (%Args) %Body
+    match %Selector %Mode (%Args) %Body
 
 template
 
-    %Selector %Mode %Body
+    match %Selector %Mode %Body
 
 template_mode [ %Value != '' ]
 
@@ -26,11 +26,11 @@ root
 
 function_ [ %Args ]
 
-    %Name(%Args) %Body
+    func %Name(%Args) %Body
 
 function_
 
-    %Name %Body
+    func %Name %Body
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
