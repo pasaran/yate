@@ -171,15 +171,13 @@ module.exports = [
                 description: 'variable with if value, type nodeset',
                 yate: 'variables.04.yate',
                 data: '01.json',
-                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>',
-                known: true
+                result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>'
             },
             {
                 description: 'variable with nodeset block value',
                 yate: 'variables.05.yate',
                 data: '01.json',
-                result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>',
-                known: true
+                result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
             },
             {
                 description: 'variable with attribute value can be used multiple times',
@@ -203,8 +201,7 @@ module.exports = [
                 description: 'xslt-styled key',
                 yate: 'keys.01.yate',
                 data: '01.json',
-                result: 'First',
-                known: true
+                result: 'First'
             },
         ]
     },
