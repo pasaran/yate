@@ -25,9 +25,12 @@ yate.AST.block_exprs.prepare = function() {
     var that = this;
 
     var items = this.Items;
+    var l = items.length;
+    if (!l) { return; }
+
     var opened = false;
 
-    for (var i = 0, l = items.length; i < l - 1; i++) {
+    for (var i = 0; i < l - 1; i++) {
         var item = items[i];
         var next = items[i + 1];
 
