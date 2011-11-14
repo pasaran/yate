@@ -234,6 +234,8 @@ yate.codetemplates._evalMacro = function(lang, macro, data, asPredicate) {
     if (typeof value == 'object') {
         if (call) {
             value = value[call]();
+        } else if (asPredicate) {
+            value = true;
         } else {
             value = value.code(lang, mode);
         }

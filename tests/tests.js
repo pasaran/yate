@@ -218,8 +218,7 @@ module.exports = [
                 description: 'if with else',
                 yate: 'if.01.yate',
                 data: '01.json',
-                result: '<h1>nop is valid</h1><h1>nop is valid</h1>',
-                known: true
+                result: '<h1>nop is valid</h1><h1>nop is valid</h1>'
             }
         ]
     },
