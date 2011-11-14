@@ -203,6 +203,12 @@ module.exports = [
                 result: '<h1 class="b-hello">Hello, nop</h1>',
                 known: true
             },
+            {
+                description: 'variable can be redefined in internal scope and restored back',
+                yate: 'variables.09.yate',
+                data: '01.json',
+                result: '<h1>Hello, nop</h1><h1>Hello, unknown</h1>'
+            },
         ]
     },
 
@@ -226,7 +232,7 @@ module.exports = [
                 yate: 'if.01.yate',
                 data: '01.json',
                 result: '<h1>nop is valid</h1><h1>nop is valid</h1>'
-            }
+            },
         ]
     },
 
@@ -239,7 +245,7 @@ module.exports = [
                 data: '01.json',
                 result: 'String with "double quotes" and \'single quotes\'',
                 known: true
-            }
+            },
         ]
     },
 
