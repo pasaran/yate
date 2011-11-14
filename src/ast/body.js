@@ -12,3 +12,7 @@ yate.AST.body.oncast = function(to) {
     this.Block.cast(to);
 };
 
+yate.AST.body.setPrevOpened = function(prevOpened) {
+    this.Block.setPrevOpened(prevOpened);
+};
+

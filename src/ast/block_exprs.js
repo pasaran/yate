@@ -19,36 +19,36 @@ yate.AST.block_exprs.validate = function() {
 yate.AST.block_exprs.prepare = function() {
     if ( this.type() !== 'xml' && this.AsType !== 'xml' ) { return; }
 
-    var o = [];
-    var last;
-
-    var that = this;
-
     var items = this.Items;
     var l = items.length;
     if (!l) { return; }
 
-    var opened = false;
+    var prevOpened = this.parent.prevOpened; // block.prevOpened.
 
-    for (var i = 0; i < l - 1; i++) {
+    var o = [];
+    for (var i = 0; i < l; i++) {
         var item = items[i];
         var next = items[i + 1];
 
+        if ( item.closes() && (prevOpened !== false) ) {
+            o.push( this.make('attrs_close', this) );
+
+            prevOpened = false;
+        }
+
         o.push(item);
 
-        if (item.opens() && !next.closes()) {
-            item.lastTag().open = true;
-            o.push( this.make( 'attrs_open', item.lastTag() ) );
-            opened = true;
+        if ( item.opens() && !(next && next.closes()) ) {
+            var lastTag = item.lastTag();
+
+            lastTag.open = true;
+            o.push( this.make('attrs_open', lastTag) );
+
+            prevOpened = true;
         }
 
-        if (opened && next.closes()) {
-            o.push( this.make('attrs_close', this) );
-            opened = false;
-        }
-
+        item.setPrevOpened(prevOpened);
     }
-    o.push( this.last() );
 
     this.Items = o;
 };

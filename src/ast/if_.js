@@ -23,6 +23,16 @@ yate.AST.if_.oncast = function(to) {
 };
 
 yate.AST.if_.closes = function() {
-    return this.Then.closes() || this.Else && this.Else.closes();
+    if (!this.Else) {
+        return this.Then.closes();
+    }
+    return this.Then.closes() && this.Else.closes();
+};
+
+yate.AST.if_.setPrevOpened = function(prevOpened) {
+    this.Then.setPrevOpened(prevOpened);
+    if (this.Else) {
+        this.Else.setPrevOpened(prevOpened);
+    }
 };
 

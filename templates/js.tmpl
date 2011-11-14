@@ -52,7 +52,6 @@ template
     function(c%Cid, a%Rid, index, count %Args) {
         %Args#defaults
         %.#prologue
-        %Body.Block#attrs_close
 
         %Body#output
 
@@ -70,10 +69,6 @@ template
 template #prologue
 
     var r%Rid = '';
-
-block #attrs_close [ %closes() ]
-
-    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
 
 
 

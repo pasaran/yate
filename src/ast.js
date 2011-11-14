@@ -372,4 +372,5 @@ yate.AST.prototype.prepare = yate.nop;
 yate.AST.prototype.extractDefs = yate.nop;
 yate.AST.prototype.transform = yate.nop;
 yate.AST.prototype.setTypes = yate.nop;
+yate.AST.prototype.setPrevOpened = yate.nop;
 

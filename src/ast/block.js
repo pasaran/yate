@@ -27,17 +27,14 @@ yate.AST.block.oncast = function(to) {
     this.Exprs.cast(to);
 };
 
-yate.AST.block.firstCloses = function() {
-    var first = this.Exprs.Items[0];
-    return first && first.closes();
-};
-
 yate.AST.block.closes = function() {
     var exprs = this.Exprs.Items; // FIXME: Может таки унести это в block_exprs.closes?
-    for (var i = 0, l = exprs.length; i < l; i++) {
-        var expr = exprs[i];
-        if (expr.closes()) { return true; }
-    }
-    return false;
+    if (!exprs.length) { return false; }
+
+    return exprs[0].closes();
+};
+
+yate.AST.block.setPrevOpened = function(prevOpened) {
+    this.prevOpened = prevOpened;
 };
 

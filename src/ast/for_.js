@@ -22,3 +22,7 @@ yate.AST.for_.closes = function() {
     return this.Body.closes();
 };
 
+yate.AST.for_.setPrevOpened = function(prevOpened) {
+    this.Body.setPrevOpened(prevOpened);
+};
+
