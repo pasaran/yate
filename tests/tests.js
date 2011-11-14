@@ -212,6 +212,32 @@ module.exports = [
     },
 
     {
+        title: 'if',
+        tests: [
+            {
+                description: 'if with else',
+                yate: 'if.01.yate',
+                data: '01.json',
+                result: '<h1>nop is valid</h1><h1>nop is valid</h1>',
+                known: true
+            }
+        ]
+    },
+
+    {
+        title: 'strings',
+        tests: [
+            {
+                description: 'string with different quotes',
+                yate: 'strings.01.yate',
+                data: '01.json',
+                result: 'String with "double quotes" and \'single quotes\'',
+                known: true
+            }
+        ]
+    },
+
+    {
         title: 'misc',
         tests: [
             {
