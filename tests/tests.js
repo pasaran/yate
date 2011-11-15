@@ -245,6 +245,12 @@ module.exports = [
                 data: '01.json',
                 result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
             },
+            {
+                description: 'function with 2 scalar params',
+                yate: 'functions.06.yate',
+                data: '01.json',
+                result: '66'
+            },
         ]
     },
 

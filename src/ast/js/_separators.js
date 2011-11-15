@@ -3,9 +3,7 @@ yate.AST.block_exprs.jssep$listitem = '\n';
 
 yate.AST.block_templates.jssep$ = '\n\n';
 
-yate.AST.block_defs.jssep$ = '\n\n';
-
-yate.AST.arglist.jssep$ = ', ';
+yate.AST.block_templates.jssep$defs = '\n\n';
 
 yate.AST.callargs.jssep$ = ', ';
 
