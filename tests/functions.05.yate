@@ -1,0 +1,12 @@
+func ok() {
+    if 2 > 3 {
+        .count > 24
+    }
+}
+
+match / {
+    if !ok() {
+        <div>Error</div>
+    }
+}
+

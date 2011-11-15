@@ -222,10 +222,28 @@ module.exports = [
                 result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
             },
             {
+                description: 'function returning empty nodeset',
+                yate: 'functions.04.yate',
+                data: '01.json',
+                result: ''
+            },
+            {
                 description: 'function returning boolean',
                 yate: 'functions.02.yate',
                 data: '01.json',
                 result: '<div>Ok</div><div>Valid</div>'
+            },
+            {
+                description: 'function returning default boolean value (false)',
+                yate: 'functions.05.yate',
+                data: '01.json',
+                result: '<div>Error</div>'
+            },
+            {
+                description: 'function returning xml',
+                yate: 'functions.03.yate',
+                data: '01.json',
+                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
             },
         ]
     },

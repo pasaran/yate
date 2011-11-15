@@ -1,0 +1,10 @@
+func empty() {
+    if (2 + 2 != 4) {
+        .items.item
+    }
+}
+
+match / {
+    apply empty()
+}
+

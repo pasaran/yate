@@ -1,0 +1,8 @@
+func xml() {
+    <h1>{ .text }</h1>
+}
+
+match / {
+    xml()
+}
+
