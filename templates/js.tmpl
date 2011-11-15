@@ -71,6 +71,34 @@ template #prologue
     var r%Rid = '';
 
 
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// function_
+
+function_ #defs
+
+    // %Name
+    function f%Fid(c%Cid, a%Rid %Args) {
+        %Args#defaults
+        %.#prologue
+
+        %Body#output
+
+        return r%Rid;
+    }
+
+function_ #prologue [ %type() == 'nodeset' ]
+
+    var r%Rid = [];
+
+function_ #prologue [ %type() == 'boolean' ]
+
+    var r%Rid = false;
+
+function_ #prologue
+
+    var r%Rid = '';
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // block and body
@@ -85,7 +113,6 @@ block#output
     %.#defs
 
     %Exprs#output
-
 
 * #prologue [ %type() == 'nodeset' ]
 
@@ -102,25 +129,6 @@ block#output
 
 
 
-
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-function_ #defs
-
-    // %Name
-    function f%Fid(c%Cid, a%Rid %Args) {
-        %Args#defaults
-        %.#prologue
-
-        %Body#output
-
-        return r%Rid;
-    }
-
-function_ #prologue
-
-    var r%Rid = '';
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
