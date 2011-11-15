@@ -1,0 +1,18 @@
+func ok() {
+    .count > 24 && .count % 2 == 0
+}
+
+func valid() {
+    !!.valid
+}
+
+match / {
+    if ok() {
+        <div>Ok</div>
+    }
+
+    if valid() {
+        <div>Valid</div>
+    }
+}
+

@@ -213,6 +213,24 @@ module.exports = [
     },
 
     {
+        title: 'functions',
+        tests: [
+            {
+                description: 'function returning nodeset',
+                yate: 'functions.01.yate',
+                data: '01.json',
+                result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
+            },
+            {
+                description: 'function returning boolean',
+                yate: 'functions.02.yate',
+                data: '01.json',
+                result: '<div>Ok</div><div>Valid</div>'
+            },
+        ]
+    },
+
+    {
         title: 'keys',
         tests: [
             {
