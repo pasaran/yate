@@ -257,6 +257,12 @@ module.exports = [
                 data: '01.json',
                 result: '66'
             },
+            {
+                description: 'function call preserve current context',
+                yate: 'functions.08.yate',
+                data: '01.json',
+                result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
+            },
         ]
     },
 

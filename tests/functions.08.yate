@@ -1,0 +1,12 @@
+func item() {
+    <li>{ .title }</li>
+}
+
+match / {
+    <ul>
+        for .items.item {
+            item()
+        }
+    </ul>
+}
+
