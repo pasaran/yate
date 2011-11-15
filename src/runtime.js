@@ -303,8 +303,6 @@ function nodeset2attrvalue(nodeset) {
 };
 
 function scalar2xml(scalar) {
-    if (!scalar) { return ''; }
-
     return scalar
         .toString()
         .replace(/&/g, '&amp;')
@@ -313,8 +311,6 @@ function scalar2xml(scalar) {
 };
 
 function scalar2attrvalue(scalar) {
-    if (!scalar) { return ''; }
-
     return scalar
         .toString()
         .replace(/&/g, '&amp;')
