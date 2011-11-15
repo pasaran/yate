@@ -651,7 +651,7 @@ yate.grammar.rules.inline_unary = function(ast) {
 yate.grammar.rules.inline_not = function(ast) {
     if (this.test('!')) {
         ast.Op = this.match('!');
-        ast.Left = this.match('inline_union');
+        ast.Left = this.match('inline_not');
     } else {
         return this.match('inline_union');
     }
