@@ -109,7 +109,19 @@ block#output
 function_ #defs
 
     // %Name
-    var f%Fid = %Body.Block#function
+    function f%Fid(c%Cid, a%Rid %Args) {
+        %Args#defaults
+        %.#prologue
+
+        %Body#output
+
+        return r%Rid;
+    }
+
+function_ #prologue
+
+    var r%Rid = '';
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
