@@ -25,28 +25,23 @@ Yet Another Template Engine
 Building and Installing
 -----------------------
 
-  * Нужно установить [node.js](https://github.com/joyent/node/wiki/Installation):
+  * Установить [node.js](https://github.com/joyent/node/wiki/Installation).
 
-        git clone https://github.com/joyent/node.git
-        cd node
-        export JOBS=2 # optional, sets number of parallel commands.
-        mkdir ~/local
-        ./configure --prefix=$HOME/local/node
-        make
-        make install
-        export PATH=$HOME/local/node/bin:$PATH
-
-  * В корне yate нужно запустить make.sh.
-    Эта команда сгенерит в корне же файл yate.js, который собственно и является компилятором.
+  * Запустить в корне проекта скрипт `make.sh`. Эта команда сгенерит в корне же файл yatelib.js.
+    Необходимо так же запускать этот скрипт после любых изменений в `src/*`.
 
   * Компиляция шаблона запускается так:
 
-        node yate.js test.yate > test.js
+        ./yate test.yate > test.js
+
+  * Компиляция и исполнения шаблона:
+
+        ./yate test.yate test.json > test.html
 
   * В папке examples/mailbox есть довольно развесистый пример:
 
         cd examples/mailbox
         ./make.sh
 
-    Файл `mailbox.js.html` -- это результат наложения шаблона "на сервере", а `run.html` -- на клиенте.
+    Файл `mailbox.js.html` — это результат наложения шаблона "на сервере", а `mailbox.html` — на клиенте.
 
