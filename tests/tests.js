@@ -296,8 +296,7 @@ module.exports = [
                 description: 'string with different quotes',
                 yate: 'strings.01.yate',
                 data: '01.json',
-                result: 'String with "double quotes" and \'single quotes\'',
-                known: true
+                result: 'String with "double quotes" and \'single quotes\''
             },
         ]
     },

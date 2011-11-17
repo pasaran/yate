@@ -26,3 +26,7 @@ yate.AST.string_literal.oncast = function(to) {
     return false;
 };
 
+yate.AST.string_literal.stringify = function() {
+    return JSON.stringify( this.Value );
+};
+
