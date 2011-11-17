@@ -356,6 +356,9 @@ arglist_item #defaults [ %Default ]
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
+inline_var #inline_output [ %type() == 'attr' ]
+    copyAttrs(a%{Rid}.attrs, v%def.Vid);
+
 * #inline_output [ ( %type() == 'nodeset' || %type() == 'boolean' ) && !%AsType ]
 
     r%Rid = %.;
@@ -428,9 +431,6 @@ inline_function [ %Name == 'slice' ]
     slice(%Args)
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-inline_var [ %type() == 'attr' ]
-    writeAttrs(v%def.Vid)
 
 inline_var
     v%def.Vid

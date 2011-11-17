@@ -200,8 +200,7 @@ module.exports = [
                 description: 'using attribute-typed variable several times doesn\'t multiply attributes',
                 yate: 'variables.08.yate',
                 data: '01.json',
-                result: '<h1 class="b-hello">Hello, nop</h1>',
-                known: true
+                result: '<h1 class="b-hello">Hello, nop</h1>'
             },
             {
                 description: 'variable can be redefined in internal scope and restored back',

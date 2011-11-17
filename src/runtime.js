@@ -335,14 +335,10 @@ function closeAttrs(a) {
     return r;
 };
 
-function writeAttrs(attrs) {
-    var r = '';
-
-    for (var attr in attrs) {
-        r += ' ' + attr + '="' + attrQuote(attrs[attr]) + '"';
+function copyAttrs(to, from) {
+    for (var key in from) {
+        to[key] = from[key];
     }
-
-    return r;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
