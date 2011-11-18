@@ -47,3 +47,26 @@ yate.AST.inline_function.prepare = function() {
     }
 };
 
+yate.AST.inline_function.isLocal = function() {
+    var name = this.Name;
+
+    switch (name) {
+        case 'name':
+        case 'index': return true;
+
+        case 'count':
+        case 'true':
+        case 'false': return false;
+
+        case 'slice':
+            var args = this.Args.Items;
+            for (var i = 0, l = args.length; i < l; i++) {
+                if (args[i].isLocal()) { return true; }
+            }
+            return false;
+
+    }
+
+    return true; // FIXME: Для функций, в body которых нет локальных выражений, нужно возвращать false.
+};
+
