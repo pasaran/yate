@@ -347,6 +347,18 @@ module.exports = [
                 data: '01.json',
                 result: 'blocksappcontentuserleft'
             },
+            {
+                description: 'index() and count() in predicate',
+                yate: 'jpaths.07.yate',
+                data: '01.json',
+                result: '01234'
+            },
+            {
+                description: 'index() in second predicate',
+                yate: 'jpaths.08.yate',
+                data: '01.json',
+                result: 'foursixeight'
+            },
         ]
     },
 

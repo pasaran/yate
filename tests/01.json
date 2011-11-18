@@ -20,6 +20,7 @@
             }
         ]
     },
+    "label": [ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ],
     "text": "<b>Some &text</b>",
     "attr": "\"Some <b>&attribute</b>\"",
     "flags": {
