@@ -83,5 +83,5 @@ yate.false = function() { return false; };
 // ----------------------------------------------------------------------------------------------------------------- //
 
 function log(o) {
-    console.log( require('util').inspect(o, true, null) );
+    console.error( require('util').inspect(o, true, null) );
 }
