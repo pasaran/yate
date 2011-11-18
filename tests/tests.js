@@ -371,6 +371,12 @@ module.exports = [
                 data: '01.json',
                 result: 'nopnopnop'
             },
+            {
+                description: '* selector',
+                yate: 'jpaths.11.yate',
+                data: '01.json',
+                result: 'blocksappcontentuserleftright'
+            },
         ]
     },
 
