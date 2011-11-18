@@ -1,0 +1,12 @@
+match / {
+    apply .flags.disabled
+}
+
+match .disabled {
+    apply ..
+}
+
+match .flags {
+    name()
+}
+

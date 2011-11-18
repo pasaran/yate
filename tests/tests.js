@@ -309,6 +309,30 @@ module.exports = [
     },
 
     {
+        title: 'jpaths',
+        tests: [
+            {
+                description: 'basic arithmetic operations',
+                yate: 'jpaths.01.yate',
+                data: '01.json',
+                result: '<div>66</div><div>18</div><div>126</div><div>7</div>'
+            },
+            {
+                description: 'parent selector',
+                yate: 'jpaths.02.yate',
+                data: '01.json',
+                result: 'flags'
+            },
+            {
+                description: 'parent selector of array\s items',
+                yate: 'jpaths.03.yate',
+                data: '01.json',
+                result: 'itemsitemsitems'
+            },
+        ]
+    },
+
+    {
         title: 'misc',
         tests: [
             {

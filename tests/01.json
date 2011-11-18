@@ -21,6 +21,9 @@
         ]
     },
     "text": "<b>Some &text</b>",
-    "attr": "\"Some <b>&attribute</b>\""
+    "attr": "\"Some <b>&attribute</b>\"",
+    "flags": {
+        "disabled": true
+    }
 }
 

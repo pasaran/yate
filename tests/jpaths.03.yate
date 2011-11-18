@@ -1,0 +1,12 @@
+match / {
+    apply .items.item
+}
+
+match .item {
+    apply ..
+}
+
+match .items {
+    name()
+}
+
