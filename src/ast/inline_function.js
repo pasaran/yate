@@ -2,11 +2,11 @@ yate.AST.inline_function = {};
 
 yate.AST.inline_function.options = {
     base: 'inline_expr'
-},
+};
 
 yate.AST.inline_function._getType = function() {
     return this.def.type();
-},
+};
 
 yate.AST.inline_function.action = function() {
     var def = this.def = this.scope.findFunction(this.Name);
@@ -14,7 +14,9 @@ yate.AST.inline_function.action = function() {
         this.error('Undefined function ' + this.Name);
     }
 
-    if (def.Type == yate.AST.function_type.USER) {
+    if (def.External) {
+        this.External = true;
+    } else if (def.Type == yate.AST.function_type.USER) {
         this.Fid = def.Fid;
     } else if (def.Type == yate.AST.function_type.KEY) {
         this.Kid = def.Kid;
@@ -25,7 +27,9 @@ yate.AST.inline_function.prepare = function() {
     var def = this.def;
     var args = this.Args.Items;
 
-    if (def.Type == yate.AST.function_type.KEY) {
+    if (def.External) {
+        // do nothing for now.
+    } else if (def.Type == yate.AST.function_type.KEY) {
         args[0].cast('scalar');
 
     } else if (def.Type == yate.AST.function_type.INTERNAL) {

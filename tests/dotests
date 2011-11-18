@@ -24,7 +24,7 @@ for (var i = 0, l = sections.length; i < l; i++) {
         var status, desc;
 
         try {
-            var result = yate.run( test.yate, test.data );
+            var result = yate.run( test.yate, test.data, test.externals );
 
             status = (result == test.result) ? 'ok' : 'fail';
             desc = test.description;

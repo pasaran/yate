@@ -92,14 +92,20 @@ yate.compile = function(filename) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.run = function(yate_filename, data_filename) {
+yate.run = function(yate_filename, data_filename, ext_filename) {
     var js = yate.compile( yate_filename );
     var stylesheet = eval( '(' + js + ')' ); // FIXME: Заюзать vm.runInNewContext.
 
+    var externals = {};
+    if (ext_filename) {
+        externals = eval( '(' + require('fs').readFileSync( ext_filename, 'utf-8' ) + ')' );
+    }
+
     var data = JSON.parse( require('fs').readFileSync( data_filename, 'utf-8' ) );
 
-    var result = require('vm').runInNewContext('(stylesheet(data))', {
+    var result = require('vm').runInNewContext('(stylesheet(data, externals))', {
         data: data,
+        externals: externals,
         stylesheet: stylesheet
     });
 

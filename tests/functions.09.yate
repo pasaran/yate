@@ -1,0 +1,12 @@
+external nodeset reverse()
+
+match / {
+    <ul>
+        apply reverse( .items.item )
+    </ul>
+}
+
+match .item {
+    <li>{ .title }</li>
+}
+

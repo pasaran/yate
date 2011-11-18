@@ -4,7 +4,7 @@
 
 main
 
-    function stylesheet(data) {
+    function stylesheet(data, externals) {
 
         %Runtime
 
@@ -398,6 +398,9 @@ inline_complex
     (%Expr)
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+inline_function [ %External ]
+    externals['%Name'](%Args)
 
 inline_function [ %Kid !== '' ]
     k%Kid(%Args)

@@ -76,6 +76,7 @@ yate.grammar.tokens = {
 yate.grammar.keywords = [
     'match',
     'func',
+    'external',
     'for',
     'if',
     'else',
@@ -135,7 +136,7 @@ yate.grammar.rules.block = function(ast) {
         if (this.test('template')) {
             ast.Templates.add( this.match('template') );
 
-        } else if (( r = this.testAny([ 'key', 'function_', 'var_' ]) )) {
+        } else if (( r = this.testAny([ 'key', 'function_', 'var_', 'external' ]) )) {
             ast.Defs.add( this.match(r) );
 
         } else {
@@ -222,15 +223,18 @@ yate.grammar.rules.arglist = function(ast) {
 // arglist_item := ( 'nodeset', 'boolean', 'scalar' )? QNAME ( '=' inline_expr )?
 
 yate.grammar.rules.arglist_item = function(ast) {
-    var r;
-    if (r = this.testAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ])) { // FIXME: Вынести это в отдельное правило.
-        ast.Typedef = this.match(r);
+    if (this.test('typedef')) {
+        ast.Typedef = this.match('typedef');
     }
     ast.Name = this.match('QNAME');
     if (this.test('=')) {
         this.match('=');
         ast.Default = this.match('inline_expr');
     }
+};
+
+yate.grammar.rules.typedef = function() {
+    return this.matchAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ]);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -246,10 +250,20 @@ yate.grammar.rules.function_ = function(ast) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+yate.grammar.rules.external = function(ast) {
+    this.match('EXTERNAL');
+    ast.Type = this.match('typedef');
+    ast.Name = this.match('QNAME');
+    this.match('(');
+    this.match(')');
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 // key := 'key' QNAME '(' inline_expr ',' inline_expr ')' body
 
 yate.grammar.rules.key = function(ast) {
-    this.match('KEY'); // FIXME: Подумать, нельзя ли отказаться от ключевого слова key.
+    this.match('KEY');
     ast.Name = this.match('QNAME');
     this.match('(');
     ast.Nodes = this.match('inline_expr');

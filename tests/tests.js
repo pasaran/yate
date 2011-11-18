@@ -262,6 +262,13 @@ module.exports = [
                 data: '01.json',
                 result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
             },
+            {
+                description: 'external function',
+                yate: 'functions.09.yate',
+                data: '01.json',
+                externals: 'functions.09.js',
+                result: '<ul><li>Third</li><li>Second</li><li>First</li></ul>'
+            },
         ]
     },
 
