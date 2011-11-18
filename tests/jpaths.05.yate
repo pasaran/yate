@@ -1,0 +1,16 @@
+match / {
+    <ul>
+        apply .items.item
+    </ul>
+}
+
+match .item {
+    <li>
+        apply . #content
+    </li>
+}
+
+match .item #content {
+    .title
+}
+

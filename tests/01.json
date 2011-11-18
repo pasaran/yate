@@ -24,6 +24,16 @@
     "attr": "\"Some <b>&attribute</b>\"",
     "flags": {
         "disabled": true
+    },
+    "blocks": {
+        "app": {
+            "content": {
+                "user": {
+                    "left": "profile",
+                    "right": "photo"
+                }
+            }
+        }
     }
 }
 

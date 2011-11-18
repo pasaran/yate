@@ -1,0 +1,16 @@
+match / {
+    apply .blocks.app.content.user.left
+}
+
+match .left {
+    apply ..... #name
+    apply .... #name
+    apply ... #name
+    apply .. #name
+    apply . #name
+}
+
+match .* #name {
+    name()
+}
+

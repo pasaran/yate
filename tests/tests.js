@@ -329,6 +329,24 @@ module.exports = [
                 data: '01.json',
                 result: 'itemsitemsitems'
             },
+            {
+                description: '. expression',
+                yate: 'jpaths.04.yate',
+                data: '01.json',
+                result: 'FirstSecondThird'
+            },
+            {
+                description: 'apply . #mode',
+                yate: 'jpaths.05.yate',
+                data: '01.json',
+                result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
+            },
+            {
+                description: 'apply ..... #name',
+                yate: 'jpaths.06.yate',
+                data: '01.json',
+                result: 'blocksappcontentuserleft'
+            },
         ]
     },
 
