@@ -359,6 +359,18 @@ module.exports = [
                 data: '01.json',
                 result: 'foursixeight'
             },
+            {
+                description: 'join doesn\'t preserve order',
+                yate: 'jpaths.09.yate',
+                data: '01.json',
+                result: 'fivesixseveneightninezeroonetwothreefour'
+            },
+            {
+                description: 'join doesn\'t remove duplicate nodes',
+                yate: 'jpaths.10.yate',
+                data: '01.json',
+                result: 'nopnopnop'
+            },
         ]
     },
 

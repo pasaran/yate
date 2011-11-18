@@ -1,0 +1,8 @@
+match / {
+    apply .username | .username | .username
+}
+
+match .username {
+    .
+}
+
