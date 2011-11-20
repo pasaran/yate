@@ -281,6 +281,12 @@ module.exports = [
                 data: '01.json',
                 result: 'First'
             },
+            {
+                description: 'key with xml-typed values',
+                yate: 'keys.02.yate',
+                data: '01.json',
+                result: '<ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul><ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul>'
+            },
         ]
     },
 

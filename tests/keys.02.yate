@@ -1,0 +1,18 @@
+key item( .items.item, .id ) {
+    <li class="b-item-{ .id }">{ .title }</li>
+}
+
+match / {
+    <ul>
+        item("first")
+        item("second")
+        item("third")
+    </ul>
+
+    <ul>
+        for .items.item {
+            item(.id)
+        }
+    </ul>
+}
+
