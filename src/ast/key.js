@@ -27,6 +27,10 @@ yate.AST.key._getType = function() {
     return this.Body.type();
 };
 
+yate.AST.key.prepare = function() {
+    this.Body.cast();
+};
+
 yate.AST.key.extractDefs = function() {
     this.scope.defs.push(this);
 };
