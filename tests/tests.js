@@ -387,6 +387,19 @@ module.exports = [
     },
 
     {
+        title: 'xml',
+        tests: [
+            {
+                description: 'short tags (img etc.)',
+                yate: 'xml.01.yate',
+                data: '01.json',
+                result: '<img src="0.png" width="100" height="100" class="b-image"/>',
+                known: true
+            },
+        ]
+    },
+
+    {
         title: 'misc',
         tests: [
             {
