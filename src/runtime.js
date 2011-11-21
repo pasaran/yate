@@ -321,18 +321,36 @@ function scalar2attrvalue(scalar) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+var shortTags = {
+    br: true,
+    col: true,
+    embed: true,
+    hr: true,
+    img: true,
+    input: true,
+    link: true,
+    meta: true,
+    param: true,
+    wbr: true
+};
+
 function closeAttrs(a) {
-    var attrs = a.attrs;
-    var r = '';
+    var name = a.start;
 
-    for (var attr in attrs) {
-        r += ' ' + attr + '="' + attrQuote(attrs[attr]) + '"';
+    if (name) {
+        var r = '';
+        var attrs = a.attrs;
+
+        for (var attr in attrs) {
+            r += ' ' + attr + '="' + attrQuote(attrs[attr]) + '"';
+        }
+        r += (shortTags[name]) ? '/>' : '>';
+        a.start = null;
+
+        return r;
     }
-    r += '>';
-    a.open = false;
-    a.attrs = {};
 
-    return r;
+    return '';
 };
 
 function copyAttrs(to, from) {
@@ -381,4 +399,3 @@ function grep(nodeset, predicate) {
 function byIndex(nodeset, i) {
     return nodeset.slice(i, i + 1);
 }
-

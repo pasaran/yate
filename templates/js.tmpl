@@ -261,14 +261,14 @@ attr #output
     a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
 attrs_close #output
-    if (a%{Rid}.open) { r%Rid += closeAttrs(a%Rid); }
+    r%Rid += closeAttrs(a%Rid);
 
 attrs_open#output
 
     a%{Rid}.attrs = {
         %Attrs#open
     };
-    a%{Rid}.open = true;
+    a%{Rid}.start = '%Name';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 

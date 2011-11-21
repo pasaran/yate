@@ -390,11 +390,34 @@ module.exports = [
         title: 'xml',
         tests: [
             {
-                description: 'short tags (img etc.)',
+                description: 'short tag with attr inside',
                 yate: 'xml.01.yate',
                 data: '01.json',
-                result: '<img src="0.png" width="100" height="100" class="b-image"/>',
-                known: true
+                result: '<img src="0.png" width="100" height="100" class="b-image"/>'
+            },
+            {
+                description: 'empty short tag (xml-style)',
+                yate: 'xml.02.yate',
+                data: '01.json',
+                result: '<img src="0.png" width="100" height="100"/>'
+            },
+            {
+                description: 'empty short tag (xml-style)',
+                yate: 'xml.05.yate',
+                data: '01.json',
+                result: '<img src="0.png" width="100" height="100"/>'
+            },
+            {
+                description: 'short tag with attr and text inside',
+                yate: 'xml.03.yate',
+                data: '01.json',
+                result: '<img src="0.png" width="100" height="100" class="b-hello"/>Hello'
+            },
+            {
+                description: 'short tag with text inside',
+                yate: 'xml.04.yate',
+                data: '01.json',
+                result: '<img src="0.png" width="100" height="100"/>Hello'
             },
         ]
     },

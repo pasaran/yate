@@ -5,10 +5,12 @@ yate.AST.xml_start.options = {
 };
 
 yate.AST.xml_start.toResult = function(result) {
-    result.push('<' + this.Name);
+    var name = this.Name;
+
+    result.push('<' + name);
     if (!this.open) {
         this.Attrs.toResult(result);
-        result.push('>');
+        result.push( (yate.shortTags[name]) ? '/>' : '>' );
     }
 };
 

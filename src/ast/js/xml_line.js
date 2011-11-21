@@ -29,6 +29,6 @@ yate.AST.xml_line.js$content = function() {
         }
     }
 
-    return r.join(' + ');
+    return r.join(' + ') || "''"; // FIXME: В случае, когда xml_line состоит из одного, скажем, </img>, должна выводиться хотя бы пустая строка.
 };
 

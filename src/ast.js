@@ -374,3 +374,16 @@ yate.AST.prototype.transform = yate.nop;
 yate.AST.prototype.setTypes = yate.nop;
 yate.AST.prototype.setPrevOpened = yate.nop;
 
+yate.shortTags = { // FIXME: Унести это куда-нибудь.
+    br: true,
+    col: true,
+    embed: true,
+    hr: true,
+    img: true,
+    input: true,
+    link: true,
+    meta: true,
+    param: true,
+    wbr: true
+};
+
