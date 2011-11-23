@@ -1,0 +1,10 @@
+match / {
+    <img src="1.png">
+        <img src="2.png">
+            @class = "b-hello"
+            "Hello, "
+        </img>
+        "World"
+    </img>
+}
+

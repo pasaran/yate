@@ -419,6 +419,12 @@ module.exports = [
                 data: '01.json',
                 result: '<img src="0.png" width="100" height="100"/>Hello'
             },
+            {
+                description: 'nested short tags',
+                yate: 'xml.06.yate',
+                data: '01.json',
+                result: '<img src="1.png"/><img src="2.png" class="b-hello"/>Hello, World'
+            },
         ]
     },
 
