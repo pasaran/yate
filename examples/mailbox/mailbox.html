@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mailbox</title>
+    <script type="text/javascript" src="mailbox.data.js"></script>
+    <script type="text/javascript" src="mailbox.js"></script>
+</head>
+<body>
+
+<div id="result"></div>
+
+<script>
+    console.time('run');
+    var result = stylesheet(data);
+    console.timeEnd('run');
+    document.getElementById('result').innerHTML = result;
+</script>
+
+</body>
+</html>
