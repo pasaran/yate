@@ -73,6 +73,7 @@ yate.grammar.tokens = {
 // Keywords
 
 yate.grammar.keywords = [
+    'include',
     'match',
     'func',
     'external',
@@ -140,7 +141,16 @@ yate.grammar.rules.block = function(ast) {
         }
 
         var r = null;
-        if ( this.test('template') ) {
+        if ( this.test('include') ) {
+            var include = this.match('include');
+            var block = include.Block;
+
+            // FIXME: Переделать покрасивше.
+            ast.Templates.Items = ast.Templates.Items.concat( block.Templates.Items );
+            ast.Defs.Items = ast.Defs.Items.concat( block.Defs.Items );
+            ast.Exprs.Items = ast.Exprs.Items.concat( block.Exprs.Items );
+
+        } else if ( this.test('template') ) {
             ast.Templates.add( this.match('template') );
 
         } else if (( r = this.testAny([ 'key', 'function_', 'var_', 'external' ]) )) {
@@ -184,6 +194,28 @@ yate.grammar.rules.body = function(ast) {
 
 };
 
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// include := 'include' inline_string
+
+yate.grammar.rules.include = function() {
+    this.match('INCLUDE');
+    var filename = this.match('inline_string').asString();
+
+    var input = this.input;
+    var cache = this.cache;
+
+    this.input = new yate.InputStream(filename);
+    this.cache = {};
+
+    var ast = this.match('stylesheet');
+
+    this.input = input;
+    this.cache = cache;
+
+    return ast;
+};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Declarations: templates, functions, keys, vars

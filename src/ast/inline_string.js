@@ -16,3 +16,15 @@ yate.AST.inline_string.toResult = function(result) {
     this.Value.toResult(result);
 };
 
+yate.AST.inline_string.asString = function() {
+    var s = '';
+
+    var items = this.Value.Items;
+    for (var i = 0, l = items.length; i < l; i++) {
+        var item = items[i];
+        s += item.asString();
+    }
+
+    return s;
+};
+
