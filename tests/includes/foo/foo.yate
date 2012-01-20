@@ -1,0 +1,4 @@
+include "../bar/bar.yate"
+
+hello = "Hello"
+

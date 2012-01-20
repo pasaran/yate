@@ -3,8 +3,8 @@
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.InputStream = function(filename) {
-    this.filename = filename;
-    var input = require('fs').readFileSync(filename, 'utf-8');
+    this.filename = require('path').resolve(filename);
+    var input = require('fs').readFileSync(this.filename, 'utf-8');
 
     this.lines = input.split('\n');
     this.x = 0;

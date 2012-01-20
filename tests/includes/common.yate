@@ -1,0 +1,4 @@
+include "foo/foo.yate"
+
+username = "nop"
+

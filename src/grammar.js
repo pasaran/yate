@@ -200,11 +200,13 @@ yate.grammar.rules.body = function(ast) {
 // include := 'include' inline_string
 
 yate.grammar.rules.include = function() {
-    this.match('INCLUDE');
-    var filename = this.match('inline_string').asString();
-
     var input = this.input;
     var cache = this.cache;
+
+    this.match('INCLUDE');
+    var filename = this.match('inline_string').asString();
+    var base = require('path').dirname( input.filename );
+    filename = require('path').join( base, filename );
 
     this.input = new yate.InputStream(filename);
     this.cache = {};
