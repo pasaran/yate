@@ -958,7 +958,7 @@ yate.grammar.skippers = {};
 yate.grammar.skippers.default_ = function() {
     var r = false;
     while (1) {
-        var l = this.skip('spaces') || this.skip('blockComments');
+        var l = this.skip('spaces') || this.skip('inlineComments') || this.skip('blockComments');
         r = r || l;
         if (!l) { break; }
     }
@@ -968,6 +968,20 @@ yate.grammar.skippers.default_ = function() {
 yate.grammar.skippers.spaces = /^\ +/;
 
 yate.grammar.skippers.none = function() {};
+
+yate.grammar.skippers.inlineComments = function() {
+    var input = this.input;
+
+    if (input.isEOF()) { return; }
+
+    if (input.current(2) != '//') {
+        return;
+    }
+
+    input.nextLine();
+
+    return true;
+};
 
 yate.grammar.skippers.blockComments = function() {
     var input = this.input;
