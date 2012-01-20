@@ -14,6 +14,7 @@ yate.AST.internalFunctions = {
     'name': yate.AST.make('inline_internal_function', 'name', 'scalar'),
     'index': yate.AST.make('inline_internal_function', 'index', 'scalar'),
     'count': yate.AST.make('inline_internal_function', 'count', 'scalar'),
-    'slice': yate.AST.make('inline_internal_function', 'slice', 'scalar', [ 'scalar', 'scalar', 'scalar' ])
+    'slice': yate.AST.make('inline_internal_function', 'slice', 'scalar', [ 'scalar', 'scalar', 'scalar' ]),
+    'html': yate.AST.make('inline_internal_function', 'html', 'xml', [ 'scalar' ])
 };
 

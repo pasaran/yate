@@ -22,6 +22,7 @@
     },
     "label": [ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ],
     "text": "<b>Some &text</b>",
+    "html": "<i>Hello, <b>nop</b></i>",
     "attr": "\"Some <b>&attribute</b>\"",
     "flags": {
         "disabled": true

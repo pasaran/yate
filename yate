@@ -6,6 +6,7 @@ var yate = require('./yatelib.js');
 
 var argv2 = process.argv[2];
 var argv3 = process.argv[3];
+var argv4 = process.argv[4];
 
 if ( argv3 == '--ast' ) {
     var ast = yate.parse(argv2);
@@ -14,6 +15,9 @@ if ( argv3 == '--ast' ) {
 } else if ( argv3 == '--print') {
     var ast = yate.parse(argv2);
     console.log( ast.yate() );
+
+} else if (argv3 && argv4) {
+    console.log( yate.run(argv2, argv3, argv4) );
 
 } else if (argv3) {
     console.log( yate.run(argv2, argv3) );

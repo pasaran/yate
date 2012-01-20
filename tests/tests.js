@@ -269,6 +269,12 @@ module.exports = [
                 externals: 'functions.09.js',
                 result: '<ul><li>Third</li><li>Second</li><li>First</li></ul>'
             },
+            {
+                description: 'disable output escaping',
+                yate: 'functions.10.yate',
+                data: '01.json',
+                result: '&lt;i&gt;Hello, &lt;b&gt;nop&lt;/b&gt;&lt;/i&gt;<i>Hello, <b>nop</b></i>'
+            },
         ]
     },
 

@@ -59,6 +59,7 @@ yate.AST.inline_function.isLocal = function() {
         case 'false': return false;
 
         case 'slice':
+        case 'html':
             var args = this.Args.Items;
             for (var i = 0, l = args.length; i < l; i++) {
                 if (args[i].isLocal()) { return true; }
