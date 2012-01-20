@@ -104,7 +104,7 @@ function makeRoot(data) {
 function applyValue(nodeset, mode, attrs, _) {
 
     var modeMatcher = matcher[mode];
-    if (!modeMatcher) { return; }
+    if (!modeMatcher) { return undefined; }
 
     var args;
     var r = '';
