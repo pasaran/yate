@@ -1,11 +1,8 @@
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.parse = function(filename) {
-    var parser = yate.parser;
-
-    parser.init( yate.grammar );
-
-    parser.open({ filename: filename });
+    var parser = new yate.Parser(yate.grammar);
+    parser.read(filename);
 
     // console.time('parse');
     var ast = parser.match('stylesheet');

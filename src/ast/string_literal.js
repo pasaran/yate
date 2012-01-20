@@ -30,3 +30,7 @@ yate.AST.string_literal.stringify = function() {
     return JSON.stringify( this.Value );
 };
 
+yate.AST.string_literal.asString = function() {
+    return this.Value;
+};
+

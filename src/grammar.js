@@ -60,7 +60,6 @@ yate.grammar.tokens = {
     DOTS: /^(?:\.{2,}(?=\.[a-zA-Z_*])|\.+(?![a-zA-Z_*]))/, // либо (...), либо (..)(.foo) -- то есть если после точек есть идентификатор, то последнюю точку не берем.
     ESC: /^["'\\nt]/,
     NUMBER: /^[0-9]+(\.[0-9]+)?/,
-    EOL: /^\s*(\/\/.*)?$/,
     '/': /^\/(?!\/)/,
     '|': /^\|(?!\|)/,
     '=': /^=(?!=)/,
@@ -74,6 +73,7 @@ yate.grammar.tokens = {
 // Keywords
 
 yate.grammar.keywords = [
+    'include',
     'match',
     'func',
     'external',
@@ -94,6 +94,13 @@ yate.grammar.keywords = [
 
 yate.grammar.rules = {};
 
+yate.grammar.rules.eol = function() {
+    var input = this.input;
+    if ( !input.isEOL() ) {
+        this.error('EOL expected');
+    }
+    input.nextLine();
+};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Blocks
@@ -106,7 +113,7 @@ yate.grammar.rules.stylesheet = {
     rule: function(ast) {
         ast.Block = this.match('block');
 
-        if (!this.isEOF()) {
+        if (!this.input.isEOF()) {
             this.error('EOF expected');
         }
 
@@ -123,17 +130,27 @@ yate.grammar.rules.stylesheet = {
 // block := ( template | function_ | key | var_ | block_expr )*
 
 yate.grammar.rules.block = function(ast) {
+    var input = this.input;
 
-    while (!( this.isEOF() || this.testAny([ '}', ']', ')' ]) )) { // Блок верхнего уровня (stylesheet) заканчивается с концом файла.
-                                                                   // Вложенные блоки заканчиваются закрывающей скобкой '}', ']' или ')'.
+    while (!( input.isEOF() || this.testAny([ '}', ']', ')' ]) )) { // Блок верхнего уровня (stylesheet) заканчивается с концом файла.
+                                                                    // Вложенные блоки заканчиваются закрывающей скобкой '}', ']' или ')'.
 
-        if (this.isEOL()) { // Пропускаем пустые строки.
-            this.eol();
+        if ( input.isEOL() ) { // Пропускаем пустые строки.
+            this.match('eol');
             continue;
         }
 
         var r = null;
-        if (this.test('template')) {
+        if ( this.test('include') ) {
+            var include = this.match('include');
+            var block = include.Block;
+
+            // FIXME: Переделать покрасивше.
+            ast.Templates.Items = ast.Templates.Items.concat( block.Templates.Items );
+            ast.Defs.Items = ast.Defs.Items.concat( block.Defs.Items );
+            ast.Exprs.Items = ast.Exprs.Items.concat( block.Exprs.Items );
+
+        } else if ( this.test('template') ) {
             ast.Templates.add( this.match('template') );
 
         } else if (( r = this.testAny([ 'key', 'function_', 'var_', 'external' ]) )) {
@@ -144,10 +161,10 @@ yate.grammar.rules.block = function(ast) {
 
         }
 
-        if (!this.isEOL()) { // Если после выражения или определения нет перевода строки, то это конец блока.
+        if ( !input.isEOL() ) { // Если после выражения или определения нет перевода строки, то это конец блока.
             break;
         }
-        this.eol();
+        this.match('eol');
     }
 
 };
@@ -157,7 +174,6 @@ yate.grammar.rules.block = function(ast) {
 // body := '{' block '}' | '[' block ']'
 
 yate.grammar.rules.body = function(ast) {
-
     var start = this.testAny([ '{', '[' ]); // Блоки бывают двух видов. Обычные { ... } и со списочным контекстом [ ... ].
                                             // В [ ... ] каждое выражение верхнего уровня генерит отдельный элемент списка.
     if (start) {
@@ -178,6 +194,30 @@ yate.grammar.rules.body = function(ast) {
 
 };
 
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// include := 'include' inline_string
+
+yate.grammar.rules.include = function() {
+    var input = this.input;
+    var cache = this.cache;
+
+    this.match('INCLUDE');
+    var filename = this.match('inline_string').asString();
+    var base = require('path').dirname( input.filename );
+    filename = require('path').join( base, filename );
+
+    this.input = new yate.InputStream(filename);
+    this.cache = {};
+
+    var ast = this.match('stylesheet');
+
+    this.input = input;
+    this.cache = cache;
+
+    return ast;
+};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // Declarations: templates, functions, keys, vars
@@ -516,7 +556,7 @@ yate.grammar.rules.xml_end = function(ast) {
 // xml_text := string_content
 
 yate.grammar.rules.xml_text = function(ast) {
-    var r = this.match('string_content', '<');
+    var r = this.match( 'string_content', { delim: '<' } );
     if (r.empty()) {
         this.backtrace();
     }
@@ -710,7 +750,7 @@ yate.grammar.rules.inline_primary = {
         }
 
         if (this.testAny([ '[', '.' ])) {
-            expr = yate.AST.make( 'jpath_filter', expr, this.match('jpath', true) );
+            expr = yate.AST.make( 'jpath_filter', expr, this.match( 'jpath', { inContext: true } ) );
         }
 
         return expr;
@@ -746,7 +786,7 @@ yate.grammar.rules.inline_string = {
 
     rule: function(ast) {
         this.match('"');
-        ast.Value = this.match('string_content', '"', true);
+        ast.Value = this.match( 'string_content', { delim: '"', esc: true } );
         this.match('"');
     },
 
@@ -758,11 +798,13 @@ yate.grammar.rules.inline_string = {
 
 // string_content := ...
 
-yate.grammar.rules.string_content = function(ast, delim, esc) { // Второй параметр задает символ, ограничивающий строковый контент.
-                                                                // Третий параметр означает, что нужно учитывать esc-последовательности типа \n, \t и т.д.
+yate.grammar.rules.string_content = function(ast, params) { // Второй параметр задает символ, ограничивающий строковый контент.
+                                                            // Третий параметр означает, что нужно учитывать esc-последовательности типа \n, \t и т.д.
+    var input = this.input;
+
     var s = '';
 
-    while (this.current() && !this.test(delim)) {
+    while (input.current() && !this.test(params.delim)) {
         if (this.test('{{')) {
             this.match('{{');
             s += '{';
@@ -781,7 +823,7 @@ yate.grammar.rules.string_content = function(ast, delim, esc) { // Второй 
             this.skip('spaces');
             this.match('}');
 
-        } else if (esc && this.test('\\')) {
+        } else if (params.esc && this.test('\\')) {
             this.match('\\');
             if (this.test('ESC')) {
                 var c = this.match('ESC');
@@ -793,8 +835,8 @@ yate.grammar.rules.string_content = function(ast, delim, esc) { // Второй 
             }
 
         } else {
-            s += this.current(1);
-            this.next(1);
+            s += input.current(1);
+            input.next(1);
         }
     }
 
@@ -844,8 +886,8 @@ yate.grammar.rules.inline_function = function(ast) {
 
 yate.grammar.rules.jpath = {
 
-    rule: function(ast, inContext) {
-        if (inContext) { // inContext означает, что это не полный jpath. Например, в выражении foo[42].bar это [42].bar.
+    rule: function(ast, params) {
+        if (params.inContext) { // inContext означает, что это не полный jpath. Например, в выражении foo[42].bar это [42].bar.
             ast.InContext = true;
         } else {
             if (!this.test('.')) { // Полный jpath всегда должен начинаться с точки.
@@ -928,24 +970,26 @@ yate.grammar.skippers.spaces = /^\ +/;
 yate.grammar.skippers.none = function() {};
 
 yate.grammar.skippers.blockComments = function() {
-    if (this.isEOF()) { return; }
+    var input = this.input;
 
-    if (this.current(2) != '/*') { return; }
+    if (input.isEOF()) { return; }
 
-    this.next(2);
-    while (!this.isEOF()) {
-        var i = this.current().indexOf('*/');
+    if (input.current(2) != '/*') { return; }
+
+    input.next(2);
+    while (!input.isEOF()) {
+        var i = input.current().indexOf('*/');
         if (i == -1) {
-            this.nextLine();
+            input.nextLine();
         } else {
-            this.next(i);
+            input.next(i);
             break;
         }
     }
-    if (this.current(2) != '*/') {
+    if (input.current(2) != '*/') {
         this.error('Expected */');
     }
-    this.next(2);
+    input.next(2);
 
     return true;
 };

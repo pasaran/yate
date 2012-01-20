@@ -429,6 +429,18 @@ module.exports = [
     },
 
     {
+        title: 'includes',
+        tests: [
+            {
+                description: 'include with relative paths',
+                yate: 'includes.01.yate',
+                data: '01.json',
+                result: 'Hello, nop'
+            },
+        ]
+    },
+
+    {
         title: 'misc',
         tests: [
             {
