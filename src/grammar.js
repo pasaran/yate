@@ -195,11 +195,10 @@ yate.grammar.rules.template = function(ast) {
     ast.Body = this.match('body');
 };
 
-// template_mode := '#' QNAME
+// template_mode := QNAME
 
 yate.grammar.rules.template_mode = function(ast) {
-    if (this.test('#')) {
-        this.match('#');
+    if (this.test('QNAME')) {
         ast.Value = this.match('QNAME');
     } else {
         ast.Value = '';

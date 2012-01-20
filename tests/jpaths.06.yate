@@ -3,14 +3,14 @@ match / {
 }
 
 match .left {
-    apply ..... #name
-    apply .... #name
-    apply ... #name
-    apply .. #name
-    apply . #name
+    apply ..... name
+    apply .... name
+    apply ... name
+    apply .. name
+    apply . name
 }
 
-match .* #name {
+match .* name {
     name()
 }
 

@@ -1,9 +1,9 @@
 match / {
-    apply .blocks #walk
+    apply .blocks walk
 }
 
-match .* #walk {
+match .* walk {
     name()
-    apply .* #walk
+    apply .* walk
 }
 

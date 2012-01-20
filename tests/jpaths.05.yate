@@ -6,11 +6,11 @@ match / {
 
 match .item {
     <li>
-        apply . #content
+        apply . content
     </li>
 }
 
-match .item #content {
+match .item content {
     .title
 }
 
