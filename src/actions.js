@@ -75,12 +75,10 @@ yate.compile = function(filename) {
     var ast = yate.parse(filename);
     ast = yate.walk(ast);
 
-    var runtime = require('fs').readFileSync(__dirname + '/src/runtime.js', 'utf-8'); // FIXME: Не нужно runtime совать в генерируемый код.
-
     // console.time('codegen');
     var js = yate.codetemplates.fill('js', 'main', '', {
-        Runtime: runtime,
-        Stylesheet: ast
+        Stylesheet: ast,
+        Module: 'default'
     });
     // console.timeEnd('codegen');
 
@@ -90,21 +88,27 @@ yate.compile = function(filename) {
 // ----------------------------------------------------------------------------------------------------------------- //
 
 yate.run = function(yate_filename, data_filename, ext_filename) {
-    var js = yate.compile( yate_filename );
-    var stylesheet = eval( '(' + js + ')' ); // FIXME: Заюзать vm.runInNewContext.
 
-    var externals = {};
+    var fs = require('fs');
+    var vm = require('vm');
+
+
+    // Читаем runtime.
+    var js = fs.readFileSync( __dirname + '/src/runtime.js', 'utf-8');
+
+    // Добавляем внешние функции, если есть.
     if (ext_filename) {
-        externals = eval( '(' + require('fs').readFileSync( ext_filename, 'utf-8' ) + ')' );
+        js += fs.readFileSync( ext_filename, 'utf-8' );
     }
 
-    var data = JSON.parse( require('fs').readFileSync( data_filename, 'utf-8' ) );
+    // Добавляем скомпилированные шаблоны.
+    js += yate.compile( yate_filename );
 
-    var result = require('vm').runInNewContext('(stylesheet(data, externals))', {
-        data: data,
-        externals: externals,
-        stylesheet: stylesheet
-    });
+    js += 'var data = ' + fs.readFileSync( data_filename, 'utf-8' ) + ';';
+
+    js += 'yater.modules["default"](data);';
+
+    var result = vm.runInNewContext(js);
 
     return result;
 };

@@ -1,3 +1,7 @@
+// Yate Runtime.
+
+var yater = {};
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 /*
@@ -89,7 +93,7 @@
 
 // Создаем из js-объекта корневую ноду.
 
-function makeRoot(data) {
+yater.makeRoot = function(data) {
     return [
         {
             data: data,
@@ -101,10 +105,11 @@ function makeRoot(data) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function applyValue(nodeset, mode, attrs, _) {
+/*
+yater.applyValue = function(nodeset, mode, attrs, _) {
 
     var modeMatcher = matcher[mode];
-    if (!modeMatcher) { return; }
+    if (!modeMatcher) { return ''; }
 
     var args;
     var r = '';
@@ -116,7 +121,7 @@ function applyValue(nodeset, mode, attrs, _) {
 
         for (var i = 0, l = templatesList.length; i < l; i++) {
             var template = templatesList[i];
-            if (matched(template.jpath, context, index, count)) {
+            if (yater.matched(template.jpath, context, index, count)) {
                 if (_ !== undefined) {
                     if (!args) {
                         args = Array.prototype.slice.call(arguments, 3);
@@ -132,11 +137,12 @@ function applyValue(nodeset, mode, attrs, _) {
     }
 
     return r;
-}
+};
+*/
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function select(jpath, context) {
+yater.select = function(jpath, context) {
 
     var current = [ context ];
     var m = 1;
@@ -152,7 +158,7 @@ function select(jpath, context) {
 
             case 0: // Это nametest (.foo или .*), в step 'foo' или '*'.
                 for (var j = 0; j < m; j++) {
-                    selectNametest(step, current[j], result);
+                    yater.selectNametest(step, current[j], result);
                 }
                 break;
 
@@ -195,15 +201,15 @@ function select(jpath, context) {
     return result;
 };
 
-function selectContext(jpath, nodeset) {
+yater.selectContext = function(jpath, nodeset) {
     var result = [];
     for (var i = 0, n = nodeset.length; i < n; i++) {
-        result = result.concat( select( jpath, nodeset[i] ) );
+        result = result.concat( yater.select( jpath, nodeset[i] ) );
     }
     return result;
 };
 
-function selectNametest(step, context, result) {
+yater.selectNametest = function(step, context, result) {
 
     var data = context.data;
 
@@ -211,7 +217,7 @@ function selectNametest(step, context, result) {
 
     if (step === '*') {
         for (step in data) {
-            selectNametest(step, context, result);
+            yater.selectNametest(step, context, result);
         }
         return;
     }
@@ -238,13 +244,13 @@ function selectNametest(step, context, result) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function join(left, right) {
+yater.join = function(left, right) {
     return left.concat(right);
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function matched(jpath, context, index, count) {
+yater.matched = function(jpath, context, index, count) {
     if (jpath === null) { // Это jpath /
         return !context.parent;
     }
@@ -276,33 +282,33 @@ function matched(jpath, context, index, count) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function nodeValue(node) {
+yater.nodeValue = function(node) {
     var data = node.data;
     return (typeof data == 'object') ? '': data;
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function nodeset2scalar(nodeset) {
+yater.nodeset2scalar = function(nodeset) {
     if (!nodeset.length) { return ''; }
 
     var data = nodeset[0].data;
     return (typeof data == 'object') ? '': data;
 };
 
-function nodeset2boolean(nodeset) {
+yater.nodeset2boolean = function(nodeset) {
     return (nodeset.length > 0);
 };
 
-function nodeset2xml(nodeset) {
-    return scalar2xml( nodeset2scalar(nodeset) );
+yater.nodeset2xml = function(nodeset) {
+    return yater.scalar2xml( yater.nodeset2scalar(nodeset) );
 };
 
-function nodeset2attrvalue(nodeset) {
-    return scalar2attrvalue( nodeset2scalar(nodeset) );
+yater.nodeset2attrvalue = function(nodeset) {
+    return yater.scalar2attrvalue( yater.nodeset2scalar(nodeset) );
 };
 
-function scalar2xml(scalar) {
+yater.scalar2xml = function(scalar) {
     return scalar
         .toString()
         .replace(/&/g, '&amp;')
@@ -310,7 +316,7 @@ function scalar2xml(scalar) {
         .replace(/>/g, '&gt;');
 };
 
-function scalar2attrvalue(scalar) {
+yater.scalar2attrvalue = function(scalar) {
     return scalar
         .toString()
         .replace(/&/g, '&amp;')
@@ -321,7 +327,7 @@ function scalar2attrvalue(scalar) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-var shortTags = {
+yater.shortTags = {
     br: true,
     col: true,
     embed: true,
@@ -334,7 +340,7 @@ var shortTags = {
     wbr: true
 };
 
-function closeAttrs(a) {
+yater.closeAttrs = function(a) {
     var name = a.start;
 
     if (name) {
@@ -342,9 +348,9 @@ function closeAttrs(a) {
         var attrs = a.attrs;
 
         for (var attr in attrs) {
-            r += ' ' + attr + '="' + attrQuote(attrs[attr]) + '"';
+            r += ' ' + attr + '="' + yater.attrQuote(attrs[attr]) + '"';
         }
-        r += (shortTags[name]) ? '/>' : '>';
+        r += (yater.shortTags[name]) ? '/>' : '>';
         a.start = null;
 
         return r;
@@ -353,7 +359,7 @@ function closeAttrs(a) {
     return '';
 };
 
-function copyAttrs(to, from) {
+yater.copyAttrs = function(to, from) {
     for (var key in from) {
         to[key] = from[key];
     }
@@ -361,7 +367,7 @@ function copyAttrs(to, from) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function attrQuote(s) {
+yater.attrQuote = function(s) {
     if (!s) { return ''; }
     s = s.toString();
     s = s.replace(/&/g, '&amp;');
@@ -369,23 +375,23 @@ function attrQuote(s) {
     s = s.replace(/>/g, '&gt;');
     s = s.replace(/"/g, '&quot;');
     return s;
-}
+};
 
-function textQuote(s) {
+yater.textQuote = function(s) {
     if (!s) { return ''; }
     s = s.toString();
     s = s.replace(/&/g, '&amp;');
     s = s.replace(/</g, '&lt;');
     s = s.replace(/>/g, '&gt;');
     return s;
-}
+};
 
-function slice(s, from, to) {
+yater.slice = function(s, from, to) {
     s = s.toString();
     return (to) ? s.slice(from, to) : s.slice(from);
-}
+};
 
-function grep(nodeset, predicate) {
+yater.grep = function(nodeset, predicate) {
     var r = [];
     for (var index = 0, count = nodeset.length; index < count; index++) {
         var node = nodeset[index];
@@ -394,8 +400,11 @@ function grep(nodeset, predicate) {
         }
     }
     return r;
-}
+};
 
-function byIndex(nodeset, i) {
+yater.byIndex = function(nodeset, i) {
     return nodeset.slice(i, i + 1);
-}
+};
+
+yater.modules = {};
+

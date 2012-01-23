@@ -4,17 +4,53 @@
 
 main
 
-    function stylesheet(data, externals) {
+    yater.modules['%Module'] = function(data) {
 
-        %Runtime
+        // NOTE: Пришлось унести эту функцию из runtime. Из-за того, что она слишком сильно привязана
+        //       к этому scope. В частности, ссылается на matcher.
 
-        var root = makeRoot(data);
+        // FIXME: Попробовать как-то и эту функцию убрать отсюда.
+
+        function applyValue(nodeset, mode, attrs, _) {
+
+            var modeMatcher = matcher[mode];
+            if (!modeMatcher) { return ''; }
+
+            var args;
+            var r = '';
+
+            for (var index = 0, count = nodeset.length; index < count; index++) {
+                var context = nodeset[index];
+                var name = context.name || '';
+                var templatesList = modeMatcher[name] || modeMatcher['*'] || [];
+
+                for (var i = 0, l = templatesList.length; i < l; i++) {
+                    var template = templatesList[i];
+                    if (yater.matched(template.jpath, context, index, count)) {
+                        if (_ !== undefined) {
+                            if (!args) {
+                                args = Array.prototype.slice.call(arguments, 3);
+                            }
+                            r += template.body.apply(null, [ context, attrs, index, count ].concat(args));
+                        } else {
+                            r += template.body(context, attrs, index, count);
+                        }
+                        break;
+                    }
+                }
+                // FIXME: console.log('DEFAULT TEMPLATE');
+            }
+
+            return r;
+        };
+
+        var root = yater.makeRoot(data);
         var a0 = { attrs: {} };
 
         %Stylesheet
 
         return applyValue(root, '', a0);
-    }
+    };
 
 
 
@@ -181,7 +217,7 @@ key #defs
                 var c%Use.Cid = nodes[i];
                 var useNodes = %Use;
                 for (var j = 0, m = useNodes.length; j < m; j++) {
-                    k%{Kid}_nodes[ nodeValue(useNodes[j]) ] = c%Use.Cid;
+                    k%{Kid}_nodes[ yater.nodeValue(useNodes[j]) ] = c%Use.Cid;
                 }
             }
 
@@ -261,7 +297,7 @@ attr #output
     a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
 
 attrs_close #output
-    r%Rid += closeAttrs(a%Rid);
+    r%Rid += yater.closeAttrs(a%Rid);
 
 attrs_open#output
 
@@ -302,7 +338,7 @@ jpath [ %yate() == '.' ]
 
 jpath
 
-    select(j%Jid, c%Cid)
+    yater.select(j%Jid, c%Cid)
 
 jpath_predicate #defs
 
@@ -338,7 +374,7 @@ jpath_predicate #compiled
 // FIXME: Переименовать в inline_filter
 jpath_filter
 
-    selectContext(j%JPath.Jid, %Expr)
+    yater.selectContext(j%JPath.Jid, %Expr)
 
 
 
@@ -357,7 +393,7 @@ arglist_item #defaults [ %Default ]
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_var #inline_output [ %type() == 'attr' ]
-    copyAttrs(a%{Rid}.attrs, v%def.Vid);
+    yater.copyAttrs(a%{Rid}.attrs, v%def.Vid);
 
 * #inline_output [ ( %type() == 'nodeset' || %type() == 'boolean' ) && !%AsType ]
 
@@ -400,7 +436,7 @@ inline_complex
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_function [ %External ]
-    externals['%Name'](%Args)
+    (yater.externals['%Name'])(%Args)
 
 inline_function [ %Kid !== '' ]
     k%Kid(%Args)
@@ -431,7 +467,7 @@ inline_function [ %Name == 'count' ]
     count
 
 inline_function [ %Name == 'slice' ]
-    slice(%Args)
+    yater.slice(%Args)
 
 inline_function [ %Name == 'html' ]
     %Args
@@ -460,16 +496,16 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml' || %To == 'attrvalue' || %To == 'boolean') ]
-    nodeset2%To( %Expr )
+    yater.nodeset2%To( %Expr )
 
 cast [ %From == 'scalar' && (%To == 'boolean' || %To == 'xml' || %To == 'attrvalue') ]
-    scalar2%To( %Expr )
+    yater.scalar2%To( %Expr )
 
 cast
     %Expr
 
 quote
-    %{Mode}Quote(%Expr)
+    yater.%{Mode}Quote(%Expr)
 
 
 
