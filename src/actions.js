@@ -106,7 +106,7 @@ yate.run = function(yate_filename, data_filename, ext_filename) {
 
     js += 'var data = ' + fs.readFileSync( data_filename, 'utf-8' ) + ';';
 
-    js += 'yater.modules["default"](data);';
+    js += 'Yater.run(data);';
 
     var result = vm.runInNewContext(js);
 

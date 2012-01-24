@@ -1,4 +1,4 @@
-yater.externals = {
+Yater.externals = {
     reverse: function(nodeset) {
         var r = [];
         for (var i = nodeset.length; i--;) {

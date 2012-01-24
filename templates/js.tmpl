@@ -4,51 +4,17 @@
 
 main
 
-    yater.modules['%Module'] = function(data) {
-
-        // NOTE: Пришлось унести эту функцию из runtime. Из-за того, что она слишком сильно привязана
-        //       к этому scope. В частности, ссылается на matcher.
-
-        // FIXME: Попробовать как-то и эту функцию убрать отсюда.
-
-        function applyValue(nodeset, mode, attrs, _) {
-
-            var modeMatcher = matcher[mode];
-            if (!modeMatcher) { return ''; }
-
-            var args;
-            var r = '';
-
-            for (var index = 0, count = nodeset.length; index < count; index++) {
-                var context = nodeset[index];
-                var name = context.name || '';
-                var templatesList = modeMatcher[name] || modeMatcher['*'] || [];
-
-                for (var i = 0, l = templatesList.length; i < l; i++) {
-                    var template = templatesList[i];
-                    if (yater.matched(template.jpath, context, index, count)) {
-                        if (_ !== undefined) {
-                            if (!args) {
-                                args = Array.prototype.slice.call(arguments, 3);
-                            }
-                            r += template.body.apply(null, [ context, attrs, index, count ].concat(args));
-                        } else {
-                            r += template.body(context, attrs, index, count);
-                        }
-                        break;
-                    }
-                }
-                // FIXME: console.log('DEFAULT TEMPLATE');
-            }
-
-            return r;
-        };
+    Yater.modules['%Module'] = function(yater, data) {
 
         var root = yater.makeRoot(data);
 
         %Stylesheet
 
-        return applyValue(root, '', { attrs: {} });
+        return {
+            matcher: matcher,
+            root: root
+        };
+
     };
 
 
@@ -260,11 +226,11 @@ for_ #output
 
 apply #output [ !%Args.empty() ]
 
-    r%Rid += applyValue(%Expr, %Mode#string, a%Rid);
+    r%Rid += yater.applyValue(%Expr, %Mode#string, a%Rid);
 
 apply #output
 
-    r%Rid += applyValue(%Expr, %Mode#string, a%Rid, %Args);
+    r%Rid += yater.applyValue(%Expr, %Mode#string, a%Rid, %Args);
 
 template_mode #string
 
@@ -435,7 +401,7 @@ inline_complex
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_function [ %External ]
-    (yater.externals['%Name'])(%Args)
+    (Yater.externals['%Name'])(%Args)
 
 inline_function [ %Kid !== '' ]
     k%Kid(%Args)
