@@ -45,11 +45,10 @@ main
         };
 
         var root = yater.makeRoot(data);
-        var a0 = { attrs: {} };
 
         %Stylesheet
 
-        return applyValue(root, '', a0);
+        return applyValue(root, '', { attrs: {} });
     };
 
 
@@ -116,7 +115,7 @@ template #prologue
 function_ #defs
 
     // %Name
-    function f%Fid(c%Cid, index, count%Args) {
+    function f%Fid(c%Cid, a%Rid, index, count%Args) {
         %Args#defaults
         %.#prologue
 
@@ -442,10 +441,10 @@ inline_function [ %Kid !== '' ]
     k%Kid(%Args)
 
 inline_function [ %Fid !== '' && !%Args.empty() ]
-    f%Fid(c%Cid, index, count, %Args)
+    f%Fid(c%Cid, a%Rid, index, count, %Args)
 
 inline_function [ %Fid !== '' ]
-    f%Fid(c%Cid, index, count)
+    f%Fid(c%Cid, a%Rid, index, count)
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
