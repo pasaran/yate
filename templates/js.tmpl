@@ -463,8 +463,12 @@ string_literal
 cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml' || %To == 'attrvalue' || %To == 'boolean') ]
     yater.nodeset2%To( %Expr )
 
-cast [ %From == 'scalar' && (%To == 'boolean' || %To == 'xml' || %To == 'attrvalue') ]
+cast [ %From == 'scalar' && (%To == 'xml' || %To == 'attrvalue') ]
     yater.scalar2%To( %Expr )
+
+// FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
+cast [ %From == 'scalar' && %To == 'boolean' ]
+    %Expr
 
 cast
     %Expr
