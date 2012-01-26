@@ -275,6 +275,12 @@ module.exports = [
                 data: '01.json',
                 result: '&lt;i&gt;Hello, &lt;b&gt;nop&lt;/b&gt;&lt;/i&gt;<i>Hello, <b>nop</b></i>'
             },
+            {
+                description: 'empty string as function param',
+                yate: 'functions.11.yate',
+                data: '01.json',
+                result: '<a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru" class="b-link">Яндекс</a>'
+            },
         ]
     },
 
@@ -316,6 +322,18 @@ module.exports = [
                 yate: 'strings.01.yate',
                 data: '01.json',
                 result: 'String with "double quotes" and \'single quotes\''
+            },
+            {
+                description: 'empty string',
+                yate: 'strings.02.yate',
+                data: '01.json',
+                result: ''
+            },
+            {
+                description: 'empty string in variable',
+                yate: 'strings.03.yate',
+                data: '01.json',
+                result: ''
             },
         ]
     },

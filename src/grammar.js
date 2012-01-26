@@ -786,7 +786,11 @@ yate.grammar.rules.inline_string = {
 
     rule: function(ast) {
         this.match('"');
-        ast.Value = this.match( 'string_content', { delim: '"', esc: true } );
+        if ( this.test('"') ) { // Отдельно обрабатываем пустую строку.
+            ast.Value = yate.AST.make('string_literal', '');
+        } else {
+            ast.Value = this.match( 'string_content', { delim: '"', esc: true } );
+        }
         this.match('"');
     },
 
