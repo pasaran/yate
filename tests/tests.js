@@ -208,6 +208,13 @@ module.exports = [
                 data: '01.json',
                 result: '<h1>Hello, nop</h1><h1>Hello, unknown</h1>'
             },
+            {
+                description: 'global non-constant variable',
+                yate: 'variables.10.yate',
+                data: '01.json',
+                result: 'FirstSecondThird',
+                known: true
+            },
         ]
     },
 
