@@ -12,10 +12,11 @@ Yater.run = function(data, name) {
     var yater = new Yater();
     var module = Yater.modules[name];
 
-    var stylesheet = module(yater, data);
-    yater.init(stylesheet.matcher);
+    var matcher = module(yater);
+    yater.init(matcher);
 
-    return yater.applyValue( stylesheet.root, '', { attrs: {} } );
+    var root = yater.makeRoot(data);
+    return yater.applyValue( root, '', { attrs: {} } );
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -23,13 +24,14 @@ Yater.run = function(data, name) {
 // Создаем из js-объекта корневую ноду.
 
 Yater.prototype.makeRoot = function(data) {
-    return [
-        {
-            data: data,
-            parent: null,
-            name: ''
-        }
-    ];
+    var root = {
+        data: data,
+        parent: null,
+        name: ''
+    };
+    root.root = root;
+
+    return [ root ];
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -152,19 +154,22 @@ Yater.prototype.selectNametest = function(step, context, result) {
     data = data[step];
     if (data === undefined) { return; }
 
+    var root = context.root;
     if (data instanceof Array) {
         for (var i = 0, l = data.length; i < l; i++) {
             result.push({
                 data: data[i],
                 parent: context,
-                name: step
+                name: step,
+                root: root
             });
         }
     } else {
         result.push({
             data: data,
             parent: context,
-            name: step
+            name: step,
+            root: root
         });
     }
 };
@@ -332,6 +337,29 @@ Yater.prototype.grep = function(nodeset, predicate) {
 Yater.prototype.byIndex = function(nodeset, i) {
     return nodeset.slice(i, i + 1);
 };
+
+// ----------------------------------------------------------------------------------------------------------------- //
+// Yater.Vars -- хранилище глобальных (ленивых) переменных.
+// ----------------------------------------------------------------------------------------------------------------- //
+
+Yater.Vars = function() {
+    this.vars = {};
+    this.values = {};
+};
+
+Yater.Vars.prototype.add = function(name, value) {
+    this.vars[name] = value;
+};
+
+Yater.Vars.prototype.get = function(name, context) {
+    var value = this.values[name];
+    if (value === undefined) {
+        value = this.values[name] = this.vars[name](context.root);
+    }
+    return value;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 Yater.modules = {};
 

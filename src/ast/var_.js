@@ -11,6 +11,11 @@ yate.AST.var_.action = function() {
     this.Vid = this.state.vid++;
     this.Type = yate.AST.var_type.USER;
 
+    if (!this.scope.parent) { // NOTE: В данный момент все глобальные переменные будут "ленивыми".
+                              // FIXME: Делать ленивыми только неконстантные переменные.
+        this.Lazy = true;
+    }
+
     vars[name] = this;
 };
 

@@ -108,7 +108,9 @@ yate.run = function(yate_filename, data_filename, ext_filename) {
 
     js += 'Yater.run(data);';
 
-    var result = vm.runInNewContext(js);
+    var result = vm.runInNewContext(js, {
+        console: console
+    });
 
     return result;
 };

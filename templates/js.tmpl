@@ -4,16 +4,13 @@
 
 main
 
-    Yater.modules['%Module'] = function(yater, data) {
+    Yater.modules['%Module'] = function(yater) {
 
-        var root = yater.makeRoot(data);
+        var vars = new Yater.Vars();
 
         %Stylesheet
 
-        return {
-            matcher: matcher,
-            root: root
-        };
+        return matcher;
 
     };
 
@@ -136,15 +133,35 @@ block#output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+var_ #defs [ %Value.inline() && %Lazy ]
+
+    vars.add("v%Vid", function(c0) { return %Value; });
+
 var_ #defs [ %Value.inline() ]
 
     var v%Vid = %Value;
+
+var_ #defs [ %Value.type() == 'attr' && %Lazy ]
+
+    vars.add("v%Vid", function(c0) {
+        %Value#prologue
+        %Value#output
+        return a%{Value.Rid}.attrs;
+    });
 
 var_ #defs [ %Value.type() == 'attr' ]
 
     %Value#prologue
     %Value#output
     var v%Vid = a%{Value.Rid}.attrs;
+
+var_ #defs [ %Lazy ]
+
+    vars.add("v%Vid", function(c0) {
+        %Value#prologue
+        %Value#output
+        return r%Value.Rid;
+    });
 
 var_ #defs
 
@@ -173,9 +190,12 @@ key #defs
         }
         return value || [];
     };
-    var k%{Kid} = function(key) {
+    var k%{Kid} = function(key, c%Cid) {
         if (!k%{Kid}_nodes) {
+            /*
             var c%Cid = root[0]; // FIXME: Сделать root[0] отдельной переменной.
+                                 // FIXME: Убрать root вообще.
+            */
             var nodes = %Nodes;
             k%{Kid}_nodes = {};
             for (var i = 0, l = nodes.length; i < l; i++) {
@@ -285,7 +305,7 @@ scalar#output
 
 root
 
-    root
+    c%{Cid}.root
 
 // Для jpath выводим имя его переменной, для root -- null.
 
@@ -357,6 +377,9 @@ arglist_item #defaults [ %Default ]
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
+inline_var #inline_output [ %type() == 'attr' && %def.Lazy ]
+    yater.copyAttrs( a%{Rid}.attrs, vars.get("v%def.Vid", c%Cid) );
+
 inline_var #inline_output [ %type() == 'attr' ]
     yater.copyAttrs(a%{Rid}.attrs, v%def.Vid);
 
@@ -404,7 +427,7 @@ inline_function [ %External ]
     (Yater.externals['%Name'])(%Args)
 
 inline_function [ %Kid !== '' ]
-    k%Kid(%Args)
+    k%Kid(%Args, c%{Cid}.root)
 
 inline_function [ %Fid !== '' && !%Args.empty() ]
     f%Fid(c%Cid, a%Rid, index, count, %Args)
@@ -438,6 +461,9 @@ inline_function [ %Name == 'html' ]
     %Args
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+inline_var [ %def.Lazy ]
+    vars.get("v%def.Vid", c%Cid)
 
 inline_var
     v%def.Vid
