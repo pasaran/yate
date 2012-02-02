@@ -287,6 +287,21 @@ module.exports = [
                 data: '01.json',
                 result: '<a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru" class="b-link">Яндекс</a>'
             },
+            {
+                description: 'return value of function returning attributes saved in variable',
+                yate: 'functions.12.yate',
+                data: '01.json',
+                result: '<div class="b-hello" id="hello">Hello</div>',
+                known: true
+            },
+            {
+                description: 'external function returning attributes',
+                yate: 'functions.13.yate',
+                externals: 'functions.13.js',
+                data: '01.json',
+                result: '<div class="b-hello" id="hello">Hello</div>',
+                known: true
+            },
         ]
     },
 

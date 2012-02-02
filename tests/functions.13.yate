@@ -1,0 +1,9 @@
+external attr attrs()
+
+match / {
+    <div>
+        attrs()
+        "Hello"
+    </div>
+}
+
