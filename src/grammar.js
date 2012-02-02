@@ -84,7 +84,9 @@ yate.grammar.keywords = [
     'key',
     'nodeset',
     'boolean',
-    'scalar'
+    'scalar',
+    'attr',
+    'xml'
 ];
 
 
@@ -273,7 +275,7 @@ yate.grammar.rules.arglist_item = function(ast) {
 };
 
 yate.grammar.rules.typedef = function() {
-    return this.matchAny([ 'NODESET', 'BOOLEAN', 'SCALAR' ]);
+    return this.matchAny([ 'NODESET', 'BOOLEAN', 'SCALAR', 'ATTR', 'XML' ]);
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
