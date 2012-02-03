@@ -302,6 +302,13 @@ module.exports = [
                 result: '<div class="b-hello" id="hello">Hello</div>',
                 known: true
             },
+            {
+                description: 'functions with the same params',
+                yate: 'functions.14.yate',
+                data: '01.json',
+                result: '<h1>Hello</h1>',
+                known: true
+            },
         ]
     },
 
