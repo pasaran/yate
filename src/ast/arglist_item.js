@@ -1,7 +1,9 @@
 yate.AST.arglist_item = {};
 
 yate.AST.arglist_item.action = function() {
-    var vars = this.parent.scope.vars;
+    var vars = this.parent.parent.Body.Block.scope.vars; // FIXME: Очень уж хрупкая конструкция.
+                                                         // NOTE: Смысл в том, что в AST параметры и блок на одном уровне, а отдельный scope создается
+                                                         //       только для блока. И аргументы нужно прописывать именно туда.
     var name = this.Name;
     if (vars[name]) {
         this.error('Повторное определение аргумента ' + this.Name);
