@@ -1,0 +1,14 @@
+match / {
+    <ul>
+        apply .items.item
+    </ul>
+}
+
+match .items.item {
+    <li>{ .title }</li>
+}
+
+match .items.item[ .disabled ] {
+    <li class="disabled">{ .title }</li>
+}
+

@@ -1,6 +1,18 @@
 module.exports = [
 
     {
+        title: 'match',
+        tests: [
+            {
+                description: 'predicate in match',
+                yate: 'match.01.yate',
+                data: '01.json',
+                result: '<ul><li>First</li><li class="disabled">Second</li><li>Third</li></ul>'
+            },
+        ]
+    },
+
+    {
         title: 'string interpolation',
         tests: [
             {

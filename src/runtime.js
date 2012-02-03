@@ -189,7 +189,6 @@ Yater.prototype.matched = function(jpath, context, index, count) {
 
     var l = jpath.length;
     var i = l - 2; // i всегда будет четное.
-    var j = i;
     while (i >= 0) {
         if (!context) { return false; }
 
@@ -198,12 +197,10 @@ Yater.prototype.matched = function(jpath, context, index, count) {
         if (step === 0) { // Nametest.
             var name = jpath[i + 1];
             if ( name !== '*' && name !== context.name ) { return false; }
-            for (var k = i + 2; k <= j; k += 2) {
-                var predicate = jpath[k + 1];
-                if (!predicate(context, index, count)) { return false; }
-            }
             context = context.parent;
-            j = i;
+        } else { // step === 2 должен быть.
+            var predicate = jpath[i + 1];
+            if (!predicate(context, index, count)) { return false; }
         }
 
         i -= 2;
