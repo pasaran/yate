@@ -488,6 +488,13 @@ module.exports = [
                 data: '01.json',
                 result: '<img src="1.png"/><img src="2.png" class="b-hello"/>Hello, World'
             },
+            {
+                description: 'expand non-short tags',
+                yate: 'xml.07.yate',
+                data: '01.json',
+                result: '<div></div>',
+                known: true
+            },
         ]
     },
 
