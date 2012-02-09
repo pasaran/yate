@@ -6,8 +6,9 @@ Yater.prototype.init = function(matcher) {
     this.matcher = matcher;
 };
 
-Yater.run = function(data, name) {
+Yater.run = function(data, name, mode) {
     name = name || 'default';
+    mode = mode || '';
 
     var yater = new Yater();
     var module = Yater.modules[name];
@@ -16,7 +17,7 @@ Yater.run = function(data, name) {
     yater.init(matcher);
 
     var root = yater.makeRoot(data);
-    return yater.applyValue( root, '', { attrs: {} } );
+    return yater.applyValue( root, mode, { attrs: {} } );
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //
