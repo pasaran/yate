@@ -69,7 +69,7 @@ yate.walk = function(ast) {
     return ast;
 };
 
-yate.compile = function(filename) {
+yate.compile = function(filename, module) {
     // console.timeEnd('walking');
 
     var ast = yate.parse(filename);
@@ -78,7 +78,7 @@ yate.compile = function(filename) {
     // console.time('codegen');
     var js = yate.codetemplates.fill('js', 'main', '', {
         Stylesheet: ast,
-        Module: 'default'
+        Module: module || 'default'
     });
     // console.timeEnd('codegen');
 
