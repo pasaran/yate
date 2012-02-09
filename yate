@@ -4,26 +4,49 @@ require('./colors.js');
 
 var yate = require('./yatelib.js');
 
-var argv2 = process.argv[2];
-var argv3 = process.argv[3];
-var argv4 = process.argv[4];
+var mode = '--run';
+var module = 'default';
+var files = [];
+var arg, n = 0;
+for (var arg, n = 2; arg = process.argv[n]; n++) {
+    switch (arg) {
+        case '--ast':
+        case '--print':
+            mode = arg;
+            break;
+        case '--module':
+            arg = process.argv[n+1];
+            if (arg && arg.charAt(0) != '-') {
+                module = arg;
+                n++;
+            }
+            break;
+        default:
+            files.push(arg);
+    }
+}
 
-if ( argv3 == '--ast' ) {
-    var ast = yate.parse(argv2);
+if (!files[0]) {
+    console.log('Usage: yate [ --module name ] template.yate');
+    console.log('       yate template.yate data.json [ external.js ]');
+    console.log('       yate --ast template.yate');
+    console.log('       yate --print template.yate');
+    return 10;
+}
+
+if ( mode == '--ast' ) {
+    var ast = yate.parse(files[0]);
     console.log( yate.walk(ast).toString() );
 
-} else if ( argv3 == '--print') {
-    var ast = yate.parse(argv2);
+} else if ( mode == '--print') {
+    var ast = yate.parse(files[0]);
     console.log( ast.yate() );
 
-} else if (argv3 && argv4) {
-    console.log( yate.run(argv2, argv3, argv4) );
-
-} else if (argv3) {
-    console.log( yate.run(argv2, argv3) );
+} else if (files.length >= 2) {
+    console.log( yate.run(files[0], files[1], files[2]) );
 
 } else {
-    console.log( yate.compile(argv2) );
+    console.log( yate.compile(files[0], module) );
 
 }
 
