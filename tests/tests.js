@@ -446,6 +446,13 @@ module.exports = [
                 data: '01.json',
                 result: 'blocksappcontentuserleftright'
             },
+            {
+                description: 'simple absolute jpath',
+                yate: 'jpaths.12.yate',
+                data: '01.json',
+                result: 'nop',
+                known: true
+            },
         ]
     },
 
