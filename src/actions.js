@@ -87,11 +87,10 @@ yate.compile = function(filename, module) {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-yate.run = function(yate_filename, data_filename, ext_filename) {
+yate.run = function(yate_filename, data_filename, ext_filename, mode) {
 
     var fs = require('fs');
     var vm = require('vm');
-
 
     // Читаем runtime.
     var js = fs.readFileSync( __dirname + '/src/runtime.js', 'utf-8');
@@ -106,7 +105,8 @@ yate.run = function(yate_filename, data_filename, ext_filename) {
 
     js += 'var data = ' + fs.readFileSync( data_filename, 'utf-8' ) + ';';
 
-    js += 'Yater.run(data);';
+    mode = mode || '';
+    js += 'Yater.run(data, null, "' + mode + '");';
 
     var result = vm.runInNewContext(js, {
         console: console

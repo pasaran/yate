@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../colors.js');
+require('colors');
 
 var fs = require('fs');
 var yate = require('../yatelib.js');
