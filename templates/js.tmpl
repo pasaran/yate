@@ -4,7 +4,7 @@
 
 main
 
-    Yater.modules['%Module'] = function(yater) {
+    Yater.modules['%Module'] = function(yater, root) {
 
         var vars = new Yater.Vars();
 
@@ -190,12 +190,9 @@ key #defs
         }
         return value || [];
     };
-    var k%{Kid} = function(key, c%Cid) {
+    var k%{Kid} = function(key) {
         if (!k%{Kid}_nodes) {
-            /*
             var c%Cid = root[0]; // FIXME: Сделать root[0] отдельной переменной.
-                                 // FIXME: Убрать root вообще.
-            */
             var nodes = %Nodes;
             k%{Kid}_nodes = {};
             for (var i = 0, l = nodes.length; i < l; i++) {
@@ -305,7 +302,7 @@ scalar#output
 
 root
 
-    c%{Cid}.root
+    root
 
 // Для jpath выводим имя его переменной, для root -- null.
 
@@ -427,7 +424,7 @@ inline_function [ %External ]
     (Yater.externals['%Name'])(%Args)
 
 inline_function [ %Kid !== '' ]
-    k%Kid(%Args, c%{Cid}.root)
+    k%Kid(%Args, root)
 
 inline_function [ %Fid !== '' && !%Args.empty() ]
     f%Fid(c%Cid, a%Rid, index, count, %Args)
