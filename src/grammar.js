@@ -731,7 +731,7 @@ yate.grammar.rules.inline_primary = {
             return this.match('inline_number');
         }
 
-        if (this.test('"')) {
+        if (this.testAny( [ '"', "'" ] )) {
             return this.match('inline_string');
         }
 
@@ -787,13 +787,13 @@ yate.grammar.rules.inline_number = function(ast) {
 yate.grammar.rules.inline_string = {
 
     rule: function(ast) {
-        this.match('"');
-        if ( this.test('"') ) { // Отдельно обрабатываем пустую строку.
+        var quote = this.matchAny( [ '"', "'" ] );
+        if ( this.test(quote) ) { // Отдельно обрабатываем пустую строку.
             ast.Value = yate.AST.make('string_literal', '');
         } else {
-            ast.Value = this.match( 'string_content', { delim: '"', esc: true } );
+            ast.Value = this.match( 'string_content', { delim: quote, esc: true } );
         }
-        this.match('"');
+        this.match(quote);
     },
 
     options: {

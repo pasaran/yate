@@ -360,7 +360,7 @@ module.exports = [
                 description: 'string with different quotes',
                 yate: 'strings.01.yate',
                 data: '01.json',
-                result: 'String with "double quotes" and \'single quotes\''
+                result: 'String with "double quotes" and \'single quotes\'String with "double quotes" and \'single quotes\''
             },
             {
                 description: 'empty string',
@@ -373,6 +373,12 @@ module.exports = [
                 yate: 'strings.03.yate',
                 data: '01.json',
                 result: ''
+            },
+            {
+                description: 'single and double quoted strings',
+                yate: 'strings.04.yate',
+                data: '01.json',
+                result: 'Hello, nopHello, nop'
             },
         ]
     },
@@ -500,6 +506,12 @@ module.exports = [
                 data: '01.json',
                 result: '<div></div>',
                 known: true
+            },
+            {
+                description: 'single and double quoted attributes',
+                yate: 'xml.08.yate',
+                data: '01.json',
+                result: '<div class="b-hello" title="nop">Hello</div><div class="b-hello" title="nop">Hello</div>'
             },
         ]
     },

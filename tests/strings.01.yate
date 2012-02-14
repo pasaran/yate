@@ -1,4 +1,5 @@
 match / {
     "String with \"double quotes\" and 'single quotes'"
+    'String with "double quotes" and \'single quotes\''
 }
 
