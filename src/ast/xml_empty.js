@@ -5,8 +5,14 @@ yate.AST.xml_empty.options = {
 };
 
 yate.AST.xml_empty.toResult = function(result) {
-    result.push('<' + this.Name);
+    var name = this.Name;
+
+    result.push('<' + name);
     this.Attrs.toResult(result);
-    result.push('/>');
+    if ( yate.shortTags[name] ) {
+        result.push('/>');
+    } else {
+        result.push('></' + name + '>');
+    }
 };
 

@@ -1,4 +1,4 @@
 match / {
-    <div/>
+    <div class="b-hello"/>
 }
 

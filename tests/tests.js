@@ -431,8 +431,7 @@ module.exports = [
             {
                 description: 'expand non-short tags',
                 yate: 'xml.07.yate',
-                result: '<div></div>',
-                known: true
+                result: '<div class="b-hello"></div>'
             },
             {
                 description: 'single and double quoted attributes',
