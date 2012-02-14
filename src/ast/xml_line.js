@@ -15,9 +15,11 @@ yate.AST.xml_line.wellFormed = function(opened) {
             var name = opened.pop();
             if (!name) {
                 that.error('Закрывающий тег </' + item.Name + '> не был предварительно открыт');
-            } else if (item.Name !== name) {
+            } else if ( (item.Name !== name) && (item.Name !== true) ) {
                 that.error('Невалидный XML. Ожидается </' + name + '>');
             }
+            item.Name = name; // FIXME: Не очень подходящее место для этого действия.
+                              //        Лучше бы унести это в какой-то .action().
         }
     });
 };

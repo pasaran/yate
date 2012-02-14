@@ -515,6 +515,11 @@ yate.grammar.rules.xml_full = function(ast) {
     var end = this.match('xml_end');
     ast.add(end);
 
+    // FIXME: Унести это куда-то в .action().
+    if (end.Name === true) {
+        end.Name = start.Name;
+    }
+
     if (start.Name != end.Name) {
         this.backtrace();
     }
@@ -547,10 +552,15 @@ yate.grammar.rules.xml_empty = function(ast) {
 // xml_end := '</' QNAME '>'
 
 yate.grammar.rules.xml_end = function(ast) {
-    this.match('</');
-    ast.Name = this.match('QNAME');
-    this.skip('spaces');
-    this.match('>');
+    if (this.test('</>')) {
+        this.match('</>');
+        ast.Name = true;
+    } else {
+        this.match('</');
+        ast.Name = this.match('QNAME');
+        this.skip('spaces');
+        this.match('>');
+    }
 };
 
 // ----------------------------------------------------------------------------------------------------------------- //

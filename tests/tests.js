@@ -513,6 +513,12 @@ module.exports = [
                 data: '01.json',
                 result: '<div class="b-hello" title="nop">Hello</div><div class="b-hello" title="nop">Hello</div>'
             },
+            {
+                description: '</> as a universal closing tag',
+                yate: 'xml.09.yate',
+                data: '01.json',
+                result: '<div>Hello</div><div>Hello</div><b><i>nop</i></b>'
+            },
         ]
     },
 
