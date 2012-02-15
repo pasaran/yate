@@ -4,7 +4,7 @@ yate.AST.apply.options = {
     base: 'expr'
 };
 
-yate.AST.apply._type = 'undef';
+yate.AST.apply._type = 'xml';
 
 yate.AST.apply.validate = function() {
     if (!this.Expr.type( 'nodeset' )) {
