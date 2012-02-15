@@ -273,6 +273,11 @@ module.exports = [
                 yate: 'functions.14.yate',
                 result: '<h1>Hello</h1>'
             },
+            {
+                description: 'functions with the nodeset param',
+                yate: 'functions.15.yate',
+                result: 'zeroonetwo'
+            },
         ]
     },
 
