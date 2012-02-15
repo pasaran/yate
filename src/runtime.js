@@ -73,8 +73,14 @@ Yater.prototype.applyValue = function(nodeset, mode, attrs, _) {
 
 Yater.prototype.select = function(jpath, context) {
 
-    var current = [ context ];
-    var m = 1;
+    var current, m;
+    if (context instanceof Array) {
+        current = context;
+        m = current.length;
+    } else {
+        current = [ context ];
+        m = 1;
+    }
 
     var result;
     for (var i = 0, n = jpath.length; i < n; i += 2) {
@@ -127,14 +133,6 @@ Yater.prototype.select = function(jpath, context) {
         if (!m) { return []; }
     }
 
-    return result;
-};
-
-Yater.prototype.selectContext = function(jpath, nodeset) {
-    var result = [];
-    for (var i = 0, n = nodeset.length; i < n; i++) {
-        result = result.concat( this.select( jpath, nodeset[i] ) );
-    }
     return result;
 };
 
