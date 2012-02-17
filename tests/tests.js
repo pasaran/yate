@@ -110,6 +110,11 @@ module.exports = [
                 yate: 'attributes.11.yate',
                 result: '<h1 class="b-hello">Hello, nop</h1>'
             },
+            {
+                description: 'add conditional class to empty (undefined) class',
+                yate: 'attributes.12.yate',
+                result: '<h1 class="b-hello">Hello, nop</h1>'
+            },
 
         ]
     },

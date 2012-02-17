@@ -272,6 +272,12 @@ attr #output [ %Value.inline() && %Op == '+=' ]
 attr #output [ %Value.inline() ]
     a%{Rid}.attrs['%Name'] %Op %Value;
 
+attr #output [ %Op == '+=' ]
+
+    %Value#prologue
+    %Value#output
+    a%{Rid}.attrs['%Name'] = (a%{Rid}.attrs['%Name'] || '') + r%Value.Rid;
+
 attr #output
 
     %Value#prologue
