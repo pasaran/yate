@@ -117,9 +117,8 @@ module.exports = [
             },
             {
                 description: 'result of apply as a attribute\'s value',
-                yate: 'attribute.13.yate',
-                result: '<div class="b-hello">Hello</div>',
-                known: true
+                yate: 'attributes.13.yate',
+                result: '<div class="b-hello">Hello</div>'
             },
 
         ]
