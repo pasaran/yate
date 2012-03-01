@@ -115,6 +115,12 @@ module.exports = [
                 yate: 'attributes.12.yate',
                 result: '<h1 class="b-hello">Hello, nop</h1>'
             },
+            {
+                description: 'result of apply as a attribute\'s value',
+                yate: 'attribute.13.yate',
+                result: '<div class="b-hello">Hello</div>',
+                known: true
+            },
 
         ]
     },
