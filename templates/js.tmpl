@@ -238,13 +238,13 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ !this.Args.empty() ]
+apply :output [ this.Args && !this.Args.empty() ]
 
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid });
+    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode: string }, a%{ Rid }, %{ Args });
 
 apply :output
 
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode: string }, a%{ Rid }, %{ Args });
+    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid });
 
 template_mode :string
 
@@ -432,13 +432,13 @@ inline_complex
 inline_function [ this.External ]
     (Yater.externals['%{ Name }'])(%{ Args })
 
-inline_function [ this.Kid ]
+inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
 
-inline_function [ this.Fid && !this.Args.empty() ]
+inline_function [ this.Fid != null && !this.Args.empty() ]
     f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count, %{ Args })
 
-inline_function [ this.Fid ]
+inline_function [ this.Fid != null ]
     f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count)
 
 

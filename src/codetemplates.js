@@ -55,23 +55,24 @@ yate.codetemplates.read = function(lang) {
         //     body
         //
         // description -- это одна строка, состоящая из имени шаблона, моды и предиката. Например:
-        // item #content [ %Count > 0 ] ( %Title = 'Hello', %Value = '42' )
+        // item :content [ this.Count > 0 ]
         // При этом только имя обязательно
         //
         // body -- это текст, состоящий либо из пустых строк, либо из строк, отбитых четырьмя пробелами.
 
-        var r = /^([\w-]+|\*)\ *(#[\w-]+)?\ *(\[.*\])?\n([\S\s]*)$/.exec(part);
+        var r = /^([\w-]+|\*)\ *(:[\w-]+)?\ *(\[.*\])?\n([\S\s]*)$/.exec(part);
 
         if (!r) {
             throw new Error("Ошибка синтаксиса шаблона:\n" + part);
         }
 
-        // id = name + mode (например, item#content или item#, если моды нет).
-        var id = r[1] + (r[2] || '#');
+        // id = name + mode (например, item:content или item:, если моды нет).
+        var id = r[1] + (r[2] || ':');
 
         var predicate = r[3];
         if (predicate) {
             predicate = predicate.slice(1, -1); // Отрезаем [ и ].
+            predicate = new Function( 'return !!(' + predicate + ');' );
         }
 
         // Убираем отступ и переводы строк.
@@ -96,9 +97,9 @@ yate.codetemplates.read = function(lang) {
 
 // Находим подходящий шаблон, соответствующий паре name/mode. И заполняем его данными из data.
 yate.codetemplates.fill = function(lang, name, mode, data) {
-    var suffix = '#' + mode;
+    var suffix = ':' + mode;
 
-    // Берем все шаблоны для foo#bar и для *#bar
+    // Берем все шаблоны для foo:bar и для *:bar
     var templates = this.getTemplates( lang, name + suffix );
     templates = templates.concat( this.getTemplates( lang, '*' + suffix ) );
 
@@ -114,9 +115,8 @@ yate.codetemplates._fillOne = function(lang, template, data) {
 
     // Если есть предикат, проверяем его истинность.
     var predicate = template.predicate;
-    if (predicate) {
-        predicate = yate.codetemplates._evalLine(lang, predicate, data, true);
-        if (!eval(predicate)) { return; }
+    if ( predicate && !predicate.call(data) ) {
+        return;
     }
 
     var lines = template.body.split(/\n/);
@@ -175,19 +175,18 @@ yate.codetemplates._fillOne = function(lang, template, data) {
 
 // Раскрываем макросы в строке. Макросы начинаются символом % и дальше более-менее похожи на xpath/jpath. Варианты:
 //
-//     %Foo         -- если data.Foo это скаляр, то вывести его, если это объект, то вызвать метод data.Foo.code(lang).
-//     %{Foo}       -- тоже самое, скобочки нужны для ситуация вроде %{Foo}Bar (чтобы не слипалось :).
-//     %Foo#mode    -- тоже самое, но в code передается еще и mode: data.Foo.code(lang, mode).
-//     %Foo.Bar     -- тоже самое, но про data.Foo.Bar.
-//     %.#mode      -- обработать эту же data еще раз, но с другой модой.
-//     %foo()       -- результат data.foo().
-//     %Foo.bar()   -- результат data.Foo.bar() (в предположении, что data.Foo объект).
+//     %{ Foo }         -- если data.Foo это скаляр, то вывести его, если это объект, то вызвать метод data.Foo.code(lang).
+//     %{ Foo :mode }   -- тоже самое, но в code передается еще и mode: data.Foo.code(lang, mode).
+//     %{ Foo.Bar }     -- тоже самое, но про data.Foo.Bar.
+//     %{ . :mode }     -- обработать эту же data еще раз, но с другой модой.
+//     %{ foo() }       -- результат data.foo().
+//     %{ Foo.bar() }   -- результат data.Foo.bar() (в предположении, что data.Foo объект).
 //
-yate.codetemplates._evalLine = function(lang, line, data, asPredicate) {
-    var r = line.split(/(\s*%(?:{.*?}|(?:\.|[\w-]+(?:\.[\w-]+)*)(?:#[\w-]+)?(?:\(\))?))/);
+yate.codetemplates._evalLine = function(lang, line, data) {
+    var r = line.split(/(\s*%{.*?})/);
 
     for (var i = 1, l = r.length; i < l; i += 2) {
-        r[i] = yate.codetemplates._evalMacro(lang, r[i], data, asPredicate);
+        r[i] = yate.codetemplates._evalMacro(lang, r[i], data);
     }
 
     return r.join('')
@@ -196,15 +195,9 @@ yate.codetemplates._evalLine = function(lang, line, data, asPredicate) {
 
 };
 
-yate.codetemplates._evalMacro = function(lang, macro, data, asPredicate) {
+yate.codetemplates._evalMacro = function(lang, macro, data) {
 
-    // %{Foo} -> %Foo
-    var r = /^(\s*)%{(.*)}$/.exec(macro);
-    if (r) {
-        macro = r[1] + '%' + r[2];
-    }
-
-    r = /^(\s*)%(\.|[\w-]+(?:\.[\w-]+)*)(?:#([\w-]+))?(\(\))?$/.exec(macro);
+    r = /^(\s*)%{\s*(\.|[\w-]+(?:\.[\w-]+)*)(\(\))?\s*(?::([\w-]+))?\s*}$/.exec(macro);
 
     if (!r) {
         console.log('MACRO ERROR', macro);
@@ -213,8 +206,8 @@ yate.codetemplates._evalMacro = function(lang, macro, data, asPredicate) {
 
     var spaces = r[1];
     var path = r[2].split('.');
-    var mode = r[3];
-    var call = r[4];
+    var call = r[3];
+    var mode = r[4];
 
     if (call) {
         call = path.pop();
@@ -234,18 +227,12 @@ yate.codetemplates._evalMacro = function(lang, macro, data, asPredicate) {
     if (typeof value == 'object') {
         if (call) {
             value = value[call]();
-        } else if (asPredicate) {
-            value = true;
         } else {
             value = value.code(lang, mode);
         }
     }
 
-    if (asPredicate) {
-        return JSON.stringify(value);
-    } else {
-        return (value !== '') ? spaces + value : '';
-    }
+    return (value !== '') ? spaces + value : '';
 
 };
 
