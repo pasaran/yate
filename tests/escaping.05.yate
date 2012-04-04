@@ -1,0 +1,12 @@
+var = "<"
+var2 = "&"
+match / {
+    <tag a="<" b="{var}">
+        @c=var
+    </>
+    <tag a="&" b="{var2}">
+        @c=var2
+    </>
+    <tag a="<" b="{var}"/>
+    <tag a="&" b="{var2}"/>
+}
