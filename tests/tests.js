@@ -144,14 +144,21 @@ module.exports = [
                 result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
             },
             {
+                description: 'escape xml text',
+                yate: 'escaping.03.yate',
+                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
+            },
+            {
                 description: 'escape text inside interpolation',
                 yate: 'escaping.04.yate',
                 result: '&lt;b&gt;Some &amp;text&lt;/b&gt;'
             },
             {
-                description: 'escape xml text',
-                yate: 'escaping.03.yate',
-                result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
+                description: 'attributes overescaping',
+                yate: 'escaping.05.yate',
+                result: '<tag a="&lt;" b="&lt;" c="&lt;"></tag><tag a="&amp;" b="&amp;" c="&amp;"></tag>'+
+                        '<tag a="&lt;" b="&lt;"></tag><tag a="&amp;" b="&amp;"></tag>',
+                known: true
             },
         ]
     },
