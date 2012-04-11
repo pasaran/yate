@@ -35,13 +35,13 @@ yate.AST.inline_function.prepare = function() {
     } else if (def.Type == yate.AST.function_type.INTERNAL) {
         var argTypes = def._argTypes;
         for (var i = 0, l = args.length; i < l; i++) {
-            args[0].cast( argTypes[i] || 'scalar' );
+            args[i].cast( argTypes[i] || 'scalar' );
         }
 
     } else if (def.Type == yate.AST.function_type.USER) {
         var defArgs = def.Args.Items;
         for (var i = 0, l = args.length; i < l; i++) {
-            args[0].cast( defArgs[i].Typedef || 'scalar' );
+            args[i].cast( defArgs[i].Typedef || 'scalar' );
         }
 
     }
