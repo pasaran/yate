@@ -1,12 +1,17 @@
-var = "<"
-var2 = "&"
+lt = "<"
+amp = "&"
+
 match / {
-    <tag a="<" b="{var}">
-        @c=var
+    <tag a="<" b="{ lt }">
+        @c = lt
     </>
-    <tag a="&" b="{var2}">
-        @c=var2
+
+    <tag a="&" b="{ amp }">
+        @c = amp
     </>
-    <tag a="<" b="{var}"/>
-    <tag a="&" b="{var2}"/>
+
+    <tag a="<" b="{ lt }"/>
+
+    <tag a="&" b="{ amp }"/>
 }
+
