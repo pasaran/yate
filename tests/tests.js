@@ -156,10 +156,14 @@ module.exports = [
             {
                 description: 'attributes overescaping',
                 yate: 'escaping.05.yate',
-                result: '<tag a="&lt;" b="&lt;" c="&lt;"></tag><tag a="&amp;" b="&amp;" c="&amp;"></tag>'+
-                        '<tag a="&lt;" b="&lt;"></tag><tag a="&amp;" b="&amp;"></tag>',
-                known: true
+                result: '<tag a="&lt;" b="&lt;" c="&lt;"></tag><tag a="&amp;" b="&amp;" c="&amp;"></tag>' +
+                        '<tag a="&lt;" b="&lt;"></tag><tag a="&amp;" b="&amp;"></tag>'
             },
+            {
+                description: 'escape literal text',
+                yate: 'escaping.06.yate',
+                result: '<div>A &gt; 0 &amp;&amp; B &lt; "0"</div><div>A &gt; 0 &amp;&amp; B &lt; "0"</div>'
+            }
         ]
     },
 
