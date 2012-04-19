@@ -4,11 +4,11 @@
 
 main
 
-    Yater.modules['%Module'] = function(yater, root) {
+    Yater.modules['%{ Module }'] = function(yater, root) {
 
         var vars = new Yater.Vars();
 
-        %Stylesheet
+        %{ Stylesheet }
 
         return matcher;
 
@@ -24,11 +24,11 @@ main
 
 stylesheet
 
-    %Block#defs
+    %{ Block :defs }
 
-    %Block.Templates#defs
+    %{ Block.Templates :defs }
 
-    %Block#matcher
+    %{ Block :matcher }
 
 
 
@@ -38,175 +38,172 @@ stylesheet
 
 // template.
 
-template #defs
+template :defs
 
-    // match %Selector#yate %Mode#yate
-    var t%Tid = {
-        jpath: %Selector#selector_ref,
-        body: %.
+    // match %{ Selector :yate } %{ Mode :yate }
+    var t%{ Tid } = {
+        jpath: %{ Selector :selector_ref },
+        body: %{ . }
     };
 
 
 template
 
-    function(c%Cid, a%Rid, index, count%Args) {
-        %Args#defaults
-        %.#prologue
+    function(c%{ Cid }, a%{ Rid }, index, count %{ Args }) {
+        %{ Args :defaults }
+        %{ . :prologue }
 
-        %Body#output
+        %{ Body :output }
 
-        return r%Rid;
+        return r%{ Rid };
     }
 
-//template #prologue [ %type() == 'array' ]
+//template :prologue [ this.type() === 'array' ]
 //
-//    var r%Rid = [];
+//    var r%{ Rid } = [];
 //
-//template #prologue [ %type() == 'object' ]
+//template :prologue [ this.type() === 'object' ]
 //
-//    var r%Rid = {};
+//    var r%{ Rid } = {};
 
-template #prologue
+template :prologue
 
-    var r%Rid = '';
+    var r%{ Rid } = '';
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // function_
 
-function_ #defs
+function_ :defs
 
-    // %Name
-    function f%Fid(c%Cid, a%Rid, index, count%Args) {
-        %Args#defaults
-        %.#prologue
+    // %{ Name }
+    function f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count %{ Args }) {
+        %{ Args :defaults }
+        %{ . :prologue }
 
-        %Body#output
+        %{ Body :output }
 
-        return r%Rid;
+        return r%{ Rid };
     }
 
-function_ #prologue [ %type() == 'nodeset' ]
+function_ :prologue [ this.type() === 'nodeset' ]
 
-    var r%Rid = [];
+    var r%{ Rid } = [];
 
-function_ #prologue [ %type() == 'boolean' ]
+function_ :prologue [ this.type() == 'boolean' ]
 
-    var r%Rid = false;
+    var r%{ Rid } = false;
 
-function_ #prologue
+function_ :prologue
 
-    var r%Rid = '';
+    var r%{ Rid } = '';
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
-body #output
+body :output
 
-    %Block#output
+    %{ Block :output }
 
-block#output
+block :output
 
-    %.#defs
+    %{ . :defs }
 
-    %Exprs#output
+    %{ Exprs :output }
 
-* #prologue [ %type() == 'nodeset' ]
+* :prologue [ this.type() === 'nodeset' ]
 
-    var r%Rid = [];
+    var r%{ Rid } = [];
 
-* #prologue [ %type() == 'boolean' ]
+* :prologue [ this.type() === 'boolean' ]
 
-    var r%Rid = false;
+    var r%{ Rid } = false;
 
-* #prologue
+* :prologue
 
-    var r%Rid = '';
-    var a%Rid = { attrs: {} };
-
-
-
+    var r%{ Rid } = '';
+    var a%{ Rid } = { attrs: {} };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-var_ #defs [ %Value.inline() && %Lazy ]
+var_ :defs [ this.Value.inline() && this.Lazy ]
 
-    vars.add("v%Vid", function(c0) { return %Value; });
+    vars.add("v%{ Vid }", function(c0) { return %{ Value }; });
 
-var_ #defs [ %Value.inline() ]
+var_ :defs [ this.Value.inline() ]
 
-    var v%Vid = %Value;
+    var v%{ Vid } = %{ Value };
 
-var_ #defs [ %Value.type() == 'attr' && %Lazy ]
+var_ :defs [ this.Value.type() === 'attr' && this.Lazy ]
 
-    vars.add("v%Vid", function(c0) {
-        %Value#prologue
-        %Value#output
-        return a%{Value.Rid}.attrs;
+    vars.add("v%{ Vid }", function(c0) {
+        %{ Value :prologue }
+        %{ Value :output }
+        return a%{ Value.Rid }.attrs;
     });
 
-var_ #defs [ %Value.type() == 'attr' ]
+var_ :defs [ this.Value.type() === 'attr' ]
 
-    %Value#prologue
-    %Value#output
-    var v%Vid = a%{Value.Rid}.attrs;
+    %{ Value :prologue }
+    %{ Value :output }
+    var v%{ Vid } = a%{ Value.Rid }.attrs;
 
-var_ #defs [ %Lazy ]
+var_ :defs [ this.Lazy ]
 
-    vars.add("v%Vid", function(c0) {
-        %Value#prologue
-        %Value#output
-        return r%Value.Rid;
+    vars.add("v%{ Vid }", function(c0) {
+        %{ Value :prologue }
+        %{ Value :output }
+        return r%{ Value.Rid };
     });
 
-var_ #defs
+var_ :defs
 
-    %Value#prologue
-    %Value#output
-    var v%Vid = r%Value.Rid;
+    %{ Value :prologue }
+    %{ Value :output }
+    var v%{ Vid } = r%{ Value.Rid };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key #defs
+key :defs
 
-    var k%{Kid}_nodes;
-    var k%{Kid}_values = {};
-    var k%{Kid}_get = function(key) {
-        var value = k%{Kid}_values[key];
+    var k%{ Kid }_nodes;
+    var k%{ Kid }_values = {};
+    var k%{ Kid }_get = function(key) {
+        var value = k%{ Kid }_values[key];
         if (!value) {
-            var c%Cid = k%{Kid}_nodes[key];
-            if (c%Cid) {
-                %Body.Block#prologue
-                %Body#output
-                value = r%Body.Block.Rid;
+            var c%{ Cid } = k%{ Kid }_nodes[key];
+            if (c%{ Cid }) {
+                %{ Body.Block :prologue }
+                %{ Body :output }
+                value = r%{ Body.Block.Rid };
             }
             if (value) {
-                k%{Kid}_values[key] = value;
+                k%{ Kid }_values[key] = value;
             }
         }
         return value || [];
     };
-    var k%{Kid} = function(key) {
-        if (!k%{Kid}_nodes) {
-            var c%Cid = root[0]; // FIXME: Сделать root[0] отдельной переменной.
-            var nodes = %Nodes;
-            k%{Kid}_nodes = {};
+    var k%{ Kid } = function(key) {
+        if (!k%{ Kid }_nodes) {
+            var c%{ Cid } = root[0]; // FIXME: Сделать root[0] отдельной переменной.
+            var nodes = %{ Nodes };
+            k%{ Kid }_nodes = {};
             for (var i = 0, l = nodes.length; i < l; i++) {
-                var c%Use.Cid = nodes[i];
-                var useNodes = %Use;
+                var c%{ Use.Cid }= nodes[i];
+                var useNodes = %{ Use };
                 for (var j = 0, m = useNodes.length; j < m; j++) {
-                    k%{Kid}_nodes[ yater.nodeValue(useNodes[j]) ] = c%Use.Cid;
+                    k%{ Kid }_nodes[ yater.nodeValue(useNodes[j]) ] = c%{ Use.Cid };
                 }
             }
 
-            k%{Kid} = k%{Kid}_get;
+            k%{ Kid } = k%{ Kid }_get;
         }
 
-        return k%{Kid}_get(key);
+        return k%{ Kid }_get(key);
     };
 
 
@@ -215,90 +212,94 @@ key #defs
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-if_ #output [ %Else ]
+if_ :output [ this.Else ]
 
-    if (%Condition) {
-        %Then#output
+    if (%{ Condition }) {
+        %{ Then :output }
     } else {
-        %Else#output
+        %{ Else :output }
     }
 
-if_ #output
+if_ :output
 
-    if (%Condition) {
-        %Then#output
-    }
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-for_ #output
-
-    var items%Cid = %Selector;
-    for (var i%Cid = 0, l%Cid = items%{Cid}.length; i%Cid < l%Cid; i%Cid++) {
-        var c%Body.Cid = items%Cid[ i%Cid ];
-        %Body#output
+    if (%{ Condition }) {
+        %{ Then :output }
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply #output [ !%Args.empty() ]
+for_ :output
 
-    r%Rid += yater.applyValue(%Expr, %Mode#string, a%Rid);
-
-apply #output
-
-    r%Rid += yater.applyValue(%Expr, %Mode#string, a%Rid, %Args);
-
-template_mode #string
-
-    '%Value'
+    var items%{ Cid } = %{ Selector };
+    for (var i%{ Cid } = 0, l%{ Cid } = items%{ Cid }.length; i%{ Cid } < l%{ Cid }; i%{ Cid }++) {
+        var c%{ Body.Cid } = items%{ Cid }[ i%{ Cid } ];
+        %{ Body :output }
+    }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-xml_attr #open
+apply :output [ this.Args && !this.Args.empty() ]
 
-    '%Name': %Value
+    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode: string }, a%{ Rid }, %{ Args });
 
-xml_line #output
+apply :output
 
-    r%Rid += %.#content;
+    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid });
+
+template_mode :string
+
+    '%{ Value }'
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+xml_attr :open
+
+    '%{ Name }': %{ Value }
+
+xml_line :output
+
+    r%{ Rid } += %{ . :content };
+
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // FIXME: Закэшировать a0.attrs в отдельную переменную.
-attr #output [ %Value.inline() && %Op == '+=' ]
-    a%{Rid}.attrs['%Name'] = (a%{Rid}.attrs['%Name'] || '') + %Value;
+attr :output [ this.Value.inline() && this.Op === '+=' ]
+    a%{ Rid }.attrs['%{ Name }'] = (a%{ Rid }.attrs['%{ Name }'] || '') + %{ Value };
 
-attr #output [ %Value.inline() ]
-    a%{Rid}.attrs['%Name'] %Op %Value;
+attr :output [ this.Value.inline() ]
+    a%{ Rid }.attrs['%{ Name }'] %{ Op } %{ Value };
 
-attr #output [ %Op == '+=' ]
+attr :output [ this.Op === '+=' ]
 
-    %Value#prologue
-    %Value#output
-    a%{Rid}.attrs['%Name'] = (a%{Rid}.attrs['%Name'] || '') + r%Value.Rid;
+    %{ Value :prologue }
+    %{ Value :output }
+    a%{ Rid }.attrs['%{ Name }'] = (a%{ Rid }.attrs['%{ Name }'] || '') + r%{ Value.Rid };
 
-attr #output
+attr :output
 
-    %Value#prologue
-    %Value#output
-    a%{Rid}.attrs['%Name'] %Op r%Value.Rid;
+    %{ Value :prologue }
+    %{ Value :output }
+    a%{ Rid }.attrs['%{ Name }'] %{ Op } r%{ Value.Rid };
 
-attrs_close #output
-    r%Rid += yater.closeAttrs(a%Rid);
+attrs_close :output
+    r%{ Rid } += yater.closeAttrs(a%{ Rid });
 
-attrs_open#output
+attrs_open :output
 
-    a%{Rid}.attrs = {
-        %Attrs#open
+    a%{ Rid }.attrs = {
+        %{ Attrs :open }
     };
-    a%{Rid}.start = '%Name';
+    a%{ Rid }.start = '%{ Name }';
+
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-scalar#output
+scalar :output
 
-    %Block#output
+    %{ Block :output }
 
 
 
@@ -312,67 +313,67 @@ root
 
 // Для jpath выводим имя его переменной, для root -- null.
 
-root #selector_ref
+root :selector_ref
 
     null
 
-jpath #selector_ref
+jpath :selector_ref
 
-    j%Jid
+    j%{ Jid }
 
-jpath [ %yate() == '.' ]
+jpath [ this.yate() === '.' ]
 
-    [ c%Cid ]
+    [ c%{ Cid } ]
 
 jpath
 
-    yater.select(j%Jid, c%Cid)
+    yater.select(j%{ Jid }, c%{ Cid })
 
-jpath_predicate #defs
+jpath_predicate :defs
 
-    // %Key
-    function p%Pid(c%Cid, index, count) {
-        return %Expr;
+    // %{ Key }
+    function p%{ Pid }(c%{ Cid }, index, count) {
+        return %{ Expr };
     };
 
-jpath #defs
+jpath :defs
 
-    var j%Jid = %.#compiled; // %Key
+    var j%{ Jid } = %{ . :compiled }; // %{ Key }
 
-jpath #compiled
+jpath :compiled
 
-    [ %Steps#compiled ]
+    [ %{ Steps :compiled } ]
 
-jpath_nametest #compiled
+jpath_nametest :compiled
 
-    0, "%Name"
+    0, "%{ Name }"
 
-jpath_dots #compiled
+jpath_dots :compiled
 
-    1, %Length
+    1, %{ Length }
 
-jpath_predicate #compiled [ %isLocal() ]
+jpath_predicate :compiled [ this.isLocal() ]
 
-    2, p%Pid
+    2, p%{ Pid }
 
-jpath_predicate #compiled
+jpath_predicate :compiled
 
-    3, %Expr
+    3, %{ Expr }
 
 // FIXME: Переименовать в inline_filter
 jpath_filter
 
-    yater.select(j%JPath.Jid, %Expr)
+    yater.select(j%{ JPath.Jid }, %{ Expr })
 
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 arglist_item
-    , v%Vid
+    , v%{ Vid }
 
-arglist_item #defaults [ %Default ]
-    v%Vid = v%Vid || %Default;
+arglist_item :defaults [ this.Default ]
+    v%{ Vid } = v%{ Vid } || %{ Default };
 
 
 
@@ -380,108 +381,112 @@ arglist_item #defaults [ %Default ]
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var #inline_output [ %type() == 'attr' && %def.Lazy ]
-    yater.copyAttrs( a%{Rid}.attrs, vars.get("v%def.Vid", c%Cid) );
+inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
+    yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
 
-inline_var #inline_output [ %type() == 'attr' ]
-    yater.copyAttrs(a%{Rid}.attrs, v%def.Vid);
+inline_var :inline_output [ this.type() === 'attr' ]
+    yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
 
-* #inline_output [ ( %type() == 'nodeset' || %type() == 'boolean' ) && !%AsType ]
+* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
 
-    r%Rid = %.;
+    r%{ Rid } = %{ . };
 
-* #inline_output
+* :inline_output
 
-    r%Rid += %.;
+    r%{ Rid } += %{ . };
 
 inline_or
-    %Left || %Right
+    %{ Left } || %{ Right }
 
 inline_and
-    %Left && %Right
+    %{ Left } && %{ Right }
 
 inline_not
-    !%Left
+    !%{ Left }
 
 inline_eq
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_rel
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_add
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_mul
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_unary
-    -%Expr
+    -%{ Expr }
 
 inline_union
-    (%Left).concat(%Right)
+    (%{ Left }).concat(%{ Right })
 
 inline_complex
-    (%Expr)
+    (%{ Expr })
+
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_function [ %External ]
-    (Yater.externals['%Name'])(%Args)
+inline_function [ this.External ]
+    (Yater.externals['%{ Name }'])(%{ Args })
 
-inline_function [ %Kid !== '' ]
-    k%Kid(%Args, root)
+inline_function [ this.Kid != null ]
+    k%{ Kid }(%{ Args }, root)
 
-inline_function [ %Fid !== '' && !%Args.empty() ]
-    f%Fid(c%Cid, a%Rid, index, count, %Args)
+inline_function [ this.Fid != null && !this.Args.empty() ]
+    f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count, %{ Args })
 
-inline_function [ %Fid !== '' ]
-    f%Fid(c%Cid, a%Rid, index, count)
+inline_function [ this.Fid != null ]
+    f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count)
+
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // FIXME: Заменить на inline_function_true и т.д.
 
-inline_function [ %Name == 'true' ]
+inline_function [ this.Name === 'true' ]
     true
 
-inline_function [ %Name == 'false' ]
+inline_function [ this.Name === 'false' ]
     false
 
-inline_function [ %Name == 'name' ]
-    c%{Cid}.name
+inline_function [ this.Name === 'name' ]
+    c%{ Cid }.name
 
-inline_function [ %Name == 'index' ]
+inline_function [ this.Name === 'index' ]
     index
 
-inline_function [ %Name == 'count' ]
+inline_function [ this.Name === 'count' ]
     count
 
-inline_function [ %Name == 'slice' ]
-    yater.slice(%Args)
+inline_function [ this.Name === 'slice' ]
+    yater.slice(%{ Args })
 
-inline_function [ %Name == 'html' ]
-    %Args
+inline_function [ this.Name === 'html' ]
+    %{ Args }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ %def.Lazy ]
-    vars.get("v%def.Vid", c%Cid)
+inline_var [ this.def.Lazy ]
+    vars.get("v%{ def.Vid }", c%{ Cid })
 
 inline_var
-    v%def.Vid
+    v%{ def.Vid }
 
 inline_number
-    %Value
+    %{ Value }
 
 inline_string
-    %Value
+    %{ Value }
 
 string_expr
-    %Expr
+    %{ Expr }
 
 string_literal
-    %stringify()
+    %{ stringify() }
 
 
 
@@ -489,21 +494,21 @@ string_literal
 // cast and quote
 // ----------------------------------------------------------------------------------------------------------------- //
 
-cast [ %From == 'nodeset' && (%To == 'scalar' || %To == 'xml' || %To == 'attrvalue' || %To == 'boolean') ]
-    yater.nodeset2%To( %Expr )
+cast [ this.From === 'nodeset' && (this.To === 'scalar' || this.To === 'xml' || this.To === 'attrvalue' || this.To === 'boolean') ]
+    yater.nodeset2%{ To }( %{ Expr } )
 
-cast [ %From == 'scalar' && (%To == 'xml' || %To == 'attrvalue') ]
-    yater.scalar2%To( %Expr )
+cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
+    yater.scalar2%{ To }( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
-cast [ %From == 'scalar' && %To == 'boolean' ]
-    %Expr
+cast [ this.From === 'scalar' && this.To === 'boolean' ]
+    %{ Expr }
 
 cast
-    %Expr
+    %{ Expr }
 
 quote
-    yater.%{Mode}Quote(%Expr)
+    yater.%{ Mode }Quote(%{ Expr })
 
 
 
@@ -511,8 +516,8 @@ quote
 // misc
 // ----------------------------------------------------------------------------------------------------------------- //
 
-* #yate
-    %yate()
+* :yate
+    %{ yate() }
 
 
 // vim: set filetype=javascript:

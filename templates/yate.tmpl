@@ -1,20 +1,20 @@
 stylesheet
 
-    %Block
+    %{ Block }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-template [ %Args ]
+template [ this.Args ]
 
-    match %Selector %Mode (%Args) %Body
+    match %{ Selector } %{ Mode } (%{ Args }) %{ Body }
 
 template
 
-    match %Selector %Mode %Body
+    match %{ Selector } %{ Mode } %{ Body }
 
-template_mode [ %Value != '' ]
+template_mode [ this.Value ]
 
-    #%Value
+    %{ Value }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -24,195 +24,198 @@ root
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function_ [ %Args ]
+function_ [ this.Args ]
 
-    func %Name(%Args) %Body
+    func %{ Name }(%{ Args }) %{ Body }
 
 function_
 
-    func %Name %Body
+    func %{ Name } %{ Body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 key
 
-    key %Name (%Nodes, %Use) %Body
+    key %{ Name } (%{ Nodes }, %{ Use }) %{ Body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-arglist_item [ %Default ]
+arglist_item [ this.Default ]
 
-    %Typedef %Name = %Default
+    %{ Typedef } %{ Name } = %{ Default }
 
 arglist_item
 
-    %Typedef %Name
+    %{ Typedef } %{ Name }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 var_
 
-    %Name = %Value
+    %{ Name } = %{ Value }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-body [ %AsList ]
+body [ this.AsList ]
 
     [
-        %Block
+        %{ Block }
     ]
 
 body
 
     {
-        %Block
+        %{ Block }
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 block
 
-    %Defs
+    %{ Defs }
 
-    %Templates
+    %{ Templates }
 
-    %Exprs
+    %{ Exprs }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-if_ [ %Else ]
+if_ [ this.Else ]
 
-    if %Condition %Then else %Else
+    if %{ Condition } %{ Then } else %{ Else }
 
 if_
 
-    if %Condition %Then
+    if %{ Condition } %{ Then }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 for_
 
-    for %Expr %Body
+    for %{ Expr } %{ Body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply [ %Args ]
+apply [ this.Args ]
 
-    apply %Expr %Mode (%Args)
+    apply %{ Expr } %{ Mode } (%{ Args })
 
 apply
 
-    apply %Expr %Mode
+    apply %{ Expr } %{ Mode }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 attr
 
-    @%Name %Op %Value
+    @%{ Name } %{ Op } %{ Value }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_or
-    %Left || %Right
+    %{ Left } || %{ Right }
 
 inline_and
-    %Left && %Right
+    %{ Left } && %{ Right }
 
 inline_not
-    !%Left
+    !%{ Left }
 
 inline_eq
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_rel
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_add
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_mul
-    %Left %Op %Right
+    %{ Left } %{ Op } %{ Right }
 
 inline_unary
-    -%Expr
+    -%{ Expr }
 
 inline_union
-    %Left | %Right
+    %{ Left } | %{ Right }
 
 inline_complex
-    ( %Expr )
+    ( %{ Expr } )
 
 inline_function
-    %Name(%Args)
+    %{ Name }(%{ Args })
 
 inline_number
-    %Value
+    %{ Value }
 
 inline_var
-    %Name
+    %{ Name }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 jpath
-    %Steps
+    %{ Steps }
 
 jpath_dots
-    %Dots
+    %{ Dots }
 
 jpath_nametest
-    .%Name%Predicates
+    .%{ Name }%{ Predicates }
 
 jpath_predicate
-    [ %Expr ]
+    [ %{ Expr } ]
 
 jpath_filter
-    %Expr%JPath
+    %{ Expr }%{ JPath }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 xml_empty
-    <%Name%Attrs/>
+    <%{ Name }%{ Attrs }/>
 
 xml_start
-    <%Name%Attrs>
+    <%{ Name }%{ Attrs }>
 
 xml_end
-    </%Name>
+    </%{ Name }>
 
 xml_text
-    %Text
+    %{ Text }
 
 xml_attr
-    \ %Name=%Value
+    \ %{ Name }=%{ Value }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_string
-    "%Value"
+    "%{ Value }"
 
 string_expr
-    { %Expr }
+    { %{ Expr } }
 
 string_literal
-    %Value
+    %{ Value }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 scalar
     (
-        %Block
+        %{ Block }
     )
 
 pair
-    %Key : %Value
+    %{ Key } : %{ Value }
 
 array
     [
-        %Block
+        %{ Block }
     ]
 
 object
     {
-        %Block
+        %{ Block }
     }
+
+
+// vim: set filetype=javascript:
 
