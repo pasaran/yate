@@ -126,6 +126,12 @@ module.exports = [
                 result: '<div class="b-hello">Hello</div>',
                 known: true
             },
+            {
+                description: 'missed nodeset2scalar for attribute',
+                yate: 'attributes.15.yate',
+                result: '<div id="33662468" class="b-hello">Hello</div>',
+                known: true
+            },
 
         ]
     },
