@@ -1,0 +1,9 @@
+text = "Hello A & B. I &hearts;&nbsp;NY."
+
+match / {
+    <div title="{ text }" subtitle="Hello A & B. I &hearts;&nbsp;NY.">
+        "Hello A & B. I &hearts;&nbsp;NY."
+        text
+    </div>
+}
+

@@ -168,7 +168,12 @@ module.exports = [
                 description: 'escape literal text',
                 yate: 'escaping.06.yate',
                 result: '<div>A &gt; 0 &amp;&amp; B &lt; "0"</div><div>A &gt; 0 &amp;&amp; B &lt; "0"</div>'
-            }
+            },
+            {
+                description: "don't escape html-entities",
+                yate: 'escaping.07.yate',
+                result: '<div title="Hello A &amp; B. I &hearts;&nbsp;NY." subtitle="Hello A &amp; B. I &hearts;&nbsp;NY.">Hello A &amp; B. I &hearts;&nbsp;NY.Hello A &amp; B. I &hearts;&nbsp;NY.</div>'
+            },
         ]
     },
 
