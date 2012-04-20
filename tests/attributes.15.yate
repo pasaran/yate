@@ -1,0 +1,6 @@
+match / {
+    <div id="{.id}">
+        @class = "b-hello"
+        "Hello"
+    </div>
+}
