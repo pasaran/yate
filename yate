@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
-require('colors');
-var nopt = require('nopt');
+var fs_ = require('fs');
+var vm_ = require('vm');
 
-var yate = require('./yatelib.js');
+require('colors');
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var nopt = require('nopt');
 
 var parsed = nopt({
     'ast': Boolean,
@@ -27,21 +31,155 @@ if (!template) {
     return 10;
 }
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var Parser = require('./lib/parser.js');
+
+var AST = require('./lib/ast.js');
+var requireAll = require('require-all');
+requireAll('./lib/ast/');
+requireAll('./lib/ast/js/');
+requireAll('./lib/ast/yate/');
+
+var Grammar = require('./lib/grammar.js');
+var yateGrammar = require('./lib/yate-grammar.js');
+yate.grammar = new Grammar(yateGrammar);
+
+var codetemplates = require('./lib/codetemplates.js');
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+
 if (parsed.ast) {
-    var ast = yate.parse(template);
-    console.log( yate.walk(ast).toString() );
+    var ast = parse(template);
+    console.log( walk(ast).toString() );
 
 } else if (parsed.print) {
-    var ast = yate.parse(template);
+    var ast = parse(template);
     console.log( ast.yate() );
 
 } else if (data) {
-    console.log( yate.run(template, data, externals, mode) );
+    console.log( run(template, data, externals, mode) );
 
 } else {
-    console.log( yate.compile(template, module) );
+    console.log( compile(template, module) );
 
 }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+function parse(filename) {
+    var parser = new Parser(yate.grammar);
+    parser.read(filename);
+
+    // console.time('parse');
+    var ast = parser.match('stylesheet');
+    // console.timeEnd('parse');
+
+    return ast;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+function walk(ast) {
+
+    // Фазы-проходы по дереву:
+
+    // console.time('walking');
+
+    // 0. Каждой ноде выставляется поле parent,
+    //    кроме того, создается (или наследуются от parent'а) scope.
+    ast.setParents();
+
+    ast.walkBefore(function(ast) {
+        ast.setScope()
+    });
+
+    // 1. Действие над каждой нодой в ast, не выходящее за рамки этой ноды и ее state/scope/context.
+    ast.walkBefore(function(ast) {
+        ast.action();
+    });
+
+    // 2. Оптимизация дерева. Группировка нод, перестановка, замена и т.д.
+    // ast.trigger('optimize');
+
+    // 3. Валидация. Проверяем типы, определенность переменных/функций и т.д.
+    ast.walkBefore(function(ast) {
+        ast.validate();
+    });
+
+    ast.walkBefore(function(ast) {
+        ast.setTypes();
+    });
+
+    // Важно! Только после этого момента разрешается вызывать метод type() у нод.
+    // В фазах 0-3 он никогда не должен вызываться.
+
+    // 4. Вытаскиваем определения (vars, funcs, jpaths, predicates, keys) в правильном порядке.
+    ast.walkAfter(function(ast) {
+        ast.extractDefs();
+    });
+
+    // 5. Подготовка к кодогенерации.
+    ast.walkBefore(function(ast) {
+        ast.prepare();
+    });
+
+    ast.walkAfter(function(ast, params, pKey, pObject) {
+        if (pKey && pObject) {
+            var ast_ = ast.transform();
+            if (ast_) {
+                pObject[pKey] = ast_;
+            }
+        }
+    });
+
+    return ast;
+};
+
+function compile(filename, module) {
+    // console.timeEnd('walking');
+
+    var ast = parse(filename);
+    ast = walk(ast);
+
+    // console.time('codegen');
+    var js = codetemplates('js', 'main', '', {
+        Stylesheet: ast,
+        Module: module || 'default'
+    });
+    // console.timeEnd('codegen');
+
+    return js;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+function run(yate_filename, data_filename, ext_filename, mode) {
+
+    // Читаем runtime.
+    var js = fs_.readFileSync( __dirname + '/lib/runtime.js', 'utf-8');
+
+    // Добавляем внешние функции, если есть.
+    if (ext_filename) {
+        js += fs_.readFileSync( ext_filename, 'utf-8' );
+    }
+
+    // Добавляем скомпилированные шаблоны.
+    js += yate.compile( yate_filename );
+
+    js += 'var data = ' + fs_.readFileSync( data_filename, 'utf-8' ) + ';';
+
+    mode = mode || '';
+    js += 'Yater.run(data, null, "' + mode + '");';
+
+    var result = vm_.runInNewContext(js, {
+        console: console
+    });
+
+    return result;
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 // vim: set filetype=javascript:
 
