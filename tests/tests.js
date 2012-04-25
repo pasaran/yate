@@ -172,7 +172,10 @@ module.exports = [
             {
                 description: "don't escape html-entities",
                 yate: 'escaping.07.yate',
-                result: '<div title="Hello A &amp; B. I &hearts;&nbsp;NY." subtitle="Hello A &amp; B. I &hearts;&nbsp;NY.">Hello A &amp; B. I &hearts;&nbsp;NY.Hello A &amp; B. I &hearts;&nbsp;NY.</div>'
+                result: '<div title="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3." ' +
+                        'subtitle="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.">' +
+                        'Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.' +
+                        'Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.</div>'
             },
         ]
     },
