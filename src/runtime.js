@@ -235,7 +235,7 @@ Yater.prototype.nodeset2attrvalue = function(nodeset) {
 Yater.prototype.scalar2xml = function(scalar) {
     return scalar
         .toString()
-        .replace(/&(?![A-Za-z]\w+;)/g, '&amp;')
+        .replace(/&(?!([A-Za-z]\w+|#[0-9]+|#x[A-Fa-f0-9]+);)/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 };
@@ -243,7 +243,7 @@ Yater.prototype.scalar2xml = function(scalar) {
 Yater.prototype.scalar2attrvalue = function(scalar) {
     return scalar
         .toString()
-        .replace(/&(?![A-Za-z]\w+;)/g, '&amp;')
+        .replace(/&(?!([A-Za-z]\w+|#[0-9]+|#x[A-Fa-f0-9]+);)/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
@@ -294,7 +294,7 @@ Yater.prototype.copyAttrs = function(to, from) {
 Yater.prototype.attrQuote = function(s) {
     if (!s) { return ''; }
     s = s.toString();
-    s = s.replace(/&(?![A-Za-z]\w+;)/g, '&amp;');
+    s = s.replace(/&(?!([A-Za-z]\w+|#[0-9]+|#x[A-Fa-f0-9]+);)/g, '&amp;');
     s = s.replace(/</g, '&lt;');
     s = s.replace(/>/g, '&gt;');
     s = s.replace(/"/g, '&quot;');
@@ -304,7 +304,7 @@ Yater.prototype.attrQuote = function(s) {
 Yater.prototype.textQuote = function(s) {
     if (!s) { return ''; }
     s = s.toString();
-    s = s.replace(/&(?![A-Za-z]\w+;)/g, '&amp;');
+    s = s.replace(/&(?!([A-Za-z]\w+|#[0-9]+|#x[A-Fa-f0-9]+);)/g, '&amp;');
     s = s.replace(/</g, '&lt;');
     s = s.replace(/>/g, '&gt;');
     return s;
