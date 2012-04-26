@@ -5,8 +5,6 @@ var vm_ = require('vm');
 
 require('colors');
 
-var requireAll = require('require-all');
-
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 var nopt = require('nopt');
@@ -37,15 +35,11 @@ if (!template) {
 
 var Parser = require('./lib/parser.js');
 var AST = require('./lib/ast.js');
+require('./lib/yate-asts.js');
 
-requireAll('./lib/ast/');
-requireAll('./lib/ast/js/');
-requireAll('./lib/ast/yate/');
+var grammar = require('./lib/yate-grammar.js');
 
-var Grammar = require('./lib/grammar.js');
-var grammar = new Grammar( require('./lib/yate-grammar.js') );
-
-var codetemplates = require('./lib/codetemplates.js');
+var codegen = require('./lib/codegen.js');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
@@ -143,7 +137,7 @@ function compile(filename, module) {
     ast = walk(ast);
 
     // console.time('codegen');
-    var js = codetemplates('js', 'main', '', {
+    var js = codegen('js', 'main', '', {
         Stylesheet: ast,
         Module: module || 'default'
     });
@@ -165,7 +159,7 @@ function run(yate_filename, data_filename, ext_filename, mode) {
     }
 
     // Добавляем скомпилированные шаблоны.
-    js += yate.compile( yate_filename );
+    js += compile( yate_filename );
 
     js += 'var data = ' + fs_.readFileSync( data_filename, 'utf-8' ) + ';';
 
