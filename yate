@@ -34,12 +34,11 @@ if (!template) {
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 var Parser = require('./lib/parser.js');
-var AST = require('./lib/ast.js');
-require('./lib/yate-asts.js');
+var codegen = require('./lib/codegen.js');
 
+var ASTS = require('./lib/yate-asts.js');
 var grammar = require('./lib/yate-grammar.js');
 
-var codegen = require('./lib/codegen.js');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
@@ -62,7 +61,7 @@ if (parsed.ast) {
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 function parse(filename) {
-    var parser = new Parser(grammar);
+    var parser = new Parser(grammar, ASTS);
     parser.read(filename);
 
     // console.time('parse');
