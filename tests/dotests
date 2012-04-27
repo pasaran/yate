@@ -3,7 +3,7 @@
 require('colors');
 
 var fs = require('fs');
-var yate = require('../yatelib.js');
+var yate = require('../lib/yate.js');
 var sections = require('./tests.js');
 
 var defaultData = '01.json';
