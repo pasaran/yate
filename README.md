@@ -51,3 +51,12 @@ Yet Another Template Engine
 
         yate test.yate test.json > test.html
 
+
+Документация
+------------
+
+Пока ее практически нет :)
+Можно прочитать про [базовый синтаксис](https://github.com/pasaran/yate/wiki/syntax)
+и про [синтаксис jpath](https://github.com/pasaran/yate/wiki/jpath).
+
+
