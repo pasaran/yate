@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-require('colors');
-
 var fs = require('fs');
 var yate = require('../lib/yate.js');
 var sections = require('./tests.js');
