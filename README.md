@@ -22,26 +22,32 @@ Yet Another Template Engine
     но общие принципы xslt (pattern matching шаблонов, xpath) должны сохраниться.
 
 
-Building and Installing
------------------------
+Установка
+---------
 
   * Установить [node.js](https://github.com/joyent/node/wiki/Installation).
 
-  * Запустить в корне проекта скрипт `make.sh`. Эта команда сгенерит в корне же файл yatelib.js.
-    Необходимо так же запускать этот скрипт после любых изменений в `src/*`.
+  * Если не планируется разработка `yate`, то:
+
+        npm install -g yate
+
+  * Если предполагается изменять код и т.д., то:
+
+        git clone git@github.com:pasaran/yate.git
+        git clone git@github.com:pasaran/parse-tools.git
+        cd yate
+        npm install nopt
+        npm link ../parse-tools
+
+
+Компиляция
+----------
 
   * Компиляция шаблона запускается так:
 
-        ./yate test.yate > test.js
+        yate test.yate > test.js
 
   * Компиляция и исполнения шаблона:
 
-        ./yate test.yate test.json > test.html
-
-  * В папке examples/mailbox есть довольно развесистый пример:
-
-        cd examples/mailbox
-        ./make.sh
-
-    Файл `mailbox.js.html` — это результат наложения шаблона "на сервере", а `mailbox.html` — на клиенте.
+        yate test.yate test.json > test.html
 
