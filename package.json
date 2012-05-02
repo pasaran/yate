@@ -1,0 +1,31 @@
+{
+    "author": {
+        "name": "Sergey Nikitin",
+        "email": "nik.pasaran@gmail.com",
+        "url": "https://github.com/pasaran"
+    },
+    "name": "yate",
+    "description": "Yet Another Template Engine",
+    "version": "0.0.0",
+    "homepage": "https://github.com/pasaran/yate",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/pasaran/yate.git"
+    },
+    "dependencies": {
+        "nopt": "*",
+        "parse-tools": "*"
+    },
+    "devDependencies": {},
+    "optionalDependencies": {},
+    "engines": {
+        "node": "*"
+    },
+    "bin": "./yate",
+    "files": [
+        "lib",
+        "templates",
+        "yate"
+    ]
+}
+
