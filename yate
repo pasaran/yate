@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-require('colors');
-var nopt = require('nopt');
+var yate = require('./lib/yate.js');
 
-var yate = require('./yatelib.js');
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var nopt = require('nopt');
 
 var parsed = nopt({
     'ast': Boolean,
@@ -27,13 +28,15 @@ if (!template) {
     return 10;
 }
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
 if (parsed.ast) {
     var ast = yate.parse(template);
     console.log( yate.walk(ast).toString() );
 
 } else if (parsed.print) {
     var ast = yate.parse(template);
-    console.log( ast.yate() );
+    console.log( yate.ast.yate() );
 
 } else if (data) {
     console.log( yate.run(template, data, externals, mode) );
@@ -42,6 +45,8 @@ if (parsed.ast) {
     console.log( yate.compile(template, module) );
 
 }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 // vim: set filetype=javascript:
 

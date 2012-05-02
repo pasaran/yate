@@ -1,2 +1,0 @@
-yate.AST.stylesheet = {};
-
