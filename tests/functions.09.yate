@@ -1,4 +1,4 @@
-external nodeset reverse()
+external nodeset reverse( nodeset )
 
 match / {
     <ul>
