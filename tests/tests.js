@@ -134,8 +134,7 @@ module.exports = [
             {
                 description: 'attribute with false value (e.g. 0)',
                 yate: 'attributes.16.yate',
-                result: '<div zero="0">Hello</div>',
-                known: true
+                result: '<div zero="0">Hello</div>'
             },
 
         ]
