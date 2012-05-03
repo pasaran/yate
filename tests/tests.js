@@ -131,6 +131,12 @@ module.exports = [
                 yate: 'attributes.15.yate',
                 result: '<div id="33662468" class="b-hello">Hello</div>'
             },
+            {
+                description: 'attribute with false value (e.g. 0)',
+                yate: 'attributes.16.yate',
+                result: '<div zero="0">Hello</div>',
+                known: true
+            },
 
         ]
     },
