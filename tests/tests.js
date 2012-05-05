@@ -309,8 +309,7 @@ module.exports = [
                 description: 'external function returning attributes',
                 yate: 'functions.13.yate',
                 externals: 'functions.13.js',
-                result: '<div class="b-hello" id="hello">Hello</div>',
-                known: true
+                result: '<div class="b-hello" id="hello">Hello</div>'
             },
             {
                 description: 'functions with the same params',
