@@ -67,7 +67,7 @@ template :prologue
 
 function_ :defs
 
-    // %{ Name }
+    // %{ Name } : %{ type() }
     function f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count %{ Args }) {
         %{ Args :defaults }
         %{ . :prologue }
@@ -419,8 +419,11 @@ inline_complex
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+inline_function [ this.External && !this.Args.empty() ]
+    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, index, count, %{ Args })
+
 inline_function [ this.External ]
-    (Yater.externals['%{ Name }'])(%{ Args })
+    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, index, count)
 
 inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
