@@ -1,11 +1,17 @@
 match / {
     class = apply . class
-    <div class="{class}">
+    title = apply . title
+    <div class="{ class }" title="{ title }">
         "Hello"
     </div>
 }
 
 match / class {
     "b-hello"
+}
+
+match / title {
+    'I &hearts; NY, SF & "Moscow"'
+    .title
 }
 

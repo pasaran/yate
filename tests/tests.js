@@ -123,8 +123,7 @@ module.exports = [
             {
                 description: 'result of apply as an inline attribute\'s value',
                 yate: 'attributes.14.yate',
-                result: '<div class="b-hello">Hello</div>',
-                known: true
+                result: '<div class="b-hello" title="I &hearts; NY, SF &amp; &quot;Moscow&quot;I &hearts; NY, SF &amp; &quot;Moscow&quot;">Hello</div>'
             },
             {
                 description: 'missed nodeset2scalar for attribute',
