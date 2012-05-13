@@ -1,0 +1,8 @@
+func getNode(nodeset nodes) {
+    nodes.node
+}
+
+match / {
+    nodes = getNode(.nodes)
+    nodes[0]
+}
