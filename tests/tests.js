@@ -491,6 +491,11 @@ module.exports = [
                 yate: 'xml.09.yate',
                 result: '<div>Hello</div><div>Hello</div><b><i>nop</i></b>'
             },
+            {
+                description: 'multi-line tag',
+                yate: 'xml.10.yate',
+                result: '<div class="b-hello" id="hello-33662468">Hello</div><div class="b-hello" id="hello-33662468">Hello</div>'
+            },
         ]
     },
 
