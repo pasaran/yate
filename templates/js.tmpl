@@ -287,7 +287,7 @@ attrs_open :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-compound :output
+scalar :output
 
     %{ Block :output }
 
@@ -371,31 +371,19 @@ arglist_item :defaults [ this.Default ]
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
-
-    r%{ Rid } = %{ Value };
-
-value :output [ this.type() === 'attr' ]
-
-    yater.copyAttrs( a%{ Rid }.attrs, %{ Value } );
-
-value :output
-
-    r%{ Rid } += %{ Value };
-
 inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
     yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
 
 inline_var :inline_output [ this.type() === 'attr' ]
     yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
 
-//* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
-//
-//    r%{ Rid } = %{ . };
-//
-//* :inline_output
-//
-//    r%{ Rid } += %{ . };
+* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
+
+    r%{ Rid } = %{ . };
+
+* :inline_output
+
+    r%{ Rid } += %{ . };
 
 inline_or
     %{ Left } || %{ Right }
@@ -424,7 +412,7 @@ inline_unary
 inline_union
     (%{ Left }).concat(%{ Right })
 
-inline_compound
+inline_complex
     (%{ Expr })
 
 
