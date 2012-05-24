@@ -36,7 +36,7 @@ if (parsed.ast) {
 
 } else if (parsed.print) {
     var ast = yate.parse(template);
-    console.log( yate.ast.yate() );
+    console.log( ast.yate() );
 
 } else if (data) {
     console.log( yate.run(template, data, externals, mode) );
