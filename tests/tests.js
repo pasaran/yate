@@ -140,11 +140,6 @@ module.exports = [
                 yate: 'attributes.17.yate',
                 result: '<div id="id-79"></div>'
             },
-            {
-                description: 'line comment after attribute value expression',
-                yate: 'attributes.18.yate',
-                result: '<div id="id-79"></div>'
-            },
         ]
     },
 
@@ -526,6 +521,17 @@ module.exports = [
                 description: 'string concatenation via +',
                 yate: 'misc.01.yate',
                 result: '<h1>Hello, nop</h1>'
+            },
+        ]
+    },
+
+    {
+        title: 'comments',
+        tests: [
+            {
+                description: 'Comment in the end of inline expression',
+                yate: 'comments.01.yate',
+                result: '<div>Hello</div>'
             },
         ]
     },
