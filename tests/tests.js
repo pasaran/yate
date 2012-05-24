@@ -136,9 +136,9 @@ module.exports = [
                 result: '<div zero="0">Hello</div>'
             },
             {
-                description: 'attribute calculation error, when single quote is present in attribute too',
+                description: 'numeric expression inside attribute',
                 yate: 'attributes.17.yate',
-                result: '<div id="\'79"></div>'
+                result: '<div id="id-79"></div>'
             },
         ]
     },
