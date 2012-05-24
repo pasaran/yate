@@ -371,6 +371,10 @@ arglist_item :defaults [ this.Default ]
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
+value
+
+    %{ Value }
+
 value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
 
     r%{ Rid } = %{ Value };
