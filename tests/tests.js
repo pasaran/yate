@@ -140,6 +140,11 @@ module.exports = [
                 yate: 'attributes.17.yate',
                 result: '<div id="id-79"></div>'
             },
+            {
+                description: 'line comment after attribute value expression',
+                yate: 'attributes.18.yate',
+                result: '<div id="id-79"></div>'
+            },
         ]
     },
 
