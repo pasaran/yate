@@ -325,6 +325,12 @@ module.exports = [
                 yate: 'functions.15.yate',
                 result: 'zeroonetwo'
             },
+            {
+                description: 'return value of function saved in variable',
+                yate: 'functions.16.yate',
+                result: 'nop',
+                known: true
+            },
         ]
     },
 

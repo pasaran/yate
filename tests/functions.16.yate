@@ -1,0 +1,9 @@
+func f() {
+    .username
+}
+
+match / {
+    v = f()
+    v
+}
+
