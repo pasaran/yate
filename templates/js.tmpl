@@ -346,6 +346,8 @@ jpath_predicate :defs
 
     // %{ Key }
     function p%{ Pid }(c%{ Cid }, index, count) {
+// FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
+        var a%{ Rid };
         return %{ Expr };
     };
 
