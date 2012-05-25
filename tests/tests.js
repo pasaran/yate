@@ -328,8 +328,7 @@ module.exports = [
             {
                 description: 'return value of function saved in variable',
                 yate: 'functions.16.yate',
-                result: 'nop',
-                known: true
+                result: 'nop'
             },
         ]
     },
