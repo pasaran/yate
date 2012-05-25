@@ -329,6 +329,12 @@ module.exports = [
                 yate: 'functions.16.yate',
                 result: 'nop'
             },
+            {
+                description: 'function in predicate',
+                yate: 'functions.17.yate',
+                result: 'FirstThird',
+                known: true
+            },
         ]
     },
 
