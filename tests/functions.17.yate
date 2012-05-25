@@ -1,0 +1,12 @@
+func f() {
+    .disabled
+}
+match / {
+    apply .items.item[!f()]
+}
+
+match .item {
+    .title
+}
+
+
