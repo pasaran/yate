@@ -306,8 +306,7 @@ module.exports = [
             {
                 description: 'return value of function returning attributes saved in variable',
                 yate: 'functions.12.yate',
-                result: '<div class="b-hello" id="hello">Hello</div>',
-                known: true
+                result: '<div class="b-hello" id="hello">Hello</div>'
             },
             {
                 description: 'external function returning attributes',
