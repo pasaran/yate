@@ -1,3 +1,9 @@
+#   {
+#       "description": "basic arithmetic operations",
+#       "yate": "jpaths.01.yate",
+#       "result": "<div>66</div><div>18</div><div>126</div><div>7</div>"
+#   }
+
 match / {
     <div>{ 42 + 24 }</div>
     <div>{ 42 - 24 }</div>

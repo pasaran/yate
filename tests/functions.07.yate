@@ -1,3 +1,9 @@
+#   {
+#       "description": "function with 2 scalar params, one of them with default value",
+#       "yate": "functions.07.yate",
+#       "result": "66"
+#   }
+
 func add(a, b = 24) {
     a + b
 }

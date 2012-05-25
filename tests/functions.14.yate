@@ -1,3 +1,9 @@
+#   {
+#       "description": "functions with the same params",
+#       "yate": "functions.14.yate",
+#       "result": "<h1>Hello</h1>"
+#   }
+
 func h1(x) {
     <h1>{ x }</h1>
 }

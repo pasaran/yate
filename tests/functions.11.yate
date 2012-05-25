@@ -1,3 +1,9 @@
+#   {
+#       "description": "empty string as function param",
+#       "yate": "functions.11.yate",
+#       "result": "<a href=\"http://www.yandex.ru\">Яндекс</a><a href=\"http://www.yandex.ru\">Яндекс</a><a href=\"http://www.yandex.ru\" class=\"b-link\">Яндекс</a>"
+#   }
+
 match / {
     link("http://www.yandex.ru", "Яндекс")
     link("http://www.yandex.ru", "Яндекс", "")

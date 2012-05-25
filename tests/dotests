@@ -1,53 +1,69 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path');
+
 var yate = require('../lib/yate.js');
-var sections = require('./tests.js');
 
 var defaultData = '01.json';
 
-console.log('');
+var tmpfile = '.test.' + ( +new Date() ) + '.tmp';
+
+var files = fs.readdirSync('.').sort();
+
+var prevSection = '';
 
 var format = '    %s    %s\t%s';
 
-for (var i = 0, l = sections.length; i < l; i++) {
-    var section = sections[i];
-
-    console.log('%s:', section.title.blue);
-
-    var tests = section.tests;
-    for (var j = 0, m = tests.length; j < m; j++) {
-        var test = tests[j];
-
-        var filename = strpad( test.yate );
-
-        var status, desc;
-
-        try {
-            var result = yate.run( test.yate, test.data || defaultData, test.externals );
-
-            status = (result == test.result) ? 'ok' : 'fail';
-            desc = test.description;
-        } catch (e) {
-            status = 'throw';
-            desc = e.message;
-        }
-
-        var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';
-
-        if (status != 'ok') {
-            statusColor = 'red';
-            filenameColor = descColor = 'white';
-        }
-
-        if (test.known) {
-            statusColor = 'yellow';
-        }
-
-        console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
+for (var i = 0, l = files.length; i < l; i++) {
+    var filename = files[i];
+    if ( !/\.yate$/.test(filename) ) {
+        continue;
     }
 
-    console.log('');
+    var section = /^(.*?)\.\d+\.yate$/.exec(filename)[1];
+    if (section !== prevSection) {
+        console.log('');
+    }
+    prevSection = section;
+
+    var test = parseTest( fs.readFileSync(filename, 'utf-8') );
+    var options = test.options;
+
+    var filename = strpad(options.yate);
+
+    fs.writeFileSync(tmpfile, test.yate, 'utf-8');
+
+    var status, desc;
+
+    try {
+        var result = yate.run( tmpfile, options.data || defaultData, options.externals );
+
+        status = (result == options.result) ? 'ok' : 'fail';
+        desc = options.description;
+    } catch (e) {
+        status = 'throw';
+        desc = e.message;
+    }
+
+    var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';
+
+    if (status != 'ok') {
+        statusColor = 'red';
+        filenameColor = descColor = 'white';
+    }
+
+    if (options.known) {
+        statusColor = 'yellow';
+    }
+
+    console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
+}
+
+console.log('\n');
+
+if ( path.existsSync(tmpfile) ) {
+    fs.unlink(tmpfile);
 }
 
 function strpad(s) {
@@ -56,6 +72,21 @@ function strpad(s) {
         return Array(l - 1).join(' ') + s;
     }
     return s;
+}
+
+function parseTest(content) {
+    var options = content.match(/^#.*?$/gm);
+    for (var i = 0, l = options.length; i < l; i++) {
+        options[i] = options[i].replace(/^#\s*/, '');
+    }
+    options = JSON.parse( options.join('\n') );
+
+    var yate = content.match(/^[^#].*?$/gm).join('\n');
+
+    return {
+        yate: yate,
+        options: options
+    };
 }
 
 // vim: set ft=javascript: //

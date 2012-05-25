@@ -1,3 +1,9 @@
+#   {
+#       "description": "single and double quoted strings",
+#       "yate": "strings.04.yate",
+#       "result": "Hello, nopHello, nop"
+#   }
+
 match / {
     "Hello, { .username }"
     'Hello, { .username }'

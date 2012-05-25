@@ -1,3 +1,9 @@
+#   {
+#       "description": "xslt-styled key",
+#       "yate": "keys.01.yate",
+#       "result": "First"
+#   }
+
 key item( .items.item, .id ) {
     .
 }

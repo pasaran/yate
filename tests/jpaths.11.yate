@@ -1,3 +1,9 @@
+#   {
+#       "description": "* selector",
+#       "yate": "jpaths.11.yate",
+#       "result": "blocksappcontentuserleftright"
+#   }
+
 match / {
     apply .blocks walk
 }

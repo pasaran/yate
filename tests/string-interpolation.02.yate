@@ -1,3 +1,9 @@
+#   {
+#       "description": "multiple string interpolations",
+#       "yate": "string-interpolation.02.yate",
+#       "result": "Hello, nop! Your ID is 33662468"
+#   }
+
 match / {
     "Hello, { .username }! Your ID is { .id }"
 }

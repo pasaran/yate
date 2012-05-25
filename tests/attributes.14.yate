@@ -1,3 +1,9 @@
+#   {
+#       "description": "result of apply as an inline attribute's value",
+#       "yate": "attributes.14.yate",
+#       "result": "<div class=\"b-hello\" title=\"I &hearts; NY, SF &amp; &quot;Moscow&quot;I &hearts; NY, SF &amp; &quot;Moscow&quot;\">Hello</div>"
+#   }
+
 match / {
     class = apply . class
     title = apply . title

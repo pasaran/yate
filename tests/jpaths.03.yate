@@ -1,3 +1,9 @@
+#   {
+#       "description": "parent selector of arrays items",
+#       "yate": "jpaths.03.yate",
+#       "result": "itemsitemsitems"
+#   }
+
 match / {
     apply .items.item
 }

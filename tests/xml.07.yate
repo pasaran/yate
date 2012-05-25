@@ -1,3 +1,9 @@
+#   {
+#       "description": "expand non-short tags",
+#       "yate": "xml.07.yate",
+#       "result": "<div class=\"b-hello\"></div>"
+#   }
+
 match / {
     <div class="b-hello"/>
 }

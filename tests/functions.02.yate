@@ -1,3 +1,9 @@
+#   {
+#       "description": "function returning boolean",
+#       "yate": "functions.02.yate",
+#       "result": "<div>Ok</div><div>Valid</div>"
+#   }
+
 func ok() {
     .count > 24 && .count % 2 == 0
 }

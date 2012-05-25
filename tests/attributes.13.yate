@@ -1,3 +1,9 @@
+#   {
+#       "description": "result of apply as an attribute's value",
+#       "yate": "attributes.13.yate",
+#       "result": "<div class=\"b-hello\">Hello</div>"
+#   }
+
 match / {
     <div>
         @class = apply . class

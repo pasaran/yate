@@ -1,3 +1,9 @@
+#   {
+#       "description": "function returning empty nodeset",
+#       "yate": "functions.04.yate",
+#       "result": ""
+#   }
+
 func empty() {
     if (2 + 2 != 4) {
         .items.item

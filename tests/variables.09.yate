@@ -1,3 +1,9 @@
+#   {
+#       "description": "variable can be redefined in internal scope and restored back",
+#       "yate": "variables.09.yate",
+#       "result": "<h1>Hello, nop</h1><h1>Hello, unknown</h1>"
+#   }
+
 match / {
     username = "unknown"
 

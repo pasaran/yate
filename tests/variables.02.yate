@@ -1,3 +1,9 @@
+#   {
+#       "description": "variable with if value",
+#       "yate": "variables.02.yate",
+#       "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+#   }
+
 match / {
     a = if .valid {
         <h1>

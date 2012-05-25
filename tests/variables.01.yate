@@ -1,3 +1,9 @@
+#   {
+#       "description": "variable with scalar block value",
+#       "yate": "variables.01.yate",
+#       "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+#   }
+
 match / {
     a = (
         <h1>

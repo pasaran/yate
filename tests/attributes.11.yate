@@ -1,3 +1,9 @@
+#   {
+#       "description": "attribute in the beginning of block block",
+#       "yate": "attributes.11.yate",
+#       "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+#   }
+
 match / {
     <h1>
         if .valid {
