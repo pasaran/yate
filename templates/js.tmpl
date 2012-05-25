@@ -74,20 +74,32 @@ function_ :defs
 
         %{ Body :output }
 
-        return r%{ Rid };
+        %{ . :epilogue }
     }
 
 function_ :prologue [ this.type() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-function_ :prologue [ this.type() == 'boolean' ]
+function_ :prologue [ this.type() === 'boolean' ]
 
     var r%{ Rid } = false;
+
+function_ :prologue [ this.type() === 'attr' ]
+
+    a%{ Rid } = { attrs: {} };
 
 function_ :prologue
 
     var r%{ Rid } = '';
+
+function_ :epilogue [ this.type() === 'attr' ]
+
+    return a%{ Rid }.attrs;
+
+function_ :epilogue
+
+    return r%{ Rid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
