@@ -325,6 +325,13 @@ module.exports = [
                 yate: 'functions.15.yate',
                 result: 'zeroonetwo'
             },
+            {
+                description: 'function return value saved to var - cannot be used',
+                yate: 'functions.16.yate',
+                data: 'functions.16.json',
+                result: 'first',
+                known: true
+            },
         ]
     },
 
