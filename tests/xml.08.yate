@@ -1,8 +1,8 @@
-#   {
-#       "description": "single and double quoted attributes",
-#       "yate": "xml.08.yate",
-#       "result": "<div class=\"b-hello\" title=\"nop\">Hello</div><div class=\"b-hello\" title=\"nop\">Hello</div>"
-#   }
+/// {
+///     "description": "single and double quoted attributes",
+///     "yate": "xml.08.yate",
+///     "result": "<div class=\"b-hello\" title=\"nop\">Hello</div><div class=\"b-hello\" title=\"nop\">Hello</div>"
+/// }
 
 match / {
     <div class="b-hello" title="{ .username }">Hello</div>

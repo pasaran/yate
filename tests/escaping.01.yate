@@ -1,8 +1,8 @@
-#   {
-#       "description": "escape inline attribute",
-#       "yate": "escaping.01.yate",
-#       "result": "<h1 class=\"b-hello &quot;Some &lt;b&gt;&amp;attribute&lt;/b&gt;&quot;\">Hello, nop</h1>"
-#   }
+/// {
+///     "description": "escape inline attribute",
+///     "yate": "escaping.01.yate",
+///     "result": "<h1 class=\"b-hello &quot;Some &lt;b&gt;&amp;attribute&lt;/b&gt;&quot;\">Hello, nop</h1>"
+/// }
 
 match / {
     <h1 class="b-hello { .attr }">

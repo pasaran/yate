@@ -1,8 +1,8 @@
-#   {
-#       "description": "join doesn't remove duplicate nodes",
-#       "yate": "jpaths.10.yate",
-#       "result": "nopnopnop"
-#   }
+/// {
+///     "description": "join doesn't remove duplicate nodes",
+///     "yate": "jpaths.10.yate",
+///     "result": "nopnopnop"
+/// }
 
 match / {
     apply .username | .username | .username

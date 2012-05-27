@@ -1,8 +1,8 @@
-#   {
-#       "description": "using attribute-typed variable several times doesn't multiply attributes",
-#       "yate": "variables.08.yate",
-#       "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
-#   }
+/// {
+///     "description": "using attribute-typed variable several times doesn't multiply attributes",
+///     "yate": "variables.08.yate",
+///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+/// }
 
 match / {
     attrs = (

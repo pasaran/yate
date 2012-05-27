@@ -1,8 +1,8 @@
-#   {
-#       "description": "global non-constant variable",
-#       "yate": "variables.10.yate",
-#       "result": "FirstSecondThird"
-#   }
+/// {
+///     "description": "global non-constant variable",
+///     "yate": "variables.10.yate",
+///     "result": "FirstSecondThird"
+/// }
 
 items = .items.item
 

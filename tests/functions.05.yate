@@ -1,8 +1,8 @@
-#   {
-#       "description": "function returning default boolean value (false)",
-#       "yate": "functions.05.yate",
-#       "result": "<div>Error</div>"
-#   }
+/// {
+///     "description": "function returning default boolean value (false)",
+///     "yate": "functions.05.yate",
+///     "result": "<div>Error</div>"
+/// }
 
 func ok() {
     if 2 > 3 {

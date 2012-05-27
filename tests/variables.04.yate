@@ -1,8 +1,8 @@
-#   {
-#       "description": "variable with if value, type nodeset",
-#       "yate": "variables.04.yate",
-#       "result": "<ul><li class=\"b-first\">First</li><li class=\"b-second\">Second</li><li class=\"b-third\">Third</li></ul>"
-#   }
+/// {
+///     "description": "variable with if value, type nodeset",
+///     "yate": "variables.04.yate",
+///     "result": "<ul><li class=\"b-first\">First</li><li class=\"b-second\">Second</li><li class=\"b-third\">Third</li></ul>"
+/// }
 
 match / {
     a = if .valid {

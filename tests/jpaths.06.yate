@@ -1,8 +1,8 @@
-#   {
-#       "description": "apply ..... #name",
-#       "yate": "jpaths.06.yate",
-#       "result": "blocksappcontentuserleft"
-#   }
+/// {
+///     "description": "apply ..... #name",
+///     "yate": "jpaths.06.yate",
+///     "result": "blocksappcontentuserleft"
+/// }
 
 match / {
     apply .blocks.app.content.user.left

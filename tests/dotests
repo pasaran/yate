@@ -75,13 +75,13 @@ function strpad(s) {
 }
 
 function parseTest(content) {
-    var options = content.match(/^#.*?$/gm);
+    var options = content.match(/^\/\/\/.*?$/gm);
     for (var i = 0, l = options.length; i < l; i++) {
-        options[i] = options[i].replace(/^#\s*/, '');
+        options[i] = options[i].replace(/^\/\/\/\s*/, '');
     }
     options = JSON.parse( options.join('\n') );
 
-    var yate = content.match(/^[^#].*?$/gm).join('\n');
+    var yate = content.match(/^(?!\/\/\/).*?$/gm).join('\n');
 
     return {
         yate: yate,

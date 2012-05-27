@@ -1,9 +1,9 @@
-#   {
-#       "description": "existence of nodeset",
-#       "yate": "if.03.yate",
-#       "result": "abcdefgijk",
-#       "data": "if.02.json"
-#   }
+/// {
+///     "description": "existence of nodeset",
+///     "yate": "if.03.yate",
+///     "result": "abcdefgijk",
+///     "data": "if.02.json"
+/// }
 
 match / {
 

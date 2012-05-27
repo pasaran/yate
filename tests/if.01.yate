@@ -1,8 +1,8 @@
-#   {
-#       "description": "if with else",
-#       "yate": "if.01.yate",
-#       "result": "<h1>nop is valid</h1><h1>nop is valid</h1>"
-#   }
+/// {
+///     "description": "if with else",
+///     "yate": "if.01.yate",
+///     "result": "<h1>nop is valid</h1><h1>nop is valid</h1>"
+/// }
 
 match / {
     if .valid {

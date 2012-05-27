@@ -1,8 +1,8 @@
-#   {
-#       "description": "index() and count() in predicate",
-#       "yate": "jpaths.07.yate",
-#       "result": "01234"
-#   }
+/// {
+///     "description": "index() and count() in predicate",
+///     "yate": "jpaths.07.yate",
+///     "result": "01234"
+/// }
 
 match / {
     apply .label[ index() < count() / 2 ]

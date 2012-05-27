@@ -1,8 +1,8 @@
-#   {
-#       "description": "empty short tag (xml-style)",
-#       "yate": "xml.02.yate",
-#       "result": "<img src=\"0.png\" width=\"100\" height=\"100\"/>"
-#   }
+/// {
+///     "description": "empty short tag (xml-style)",
+///     "yate": "xml.02.yate",
+///     "result": "<img src=\"0.png\" width=\"100\" height=\"100\"/>"
+/// }
 
 match / {
     <img src="0.png" width="100" height="100">

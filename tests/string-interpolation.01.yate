@@ -1,8 +1,8 @@
-#   {
-#       "description": "string interpolation",
-#       "yate": "string-interpolation.01.yate",
-#       "result": "Hello, nop"
-#   }
+/// {
+///     "description": "string interpolation",
+///     "yate": "string-interpolation.01.yate",
+///     "result": "Hello, nop"
+/// }
 
 match / {
     "Hello, { .username }"

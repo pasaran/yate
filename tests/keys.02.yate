@@ -1,8 +1,8 @@
-#   {
-#       "description": "key with xml-typed values",
-#       "yate": "keys.02.yate",
-#       "result": "<ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul><ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul>"
-#   }
+/// {
+///     "description": "key with xml-typed values",
+///     "yate": "keys.02.yate",
+///     "result": "<ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul><ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul>"
+/// }
 
 key item( .items.item, .id ) {
     <li class="b-item-{ .id }">{ .title }</li>

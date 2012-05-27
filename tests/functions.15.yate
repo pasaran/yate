@@ -1,8 +1,8 @@
-#   {
-#       "description": "functions with the nodeset param",
-#       "yate": "functions.15.yate",
-#       "result": "zeroonetwo"
-#   }
+/// {
+///     "description": "functions with the nodeset param",
+///     "yate": "functions.15.yate",
+///     "result": "zeroonetwo"
+/// }
 
 func three(nodeset labels) {
     apply labels[ index() < 3 ]

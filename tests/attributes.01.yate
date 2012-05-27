@@ -1,8 +1,8 @@
-#   {
-#       "description": "inline attribute",
-#       "yate": "attributes.01.yate",
-#       "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
-#   }
+/// {
+///     "description": "inline attribute",
+///     "yate": "attributes.01.yate",
+///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+/// }
 
 match / {
     <h1 class="b-hello">Hello, { .username }</h1>

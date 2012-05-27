@@ -1,8 +1,8 @@
-#   {
-#       "description": "interpolation inside xml",
-#       "yate": "string-interpolation.04.yate",
-#       "result": "<h1>Hello, nop</h1>"
-#   }
+/// {
+///     "description": "interpolation inside xml",
+///     "yate": "string-interpolation.04.yate",
+///     "result": "<h1>Hello, nop</h1>"
+/// }
 
 match / {
     <h1>

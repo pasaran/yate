@@ -1,8 +1,8 @@
-#   {
-#       "description": "function in predicate",
-#       "yate": "functions.17.yate",
-#       "result": "FirstThird"
-#   }
+/// {
+///     "description": "function in predicate",
+///     "yate": "functions.17.yate",
+///     "result": "FirstThird"
+/// }
 
 func f() {
     .disabled

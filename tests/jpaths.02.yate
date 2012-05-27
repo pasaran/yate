@@ -1,8 +1,8 @@
-#   {
-#       "description": "parent selector",
-#       "yate": "jpaths.02.yate",
-#       "result": "flags"
-#   }
+/// {
+///     "description": "parent selector",
+///     "yate": "jpaths.02.yate",
+///     "result": "flags"
+/// }
 
 match / {
     apply .flags.disabled

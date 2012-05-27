@@ -1,8 +1,8 @@
-#   {
-#       "description": "interpolation inside inline attribute",
-#       "yate": "string-interpolation.05.yate",
-#       "result": "<h1 class=\"b-hello b-hello-33662468\">Hello, nop</h1>"
-#   }
+/// {
+///     "description": "interpolation inside inline attribute",
+///     "yate": "string-interpolation.05.yate",
+///     "result": "<h1 class=\"b-hello b-hello-33662468\">Hello, nop</h1>"
+/// }
 
 match / {
     <h1 class="b-hello b-hello-{ .id }">

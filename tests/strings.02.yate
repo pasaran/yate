@@ -1,8 +1,8 @@
-#   {
-#       "description": "empty string",
-#       "yate": "strings.02.yate",
-#       "result": ""
-#   }
+/// {
+///     "description": "empty string",
+///     "yate": "strings.02.yate",
+///     "result": ""
+/// }
 
 match / {
     ""

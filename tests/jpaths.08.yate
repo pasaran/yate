@@ -1,8 +1,8 @@
-#   {
-#       "description": "index() in second predicate",
-#       "yate": "jpaths.08.yate",
-#       "result": "foursixeight"
-#   }
+/// {
+///     "description": "index() in second predicate",
+///     "yate": "jpaths.08.yate",
+///     "result": "foursixeight"
+/// }
 
 match / {
     apply .label[ index() % 2 == 0 ][ index() > 1 ]

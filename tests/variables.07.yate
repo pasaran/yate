@@ -1,8 +1,8 @@
-#   {
-#       "description": "variable with xml value",
-#       "yate": "variables.07.yate",
-#       "result": "<h1>Hello, nop</h1>"
-#   }
+/// {
+///     "description": "variable with xml value",
+///     "yate": "variables.07.yate",
+///     "result": "<h1>Hello, nop</h1>"
+/// }
 
 match / {
     a = <h1>Hello, { .username }</h1>

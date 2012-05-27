@@ -1,8 +1,8 @@
-#   {
-#       "description": "attributes in apply",
-#       "yate": "attributes.08.yate",
-#       "result": "<h1 class=\"b-hello b-first b-second b-third\">Hello, nop</h1>"
-#   }
+/// {
+///     "description": "attributes in apply",
+///     "yate": "attributes.08.yate",
+///     "result": "<h1 class=\"b-hello b-first b-second b-third\">Hello, nop</h1>"
+/// }
 
 match / {
     <h1 class="b-hello">

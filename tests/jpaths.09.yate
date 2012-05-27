@@ -1,8 +1,8 @@
-#   {
-#       "description": "join doesn't preserve order",
-#       "yate": "jpaths.09.yate",
-#       "result": "fivesixseveneightninezeroonetwothreefour"
-#   }
+/// {
+///     "description": "join doesn't preserve order",
+///     "yate": "jpaths.09.yate",
+///     "result": "fivesixseveneightninezeroonetwothreefour"
+/// }
 
 match / {
     apply .label[ index() >= 5 ] | .label[ index() < 5 ]

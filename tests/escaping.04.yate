@@ -1,8 +1,8 @@
-#   {
-#       "description": "escape text inside interpolation",
-#       "yate": "escaping.04.yate",
-#       "result": "&lt;b&gt;Some &amp;text&lt;/b&gt;"
-#   }
+/// {
+///     "description": "escape text inside interpolation",
+///     "yate": "escaping.04.yate",
+///     "result": "&lt;b&gt;Some &amp;text&lt;/b&gt;"
+/// }
 
 match / {
     "{ .text }"

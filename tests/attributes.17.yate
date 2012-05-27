@@ -1,8 +1,8 @@
-#   {
-#       "description": "numeric expression inside attribute",
-#       "yate": "attributes.17.yate",
-#       "result": "<div id=\"id-79\"></div>"
-#   }
+/// {
+///     "description": "numeric expression inside attribute",
+///     "yate": "attributes.17.yate",
+///     "result": "<div id=\"id-79\"></div>"
+/// }
 
 match / {
     <div>
