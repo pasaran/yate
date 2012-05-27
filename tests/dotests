@@ -83,6 +83,7 @@ for (var i = 0, l = files.length; i < l; i++) {
     }
 }
 
+console.log('');
 console.log( 'Total: ', ( '' + nTotal ).green );
 if (nError) {
     console.log( 'Errors:', ( '' + nError ).red );
