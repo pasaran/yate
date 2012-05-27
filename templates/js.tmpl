@@ -502,6 +502,9 @@ inline_function [ this.Name === 'slice' ]
 inline_function [ this.Name === 'html' ]
     %{ Args }
 
+inline_function [ this.Name === 'exists' ]
+    yater.exists(%{ Args })
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_var [ this.def.Lazy ]

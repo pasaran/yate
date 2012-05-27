@@ -1,0 +1,48 @@
+#   {
+#       "description": "existence of nodeset",
+#       "yate": "if.03.yate",
+#       "result": "abcdefgijk",
+#       "data": "if.02.json"
+#   }
+
+match / {
+
+    if exists(.a) {
+        "a"
+    }
+    if exists(.b) {
+        "b"
+    }
+    if exists(.c) {
+        "c"
+    }
+    if exists(.d) {
+        "d"
+    }
+    if exists(.e) {
+        "e"
+    }
+    if exists(.f) {
+        "f"
+    }
+    if exists(.g) {
+        "g"
+    }
+    if exists(.h) {
+        "h"
+    }
+    if exists(.i) {
+        "i"
+    }
+    if exists(.j) {
+        "j"
+    }
+    if exists(.k) {
+        "k"
+    }
+    if exists(.l) {
+        "l"
+    }
+
+}
+
