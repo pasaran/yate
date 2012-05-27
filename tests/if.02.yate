@@ -1,0 +1,67 @@
+#   {
+#       "description": "falsy values",
+#       "yate": "if.02.yate",
+#       "result": "abci!d!e!f!g!h",
+#       "data": "if.02.json"
+#   }
+
+match / {
+
+    if .a {
+        "a"
+    }
+    if .b {
+        "b"
+    }
+    if .c {
+        "c"
+    }
+    if .d {
+        "d"
+    }
+    if .e {
+        "e"
+    }
+    if .f {
+        "f"
+    }
+    if .g {
+        "g"
+    }
+    if .h {
+        "h"
+    }
+    if .i {
+        "i"
+    }
+
+    if !.a {
+        "!a"
+    }
+    if !.b {
+        "!b"
+    }
+    if !.c {
+        "!c"
+    }
+    if !.d {
+        "!d"
+    }
+    if !.e {
+        "!e"
+    }
+    if !.f {
+        "!f"
+    }
+    if !.g {
+        "!g"
+    }
+    if !.h {
+        "!h"
+    }
+    if !.i {
+        "!i"
+    }
+
+}
+
