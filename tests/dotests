@@ -3,18 +3,32 @@
 var fs = require('fs');
 var path = require('path');
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var nopt = require('nopt');
+
+var parsed = nopt({
+    'only-total': Boolean,
+    'only-errors': Boolean,
+});
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+
 var yate = require('../lib/yate.js');
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
 var defaultData = '01.json';
-
-var tmpfile = '.test.' + ( +new Date() ) + '.tmp';
-
-var files = fs.readdirSync('.').sort();
-
-var prevSection = '';
+var tmpfile = '.tests.tmp';
 
 var format = '    %s    %s\t%s';
 
+var prevSection = '';
+var nTotal = 0;
+var nError = 0;
+var nKnown = 0;
+
+var files = fs.readdirSync('.').sort();
 for (var i = 0, l = files.length; i < l; i++) {
     var filename = files[i];
     if ( !/\.yate$/.test(filename) ) {
@@ -22,7 +36,7 @@ for (var i = 0, l = files.length; i < l; i++) {
     }
 
     var section = /^(.*?)\.\d+\.yate$/.exec(filename)[1];
-    if (section !== prevSection) {
+    if ( !parsed['only-total'] && section !== prevSection && !parsed['only-errors'] ) {
         console.log('');
     }
     prevSection = section;
@@ -48,7 +62,14 @@ for (var i = 0, l = files.length; i < l; i++) {
 
     var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';
 
+    nTotal++;
+
     if (status != 'ok') {
+        nError++;
+        if (options.known) {
+            nKnown++;
+        }
+
         statusColor = 'red';
         filenameColor = descColor = 'white';
     }
@@ -57,13 +78,29 @@ for (var i = 0, l = files.length; i < l; i++) {
         statusColor = 'yellow';
     }
 
-    console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
+    if ( !parsed['only-total'] && ( status !== 'ok' || !parsed['only-errors'] ) ) {
+        console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
+    }
+}
+
+console.log( 'Total: ', ( '' + nTotal ).green );
+if (nError) {
+    console.log( 'Errors:', ( '' + nError ).red );
+}
+if (nKnown) {
+    console.log( 'Known: ', ( '' + nKnown ).yellow );
 }
 
 console.log('\n');
 
 if ( path.existsSync(tmpfile) ) {
     fs.unlink(tmpfile);
+}
+
+if (nError) {
+    process.exit(1);
+} else {
+    process.exit(0);
 }
 
 function strpad(s) {
