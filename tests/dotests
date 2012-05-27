@@ -84,13 +84,18 @@ for (var i = 0, l = files.length; i < l; i++) {
 }
 
 console.log('');
-console.log( 'Total: ', ( '' + nTotal ).green );
-if (nError) {
-    console.log( 'Errors:', ( '' + nError ).red );
+var stat = [];
+if (nTotal - nError) {
+    stat.push( (nTotal - nError).toString().green );
+}
+if (nError - nKnown) {
+    stat.push( (nError - nKnown).toString().red );
 }
 if (nKnown) {
-    console.log( 'Known: ', ( '' + nKnown ).yellow );
+    stat.push( nKnown.toString().yellow );
 }
+
+console.log( 'Tests: ' + nTotal.toString().white + ' = ' + stat.join(' + ') );
 
 console.log('\n');
 
