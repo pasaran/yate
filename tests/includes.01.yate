@@ -1,6 +1,5 @@
 /// {
 ///     "description": "include with relative paths",
-///     "yate": "includes.01.yate",
 ///     "result": "Hello, nop"
 /// }
 

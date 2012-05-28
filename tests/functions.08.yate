@@ -1,6 +1,5 @@
 /// {
 ///     "description": "function call preserves current context",
-///     "yate": "functions.08.yate",
 ///     "result": "<ul><li>First</li><li>Second</li><li>Third</li></ul>"
 /// }
 

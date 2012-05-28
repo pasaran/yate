@@ -1,6 +1,5 @@
 /// {
 ///     "description": "join doesn't preserve order",
-///     "yate": "jpaths.09.yate",
 ///     "result": "fivesixseveneightninezeroonetwothreefour"
 /// }
 

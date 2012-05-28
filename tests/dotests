@@ -43,6 +43,7 @@ for (var i = 0, l = files.length; i < l; i++) {
 
     var test = parseTest( fs.readFileSync(filename, 'utf-8') );
     var options = test.options;
+    options.yate = filename;
 
     var filename = strpad(options.yate);
 

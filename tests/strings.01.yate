@@ -1,6 +1,5 @@
 /// {
 ///     "description": "string with different quotes",
-///     "yate": "strings.01.yate",
 ///     "result": "String with \"double quotes\" and 'single quotes'String with \"double quotes\" and 'single quotes'"
 /// }
 

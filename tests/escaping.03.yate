@@ -1,6 +1,5 @@
 /// {
 ///     "description": "escape xml text",
-///     "yate": "escaping.03.yate",
 ///     "result": "<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>"
 /// }
 

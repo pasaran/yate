@@ -1,6 +1,5 @@
 /// {
 ///     "description": "function returning xml",
-///     "yate": "functions.03.yate",
 ///     "result": "<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>"
 /// }
 

@@ -1,6 +1,5 @@
 /// {
 ///     "description": "Comment in the end of inline expression",
-///     "yate": "comments.01.yate",
 ///     "result": "<div>Hello</div>"
 /// }
 

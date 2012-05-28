@@ -1,6 +1,5 @@
 /// {
 ///     "description": "apply . #mode",
-///     "yate": "jpaths.05.yate",
 ///     "result": "<ul><li>First</li><li>Second</li><li>Third</li></ul>"
 /// }
 

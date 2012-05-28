@@ -1,6 +1,5 @@
 /// {
 ///     "description": "multiple interpolations inside xml text",
-///     "yate": "string-interpolation.07.yate",
 ///     "result": "<h1>Hello, nop. Your ID is 33662468</h1>"
 /// }
 

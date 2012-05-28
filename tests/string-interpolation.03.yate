@@ -1,6 +1,5 @@
 /// {
 ///     "description": "interpolation inside xml text",
-///     "yate": "string-interpolation.03.yate",
 ///     "result": "<h1>Hello, nop</h1>"
 /// }
 
