@@ -1,0 +1,21 @@
+/// {
+///     "description": "true() and false()",
+///     "result": "truenot false"
+/// }
+
+match / {
+    if true() {
+        "true"
+    }
+    if false() {
+        "false"
+    }
+
+    if !true() {
+        "not true"
+    }
+    if !false() {
+        "not false"
+    }
+}
+

@@ -1,0 +1,18 @@
+/// {
+///     "description": "Использование count() в предикате. См. https://github.com/pasaran/yate/issues/34",
+///     "result": "itemsitemitemitem"
+/// }
+
+match / {
+    apply .items[ count() ]
+    apply .items.item[ count() == 3 ]
+}
+
+match .items {
+    "items"
+}
+
+match .item {
+    "item"
+}
+
