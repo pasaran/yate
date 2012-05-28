@@ -489,11 +489,17 @@ internal_function_true
 internal_function_false
     false
 
+internal_function_name [ this.Signature === 'nodeset' ]
+    yater.nodeName( %{Args} )
+
 internal_function_name
     c%{ Cid }.name
 
 internal_function_index
     index
+
+internal_function_count [ this.Signature === 'nodeset' ]
+    ( %{Args} ).length
 
 internal_function_count
     count
