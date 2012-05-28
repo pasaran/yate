@@ -1,6 +1,5 @@
 /// {
 ///     "description": "variable with for value",
-///     "yate": "variables.03.yate",
 ///     "result": "<ul><li class=\"b-first\">First</li><li class=\"b-second\">Second</li><li class=\"b-third\">Third</li></ul>"
 /// }
 

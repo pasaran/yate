@@ -1,6 +1,5 @@
 /// {
 ///     "description": "disable output escaping",
-///     "yate": "functions.10.yate",
 ///     "result": "&lt;i&gt;Hello, &lt;b&gt;nop&lt;/b&gt;&lt;/i&gt;<i>Hello, <b>nop</b></i>"
 /// }
 

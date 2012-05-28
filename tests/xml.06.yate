@@ -1,6 +1,5 @@
 /// {
 ///     "description": "nested short tags",
-///     "yate": "xml.06.yate",
 ///     "result": "<img src=\"1.png\"/><img src=\"2.png\" class=\"b-hello\"/>Hello, World"
 /// }
 

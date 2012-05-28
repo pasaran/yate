@@ -1,6 +1,5 @@
 /// {
 ///     "description": "</> as a universal closing tag",
-///     "yate": "xml.09.yate",
 ///     "result": "<div>Hello</div><div>Hello</div><b><i>nop</i></b>"
 /// }
 

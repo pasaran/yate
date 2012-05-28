@@ -1,6 +1,5 @@
 /// {
 ///     "description": "falsy values",
-///     "yate": "if.02.yate",
 ///     "result": "abci!d!e!f!g!h",
 ///     "data": "if.02.json"
 /// }

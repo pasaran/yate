@@ -1,6 +1,5 @@
 /// {
 ///     "description": "short tag with attr and text inside",
-///     "yate": "xml.03.yate",
 ///     "result": "<img src=\"0.png\" width=\"100\" height=\"100\" class=\"b-hello\"/>Hello"
 /// }
 

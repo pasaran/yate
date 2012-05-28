@@ -1,6 +1,5 @@
 /// {
 ///     "description": "external function",
-///     "yate": "functions.09.yate",
 ///     "externals": "functions.09.js",
 ///     "result": "<ul><li>Third</li><li>Second</li><li>First</li></ul>"
 /// }

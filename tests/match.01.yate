@@ -1,6 +1,5 @@
 /// {
 ///     "description": "predicate in match",
-///     "yate": "match.01.yate",
 ///     "result": "<ul><li>First</li><li class=\"disabled\">Second</li><li>Third</li></ul>"
 /// }
 

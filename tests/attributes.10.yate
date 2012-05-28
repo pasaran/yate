@@ -1,6 +1,5 @@
 /// {
 ///     "description": "attribute inside scalar block",
-///     "yate": "attributes.10.yate",
 ///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
 /// }
 

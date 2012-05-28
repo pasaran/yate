@@ -1,0 +1,18 @@
+/// {
+///     "description": "count()",
+///     "result": "1333"
+/// }
+
+match / {
+    apply .items
+}
+
+match .items {
+    count()
+    apply .item
+}
+
+match .item {
+    count()
+}
+

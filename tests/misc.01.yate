@@ -1,6 +1,5 @@
 /// {
 ///     "description": "string concatenation via +",
-///     "yate": "misc.01.yate",
 ///     "result": "<h1>Hello, nop</h1>"
 /// }
 

@@ -1,6 +1,5 @@
 /// {
 ///     "description": "xml attribute replaces inline attribute",
-///     "yate": "attributes.03.yate",
 ///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
 /// }
 

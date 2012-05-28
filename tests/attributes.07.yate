@@ -1,6 +1,5 @@
 /// {
 ///     "description": "attributes in for",
-///     "yate": "attributes.07.yate",
 ///     "result": "<h1 class=\"b-hello b-first b-second b-third\">Hello, nop</h1>"
 /// }
 

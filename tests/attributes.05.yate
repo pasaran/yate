@@ -1,6 +1,5 @@
 /// {
 ///     "description": "several attributes in variable",
-///     "yate": "attributes.05.yate",
 ///     "result": "<h1 class=\"b-hello\" id=\"33662468\">Hello, nop</h1>"
 /// }
 
