@@ -475,34 +475,36 @@ inline_function [ this.Fid != null && !this.Args.empty() ]
 inline_function [ this.Fid != null ]
     f%{ Fid }(c%{ Cid }, a%{ Rid }, index, count)
 
+//  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
+//  js__internal() вызывает соответствующий шаблон.
+inline_function
+    %{ js__internal() }
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// FIXME: Заменить на inline_function_true и т.д.
-
-inline_function [ this.Name === 'true' ]
+internal_function_true
     true
 
-inline_function [ this.Name === 'false' ]
+internal_function_false
     false
 
-inline_function [ this.Name === 'name' ]
+internal_function_name
     c%{ Cid }.name
 
-inline_function [ this.Name === 'index' ]
+internal_function_index
     index
 
-inline_function [ this.Name === 'count' ]
+internal_function_count
     count
 
-inline_function [ this.Name === 'slice' ]
+internal_function_slice
     yater.slice(%{ Args })
 
-inline_function [ this.Name === 'html' ]
+internal_function_html
     %{ Args }
 
-inline_function [ this.Name === 'exists' ]
+internal_function_exists
     yater.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
