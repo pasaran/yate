@@ -1,0 +1,13 @@
+/// {
+///     "description": "parse value before block expression (...)",
+///     "result": "yes"
+/// }
+
+match / {
+    yes = ( .valid ) && ( .count > 40 )
+
+    if yes {
+        "yes"
+    }
+}
+
