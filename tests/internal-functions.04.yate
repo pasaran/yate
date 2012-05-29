@@ -1,0 +1,10 @@
+/// {
+///     "description": "name() и name(...)",
+///     "result": " : items : item : "
+/// }
+
+match / {
+    "{ name() } : { name(.items) } : { name(.items.item) } : { name( .foo.bar ) }"
+}
+
+
