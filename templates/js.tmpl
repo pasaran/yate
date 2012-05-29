@@ -250,7 +250,7 @@ for_ :output
 
 apply :output [ this.Args && !this.Args.empty() ]
 
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode: string }, a%{ Rid }, %{ Args });
+    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }, %{ Args });
 
 apply :output
 
