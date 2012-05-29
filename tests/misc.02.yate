@@ -1,0 +1,13 @@
+/// {
+///     "description": "apply with params",
+///     "result": "nop: 33662468",
+///     "known": true
+/// }
+
+match / {
+    apply .id (.username)
+}
+
+match .id (scalar name) {
+    "{name}: {.}"
+}
