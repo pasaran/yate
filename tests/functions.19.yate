@@ -1,0 +1,12 @@
+/// {
+///     "description": "Аргумент функции в предикате",
+///     "result": "Second"
+/// }
+
+func get(id) {
+    /.items.item[.id == id]
+}
+
+match / {
+    get("second").title
+}
