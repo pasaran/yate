@@ -1,0 +1,16 @@
+/// {
+///     "description": "multiple items in key",
+///     "result": "itemflags"
+/// }
+
+key item( .items.item | .flags, .disabled) {
+    .
+}
+
+match / {
+    apply item("true") dump
+}
+
+match .* dump {
+    name()
+}
