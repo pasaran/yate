@@ -1,14 +1,13 @@
 /// {
 ///     "description": "apply with params",
-///     "result": "nop: 33662468",
-///     "known": true
+///     "result": "nop: 33662468"
 /// }
 
 match / {
     apply .id (.username)
 }
 
-match .id (scalar name) {
+match .id (nodeset name) {
     "{ name }: { . }"
 }
 
