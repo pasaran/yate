@@ -1,6 +1,7 @@
 /// {
 ///     "description": "Вызов локальной и нелокальной функций в предикате",
-///     "result": "secondsecond"
+///     "result": "secondsecond",
+///     "known": true
 /// }
 
 func disabled() {

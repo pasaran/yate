@@ -9,5 +9,6 @@ match / {
 }
 
 match .id (scalar name) {
-    "{name}: {.}"
+    "{ name }: { . }"
 }
+

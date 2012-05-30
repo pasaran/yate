@@ -1,6 +1,7 @@
 /// {
 ///     "description": "functions in key",
-///     "result": "nop"
+///     "result": "nop",
+///     "known": true
 /// }
 
 key item( .*, name() ) {

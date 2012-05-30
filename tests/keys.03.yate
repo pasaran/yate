@@ -1,6 +1,7 @@
 /// {
 ///     "description": "multiple items in key",
-///     "result": "itemflags"
+///     "result": "itemflags",
+///     "known": true
 /// }
 
 key item( .items.item | .flags, .disabled) {
