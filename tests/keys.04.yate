@@ -1,0 +1,16 @@
+/// {
+///     "description": "functions in key",
+///     "result": "nop"
+/// }
+
+key item( .*, name() ) {
+    .
+}
+
+match / {
+    apply item("username") dump
+}
+
+match .* dump {
+    .
+}
