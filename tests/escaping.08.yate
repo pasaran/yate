@@ -1,0 +1,12 @@
+/// {
+///     "description": "Escape xml in attribute",
+///     "result": "<span title=\"&lt;b&gt;Hello&lt;/b&gt;\"></span>",
+///     "known": true
+/// }
+
+match / {
+    title = <b>Hello</b>
+
+    <span title="{ title }"></span>
+}
+
