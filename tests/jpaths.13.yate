@@ -1,6 +1,7 @@
 /// {
 ///     "description": "dots in jpath",
-///     "result": "/ left / user / content / app / right / user / content /"
+///     "result": "/ left / user / content / app / right / user / content /",
+///     "known": true
 /// }
 
 match / {
