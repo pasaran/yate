@@ -1,0 +1,15 @@
+/// {
+///     "description": "internal function call inside of scoped user function",
+///     "result": "&lt;b&gt;Hello&lt;/b&gt;"
+/// }
+
+match / {
+
+    func a(s) {
+        html(s)
+    }
+
+    a("<b>Hello</b>")
+
+}
+
