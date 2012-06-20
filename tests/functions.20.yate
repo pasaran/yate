@@ -1,6 +1,7 @@
 /// {
 ///     "description": "internal function call inside of scoped user function",
-///     "result": "&lt;b&gt;Hello&lt;/b&gt;"
+///     "result": "&lt;b&gt;Hello&lt;/b&gt;",
+///     "known": true
 /// }
 
 match / {

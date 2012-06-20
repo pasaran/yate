@@ -1,0 +1,15 @@
+/// {
+///     "description": "html-style comments",
+///     "result": "<div>Hello</div>"
+/// }
+
+match / {
+    <div>
+    <!--
+        @class = "b-hello"
+    -->
+        "Hello"
+    </div>
+    <!-- <span>{ .username }</span> -->
+}
+

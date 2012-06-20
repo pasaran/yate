@@ -1,0 +1,14 @@
+/// {
+///     "description": "c-style block comments",
+///     "result": "Hello"
+/// }
+
+match / {
+    /*
+    <div>
+        @class = "b-hello"
+        "Hello"
+    */
+    /* .username */ "Hello"
+}
+
