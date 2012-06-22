@@ -1,0 +1,12 @@
+/// {
+///     "description": "index() in for",
+///     "result": "012",
+///     "known": true
+/// }
+
+match / {
+    for .items.item {
+        index()
+    }
+}
+
