@@ -1,0 +1,22 @@
+/// {
+///     "description": "Variable in match selector",
+///     "result": "Hello, nop",
+///     "known": true
+/// }
+
+isValid = true()
+
+match / {
+    apply .username
+}
+
+match .username {
+    "Bye, { .username }"
+}
+
+//  Непонятно, должно ли такое работать.
+//  Выражение в предикате не локальное, т.е. это расценивается как индекс.
+match .username[ isValid ] {
+    "Hello, { .username }"
+}
+
