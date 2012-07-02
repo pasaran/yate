@@ -279,22 +279,22 @@ xml_line :content
 
 // FIXME: Закэшировать a0.attrs в отдельную переменную.
 attr :output [ this.Value.inline() && this.Op === '+=' ]
-    a%{ Rid }.attrs['%{ Name }'] = (a%{ Rid }.attrs['%{ Name }'] || '') + %{ Value };
+    a%{ Rid }.attrs[ %{ Name } ] = (a%{ Rid }.attrs[ %{ Name } ] || '') + %{ Value };
 
 attr :output [ this.Value.inline() ]
-    a%{ Rid }.attrs['%{ Name }'] %{ Op } %{ Value };
+    a%{ Rid }.attrs[ %{ Name } ] %{ Op } %{ Value };
 
 attr :output [ this.Op === '+=' ]
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.attrs['%{ Name }'] = (a%{ Rid }.attrs['%{ Name }'] || '') + r%{ Value.Rid };
+    a%{ Rid }.attrs[ %{ Name } ] = (a%{ Rid }.attrs[ %{ Name } ] || '') + r%{ Value.Rid };
 
 attr :output
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.attrs['%{ Name }'] %{ Op } r%{ Value.Rid };
+    a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
     r%{ Rid } += yater.closeAttrs(a%{ Rid });
