@@ -1,17 +1,19 @@
 /// {
-///     "description": "functions in key",
-///     "result": "nop",
-///     "known": true
+///     "description": "functions and expressions in key",
+///     "result": "nopFirst"
 /// }
 
-key item( .*, name() ) {
+key item1( .*, name() ) {
+    .
+}
+
+key item2( .items.item, "{ .id }{ .title }" ) {
     .
 }
 
 match / {
-    apply item("username") dump
+    item1("username")
+
+    item2("firstFirst").title
 }
 
-match .* dump {
-    .
-}

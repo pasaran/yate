@@ -204,10 +204,8 @@ key :defs
             k%{ Kid }_nodes = {};
             for (var i = 0, l = nodes.length; i < l; i++) {
                 var c%{ Use.Cid }= nodes[i];
-                var useNodes = %{ Use };
-                for (var j = 0, m = useNodes.length; j < m; j++) {
-                    k%{ Kid }_nodes[ yater.nodeValue(useNodes[j]) ] = c%{ Use.Cid };
-                }
+                var use = %{ Use };
+                %{ . :use }
             }
 
             k%{ Kid } = k%{ Kid }_get;
@@ -216,6 +214,15 @@ key :defs
         return k%{ Kid }_get(key);
     };
 
+key :use [ this.Use.type() === 'nodeset' ]
+
+    for (var j = 0, m = use.length; j < m; j++) {
+        k%{ Kid }_nodes[ yater.nodeValue(use[j]) ] = c%{ Use.Cid };
+    }
+
+key :use
+
+    k%{ Kid }_nodes[use] = c%{ Use.Cid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
