@@ -39,7 +39,7 @@ template :defs
 
 template
 
-    function(c%{ Cid }, a%{ Rid }, i%{ Cid }, count %{ Args }) {
+    function(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
         %{ Args :defaults }
         %{ . :prologue }
 
@@ -68,7 +68,7 @@ template :prologue
 function_ :defs
 
     // %{ Name } : %{ type() }
-    function f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, count %{ Args }) {
+    function f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
         %{ Args :defaults }
         %{ . :prologue }
 
@@ -352,7 +352,7 @@ jpath
 jpath_predicate :defs
 
     // %{ Key }
-    function p%{ Pid }(c%{ Cid }, i%{ Cid }, count) {
+    function p%{ Pid }(c%{ Cid }, i%{ Cid }, l%{ Cid }) {
 // FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
         var a%{ Rid };
         return %{ Expr };
@@ -468,19 +468,19 @@ inline_compound
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_function [ this.External && !this.Args.empty() ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, count, %{ Args })
+    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
 
 inline_function [ this.External ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, count)
+    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
 
 inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
 
 inline_function [ this.Fid != null && !this.Args.empty() ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, count, %{ Args })
+    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
 
 inline_function [ this.Fid != null ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, count)
+    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
@@ -509,7 +509,7 @@ internal_function_count [ this.Signature === 'nodeset' ]
     ( %{Args} ).length
 
 internal_function_count
-    count
+    l%{ Cid }
 
 internal_function_slice
     yater.slice(%{ Args })
