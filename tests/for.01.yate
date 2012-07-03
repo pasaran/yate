@@ -1,7 +1,6 @@
 /// {
 ///     "description": "index() in for",
-///     "result": "012",
-///     "known": true
+///     "result": "012"
 /// }
 
 match / {
