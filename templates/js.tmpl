@@ -553,7 +553,7 @@ cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
     yater.scalar2%{ To }( %{ Expr } )
 
 cast [ this.From === 'xml' && this.To == 'attrvalue' ]
-    yater.xml2attrvalue( %{ Expr } )
+    yater.scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ this.From === 'scalar' && this.To === 'boolean' ]

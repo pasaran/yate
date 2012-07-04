@@ -1,7 +1,6 @@
 /// {
 ///     "description": "Escape xml in attribute",
-///     "result": "<span title=\"&lt;b&gt;Hello&lt;/b&gt;\"></span>",
-///     "known": true
+///     "result": "<span title=\"&lt;b&gt;Hello&lt;/b&gt;\"></span>"
 /// }
 
 match / {
