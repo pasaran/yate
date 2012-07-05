@@ -42,7 +42,8 @@ if (parsed.ast) {
     console.log( yate.run(template, data, externals, mode) );
 
 } else {
-    console.log( yate.compile(template, module) );
+    var js = yate.compile(template, module);
+    console.log(js);
 
 }
 
