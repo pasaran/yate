@@ -54,11 +54,21 @@ for (var i = 0, l = files.length; i < l; i++) {
     try {
         var result = yate.run( tmpfile, options.data || defaultData, options.externals );
 
-        status = (result == options.result) ? 'ok' : 'fail';
-        desc = options.description;
+        if (options.throws) {
+            status = 'fail';
+            desc = 'doesn\'t throw';
+        } else {
+            status = (result == options.result) ? 'ok' : 'fail';
+            desc = options.description;
+        }
     } catch (e) {
-        status = 'throw';
-        desc = e.message;
+        if (options.throws) {
+            status = 'ok';
+            desc = options.description;
+        } else {
+            status = 'throw';
+            desc = e.message;
+        }
     }
 
     var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';

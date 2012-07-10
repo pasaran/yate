@@ -1,0 +1,12 @@
+/// {
+///     "description": "Cannot use uninitialized variable",
+///     "throws": true,
+///     "known": true
+/// }
+
+match / {
+    a = a + 1
+
+    a
+}
+
