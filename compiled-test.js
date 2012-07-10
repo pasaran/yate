@@ -24,23 +24,26 @@ var P = Module.prototype;
 //  JPaths
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-// .count
+//  .count
 P.j0 = [ 'count' ];
 
-// .items.item[ .count > count ]
+//  .items.item[ .count > count ]
 P.j1 = [ 'items', 'item', 2, 'p0' ];
 
-// .title
+//  .title
 P.j2 = [ 'title' ];
 
-// .id
+//  .id
 P.j3 = [ 'id' ];
 
-// .selected
+//  .selected
 P.j4 = [ 'selected' ];
 
-// .items.item[ .selected && .id = id ]
+//  .items.item[ .selected && .id = id ]
 P.j5 = [ 'items', 'item', 2, 'p1' ];
+
+//  .item
+P.j6 = [ 'item' ];
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 //  Vars
@@ -101,6 +104,7 @@ P.t0 = function(c0) {
     r0 += '</ul>';
     return r0;
 };
+P.t0.selector = null;
 
 P.t1 = function(c0) {
     var r0 = '';
@@ -110,6 +114,7 @@ P.t1 = function(c0) {
     r0 += '</li>';
     return r0;
 };
+P.t1.selector = 'j6';
 
 P.matcher = {
     '': {
