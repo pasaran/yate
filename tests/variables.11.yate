@@ -1,7 +1,6 @@
 /// {
 ///     "description": "Cannot use uninitialized variable",
-///     "throws": true,
-///     "known": true
+///     "throws": true
 /// }
 
 match / {
