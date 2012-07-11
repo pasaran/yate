@@ -1,6 +1,9 @@
 /// {
-///     "description": "inline attribute",
-///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+///     description: 'inline attribute',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1 class="b-hello">Hello, nop</h1>'
 /// }
 
 match / {

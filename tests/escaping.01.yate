@@ -1,6 +1,10 @@
 /// {
-///     "description": "escape inline attribute",
-///     "result": "<h1 class=\"b-hello &quot;Some &lt;b&gt;&amp;attribute&lt;/b&gt;&quot;\">Hello, nop</h1>"
+///     description: 'escape inline attribute',
+///     data: {
+///         username: 'nop',
+///         attr: '"Some <b>&attribute</b>"'
+///     },
+///     result: '<h1 class="b-hello &quot;Some &lt;b&gt;&amp;attribute&lt;/b&gt;&quot;">Hello, nop</h1>'
 /// }
 
 match / {

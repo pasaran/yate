@@ -1,6 +1,6 @@
 /// {
-///     "description": "Comment in the end of inline expression",
-///     "result": "<div>Hello</div>"
+///     description: 'Comment in the end of inline expression',
+///     result: '<div>Hello</div>'
 /// }
 
 match / {

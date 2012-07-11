@@ -1,6 +1,9 @@
 /// {
-///     "description": "xml attribute replaces inline attribute",
-///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+///     description: 'xml attribute replaces inline attribute',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1 class="b-hello">Hello, nop</h1>'
 /// }
 
 match / {

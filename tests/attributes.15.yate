@@ -1,11 +1,15 @@
 /// {
-///     "description": "missed nodeset2scalar for attribute",
-///     "result": "<div id=\"33662468\" class=\"b-hello\">Hello</div>"
+///     description: 'missed nodeset2scalar for attribute',
+///     data: {
+///         id: 33662468
+///     },
+///     result: '<div id="33662468" class="b-hello">Hello</div>'
 /// }
 
 match / {
-    <div id="{.id}">
+    <div id="{ .id }">
         @class = "b-hello"
         "Hello"
     </div>
 }
+

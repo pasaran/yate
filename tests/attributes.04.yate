@@ -1,6 +1,9 @@
 /// {
-///     "description": "add class to empty (undefined) class",
-///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+///     description: 'add class to empty (undefined) class',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1 class="b-hello">Hello, nop</h1>'
 /// }
 
 match / {

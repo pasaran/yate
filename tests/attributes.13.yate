@@ -1,6 +1,6 @@
 /// {
-///     "description": "result of apply as an attribute's value",
-///     "result": "<div class=\"b-hello\">Hello</div>"
+///     description: 'result of apply as an attribute\'s value',
+///     result: '<div class="b-hello">Hello</div>'
 /// }
 
 match / {

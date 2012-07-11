@@ -1,6 +1,6 @@
 /// {
-///     "description": "numeric expression inside attribute",
-///     "result": "<div id=\"id-79\"></div>"
+///     description: 'numeric expression inside attribute',
+///     result: '<div id="id-79"></div>'
 /// }
 
 match / {
@@ -8,3 +8,4 @@ match / {
         @id = "id-{ 75 + 2 * 2 }"
     </div>
 }
+

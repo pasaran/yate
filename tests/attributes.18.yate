@@ -1,6 +1,10 @@
 /// {
-///     "description": "@{ expr } = expr",
-///     "result": "<div class=\"hello\" id=\"hello\" id-33662468=\"42\" count-43=\"24\"></div>"
+///     description: '@{ expr } = expr',
+///     data: {
+///         id: 33662468,
+///         count: 42
+///     },
+///     result: '<div class="hello" id="hello" id-33662468="42" count-43="24"></div>'
 /// }
 
 match / {
