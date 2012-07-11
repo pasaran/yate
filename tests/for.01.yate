@@ -1,6 +1,11 @@
 /// {
-///     "description": "index() in for",
-///     "result": "012"
+///     description: 'index() in for',
+///     data: {
+///         items: {
+///             item: [ 'first', 'second', 'third' ]
+///         }
+///     },
+///     result: '012'
 /// }
 
 match / {
