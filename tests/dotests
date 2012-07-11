@@ -28,7 +28,13 @@ var nTotal = 0;
 var nError = 0;
 var nKnown = 0;
 
-var files = fs.readdirSync('.').sort();
+var files;
+if (parsed.argv.remain.length) {
+    files = parsed.argv.remain;
+} else {
+    files = fs.readdirSync('.').sort();
+}
+
 for (var i = 0, l = files.length; i < l; i++) {
     var filename = files[i];
     if ( !/\.yate$/.test(filename) ) {
