@@ -1,0 +1,43 @@
+/// {
+///     description: '| (or) statement in use attribute for key',
+///     data: {
+///         folders: {
+///             folder: [
+///                 {
+///                     id: 1,
+///                     symbol: 'inbox'
+///                 },
+///                 {
+///                     id: 2,
+///                     symbol: 'draft'
+///                 },
+///                 {
+///                     id: 3,
+///                     symbol: 'spam'
+///                 },
+///                 {
+///                     id: 4,
+///                     symbol: 'outbox'
+///                 },
+///                 {
+///                     id: 5
+///                 },
+///                 {
+///                     id: 6
+///                 }
+///             ]
+///         }
+///     },
+///     result: '2spam'
+/// }
+
+key folders( .folders.folder, .id | .symbol ) {
+    .
+}
+
+match / {
+    folders("draft").id
+
+    folders("3").symbol
+}
+
