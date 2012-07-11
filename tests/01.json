@@ -49,6 +49,33 @@
         {
             "two": [ 7, 8, 9 ]
         }
-    ]
+    ],
+
+    "folders": {
+        "folder": [
+            {
+                "id": "1",
+                "symbol": "inbox"
+            },
+            {
+                "id": "2",
+                "symbol": "draft"
+            },
+            {
+                "id": "3",
+                "symbol": "spam"
+            },
+            {
+                "id": "4",
+                "symbol": "outbox"
+            },
+            {
+                "id": "5"
+            },
+            {
+                "id": "6"
+            },
+        ]
+    }
 }
 
