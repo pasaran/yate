@@ -1,6 +1,10 @@
 /// {
-///     description: 'if with else",
-///     result: '<h1>nop is valid</h1><h1>nop is valid</h1>"
+///     description: 'if with else',
+///     data: {
+///         valid: true,
+///         username: 'nop'
+///     },
+///     result: '<h1>nop is valid</h1><h1>nop is valid</h1>'
 /// }
 
 match / {

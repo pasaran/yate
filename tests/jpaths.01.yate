@@ -1,6 +1,6 @@
 /// {
-///     description: 'basic arithmetic operations",
-///     result: '<div>66</div><div>18</div><div>126</div><div>7</div>"
+///     description: 'basic arithmetic operations',
+///     result: '<div>66</div><div>18</div><div>126</div><div>7</div>'
 /// }
 
 match / {

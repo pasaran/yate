@@ -1,6 +1,11 @@
 /// {
-///     description: 'count()",
-///     result: '1333"
+///     description: 'count()',
+///     data: {
+///         items: {
+///             item: [ 1, 2, 3 ]
+///         }
+///     },
+///     result: '1333'
 /// }
 
 match / {

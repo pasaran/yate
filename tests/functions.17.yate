@@ -1,6 +1,13 @@
 /// {
-///     description: 'function in predicate",
-///     result: 'FirstThird"
+///     description: 'function in predicate',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second', disabled: true },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: 'FirstThird'
 /// }
 
 func f() {
@@ -8,7 +15,7 @@ func f() {
 }
 
 match / {
-    apply .items.item[ !f() ]
+    apply .item[ !f() ]
 }
 
 match .item {

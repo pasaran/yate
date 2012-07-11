@@ -1,6 +1,13 @@
 /// {
-///     description: 'Вызов локальной и нелокальной функций в предикате",
-///     result: 'secondthird"
+///     description: 'Вызов локальной и нелокальной функций в предикате',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second', disabled: true },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: 'SecondThird'
 /// }
 
 func disabled() {
@@ -15,13 +22,13 @@ func two() {
 
 match / {
     //  [ disabled() ] должно расцениваться как предикат.
-    apply .items.item[ disabled() ]
+    apply .item[ disabled() ]
 
     //  [ two() ] должно расцениваться как индекс.
-    apply .items.item[ two() ]
+    apply .item[ two() ]
 }
 
 match .item {
-    .id
+    .title
 }
 

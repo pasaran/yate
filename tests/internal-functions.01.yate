@@ -1,6 +1,6 @@
 /// {
-///     description: 'true() and false()",
-///     result: 'truenot false"
+///     description: 'true() and false()',
+///     result: 'truenot false'
 /// }
 
 match / {

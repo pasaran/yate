@@ -1,6 +1,18 @@
 /// {
-///     description: 'apply ..... #name",
-///     result: 'blocksappcontentuserleft"
+///     description: 'apply ..... #name',
+///     data: {
+///         blocks: {
+///             app: {
+///                 content: {
+///                     user: {
+///                         left: 'profile',
+///                         right: 'photo'
+///                     }
+///                 }
+///             }
+///         }
+///     },
+///     result: 'blocksappcontentuserleft'
 /// }
 
 match / {

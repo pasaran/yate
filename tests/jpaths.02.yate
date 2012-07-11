@@ -1,6 +1,11 @@
 /// {
-///     description: 'parent selector",
-///     result: 'flags"
+///     description: 'parent selector',
+///     data: {
+///         flags: {
+///             disabled: true
+///         }
+///     },
+///     result: 'flags'
 /// }
 
 match / {

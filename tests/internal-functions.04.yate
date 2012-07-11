@@ -1,6 +1,11 @@
 /// {
-///     description: 'name() и name(...)",
-///     result: ' : items : item : "
+///     description: 'name() и name(...)',
+///     data: {
+///         items: {
+///             item: [ 1, 2, 3 ]
+///         }
+///     },
+///     result: ' : items : item : '
 /// }
 
 match / {

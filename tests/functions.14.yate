@@ -1,6 +1,6 @@
 /// {
-///     description: 'functions with the same params",
-///     result: '<h1>Hello</h1>"
+///     description: 'functions with the same params',
+///     result: '<h1>Hello</h1><h2>Hello</h2>'
 /// }
 
 func h1(x) {
@@ -13,5 +13,6 @@ func h2(x) {
 
 match / {
     h1("Hello")
+    h2("Hello")
 }
 

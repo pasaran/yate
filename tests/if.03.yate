@@ -1,7 +1,24 @@
 /// {
 ///     description: 'existence of nodeset",
-///     result: 'abcdefgijk",
-///     "data": "if.02.json"
+///     data: {
+///         {
+///             a: 'foo',
+///             b: 42,
+///             c: true,
+///             d: false,
+///             e: null,
+///             f: 0,
+///             g: '',
+///             h: [],
+///             i: {},
+///
+///             j: [ 1, 2, 3 ],
+///             k: {
+///                 foo: true
+///             }
+///         }
+///     },
+///     result: 'abcdefgijk'
 /// }
 
 match / {
