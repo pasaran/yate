@@ -1,6 +1,6 @@
 /// {
-///     "description": "functions with the same params",
-///     "result": "<h1>Hello</h1>"
+///     description: 'functions with the same params",
+///     result: '<h1>Hello</h1>"
 /// }
 
 func h1(x) {

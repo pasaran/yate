@@ -1,6 +1,9 @@
 /// {
-///     "description": "function returning default boolean value (false)",
-///     "result": "<div>Error</div>"
+///     description: 'function returning default boolean value (false)',
+///     data: {
+///         count: 42
+///     },
+///     result: '<div>Error</div>'
 /// }
 
 func ok() {

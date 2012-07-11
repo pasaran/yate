@@ -1,6 +1,6 @@
 /// {
-///     "description": "index() in second predicate",
-///     "result": "foursixeight"
+///     description: 'index() in second predicate",
+///     result: 'foursixeight"
 /// }
 
 match / {

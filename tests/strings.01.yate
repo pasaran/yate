@@ -1,6 +1,6 @@
 /// {
-///     "description": "string with different quotes",
-///     "result": "String with \"double quotes\" and 'single quotes'String with \"double quotes\" and 'single quotes'"
+///     description: 'string with different quotes",
+///     result: 'String with \"double quotes\" and 'single quotes'String with \"double quotes\" and 'single quotes'"
 /// }
 
 match / {

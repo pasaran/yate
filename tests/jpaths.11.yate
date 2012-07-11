@@ -1,6 +1,6 @@
 /// {
-///     "description": "* selector",
-///     "result": "blocksappcontentuserleftright"
+///     description: '* selector",
+///     result: 'blocksappcontentuserleftright"
 /// }
 
 match / {

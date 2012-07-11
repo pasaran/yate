@@ -1,5 +1,5 @@
 /// {
-///     "description": "Cannot use uninitialized variable",
+///     description: 'Cannot use uninitialized variable",
 ///     "throws": true
 /// }
 

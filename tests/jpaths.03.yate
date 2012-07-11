@@ -1,6 +1,6 @@
 /// {
-///     "description": "parent selector of arrays items",
-///     "result": "itemsitemsitems"
+///     description: 'parent selector of arrays items",
+///     result: 'itemsitemsitems"
 /// }
 
 match / {

@@ -1,6 +1,6 @@
 /// {
-///     "description": "Variable in match selector",
-///     "result": "Hello, nop",
+///     description: 'Variable in match selector",
+///     result: 'Hello, nop",
 ///     "known": true
 /// }
 

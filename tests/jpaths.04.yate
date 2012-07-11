@@ -1,6 +1,6 @@
 /// {
-///     "description": ". expression",
-///     "result": "FirstSecondThird"
+///     description: '. expression",
+///     result: 'FirstSecondThird"
 /// }
 
 match / {

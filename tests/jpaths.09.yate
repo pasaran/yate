@@ -1,6 +1,6 @@
 /// {
-///     "description": "join doesn't preserve order",
-///     "result": "fivesixseveneightninezeroonetwothreefour"
+///     description: 'join doesn't preserve order",
+///     result: 'fivesixseveneightninezeroonetwothreefour"
 /// }
 
 match / {

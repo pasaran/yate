@@ -1,6 +1,6 @@
 /// {
-///     "description": "string interpolation",
-///     "result": "Hello, nop"
+///     description: 'string interpolation",
+///     result: 'Hello, nop"
 /// }
 
 match / {

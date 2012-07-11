@@ -1,6 +1,6 @@
 /// {
-///     "description": "join doesn't remove duplicate nodes",
-///     "result": "nopnopnop"
+///     description: 'join doesn't remove duplicate nodes",
+///     result: 'nopnopnop"
 /// }
 
 match / {

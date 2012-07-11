@@ -1,6 +1,6 @@
 /// {
-///     "description": "nested short tags",
-///     "result": "<img src=\"1.png\"/><img src=\"2.png\" class=\"b-hello\"/>Hello, World"
+///     description: 'nested short tags",
+///     result: '<img src=\"1.png\"/><img src=\"2.png\" class=\"b-hello\"/>Hello, World"
 /// }
 
 match / {

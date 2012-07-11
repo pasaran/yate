@@ -1,6 +1,6 @@
 /// {
-///     "description": "global non-constant variable",
-///     "result": "FirstSecondThird"
+///     description: 'global non-constant variable",
+///     result: 'FirstSecondThird"
 /// }
 
 items = .items.item

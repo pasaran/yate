@@ -1,6 +1,6 @@
 /// {
-///     "description": "interpolation inside xml text",
-///     "result": "<h1>Hello, nop</h1>"
+///     description: 'interpolation inside xml text",
+///     result: '<h1>Hello, nop</h1>"
 /// }
 
 match / {

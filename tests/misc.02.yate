@@ -1,6 +1,6 @@
 /// {
-///     "description": "apply with params",
-///     "result": "nop: 33662468"
+///     description: 'apply with params",
+///     result: 'nop: 33662468"
 /// }
 
 match / {

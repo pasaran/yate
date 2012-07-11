@@ -1,6 +1,6 @@
 /// {
-///     "description": "xslt-styled key",
-///     "result": "First"
+///     description: 'xslt-styled key",
+///     result: 'First"
 /// }
 
 key item( .items.item, .id ) {

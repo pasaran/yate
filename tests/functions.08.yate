@@ -1,6 +1,13 @@
 /// {
-///     "description": "function call preserves current context",
-///     "result": "<ul><li>First</li><li>Second</li><li>Third</li></ul>"
+///     description: 'function call preserves current context',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second' },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
 /// }
 
 func item() {
@@ -9,7 +16,7 @@ func item() {
 
 match / {
     <ul>
-        for .items.item {
+        for .item {
             item()
         }
     </ul>

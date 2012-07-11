@@ -1,14 +1,21 @@
 /// {
-///     "description": "external function",
-///     "externals": "functions.09.js",
-///     "result": "<ul><li>Third</li><li>Second</li><li>First</li></ul>"
+///     description: 'external function',
+///     externals: 'functions.09.js',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second' },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: '<ul><li>Third</li><li>Second</li><li>First</li></ul>'
 /// }
 
 external nodeset reverse( nodeset )
 
 match / {
     <ul>
-        apply reverse( .items.item )
+        apply reverse( .item )
     </ul>
 }
 

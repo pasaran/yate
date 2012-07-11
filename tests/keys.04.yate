@@ -1,6 +1,6 @@
 /// {
-///     "description": "functions and expressions in key",
-///     "result": "nopFirst"
+///     description: 'functions and expressions in key",
+///     result: 'nopFirst"
 /// }
 
 key item1( .*, name() ) {

@@ -1,6 +1,6 @@
 /// {
-///     "description": "name() и name(...)",
-///     "result": " : items : item : "
+///     description: 'name() и name(...)",
+///     result: ' : items : item : "
 /// }
 
 match / {

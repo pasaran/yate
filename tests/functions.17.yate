@@ -1,6 +1,6 @@
 /// {
-///     "description": "function in predicate",
-///     "result": "FirstThird"
+///     description: 'function in predicate",
+///     result: 'FirstThird"
 /// }
 
 func f() {

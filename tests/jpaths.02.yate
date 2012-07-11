@@ -1,6 +1,6 @@
 /// {
-///     "description": "parent selector",
-///     "result": "flags"
+///     description: 'parent selector",
+///     result: 'flags"
 /// }
 
 match / {

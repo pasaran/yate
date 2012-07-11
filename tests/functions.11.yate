@@ -1,6 +1,6 @@
 /// {
-///     "description": "empty string as function param",
-///     "result": "<a href=\"http://www.yandex.ru\">Яндекс</a><a href=\"http://www.yandex.ru\">Яндекс</a><a href=\"http://www.yandex.ru\" class=\"b-link\">Яндекс</a>"
+///     description: 'empty string as function param',
+///     result: '<a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru">Яндекс</a><a href="http://www.yandex.ru" class="b-link">Яндекс</a>'
 /// }
 
 match / {

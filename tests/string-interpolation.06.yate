@@ -1,6 +1,6 @@
 /// {
-///     "description": "multiple interpolations inside inline attribute",
-///     "result": "<h1 class=\"b-hello b-hello-nop b-hello-33662468\">Hello, nop</h1>"
+///     description: 'multiple interpolations inside inline attribute",
+///     result: '<h1 class=\"b-hello b-hello-nop b-hello-33662468\">Hello, nop</h1>"
 /// }
 
 match / {

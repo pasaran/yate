@@ -1,6 +1,6 @@
 /// {
-///     "description": "return value of function saved in variable",
-///     "result": "nop"
+///     description: 'return value of function saved in variable",
+///     result: 'nop"
 /// }
 
 func f() {

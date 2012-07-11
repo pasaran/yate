@@ -1,6 +1,6 @@
 /// {
-///     "description": "Аргумент функции в предикате",
-///     "result": "Second"
+///     description: 'Аргумент функции в предикате",
+///     result: 'Second"
 /// }
 
 func get(id) {

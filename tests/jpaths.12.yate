@@ -1,6 +1,6 @@
 /// {
-///     "description": "simple absolute jpath",
-///     "result": "nop"
+///     description: 'simple absolute jpath",
+///     result: 'nop"
 /// }
 
 match / {

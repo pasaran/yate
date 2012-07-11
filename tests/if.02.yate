@@ -1,6 +1,6 @@
 /// {
-///     "description": "falsy values",
-///     "result": "abci!d!e!f!g!h",
+///     description: 'falsy values",
+///     result: 'abci!d!e!f!g!h",
 ///     "data": "if.02.json"
 /// }
 

@@ -1,6 +1,6 @@
 /// {
-///     "description": "functions with the nodeset param",
-///     "result": "zeroonetwo"
+///     description: 'functions with the nodeset param",
+///     result: 'zeroonetwo"
 /// }
 
 func three(nodeset labels) {
