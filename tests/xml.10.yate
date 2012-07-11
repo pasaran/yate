@@ -1,6 +1,10 @@
 /// {
-///     description: 'multi-line tag",
-///     result: '<div class=\"b-hello\" id=\"hello-33662468\">Hello</div><div class=\"b-hello\" id=\"hello-33662468\">Hello</div>"
+///     description: 'multi-line tag',
+///     data: {
+///         id: 33662468,
+///         username: 'nop'
+///     },
+///     result: '<div class="b-hello" id="hello-33662468">Hello</div><div class="b-hello" id="hello-33662468">Hello</div>'
 /// }
 
 match / {

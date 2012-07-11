@@ -1,6 +1,9 @@
 /// {
-///     description: 'variable can be redefined in internal scope and restored back",
-///     result: '<h1>Hello, nop</h1><h1>Hello, unknown</h1>"
+///     description: 'variable can be redefined in internal scope and restored back',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1>Hello, nop</h1><h1>Hello, unknown</h1>'
 /// }
 
 match / {

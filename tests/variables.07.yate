@@ -1,6 +1,9 @@
 /// {
-///     description: 'variable with xml value",
-///     result: '<h1>Hello, nop</h1>"
+///     description: 'variable with xml value',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1>Hello, nop</h1>'
 /// }
 
 match / {

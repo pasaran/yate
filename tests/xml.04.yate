@@ -1,6 +1,6 @@
 /// {
-///     description: 'short tag with text inside",
-///     result: '<img src=\"0.png\" width=\"100\" height=\"100\"/>Hello"
+///     description: 'short tag with text inside',
+///     result: '<img src="0.png" width="100" height="100"/>Hello'
 /// }
 
 match / {
