@@ -1,6 +1,9 @@
 /// {
-///     description: 'string interpolation",
-///     result: 'Hello, nop"
+///     description: 'string interpolation',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: 'Hello, nop'
 /// }
 
 match / {

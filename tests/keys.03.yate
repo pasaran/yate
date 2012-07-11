@@ -1,17 +1,25 @@
 /// {
-///     description: 'multiple items in key",
-///     result: 'itemflags",
-///     "known": true
+///     description: 'multiple items in key',
+///     data: {
+///         item: [
+///             { title: 'First', count: 3 },
+///             { title: 'Second', count: 5 },
+///             { title: 'Third', count: 5 }
+///         ]
+///     },
+///     result: 'SecondThird',
+///     known: true
 /// }
 
-key item( .items.item | .flags, .disabled) {
+key item( .item, .count) {
     .
 }
 
 match / {
-    apply item("true") dump
+    apply item(5)
 }
 
-match .* dump {
-    name()
+match .item {
+    .title
 }
+

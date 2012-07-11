@@ -1,6 +1,9 @@
 /// {
-///     description: 'string concatenation via +",
-///     result: '<h1>Hello, nop</h1>"
+///     description: 'string concatenation via +',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1>Hello, nop</h1>'
 /// }
 
 match / {

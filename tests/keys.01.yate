@@ -1,6 +1,24 @@
 /// {
-///     description: 'xslt-styled key",
-///     result: 'First"
+///     description: 'xslt-styled key',
+///     data: {
+///         items: {
+///             item: [
+///                 {
+///                     id: 'first',
+///                     title: 'First'
+///                 },
+///                 {
+///                     id: 'second',
+///                     title: 'Second'
+///                 },
+///                 {
+///                     id: 'third',
+///                     title: 'Third'
+///                 }
+///             ]
+///         }
+///     },
+///     result: 'First'
 /// }
 
 key item( .items.item, .id ) {

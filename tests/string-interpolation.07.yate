@@ -1,6 +1,10 @@
 /// {
-///     description: 'multiple interpolations inside xml text",
-///     result: '<h1>Hello, nop. Your ID is 33662468</h1>"
+///     description: 'multiple interpolations inside xml text',
+///     data: {
+///         id: 33662468,
+///         username: 'nop'
+///     },
+///     result: '<h1>Hello, nop. Your ID is 33662468</h1>'
 /// }
 
 match / {

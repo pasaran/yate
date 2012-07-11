@@ -1,6 +1,9 @@
 /// {
-///     description: 'join doesn't preserve order",
-///     result: 'fivesixseveneightninezeroonetwothreefour"
+///     description: 'join doesn't preserve order',
+///     data: {
+///         label: [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
+///     },
+///     result: 'fivesixseveneightninezeroonetwothreefour'
 /// }
 
 match / {

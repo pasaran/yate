@@ -1,5 +1,9 @@
 /// {
-///     description: 'multiple string interpolations",
+///     description: 'multiple string interpolations',
+///     data: {
+///         id: 33662468,
+///         username: 'nop'
+///     },
 ///     result: 'Hello, nop! Your ID is 33662468"
 /// }
 
