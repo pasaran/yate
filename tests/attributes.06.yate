@@ -1,6 +1,7 @@
 /// {
 ///     description: 'several attributes in if',
 ///     data: {
+///         valid: true,
 ///         id: 33662468,
 ///         username: 'nop'
 ///     },

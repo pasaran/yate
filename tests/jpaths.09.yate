@@ -1,5 +1,5 @@
 /// {
-///     description: 'join doesn't preserve order',
+///     description: 'join doesn\'t preserve order',
 ///     data: {
 ///         label: [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
 ///     },

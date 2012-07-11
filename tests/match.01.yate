@@ -16,11 +16,11 @@ match / {
     </ul>
 }
 
-match .items.item {
+match .item {
     <li>{ .title }</li>
 }
 
-match .items.item[ .disabled ] {
+match .item[ .disabled ] {
     <li class="disabled">{ .title }</li>
 }
 

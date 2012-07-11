@@ -1,6 +1,7 @@
 /// {
 ///     description: 'variable with if value',
 ///     data: {
+///         valid: true,
 ///         username: 'nop'
 ///     },
 ///     result: '<h1 class="b-hello">Hello, nop</h1>'

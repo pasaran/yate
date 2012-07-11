@@ -1,5 +1,5 @@
 /// {
-///     description: 'join doesn't remove duplicate nodes',
+///     description: 'join doesn\'t remove duplicate nodes',
 ///     data: {
 ///         username: 'nop'
 ///     },

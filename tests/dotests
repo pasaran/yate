@@ -52,7 +52,7 @@ for (var i = 0, l = files.length; i < l; i++) {
     var status, desc;
 
     try {
-        var result = yate.run( tmpfile, options.data || defaultData, options.externals );
+        var result = yate.run( tmpfile, { data: options.data || {} }, options.externals );
 
         if (options.throws) {
             status = 'fail';
@@ -133,7 +133,7 @@ function parseTest(content) {
     for (var i = 0, l = options.length; i < l; i++) {
         options[i] = options[i].replace(/^\/\/\/\s*/, '');
     }
-    options = JSON.parse( options.join('\n') );
+    options = eval( '(' + options.join('\n') + ')' );
 
     var yate = content.match(/^(?!\/\/\/).*?$/gm).join('\n');
 

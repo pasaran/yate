@@ -11,7 +11,7 @@
 /// }
 
 match / {
-    a = for .items.item {
+    a = for .item {
         <li>
             @class = "b-{ .id }"
             .title

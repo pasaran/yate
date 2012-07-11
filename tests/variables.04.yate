@@ -13,7 +13,7 @@
 
 match / {
     a = if .valid {
-        .items.item
+        .item
     }
 
     <ul>

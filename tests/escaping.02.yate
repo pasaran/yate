@@ -3,7 +3,7 @@
 ///     data: {
 ///         text: '<b>Some &text</b>'
 ///     },
-///     result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>
+///     result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
 /// }
 
 match / {
