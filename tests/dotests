@@ -8,6 +8,7 @@ var path = require('path');
 var nopt = require('nopt');
 
 var parsed = nopt({
+    'diff': Boolean,
     'only-total': Boolean,
     'only-errors': Boolean,
 });
@@ -97,6 +98,11 @@ for (var i = 0, l = files.length; i < l; i++) {
 
     if ( !parsed['only-total'] && ( status !== 'ok' || !parsed['only-errors'] ) ) {
         console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
+        if (status === 'fail' && parsed.diff) {
+            console.log( format, strpad('result:').red, JSON.stringify(result).red, '' );
+            console.log( format, strpad('expected:').green, JSON.stringify(options.result).green, '' );
+            console.log();
+        }
     }
 }
 
