@@ -1,0 +1,26 @@
+/// {
+///     description: 'match multiple values while selecting by key',
+///     data: {
+///         item: [
+///             { id: 'first' },
+///             { id: 'second' },
+///             { id: 'third' }
+///         ],
+///         selected: [ 'first', 'second' ]
+///     },
+///     result: 'firstsecond',
+///     known: true
+/// }
+
+key items( .item, .id ) {
+    .
+}
+
+match / {
+    apply items(.selected)
+}
+
+match .item {
+   .id
+}
+
