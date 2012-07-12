@@ -317,7 +317,7 @@ attrs_open :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-compound :output
+subexpr :output
 
     %{ Block :output }
 
@@ -460,7 +460,7 @@ inline_unary
 inline_union
     (%{ Left }).concat(%{ Right })
 
-inline_compound
+inline_subexpr
     (%{ Expr })
 
 
