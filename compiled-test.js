@@ -7,12 +7,12 @@ items = .items.item[ .count < count ]
 match / {
     id = .id
     <ul id="{ id }">
-        apply items
-        apply .items.item[ .selected && .id == id ]
+        apply items content
+        apply .items.item[ .selected && .id == id ] content
     </ul>
 }
 
-match .item {
+match .item content {
     <li>{ .title }</li>
 }
 
@@ -77,11 +77,11 @@ P.v2 = function(c0) {
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 //  .count < count
-P.p0 = function(c0) {
+P.p0 = function(c0, i0, l0) {
     return this.selectAsScalar('j0', c0) < this.v0;
 };
 //  .selected && .id = id
-P.p1 = function(c0) {
+P.p1 = function(c0, i0, l0) {
     var v2_ = this.vars('v2', c0);
     return this.selectAsBool('j4', c0) && this.selectAsScalar('j3', c0) == v2_;
 };
@@ -90,7 +90,8 @@ P.p1 = function(c0) {
 //  Templates
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-P.t0 = function(c0) {
+//  match /
+P.t0 = function(c0, a0, i0, l0) {
     //  items = .items.item[ .count < count ]
     var v1_ = this.gvars('v1', c0);
     //  id = .id
@@ -98,15 +99,16 @@ P.t0 = function(c0) {
     var r0 = '';
     r0 += '<ul id="' + v2_ + '">';
     //  apply items
-    r0 += this.applyValue(v1_);
+    r0 += this.applyValue(v1_, 'content', a0);
     //  apply .items.item[ .selected && .id == id ]
-    r0 += this.applyValue('j5', c0);
+    r0 += this.applyValue(this.select('j5', c0), 'content', a0);
     r0 += '</ul>';
     return r0;
 };
 P.t0.selector = null;
 
-P.t1 = function(c0) {
+//  match .item content
+P.t1 = function(c0, a0, i0, l0) {
     var r0 = '';
     r0 += '<li>';
     //  .title
@@ -118,7 +120,9 @@ P.t1.selector = 'j6';
 
 P.matcher = {
     '': {
-        '': [ 't0' ],
+        '': [ 't0' ]
+    },
+    'content': {
         'item': [ 't1' ]
     }
 };
