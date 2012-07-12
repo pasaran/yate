@@ -1,6 +1,9 @@
 /// {
-///     "description": "functions with the nodeset param",
-///     "result": "zeroonetwo"
+///     description: 'functions with the nodeset param',
+///     data: {
+///         label: [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
+///     },
+///     result: 'zeroonetwo'
 /// }
 
 func three(nodeset labels) {

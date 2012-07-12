@@ -1,6 +1,6 @@
 /// {
-///     "description": "expand non-short tags",
-///     "result": "<div class=\"b-hello\"></div>"
+///     description: 'expand non-short tags',
+///     result: '<div class="b-hello"></div>'
 /// }
 
 match / {

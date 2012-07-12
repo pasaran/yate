@@ -1,19 +1,27 @@
 /// {
-///     "description": "functions and expressions in key",
-///     "result": "nopFirst"
+///     description: 'functions and expressions in key',
+///     data: {
+///         item: [
+///             { id: 'first', title: 'First' },
+///             { id: 'second', title: 'Second' },
+///             { id: 'third', title: 'Third' }
+///         ],
+///         username: 'nop'
+///     },
+///     result: 'nopSecond'
 /// }
 
 key item1( .*, name() ) {
     .
 }
 
-key item2( .items.item, "{ .id }{ .title }" ) {
+key item2( .item, "{ .id }{ .title }" ) {
     .
 }
 
 match / {
     item1("username")
 
-    item2("firstFirst").title
+    item2("secondSecond").title
 }
 

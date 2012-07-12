@@ -1,6 +1,9 @@
 /// {
-///     "description": "attribute inside scalar block",
-///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+///     description: 'attribute inside scalar block',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<h1 class="b-hello">Hello, nop</h1>'
 /// }
 
 match / {

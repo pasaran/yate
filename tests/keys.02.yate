@@ -1,6 +1,24 @@
 /// {
-///     "description": "key with xml-typed values",
-///     "result": "<ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul><ul><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul>"
+///     description: 'key with xml-typed values',
+///     data: {
+///         items: {
+///             item: [
+///                 {
+///                     id: 'first',
+///                     title: 'First'
+///                 },
+///                 {
+///                     id: 'second',
+///                     title: 'Second'
+///                 },
+///                 {
+///                     id: 'third',
+///                     title: 'Third'
+///                 }
+///             ]
+///         }
+///     },
+///     result: '<ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul><ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul>'
 /// }
 
 key item( .items.item, .id ) {

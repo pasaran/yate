@@ -1,6 +1,6 @@
 /// {
-///     "description": "empty string in variable",
-///     "result": ""
+///     description: 'empty string in variable',
+///     result: ''
 /// }
 
 match / {

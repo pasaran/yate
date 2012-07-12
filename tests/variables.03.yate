@@ -1,10 +1,17 @@
 /// {
-///     "description": "variable with for value",
-///     "result": "<ul><li class=\"b-first\">First</li><li class=\"b-second\">Second</li><li class=\"b-third\">Third</li></ul>"
+///     description: 'variable with for value',
+///     data: {
+///         item: [
+///             { id: 'first', title: 'First' },
+///             { id: 'second', title: 'Second' },
+///             { id: 'third', title: 'Third' }
+///         ]
+///     },
+///     result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>'
 /// }
 
 match / {
-    a = for .items.item {
+    a = for .item {
         <li>
             @class = "b-{ .id }"
             .title

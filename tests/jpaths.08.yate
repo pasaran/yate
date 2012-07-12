@@ -1,6 +1,9 @@
 /// {
-///     "description": "index() in second predicate",
-///     "result": "foursixeight"
+///     description: 'index() in second predicate',
+///     data: {
+///         label: [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
+///     },
+///     result: 'foursixeight'
 /// }
 
 match / {

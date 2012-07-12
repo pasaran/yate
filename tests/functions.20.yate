@@ -1,6 +1,6 @@
 /// {
-///     "description": "internal function call inside of scoped user function",
-///     "result": "<b>Hello</b>"
+///     description: 'internal function call inside of scoped user function',
+///     result: '<b>Hello</b>'
 /// }
 
 match / {

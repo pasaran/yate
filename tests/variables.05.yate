@@ -1,11 +1,18 @@
 /// {
-///     "description": "variable with nodeset block value",
-///     "result": "<ul><li>First</li><li>Second</li><li>Third</li></ul>"
+///     description: 'variable with nodeset block value',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second' },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: '<ul><li>First</li><li>Second</li><li>Third</li></ul>'
 /// }
 
 match / {
     items = (
-        .items.item
+        .item
     )
 
     <ul>

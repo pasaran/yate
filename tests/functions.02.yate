@@ -1,6 +1,10 @@
 /// {
-///     "description": "function returning boolean",
-///     "result": "<div>Ok</div><div>Valid</div>"
+///     description: 'function returning boolean',
+///     data: {
+///         valid: true,
+///         count: 42
+///     },
+///     result: '<div>Ok</div><div>Valid</div>'
 /// }
 
 func ok() {

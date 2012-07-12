@@ -1,6 +1,10 @@
 /// {
-///     "description": "attribute in the beginning of block block",
-///     "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+///     description: 'attribute in the beginning of block block',
+///     data: {
+///         username: 'nop',
+///         valid: true
+///     },
+///     result: '<h1 class="b-hello">Hello, nop</h1>'
 /// }
 
 match / {

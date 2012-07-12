@@ -1,6 +1,9 @@
 /// {
-///     "description": "result of apply as an inline attribute's value",
-///     "result": "<div class=\"b-hello\" title=\"I &hearts; NY, SF &amp; &quot;Moscow&quot;I &hearts; NY, SF &amp; &quot;Moscow&quot;\">Hello</div>"
+///     description: 'Result of apply as an inline attribute\'s value',
+///     data: {
+///         title: 'I &hearts; NY, SF & "Moscow"'
+///     },
+///     result: '<div class="b-hello" title="I &hearts; NY, SF &amp; &quot;Moscow&quot;I &hearts; NY, SF &amp; &quot;Moscow&quot;">Hello</div>'
 /// }
 
 match / {

@@ -1,7 +1,10 @@
 /// {
-///     "description": "Variable in match selector",
-///     "result": "Hello, nop",
-///     "known": true
+///     description: 'Variable in match selector',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: 'Hello, nop',
+///     known: true
 /// }
 
 isValid = true()

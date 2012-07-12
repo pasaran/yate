@@ -1,6 +1,22 @@
 /// {
-///     "description": "attributes in apply",
-///     "result": "<h1 class=\"b-hello b-first b-second b-third\">Hello, nop</h1>"
+///     description: 'attributes in apply',
+///     data: {
+///         username: 'nop',
+///         items: {
+///             item: [
+///                 {
+///                     id: 'first'
+///                 },
+///                 {
+///                     id: 'second'
+///                 },
+///                 {
+///                     id: 'third'
+///                 }
+///             ]
+///         }
+///     },
+///     result: '<h1 class="b-hello b-first b-second b-third">Hello, nop</h1>'
 /// }
 
 match / {

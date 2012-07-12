@@ -1,6 +1,10 @@
 /// {
-///     "description": "parse value before block expression (...)",
-///     "result": "yes"
+///     description: 'parse rule "value" before "compound"',
+///     data: {
+///         valid: true,
+///         count: 42
+///     },
+///     result: 'yes'
 /// }
 
 match / {

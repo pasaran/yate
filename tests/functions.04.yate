@@ -1,6 +1,9 @@
 /// {
-///     "description": "function returning empty nodeset",
-///     "result": ""
+///     description: 'function returning empty nodeset',
+///     data: {
+///         item: [ 1, 2, 3 ]
+///     },
+///     result: ''
 /// }
 
 func empty() {
@@ -11,5 +14,9 @@ func empty() {
 
 match / {
     apply empty()
+}
+
+match .item {
+    .
 }
 

@@ -1,6 +1,11 @@
 /// {
-///     "description": "Использование count() в предикате. См. https://github.com/pasaran/yate/issues/34",
-///     "result": "itemsitemitemitem"
+///     description: 'Использование count() в предикате. См. https://github.com/pasaran/yate/issues/34',
+///     data: {
+///         items: {
+///             item: [ 1, 2, 3 ]
+///         }
+///     },
+///     result: 'itemsitemitemitem'
 /// }
 
 match / {

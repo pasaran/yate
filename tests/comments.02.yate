@@ -1,6 +1,6 @@
 /// {
-///     "description": "c-style block comments",
-///     "result": "Hello"
+///     description: 'c-style block comments',
+///     result: 'Hello'
 /// }
 
 match / {

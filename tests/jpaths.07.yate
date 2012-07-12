@@ -1,6 +1,9 @@
 /// {
-///     "description": "index() and count() in predicate",
-///     "result": "01234"
+///     description: 'index() and count() in predicate',
+///     data: {
+///         label: [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ]
+///     },
+///     result: '01234'
 /// }
 
 match / {

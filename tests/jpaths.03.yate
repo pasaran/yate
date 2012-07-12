@@ -1,6 +1,11 @@
 /// {
-///     "description": "parent selector of arrays items",
-///     "result": "itemsitemsitems"
+///     description: 'parent selector of arrays items',
+///     data: {
+///         items: {
+///             item: [ 1, 2, 3 ]
+///         }
+///     },
+///     result: 'itemsitemsitems'
 /// }
 
 match / {

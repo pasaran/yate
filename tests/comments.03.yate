@@ -1,6 +1,6 @@
 /// {
-///     "description": "html-style comments",
-///     "result": "<div>Hello</div>"
+///     description: 'html-style comments',
+///     result: '<div>Hello</div>'
 /// }
 
 match / {

@@ -1,6 +1,9 @@
 /// {
-///     "description": "single and double quoted strings",
-///     "result": "Hello, nopHello, nop"
+///     description: 'single and double quoted strings',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: 'Hello, nopHello, nop'
 /// }
 
 match / {

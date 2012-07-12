@@ -1,9 +1,16 @@
 /// {
-///     "description": "global non-constant variable",
-///     "result": "FirstSecondThird"
+///     description: 'global non-constant variable',
+///     data: {
+///         item: [
+///             { title: 'First' },
+///             { title: 'Second' },
+///             { title: 'Third' }
+///         ]
+///     },
+///     result: 'FirstSecondThird'
 /// }
 
-items = .items.item
+items = .item
 
 match / {
     apply items

@@ -1,6 +1,9 @@
 /// {
-///     "description": "single and double quoted attributes",
-///     "result": "<div class=\"b-hello\" title=\"nop\">Hello</div><div class=\"b-hello\" title=\"nop\">Hello</div>"
+///     description: 'single and double quoted attributes',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<div class="b-hello" title="nop">Hello</div><div class="b-hello" title="nop">Hello</div>'
 /// }
 
 match / {

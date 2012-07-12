@@ -1,11 +1,19 @@
 /// {
-///     "description": "variable with if value, type nodeset",
-///     "result": "<ul><li class=\"b-first\">First</li><li class=\"b-second\">Second</li><li class=\"b-third\">Third</li></ul>"
+///     description: 'variable with if value, type nodeset',
+///     data: {
+///         valid: true,
+///         item: [
+///             { id: 'first', title: 'First' },
+///             { id: 'second', title: 'Second' },
+///             { id: 'third', title: 'Third' }
+///         ]
+///     },
+///     result: '<ul><li class="b-first">First</li><li class="b-second">Second</li><li class="b-third">Third</li></ul>'
 /// }
 
 match / {
     a = if .valid {
-        .items.item
+        .item
     }
 
     <ul>
