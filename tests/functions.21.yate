@@ -1,0 +1,16 @@
+/// {
+///     description: 'function adds to @class',
+///     result: '<div class="hello nop"></div>'
+/// }
+
+func foo() {
+    @class += " nop"
+}
+
+match / {
+    <div>
+        @class = "hello"
+        foo()
+    </div>
+}
+
