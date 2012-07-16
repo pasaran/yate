@@ -1,5 +1,6 @@
 /*
 
+id = "foo"
 count = 5
 
 items = .items.item[ .count < count ]
@@ -12,7 +13,7 @@ match / {
     </ul>
 }
 
-match .item content {
+match .item[ .id == id ] content {
     <li>{ .title }</li>
 }
 
@@ -45,6 +46,9 @@ P.j5 = [ 'items', 'item', 2, 'p1' ];
 //  .item
 P.j6 = [ 'item' ];
 
+//  .item[ .id = id ]
+P.j7 = [ 'item', 2, 'p2' ];
+
 //  ---------------------------------------------------------------------------------------------------------------  //
 //  Vars
 //  ---------------------------------------------------------------------------------------------------------------  //
@@ -71,6 +75,7 @@ P.v2 = function(c0) {
     return this.select('j3', c0);
 };
 */
+P.v3 = "foo";
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 //  Predicates
@@ -80,10 +85,16 @@ P.v2 = function(c0) {
 P.p0 = function(c0, i0, l0) {
     return this.selectAsScalar('j0', c0) < this.v0;
 };
+
 //  .selected && .id = id
 P.p1 = function(c0, i0, l0) {
-    var v2_ = this.vars('v2', c0);
+    var v2_ = this.v2(c0);
     return this.selectAsBool('j4', c0) && this.selectAsScalar('j3', c0) == v2_;
+};
+
+//  .id = id
+P.p2 = function(c0, i0, l0) {
+    return this.selectAsScalar('j3', c0) == this.v3;
 };
 
 //  ---------------------------------------------------------------------------------------------------------------  //
@@ -95,7 +106,7 @@ P.t0 = function(c0, a0, i0, l0) {
     //  items = .items.item[ .count < count ]
     var v1_ = this.gvars('v1', c0);
     //  id = .id
-    var v2_ = this.vars('v2', c0);
+    var v2_ = this.v2(c0);
     var r0 = '';
     r0 += '<ul id="' + v2_ + '">';
     //  apply items
@@ -116,7 +127,7 @@ P.t1 = function(c0, a0, i0, l0) {
     r0 += '</li>';
     return r0;
 };
-P.t1.selector = 'j6';
+P.t1.selector = 'j7';
 
 P.matcher = {
     '': {
