@@ -1,3 +1,5 @@
+// vim: set filetype=javascript:
+
 // ----------------------------------------------------------------------------------------------------------------- //
 // module
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -6,21 +8,15 @@
 
 module
 
-    Yater.modules['%{ Name }'] = function(yater, root) {
+    (function() {
 
-        var vars = new Yater.Vars();
+        var M = new yr.Module();
 
-        %{ Block :defs }
+        %{ defs :module }
 
-        %{ Block.Templates :defs }
+        yr.register('%{ Name }', M);
 
-        %{ Block :matcher }
-
-
-        return matcher;
-
-    };
-
+    })();
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
@@ -28,35 +24,30 @@ module
 
 // template.
 
-template :defs
+template :module
 
     // match %{ Selector :yate } %{ Mode :yate }
-    var t%{ Tid } = {
-        jpath: %{ Selector :selector_ref },
-        body: %{ . }
-    };
+    M.t%{ Tid } = %{ . :def };
+    M.t%{ Tid }.s = %{ Selector :selector_ref };
 
-
-template
-
-    function t%{ Tid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
+template :def
+    function t%{ Tid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
         %{ Args :defaults }
-        %{ . :prologue }
+        %{ . :template_prologue }
 
         %{ Body :output }
 
         return r%{ Rid };
     }
-
-//template :prologue [ this.type() === 'array' ]
+//template :template_prologue [ this.type() === 'array' ]
 //
 //    var r%{ Rid } = [];
 //
-//template :prologue [ this.type() === 'object' ]
+//template :template_prologue [ this.type() === 'object' ]
 //
 //    var r%{ Rid } = {};
 
-template :prologue
+template :template_prologue
 
     var r%{ Rid } = '';
 
@@ -65,10 +56,14 @@ template :prologue
 
 // function_
 
-function_ :defs
+function_ :module
 
-    // %{ Name } : %{ type() }
-    function f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
+    // func %{ Name }() : %{ type() }
+    M.f%{ Fid } = %{ . :def };
+
+function_ :def
+
+    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
         %{ Args :defaults }
         %{ . :prologue }
 
@@ -103,24 +98,188 @@ function_ :epilogue
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// block and body
+
+//  var_
+
+var_ :module
+    %{ . :comment }
+    M.v%{ Vid } = %{ . :def };
+
+var_ :comment [ this.Value.inline() ]
+    //  %{ Name } = %{ Value :yate }
+
+var_ :comment
+    /*
+        %{ Name } = %{ Value :yate }
+    */
+
+var_ :def [ this.Value.inline() && this.Value.isConst() ]
+    %{ Value }
+
+var_ :def [ this.Value.inline() ]
+    function(c0, i0, l0, a0) {
+        return %{ Value };
+    }
+
+var_ :def [ this.Value.type() === 'attr' ]
+    function(c0, i0, l0, a0) {
+        %{ Value :prologue }
+        %{ Value :output }
+        return a%{ Value.Rid }.attrs;
+    }
+
+var_ :def
+    function(c0, i0, l0, a0) {
+        %{ Value :prologue }
+        %{ Value :output }
+        return r%{ Value.Rid };
+    }
+
+//var_ :defs [ this.Value.inline() && this.Lazy ]
+//
+//    vars.add("v%{ Vid }", function(c0) { return %{ Value }; });
+//
+//var_ :defs [ this.Value.inline() ]
+//
+//    var v%{ Vid } = %{ Value };
+//
+//var_ :defs [ this.Value.type() === 'attr' && this.Lazy ]
+//
+//    vars.add("v%{ Vid }", function(c0) {
+//        %{ Value :prologue }
+//        %{ Value :output }
+//        return a%{ Value.Rid }.attrs;
+//    });
+//
+//var_ :defs [ this.Value.type() === 'attr' ]
+//
+//    %{ Value :prologue }
+//    %{ Value :output }
+//    var v%{ Vid } = a%{ Value.Rid }.attrs;
+//
+//var_ :defs [ this.Lazy ]
+//
+//    vars.add("v%{ Vid }", function(c0) {
+//        %{ Value :prologue }
+//        %{ Value :output }
+//        return r%{ Value.Rid };
+//    });
+//
+//var_ :defs
+//
+//    %{ Value :prologue }
+//    %{ Value :output }
+//    var v%{ Vid } = r%{ Value.Rid };
+
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
-block :defs
+//key :defs
+//
+//    var k%{ Kid }_nodes;
+//    var k%{ Kid }_values = {};
+//    var k%{ Kid }_get = function(key) {
+//        var value = k%{ Kid }_values[key];
+//        if (!value) {
+//            var c%{ Cid } = k%{ Kid }_nodes[key];
+//            if (c%{ Cid }) {
+//                %{ Body.Block :prologue }
+//                %{ Body :output }
+//                value = r%{ Body.Block.Rid };
+//            }
+//            if (value) {
+//                k%{ Kid }_values[key] = value;
+//            }
+//        }
+//        return value || [];
+//    };
+//    var k%{ Kid } = function(key) {
+//        if (!k%{ Kid }_nodes) {
+//            var c%{ Cid } = root[0]; // FIXME: Сделать root[0] отдельной переменной.
+//            var nodes = %{ Nodes };
+//            k%{ Kid }_nodes = {};
+//            for (var i = 0, l = nodes.length; i < l; i++) {
+//                var c%{ Use.Cid }= nodes[i];
+//                var use = %{ Use };
+//                %{ . :use }
+//            }
+//
+//            k%{ Kid } = k%{ Kid }_get;
+//        }
+//
+//        return k%{ Kid }_get(key);
+//    };
+//
+//key :use [ this.Use.type() === 'nodeset' ]
+//
+//    for (var j = 0, m = use.length; j < m; j++) {
+//        k%{ Kid }_nodes[ yater.nodeValue(use[j]) ] = c%{ Use.Cid };
+//    }
+//
+//key :use
+//
+//    k%{ Kid }_nodes[use] = c%{ Use.Cid };
 
-    %{ js__defs() }
 
-block :matcher
+// ----------------------------------------------------------------------------------------------------------------- //
 
-    %{ js__matcher() }
+//  jpath
+
+jpath :module [ !this.isSimple() ]
+
+    // %{ Key }
+    M.j%{ Jid } = %{ . :def };
+
+jpath :def
+
+    [ %{ Steps } ]
+
+jpath_nametest
+
+    0, '%{ Name }'
+
+jpath_dots
+
+    1, %{ Length }
+
+jpath_predicate [ this.isLocal() ]
+
+    2, 'p%{ Pid }'
+
+jpath_predicate
+
+    3, 'p%{ Pid }'
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+//  jpath_predicate
+
+jpath_predicate :module
+
+    // %{ Key }
+    M.p%{ Pid } = %{ . :def };
+
+jpath_predicate :def
+
+    function p%{ Pid }(c%{ Cid }, i%{ Cid }, l%{ Cid }) {
+// FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
+        var a%{ Rid } = null;
+        return %{ Expr };
+    }
+
+
+// ----------------------------------------------------------------------------------------------------------------- //
+// block and body
+// ----------------------------------------------------------------------------------------------------------------- //
 
 body :output
 
     %{ Block :output }
 
-block :output
 
-    %{ . :defs }
+// ----------------------------------------------------------------------------------------------------------------- //
+
+block :output
 
     %{ Exprs :output }
 
@@ -136,93 +295,6 @@ block :output
 
     var r%{ Rid } = '';
     var a%{ Rid } = { attrs: {} };
-
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-var_ :defs [ this.Value.inline() && this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) { return %{ Value }; });
-
-var_ :defs [ this.Value.inline() ]
-
-    var v%{ Vid } = %{ Value };
-
-var_ :defs [ this.Value.type() === 'attr' && this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return a%{ Value.Rid }.attrs;
-    });
-
-var_ :defs [ this.Value.type() === 'attr' ]
-
-    %{ Value :prologue }
-    %{ Value :output }
-    var v%{ Vid } = a%{ Value.Rid }.attrs;
-
-var_ :defs [ this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return r%{ Value.Rid };
-    });
-
-var_ :defs
-
-    %{ Value :prologue }
-    %{ Value :output }
-    var v%{ Vid } = r%{ Value.Rid };
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-key :defs
-
-    var k%{ Kid }_nodes;
-    var k%{ Kid }_values = {};
-    var k%{ Kid }_get = function(key) {
-        var value = k%{ Kid }_values[key];
-        if (!value) {
-            var c%{ Cid } = k%{ Kid }_nodes[key];
-            if (c%{ Cid }) {
-                %{ Body.Block :prologue }
-                %{ Body :output }
-                value = r%{ Body.Block.Rid };
-            }
-            if (value) {
-                k%{ Kid }_values[key] = value;
-            }
-        }
-        return value || [];
-    };
-    var k%{ Kid } = function(key) {
-        if (!k%{ Kid }_nodes) {
-            var c%{ Cid } = root[0]; // FIXME: Сделать root[0] отдельной переменной.
-            var nodes = %{ Nodes };
-            k%{ Kid }_nodes = {};
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                var c%{ Use.Cid }= nodes[i];
-                var use = %{ Use };
-                %{ . :use }
-            }
-
-            k%{ Kid } = k%{ Kid }_get;
-        }
-
-        return k%{ Kid }_get(key);
-    };
-
-key :use [ this.Use.type() === 'nodeset' ]
-
-    for (var j = 0, m = use.length; j < m; j++) {
-        k%{ Kid }_nodes[ yater.nodeValue(use[j]) ] = c%{ Use.Cid };
-    }
-
-key :use
-
-    k%{ Kid }_nodes[use] = c%{ Use.Cid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -329,7 +401,7 @@ subexpr :output
 
 root
 
-    root
+    c0.root
 
 // Для jpath выводим имя его переменной, для root -- null.
 
@@ -347,45 +419,12 @@ jpath [ this.yate() === '.' ]
 
 jpath
 
-    yater.select(j%{ Jid }, c%{ Cid })
-
-jpath_predicate :defs
-
-    // %{ Key }
-    function p%{ Pid }(c%{ Cid }, i%{ Cid }, l%{ Cid }) {
-// FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
-        var a%{ Rid };
-        return %{ Expr };
-    };
-
-jpath :defs
-
-    var j%{ Jid } = %{ . :compiled }; // %{ Key }
-
-jpath :compiled
-
-    [ %{ Steps :compiled } ]
-
-jpath_nametest :compiled
-
-    0, "%{ Name }"
-
-jpath_dots :compiled
-
-    1, %{ Length }
-
-jpath_predicate :compiled [ this.isLocal() ]
-
-    2, p%{ Pid }
-
-jpath_predicate :compiled
-
-    3, %{ Expr }
+    yater.select('j%{ Jid }', c%{ Cid })
 
 // FIXME: Переименовать в inline_filter
 jpath_filter
 
-    yater.select(j%{ JPath.Jid }, %{ Expr })
+    yater.select('j%{ JPath.Jid }', %{ Expr })
 
 
 
@@ -567,7 +606,7 @@ quote
 
 simple_jpath
 
-    yater.simpleJPath("%{ Name }", c%{ JPath.Cid })
+    yater.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -577,6 +616,4 @@ simple_jpath
 * :yate
     %{ yate() }
 
-
-// vim: set filetype=javascript:
 
