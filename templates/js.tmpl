@@ -31,7 +31,7 @@ template :module
     M.t%{ Tid }.s = %{ Selector :selector_ref };
 
 template :def
-    function t%{ Tid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
+    function t%{ Tid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
 
@@ -64,13 +64,13 @@ function_ :module
 //  Только функции с типом attr или xml используют параметр aN.
 function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
 
-    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
+    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ . :body }
     }
 
 function_ :def
 
-    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid } %{ Args }) {
+    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
         %{ . :body }
     }
 
@@ -530,26 +530,30 @@ inline_subexpr
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_function [ this.External && !this.Args.empty() ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
-
+//  FIXME: Нужно ли тут передавать aN?
 inline_function [ this.External ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
+    (Yater.externals['%{ Name }'])(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args })
 
 inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
 
-inline_function [ this.Fid != null && !this.Args.empty() ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
+inline_function [ this.Fid != null && this.type() === 'attr' ]
+    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, { attrs: {} }%{ Args })
+
+inline_function [ this.Fid != null && this.type() === 'xml' ]
+    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args })
 
 inline_function [ this.Fid != null ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
+    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args })
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
 inline_function
     %{ js__internal() }
 
+callarg
+
+    , %{ Expr }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
