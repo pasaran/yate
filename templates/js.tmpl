@@ -131,19 +131,19 @@ var_ :def [ this.Value.inline() && this.Value.isConst() ]
     %{ Value }
 
 var_ :def [ this.Value.inline() ]
-    function(c0, i0, l0, a0) {
+    function(c0, i0, l0) {
         return %{ Value };
     }
 
 var_ :def [ this.Value.type() === 'attr' ]
-    function(c0, i0, l0, a0) {
+    function(c0, i0, l0) {
         %{ Value :prologue }
         %{ Value :output }
         return a%{ Value.Rid }.attrs;
     }
 
 var_ :def
-    function(c0, i0, l0, a0) {
+    function(c0, i0, l0) {
         %{ Value :prologue }
         %{ Value :output }
         return r%{ Value.Rid };
@@ -227,7 +227,7 @@ var_ :def
 //key :use [ this.Use.type() === 'nodeset' ]
 //
 //    for (var j = 0, m = use.length; j < m; j++) {
-//        k%{ Kid }_nodes[ yater.nodeValue(use[j]) ] = c%{ Use.Cid };
+//        k%{ Kid }_nodes[ this.nodeValue(use[j]) ] = c%{ Use.Cid };
 //    }
 //
 //key :use
@@ -351,13 +351,9 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ this.Args && !this.Args.empty() ]
+apply :output [ this.Args ]
 
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }, %{ Args });
-
-apply :output
-
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid });
+    r%{ Rid } += this.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args });
 
 template_mode :string
 
@@ -400,7 +396,7 @@ attr :output
     a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
-    r%{ Rid } += yater.closeAttrs(a%{ Rid });
+    r%{ Rid } += this.closeAttrs(a%{ Rid });
 
 attrs_open :output
 
@@ -443,12 +439,12 @@ jpath [ this.yate() === '.' ]
 
 jpath
 
-    yater.select('j%{ Jid }', c%{ Cid })
+    this.select('j%{ Jid }', c%{ Cid })
 
 // FIXME: Переименовать в inline_filter
 jpath_filter
 
-    yater.select('j%{ JPath.Jid }', %{ Expr })
+    this.select('j%{ JPath.Jid }', %{ Expr })
 
 
 
@@ -461,9 +457,8 @@ arglist_item :defaults [ this.Default ]
     v%{ Vid } = v%{ Vid } || %{ Default };
 
 
-
 // ----------------------------------------------------------------------------------------------------------------- //
-// inline expressions
+//  value
 // ----------------------------------------------------------------------------------------------------------------- //
 
 value
@@ -474,27 +469,23 @@ value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !t
 
     r%{ Rid } = %{ Value };
 
+value :output [ this.type() === 'attr' && this.Value.is('inline_var') ]
+
+    this.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+
+//  А тут всегда Value должно быть inline_function.
 value :output [ this.type() === 'attr' ]
 
-    yater.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    %{ Value };
 
 value :output
 
     r%{ Rid } += %{ Value };
 
-//inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
-//    yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
-//
-//inline_var :inline_output [ this.type() === 'attr' ]
-//    yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
 
-//* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
-//
-//    r%{ Rid } = %{ . };
-//
-//* :inline_output
-//
-//    r%{ Rid } += %{ . };
+// ----------------------------------------------------------------------------------------------------------------- //
+// inline expressions
+// ----------------------------------------------------------------------------------------------------------------- //
 
 inline_or
     %{ Left } || %{ Right }
@@ -537,8 +528,13 @@ inline_function [ this.External ]
 inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
 
-inline_function [ this.Fid != null && this.type() === 'attr' ]
+//  Этот вызов функции сохраняется в переменную, а не просто используется.
+//  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
+inline_function [ this.Fid != null && this.type() === 'attr' && this.InlineVarValue ]
     f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, { attrs: {} }%{ Args })
+
+inline_function [ this.Fid != null && this.type() === 'attr' ]
+    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid}%{ Args })
 
 inline_function [ this.Fid != null && this.type() === 'xml' ]
     f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args })
@@ -564,7 +560,7 @@ internal_function_false
     false
 
 internal_function_name [ this.Signature === 'nodeset' ]
-    yater.nodeName( %{Args} )
+    this.nodeName( %{Args} )
 
 internal_function_name
     c%{ Cid }.name
@@ -579,13 +575,13 @@ internal_function_count
     l%{ Cid }
 
 internal_function_slice
-    yater.slice(%{ Args })
+    this.slice(%{ Args })
 
 internal_function_html
     %{ Args }
 
 internal_function_exists
-    yater.exists(%{ Args })
+    this.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -614,13 +610,13 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ this.From === 'nodeset' && (this.To === 'scalar' || this.To === 'xml' || this.To === 'attrvalue' || this.To === 'boolean') ]
-    yater.nodeset2%{ To }( %{ Expr } )
+    this.nodeset2%{ To }( %{ Expr } )
 
 cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
-    yater.scalar2%{ To }( %{ Expr } )
+    this.scalar2%{ To }( %{ Expr } )
 
 cast [ this.From === 'xml' && this.To == 'attrvalue' ]
-    yater.scalar2attrvalue( %{ Expr } )
+    this.scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ this.From === 'scalar' && this.To === 'boolean' ]
@@ -630,11 +626,11 @@ cast
     %{ Expr }
 
 quote
-    yater.%{ Mode }Quote(%{ Expr })
+    this.%{ Mode }Quote(%{ Expr })
 
 simple_jpath
 
-    yater.simpleJPath('%{ Name }', c%{ JPath.Cid })
+    this.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
