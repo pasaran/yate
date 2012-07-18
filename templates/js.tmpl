@@ -61,38 +61,44 @@ function_ :module
     // func %{ Name }() : %{ type() }
     M.f%{ Fid } = %{ . :def };
 
+function_ :def [ this.Body.inline() ]
+
+    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
+        return %{ Body };
+    }
+
 function_ :def
 
     function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
         %{ Args :defaults }
-        %{ . :prologue }
+        %{ . :function_prologue }
 
         %{ Body :output }
 
-        %{ . :epilogue }
+        %{ . :function_epilogue }
     }
 
-function_ :prologue [ this.type() === 'nodeset' ]
+function_ :function_prologue [ this.type() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-function_ :prologue [ this.type() === 'boolean' ]
+function_ :function_prologue [ this.type() === 'boolean' ]
 
     var r%{ Rid } = false;
 
-function_ :prologue [ this.type() === 'attr' ]
+function_ :function_prologue [ this.type() === 'attr' ]
 
-    a%{ Rid } = { attrs: {} };
+//  a%{ Rid } = { attrs: {} };
 
-function_ :prologue
+function_ :function_prologue
 
     var r%{ Rid } = '';
 
-function_ :epilogue [ this.type() === 'attr' ]
+function_ :function_epilogue [ this.type() === 'attr' ]
 
-    return a%{ Rid }.attrs;
+//  return a%{ Rid }.attrs;
 
-function_ :epilogue
+function_ :function_epilogue
 
     return r%{ Rid };
 
@@ -109,9 +115,7 @@ var_ :comment [ this.Value.inline() ]
     //  %{ Name } = %{ Value :yate }
 
 var_ :comment
-    /*
-        %{ Name } = %{ Value :yate }
-    */
+    //  %{ Name }
 
 var_ :def [ this.Value.inline() && this.Value.isConst() ]
     %{ Value }
@@ -225,7 +229,9 @@ var_ :def
 
 //  jpath
 
-jpath :module [ !this.isSimple() ]
+//  FIXME: Нужно не выводить "простые" jpath'ы, но при этом только те,
+//  которые используются только как скаляры.
+jpath :module
 
     // %{ Key }
     M.j%{ Jid } = %{ . :def };
@@ -272,12 +278,20 @@ jpath_predicate :def
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
+body
+
+    %{ Block }
+
 body :output
 
     %{ Block :output }
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+block
+
+    %{ Exprs }
 
 block :output
 
@@ -458,11 +472,11 @@ value :output
 
     r%{ Rid } += %{ Value };
 
-inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
-    yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
-
-inline_var :inline_output [ this.type() === 'attr' ]
-    yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
+//inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
+//    yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
+//
+//inline_var :inline_output [ this.type() === 'attr' ]
+//    yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
 
 //* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
 //
