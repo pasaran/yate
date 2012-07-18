@@ -58,25 +58,37 @@ template :template_prologue
 
 function_ :module
 
-    // func %{ Name }() : %{ type() }
+    // func %{ Name }(%{ Args :yate }) : %{ type() }
     M.f%{ Fid } = %{ . :def };
 
-function_ :def [ this.Body.inline() ]
+//  Только функции с типом attr или xml используют параметр aN.
+function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
 
     function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
-        return %{ Body };
+        %{ . :body }
     }
 
 function_ :def
 
-    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid } %{ Args }) {
-        %{ Args :defaults }
-        %{ . :function_prologue }
-
-        %{ Body :output }
-
-        %{ . :function_epilogue }
+    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid } %{ Args }) {
+        %{ . :body }
     }
+
+//  Тело функции состоит из одного инлайнового выражения (без каких-либо определений).
+function_ :body [ this.Body.inline() ]
+    %{ Args :defaults }
+
+    return %{ Body };
+
+function_ :body
+
+    %{ Args :defaults }
+    %{ . :function_prologue }
+
+    %{ Body :output }
+
+    %{ . :function_epilogue }
+
 
 function_ :function_prologue [ this.type() === 'nodeset' ]
 
@@ -86,17 +98,15 @@ function_ :function_prologue [ this.type() === 'boolean' ]
 
     var r%{ Rid } = false;
 
-function_ :function_prologue [ this.type() === 'attr' ]
-
-//  a%{ Rid } = { attrs: {} };
-
-function_ :function_prologue
+//  Функция типа attr не использует переменную rN.
+function_ :function_prologue [ this.type() !== 'attr' ]
 
     var r%{ Rid } = '';
 
+
 function_ :function_epilogue [ this.type() === 'attr' ]
 
-//  return a%{ Rid }.attrs;
+    return a%{ Rid }.attrs;
 
 function_ :function_epilogue
 
