@@ -65,22 +65,22 @@ function_ :module
 function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
 
     function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
-        %{ . :body }
+        %{ . :function_body }
     }
 
 function_ :def
 
     function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
-        %{ . :body }
+        %{ . :function_body }
     }
 
 //  Тело функции состоит из одного инлайнового выражения (без каких-либо определений).
-function_ :body [ this.Body.inline() ]
+* :function_body [ this.Body.inline() ]
     %{ Args :defaults }
 
     return %{ Body };
 
-function_ :body
+* :function_body
 
     %{ Args :defaults }
     %{ . :function_prologue }
@@ -90,25 +90,25 @@ function_ :body
     %{ . :function_epilogue }
 
 
-function_ :function_prologue [ this.type() === 'nodeset' ]
+* :function_prologue [ this.type() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-function_ :function_prologue [ this.type() === 'boolean' ]
+* :function_prologue [ this.type() === 'boolean' ]
 
     var r%{ Rid } = false;
 
 //  Функция типа attr не использует переменную rN.
-function_ :function_prologue [ this.type() !== 'attr' ]
+* :function_prologue [ this.type() !== 'attr' ]
 
     var r%{ Rid } = '';
 
 
-function_ :function_epilogue [ this.type() === 'attr' ]
+* :function_epilogue [ this.type() === 'attr' ]
 
     return a%{ Rid }.attrs;
 
-function_ :function_epilogue
+* :function_epilogue
 
     return r%{ Rid };
 
@@ -149,90 +149,33 @@ var_ :def
         return r%{ Value.Rid };
     }
 
-//var_ :defs [ this.Value.inline() && this.Lazy ]
-//
-//    vars.add("v%{ Vid }", function(c0) { return %{ Value }; });
-//
-//var_ :defs [ this.Value.inline() ]
-//
-//    var v%{ Vid } = %{ Value };
-//
-//var_ :defs [ this.Value.type() === 'attr' && this.Lazy ]
-//
-//    vars.add("v%{ Vid }", function(c0) {
-//        %{ Value :prologue }
-//        %{ Value :output }
-//        return a%{ Value.Rid }.attrs;
-//    });
-//
-//var_ :defs [ this.Value.type() === 'attr' ]
-//
-//    %{ Value :prologue }
-//    %{ Value :output }
-//    var v%{ Vid } = a%{ Value.Rid }.attrs;
-//
-//var_ :defs [ this.Lazy ]
-//
-//    vars.add("v%{ Vid }", function(c0) {
-//        %{ Value :prologue }
-//        %{ Value :output }
-//        return r%{ Value.Rid };
-//    });
-//
-//var_ :defs
-//
-//    %{ Value :prologue }
-//    %{ Value :output }
-//    var v%{ Vid } = r%{ Value.Rid };
-
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-//key :defs
-//
-//    var k%{ Kid }_nodes;
-//    var k%{ Kid }_values = {};
-//    var k%{ Kid }_get = function(key) {
-//        var value = k%{ Kid }_values[key];
-//        if (!value) {
-//            var c%{ Cid } = k%{ Kid }_nodes[key];
-//            if (c%{ Cid }) {
-//                %{ Body.Block :prologue }
-//                %{ Body :output }
-//                value = r%{ Body.Block.Rid };
-//            }
-//            if (value) {
-//                k%{ Kid }_values[key] = value;
-//            }
-//        }
-//        return value || [];
-//    };
-//    var k%{ Kid } = function(key) {
-//        if (!k%{ Kid }_nodes) {
-//            var c%{ Cid } = root[0]; // FIXME: Сделать root[0] отдельной переменной.
-//            var nodes = %{ Nodes };
-//            k%{ Kid }_nodes = {};
-//            for (var i = 0, l = nodes.length; i < l; i++) {
-//                var c%{ Use.Cid }= nodes[i];
-//                var use = %{ Use };
-//                %{ . :use }
-//            }
-//
-//            k%{ Kid } = k%{ Kid }_get;
-//        }
-//
-//        return k%{ Kid }_get(key);
-//    };
-//
-//key :use [ this.Use.type() === 'nodeset' ]
-//
-//    for (var j = 0, m = use.length; j < m; j++) {
-//        k%{ Kid }_nodes[ this.nodeValue(use[j]) ] = c%{ Use.Cid };
-//    }
-//
-//key :use
-//
-//    k%{ Kid }_nodes[use] = c%{ Use.Cid };
+key :module
+
+    M.k%{ Kid } = {};
+    M.k%{ Kid }.n = %{ . :nodes };
+    M.k%{ Kid }.u = %{ . :use };
+    M.k%{ Kid }.b = %{ . :body };
+
+key :nodes
+
+    function k%{ Kid }n(c0, i0, l0) {
+        return %{ Nodes };
+    }
+
+key :use
+
+    function k%{ Kid}u(c0, i0, l0) {
+        return %{ Use };
+    }
+
+key :body
+
+    function k%{ Kid }b(c0, i0, l0) {
+        %{ . :function_body }
+    }
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
