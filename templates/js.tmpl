@@ -161,6 +161,7 @@ key :module
     M.k%{ Kid }u = %{ . :use };
     //  %{ Body.type() }
     M.k%{ Kid }b = %{ . :body };
+    %{ . :types }
 
 key :nodes
 
@@ -176,10 +177,14 @@ key :use
 
 key :body
 
-    function k%{ Kid }b(c0, i0, l0) {
+    function k%{ Kid }b(c0, i0, l0, a0) {
         %{ . :function_body }
     }
 
+key :types
+
+    M.k%{ Kid }ut = '%{ Use.type() }';
+    M.k%{ Kid }bt = '%{ Body.type() }';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
