@@ -298,7 +298,7 @@ for_ :output
 
 apply :output
 
-    r%{ Rid } += this.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args });
+    r%{ Rid } += this.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 template_mode :string
 
@@ -468,7 +468,7 @@ inline_subexpr
 
 //  FIXME: Нужно ли тут передавать aN?
 inline_function [ this.External ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args })
+    (yr.externals['%{ Name }'])(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
 inline_function [ this.Kid != null ]
     k%{ Kid }(%{ Args }, root)
@@ -476,25 +476,28 @@ inline_function [ this.Kid != null ]
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
 inline_function [ this.Fid != null && this.type() === 'attr' && this.InlineVarValue ]
-    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, { attrs: {} }%{ Args })
+    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, { attrs: {} }%{ Args :comma })
 
 inline_function [ this.Fid != null && this.type() === 'attr' ]
-    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid}%{ Args })
+    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid}%{ Args :comma })
 
 inline_function [ this.Fid != null && this.type() === 'xml' ]
-    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args })
+    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
 inline_function [ this.Fid != null ]
-    f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args })
+    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args :comma })
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
 inline_function
     %{ js__internal() }
 
+callargs :comma [ !this.empty() ]
+    , %{ . }
+
 callarg
 
-    , %{ Expr }
+    %{ Expr }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -530,7 +533,10 @@ internal_function_exists
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ this.def.Value.isConst() ]
+inline_var [ this.def.is('arglist_item') ]
+    v%{ def.Vid }
+
+inline_var [ this.def.isConst() ]
     this.v%{ def.Vid }
 
 inline_var
