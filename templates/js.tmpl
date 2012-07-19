@@ -156,10 +156,11 @@ var_ :def
 
 key :module
 
-    M.k%{ Kid } = {};
-    M.k%{ Kid }.n = %{ . :nodes };
-    M.k%{ Kid }.u = %{ . :use };
-    M.k%{ Kid }.b = %{ . :body };
+    M.k%{ Kid }n = %{ . :nodes };
+    //  %{ Use.type() }
+    M.k%{ Kid }u = %{ . :use };
+    //  %{ Body.type() }
+    M.k%{ Kid }b = %{ . :body };
 
 key :nodes
 
@@ -471,7 +472,7 @@ inline_function [ this.External ]
     (yr.externals['%{ Name }'])(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
 inline_function [ this.Kid != null ]
-    k%{ Kid }(%{ Args }, root)
+    this.key("k%{ Kid }", %{ Args }, c%{ Cid })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
