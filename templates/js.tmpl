@@ -296,7 +296,7 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ this.Args ]
+apply :output
 
     r%{ Rid } += this.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args });
 
@@ -376,7 +376,7 @@ root :selector_ref
 
 jpath :selector_ref
 
-    j%{ Jid }
+    "j%{ Jid }"
 
 jpath [ this.yate() === '.' ]
 
@@ -530,11 +530,11 @@ internal_function_exists
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ this.def.Lazy ]
-    vars.get("v%{ def.Vid }", c%{ Cid })
+inline_var [ this.def.Value.isConst() ]
+    this.v%{ def.Vid }
 
 inline_var
-    v%{ def.Vid }
+    this.v%{ def.Vid }(c%{ Cid })
 
 inline_number
     %{ Value }
