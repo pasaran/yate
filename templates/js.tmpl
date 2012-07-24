@@ -12,7 +12,9 @@ module
 
         var M = new yr.Module();
 
-        %{ defs :module }
+        %{ Block.js__defs() }
+
+        %{ Block.Templates :defs }
 
         M.matcher = %{ js__matcher() };
 
@@ -26,14 +28,14 @@ module
 
 // template.
 
-template :module
+template :defs
 
     // match %{ Selector :yate } %{ Mode :yate }
     M.t%{ Tid } = %{ . :def };
     M.t%{ Tid }.s = %{ Selector :selector_ref };
 
 template :def
-    function t%{ Tid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function t%{ Tid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
 
@@ -58,21 +60,26 @@ template :template_prologue
 
 // function_
 
-function_ :module
+function_ :defs [ this.isGlobal() ]
 
     // func %{ Name }(%{ Args :yate }) : %{ type() }
     M.f%{ Fid } = %{ . :def };
 
+function_ :local_def
+
+    %{ . :def }
+
+
 //  Только функции с типом attr или xml используют параметр aN.
 function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
 
-    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ . :function_body }
     }
 
 function_ :def
 
-    function f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
+    function f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
         %{ . :function_body }
     }
 
@@ -115,46 +122,79 @@ function_ :def
     return r%{ Rid };
 
 
-// ----------------------------------------------------------------------------------------------------------------- //
-
+//  ---------------------------------------------------------------------------------------------------------------  //
 //  var_
+//  ---------------------------------------------------------------------------------------------------------------  //
 
-var_ :module
-    %{ . :comment }
-    M.v%{ Vid } = %{ . :def };
+var_ :body
 
-var_ :comment [ this.Value.inline() ]
-    //  %{ Name } = %{ Value :yate }
+    %{ Value :prologue }
+    %{ Value :output }
+    %{ . :epilogue }
 
 var_ :comment
-    //  %{ Name }
 
-var_ :def [ this.Value.inline() && this.Value.isConst() ]
+    //  var %{ Name } : %{ Value.type() }
+
+
+//  Глобальная переменная.
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var_ :defs [ this.isGlobal() ]
+
+    %{ . :comment }
+    M.v%{ Vid } = %{ . :global };
+
+var_ :global [ this.Value.isConst() ]
+
     %{ Value }
 
-var_ :def [ this.Value.inline() ]
-    function(c0, i0, l0) {
+var_ :global [ this.Value.inline() ]
+
+    function(m, c0, i0, l0) {
         return %{ Value };
     }
 
-var_ :def [ this.Value.type() === 'attr' ]
-    function(c0, i0, l0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return a%{ Value.Rid }.attrs;
+var_ :global
+
+    function(m, c0, i0, l0) {
+        %{ . :body }
     }
 
-var_ :def
-    function(c0, i0, l0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return r%{ Value.Rid };
-    }
+var_ :epilogue [ this.isGlobal() && this.Value.type() === 'attr' ]
+
+    return a%{ Value.Rid }.attrs;
+
+var_ :epilogue [ this.isGlobal() ]
+
+    return r%{ Value.Rid };
+
+
+//  Локальная переменная
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var_ :defs [ this.Value.inline() ]
+
+    %{ . :comment }
+    var v%{ Vid } = %{ Value };
+
+var_ :defs
+
+    %{ . :comment }
+    %{ . :body }
+
+var_ :epilogue [ this.Value.type() === 'attr' ]
+
+    var v%{ Vid } = a%{ Value.Rid }.attrs;
+
+var_ :epilogue
+
+    var v%{ Vid } = r%{ Value.Rid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key :module
+key :global_def
 
     M.k%{ Kid }n = %{ . :nodes };
     //  %{ Use.type() }
@@ -190,12 +230,8 @@ key :types
 
 //  jpath
 
-//  FIXME: Нужно не выводить "простые" jpath'ы, но при этом только те,
-//  которые используются только как скаляры.
-jpath :module
-
-    // %{ Key }
-    M.j%{ Jid } = %{ . :def };
+jpath :defs
+    var j%{ Jid } = %{ . :def };
 
 jpath :def
 
@@ -221,7 +257,7 @@ jpath_predicate
 
 //  jpath_predicate
 
-jpath_predicate :module
+jpath_predicate :global_def
 
     // %{ Key }
     M.p%{ Pid } = %{ . :def };
@@ -252,9 +288,13 @@ body :output
 
 block
 
+    %{ js__defs() }
+
     %{ Exprs }
 
 block :output
+
+    %{ js__defs() }
 
     %{ Exprs :output }
 
