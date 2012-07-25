@@ -1,0 +1,26 @@
+/// {
+///     description: 'variable in match!',
+///     data: {
+///         item: [
+///             { id: 'first' },
+///             { id: 'second' },
+///             { id: 'third' }
+///         ]
+///     },
+///     result: 'firstFOOthird'
+/// }
+
+id = "second"
+
+match / {
+    apply .item
+}
+
+match .item {
+    .id
+}
+
+match .item[ .id == id ] {
+    "FOO"
+}
+
