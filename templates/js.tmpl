@@ -260,11 +260,6 @@ jpath_predicate
 
 jpath_predicate :defs [ this.isLocal() ]
 
-    // %{ Key }
-    M.p%{ Pid } = %{ . :def };
-
-jpath_predicate :def
-
     function p%{ Pid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
         return %{ Expr };
     }
@@ -518,7 +513,7 @@ inline_function [ this.External ]
 inline_function [ this.Kid != null ]
     m.keys("k%{ Kid }", %{ Args }, c%{ Cid })
 
-inline_function [ this.Fid != null && this.isGlobal() ]
+inline_function [ this.Fid != null && this.def.isGlobal() ]
     m.funcs('f%{ Fid }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 inline_function [ this.Fid != null ]
@@ -579,6 +574,10 @@ internal_function_exists
     m.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+inline_var [ this.def.isGlobal() && this.def.isConst() ]
+
+    m.v%{ def.Vid }
 
 inline_var [ this.def.isGlobal() ]
 
