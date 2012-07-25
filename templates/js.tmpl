@@ -232,7 +232,7 @@ key :types
 //  jpath
 
 jpath :defs
-    var j%{ Jid } = %{ . :def };
+    var j%{ Id } = %{ . :def };
 
 jpath :def
 
@@ -416,7 +416,7 @@ root :selector_ref
 
 jpath :selector_ref
 
-    j%{ Jid }
+    j%{ Id }
 
 jpath [ this.yate() === '.' ]
 
@@ -424,18 +424,18 @@ jpath [ this.yate() === '.' ]
 
 jpath
 
-    m.selectN(j%{ Jid }, c%{ Cid })
+    m.selectN(j%{ Id }, c%{ Cid })
 
 // FIXME: Переименовать jpath_filter в inline_filter.
 
 //  root не является nodeset'ом.
 jpath_filter [ this.Expr.is('root') ]
 
-    m.selectN(j%{ JPath.Jid }, %{ Expr })
+    m.selectN(j%{ JPath.Id }, %{ Expr })
 
 jpath_filter
 
-    m.selectNs(j%{ JPath.Jid }, %{ Expr })
+    m.selectNs(j%{ JPath.Id }, %{ Expr })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
