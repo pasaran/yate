@@ -65,7 +65,7 @@ function_ :defs [ this.isGlobal() ]
     // func %{ Name }(%{ Args :yate }) : %{ type() }
     M.f%{ Fid } = %{ . :def };
 
-function_ :local_def
+function_ :defs
 
     %{ . :def }
 
@@ -194,37 +194,38 @@ var_ :epilogue
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key :global_def
+key :defs
 
-    M.k%{ Kid }n = %{ . :nodes };
+    M.k%{ Kid } = {};
+    M.k%{ Kid }.n = %{ . :nodes };
     //  %{ Use.type() }
-    M.k%{ Kid }u = %{ . :use };
+    M.k%{ Kid }.u = %{ . :use };
     //  %{ Body.type() }
-    M.k%{ Kid }b = %{ . :body };
+    M.k%{ Kid }.b = %{ . :body };
     %{ . :types }
 
 key :nodes
 
-    function k%{ Kid }n(c0, i0, l0) {
+    function k%{ Kid }n(m, c0, i0, l0) {
         return %{ Nodes };
     }
 
 key :use
 
-    function k%{ Kid}u(c0, i0, l0) {
+    function k%{ Kid}u(m, c0, i0, l0) {
         return %{ Use };
     }
 
 key :body
 
-    function k%{ Kid }b(c0, i0, l0, a0) {
+    function k%{ Kid }b(m, c0, i0, l0, a0) {
         %{ . :function_body }
     }
 
 key :types
 
-    M.k%{ Kid }ut = '%{ Use.type() }';
-    M.k%{ Kid }bt = '%{ Body.type() }';
+    M.k%{ Kid }.ut = '%{ Use.type() }';
+    M.k%{ Kid }.bt = '%{ Body.type() }';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -247,26 +248,24 @@ jpath_dots
 
 jpath_predicate [ this.isLocal() ]
 
-    2, 'p%{ Pid }'
+    2, p%{ Pid }
 
 jpath_predicate
 
-    3, 'p%{ Pid }'
+    3, %{ Expr }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 //  jpath_predicate
 
-jpath_predicate :global_def
+jpath_predicate :defs [ this.isLocal() ]
 
     // %{ Key }
     M.p%{ Pid } = %{ . :def };
 
 jpath_predicate :def
 
-    function p%{ Pid }(c%{ Cid }, i%{ Cid }, l%{ Cid }) {
-// FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
-        var a%{ Rid } = null;
+    function p%{ Pid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
         return %{ Expr };
     }
 
@@ -344,7 +343,7 @@ for_ :output
 
 apply :output
 
-    r%{ Rid } += this.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
+    r%{ Rid } += m.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 template_mode :string
 
@@ -387,7 +386,7 @@ attr :output
     a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
-    r%{ Rid } += this.closeAttrs(a%{ Rid });
+    r%{ Rid } += m.closeAttrs(a%{ Rid });
 
 attrs_open :output
 
@@ -422,7 +421,7 @@ root :selector_ref
 
 jpath :selector_ref
 
-    "j%{ Jid }"
+    j%{ Jid }
 
 jpath [ this.yate() === '.' ]
 
@@ -430,12 +429,12 @@ jpath [ this.yate() === '.' ]
 
 jpath
 
-    this.select('j%{ Jid }', c%{ Cid })
+    m.selectN(j%{ Jid }, c%{ Cid })
 
 // FIXME: Переименовать в inline_filter
 jpath_filter
 
-    this.select('j%{ JPath.Jid }', %{ Expr })
+    m.selectNs(j%{ JPath.Jid }, %{ Expr })
 
 
 
@@ -462,7 +461,7 @@ value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !t
 
 value :output [ this.type() === 'attr' && this.Value.is('inline_var') ]
 
-    this.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    m.copyAttrs( a%{ Rid }.attrs, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
 value :output [ this.type() === 'attr' ]
@@ -514,24 +513,26 @@ inline_subexpr
 
 //  FIXME: Нужно ли тут передавать aN?
 inline_function [ this.External ]
-    (yr.externals['%{ Name }'])(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
+    (yr.externals['%{ Name }'])(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
 inline_function [ this.Kid != null ]
-    this.key("k%{ Kid }", %{ Args }, c%{ Cid })
+    m.keys("k%{ Kid }", %{ Args }, c%{ Cid })
+
+inline_function [ this.Fid != null && this.isGlobal() ]
+    m.funcs('f%{ Fid }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+
+inline_function [ this.Fid != null ]
+    f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
-inline_function [ this.Fid != null && this.type() === 'attr' && this.InlineVarValue ]
-    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, { attrs: {} }%{ Args :comma })
+inline_function :attrs [ this.type() === 'attr' && this.InlineVarValue ]
 
-inline_function [ this.Fid != null && this.type() === 'attr' ]
-    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid}%{ Args :comma })
+    , { attrs: {} }
 
-inline_function [ this.Fid != null && this.type() === 'xml' ]
-    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
+inline_function :attrs [ this.type() === 'attr' && ithis.type() === 'xml' ]
 
-inline_function [ this.Fid != null ]
-    this.f%{ Fid }(c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args :comma })
+    , a%{ Rid }
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
@@ -554,7 +555,7 @@ internal_function_false
     false
 
 internal_function_name [ this.Signature === 'nodeset' ]
-    this.nodeName( %{Args} )
+    m.nodeName( %{Args} )
 
 internal_function_name
     c%{ Cid }.name
@@ -569,24 +570,24 @@ internal_function_count
     l%{ Cid }
 
 internal_function_slice
-    this.slice(%{ Args })
+    m.slice(%{ Args })
 
 internal_function_html
     %{ Args }
 
 internal_function_exists
-    this.exists(%{ Args })
+    m.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ this.def.is('arglist_item') ]
-    v%{ def.Vid }
+inline_var [ this.def.isGlobal() ]
 
-inline_var [ this.def.isConst() ]
-    this.v%{ def.Vid }
+    m.vars('v%{ def.Vid }', c%{ Cid })
 
 inline_var
-    this.v%{ def.Vid }(c%{ Cid })
+    v%{ def.Vid }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 inline_number
     %{ Value }
@@ -607,13 +608,13 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ this.From === 'nodeset' && (this.To === 'scalar' || this.To === 'xml' || this.To === 'attrvalue' || this.To === 'boolean') ]
-    this.nodeset2%{ To }( %{ Expr } )
+    m.nodeset2%{ To }( %{ Expr } )
 
 cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
-    this.scalar2%{ To }( %{ Expr } )
+    m.scalar2%{ To }( %{ Expr } )
 
 cast [ this.From === 'xml' && this.To == 'attrvalue' ]
-    this.scalar2attrvalue( %{ Expr } )
+    m.scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ this.From === 'scalar' && this.To === 'boolean' ]
@@ -623,11 +624,11 @@ cast
     %{ Expr }
 
 quote
-    this.%{ Mode }Quote(%{ Expr })
+    m.%{ Mode }Quote(%{ Expr })
 
 simple_jpath
 
-    this.simpleJPath('%{ Name }', c%{ JPath.Cid })
+    m.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
