@@ -426,11 +426,16 @@ jpath
 
     m.selectN(j%{ Jid }, c%{ Cid })
 
-// FIXME: Переименовать в inline_filter
+// FIXME: Переименовать jpath_filter в inline_filter.
+
+//  root не является nodeset'ом.
+jpath_filter [ this.Expr.is('root') ]
+
+    m.selectN(j%{ JPath.Jid }, %{ Expr })
+
 jpath_filter
 
     m.selectNs(j%{ JPath.Jid }, %{ Expr })
-
 
 
 // ----------------------------------------------------------------------------------------------------------------- //

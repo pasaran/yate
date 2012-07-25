@@ -5,10 +5,13 @@
 ///             item: [ 1, 2, 3 ]
 ///         }
 ///     },
-///     result: 'itemsitemitemitem'
+///     result: 'itemsitemitemitem',
+///     known: true
 /// }
 
 match / {
+    //  FIXME: Не очень понятно, что значат такие предикаты.
+
     apply .items[ count() ]
     apply .items.item[ count() == 3 ]
 }
