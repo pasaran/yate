@@ -525,7 +525,7 @@ inline_function :attrs [ this.type() === 'attr' && this.InlineVarValue ]
 
     , { attrs: {} }
 
-inline_function :attrs [ this.type() === 'attr' && ithis.type() === 'xml' ]
+inline_function :attrs [ this.type() === 'attr' || this.type() === 'xml' ]
 
     , a%{ Rid }
 
