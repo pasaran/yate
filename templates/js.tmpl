@@ -31,11 +31,11 @@ module
 template :defs
 
     // match %{ Selector :yate } %{ Mode :yate }
-    M.t%{ Tid } = %{ . :def };
-    M.t%{ Tid }.s = %{ Selector :selector_ref };
+    M.t%{ Id } = %{ . :def };
+    M.t%{ Id }.s = %{ Selector :selector_ref };
 
 template :def
-    function t%{ Tid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
 
