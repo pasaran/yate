@@ -196,36 +196,36 @@ var_ :epilogue
 
 key :defs
 
-    M.k%{ Kid } = {};
-    M.k%{ Kid }.n = %{ . :nodes };
+    M.k%{ Id } = {};
+    M.k%{ Id }.n = %{ . :nodes };
     //  %{ Use.type() }
-    M.k%{ Kid }.u = %{ . :use };
+    M.k%{ Id }.u = %{ . :use };
     //  %{ Body.type() }
-    M.k%{ Kid }.b = %{ . :body };
+    M.k%{ Id }.b = %{ . :body };
     %{ . :types }
 
 key :nodes
 
-    function k%{ Kid }n(m, c0, i0, l0) {
+    function k%{ Id }n(m, c0, i0, l0) {
         return %{ Nodes };
     }
 
 key :use
 
-    function k%{ Kid}u(m, c0, i0, l0) {
+    function k%{ Id }u(m, c0, i0, l0) {
         return %{ Use };
     }
 
 key :body
 
-    function k%{ Kid }b(m, c0, i0, l0, a0) {
+    function k%{ Id }b(m, c0, i0, l0, a0) {
         %{ . :function_body }
     }
 
 key :types
 
-    M.k%{ Kid }.ut = '%{ Use.type() }';
-    M.k%{ Kid }.bt = '%{ Body.type() }';
+    M.k%{ Id }.ut = '%{ Use.type() }';
+    M.k%{ Id }.bt = '%{ Body.type() }';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -515,8 +515,8 @@ inline_subexpr
 inline_function [ this.External ]
     (yr.externals['%{ Name }'])(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
-inline_function [ this.Kid != null ]
-    m.keys("k%{ Kid }", %{ Args }, c%{ Cid })
+inline_function [ this.IsKey ]
+    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid })
 
 inline_function [ this.Fid != null && this.def.isGlobal() ]
     m.funcs('f%{ Fid }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
