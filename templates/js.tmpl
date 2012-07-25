@@ -143,7 +143,7 @@ var_ :comment
 var_ :defs [ this.isGlobal() ]
 
     %{ . :comment }
-    M.v%{ Vid } = %{ . :global };
+    M.v%{ Id } = %{ . :global };
 
 var_ :global [ this.Value.isConst() ]
 
@@ -176,7 +176,7 @@ var_ :epilogue [ this.isGlobal() ]
 var_ :defs [ this.Value.inline() ]
 
     %{ . :comment }
-    var v%{ Vid } = %{ Value };
+    var v%{ Id } = %{ Value };
 
 var_ :defs
 
@@ -185,11 +185,11 @@ var_ :defs
 
 var_ :epilogue [ this.Value.type() === 'attr' ]
 
-    var v%{ Vid } = a%{ Value.Rid }.attrs;
+    var v%{ Id } = a%{ Value.Rid }.attrs;
 
 var_ :epilogue
 
-    var v%{ Vid } = r%{ Value.Rid };
+    var v%{ Id } = r%{ Value.Rid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -441,10 +441,10 @@ jpath_filter
 // ----------------------------------------------------------------------------------------------------------------- //
 
 arglist_item
-    , v%{ Vid }
+    , v%{ Id }
 
 arglist_item :defaults [ this.Default ]
-    v%{ Vid } = v%{ Vid } || %{ Default };
+    v%{ Id } = v%{ Id } || %{ Default };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -582,14 +582,14 @@ internal_function_exists
 
 inline_var [ this.def.isGlobal() && this.def.isConst() ]
 
-    m.v%{ def.Vid }
+    m.v%{ def.Id }
 
 inline_var [ this.def.isGlobal() ]
 
-    m.vars('v%{ def.Vid }', c%{ Cid })
+    m.vars('v%{ def.Id }', c%{ Cid })
 
 inline_var
-    v%{ def.Vid }
+    v%{ def.Id }
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
