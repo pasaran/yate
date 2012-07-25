@@ -63,7 +63,7 @@ template :template_prologue
 function_ :defs [ this.isGlobal() ]
 
     // func %{ Name }(%{ Args :yate }) : %{ type() }
-    M.f%{ Fid } = %{ . :def };
+    M.f%{ Id } = %{ . :def };
 
 function_ :defs
 
@@ -73,13 +73,13 @@ function_ :defs
 //  Только функции с типом attr или xml используют параметр aN.
 function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
 
-    function f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ . :function_body }
     }
 
 function_ :def
 
-    function f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
+    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
         %{ . :function_body }
     }
 
@@ -518,11 +518,11 @@ inline_function [ this.External ]
 inline_function [ this.IsKey ]
     m.keys('k%{ def.Id }', %{ Args }, c%{ Cid })
 
-inline_function [ this.Fid != null && this.def.isGlobal() ]
-    m.funcs('f%{ Fid }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+inline_function [ this.IsUser && this.def.isGlobal() ]
+    m.funcs('f%{ def.Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
-inline_function [ this.Fid != null ]
-    f%{ Fid }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+inline_function [ this.IsUser ]
+    f%{ def.Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
