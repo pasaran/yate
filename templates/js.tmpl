@@ -1,26 +1,31 @@
+// vim: set filetype=javascript:
+
 // ----------------------------------------------------------------------------------------------------------------- //
-// stylesheet
+// module
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // На первое время, шаблоны (и соответственно matcher) выводятся только на верхнем уровне.
 
-stylesheet
+module
 
-    Yater.modules['%{ Module }'] = function(yater, root) {
+    (function() {
 
-        var vars = new Yater.Vars();
+        var M = new yr.Module();
 
-        %{ Block :defs }
+        %{ Block.js__defs() }
 
         %{ Block.Templates :defs }
 
-        %{ Block :matcher }
+        M.matcher = %{ Block.js__matcher() };
+        M.imports = [ %{ Block.Imports } ];
 
+        yr.register('%{ Name }', M);
 
-        return matcher;
+    })();
 
-    };
+import
 
+    %{ Name }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
@@ -31,32 +36,27 @@ stylesheet
 template :defs
 
     // match %{ Selector :yate } %{ Mode :yate }
-    var t%{ Tid } = {
-        jpath: %{ Selector :selector_ref },
-        body: %{ . }
-    };
+    M.t%{ Id } = %{ . :def };
+    M.t%{ Id }.s = %{ Selector :selector_ref };
 
-
-template
-
-    function t%{ Tid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
+template :def
+    function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
-        %{ . :prologue }
+        %{ . :template_prologue }
 
         %{ Body :output }
 
         return r%{ Rid };
     }
-
-//template :prologue [ this.type() === 'array' ]
+//template :template_prologue [ this.type() === 'array' ]
 //
 //    var r%{ Rid } = [];
 //
-//template :prologue [ this.type() === 'object' ]
+//template :template_prologue [ this.type() === 'object' ]
 //
 //    var r%{ Rid } = {};
 
-template :prologue
+template :template_prologue
 
     var r%{ Rid } = '';
 
@@ -65,62 +65,235 @@ template :prologue
 
 // function_
 
+function_ :defs [ this.isGlobal() ]
+
+    // func %{ Name }(%{ Args :yate }) : %{ type() }
+    M.f%{ Id } = %{ . :def };
+
 function_ :defs
 
-    // %{ Name } : %{ type() }
-    function f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid } %{ Args }) {
-        %{ Args :defaults }
-        %{ . :prologue }
+    %{ . :def }
 
-        %{ Body :output }
 
-        %{ . :epilogue }
+//  Только функции с типом attr или xml используют параметр aN.
+function_ :def [ this.type() === 'attr' || this.type() === 'xml' ]
+
+    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+        %{ . :function_body }
     }
 
-function_ :prologue [ this.type() === 'nodeset' ]
+function_ :def
+
+    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
+        %{ . :function_body }
+    }
+
+//  Тело функции состоит из одного инлайнового выражения (без каких-либо определений).
+* :function_body [ this.Body.inline() ]
+    %{ Args :defaults }
+
+    return %{ Body };
+
+* :function_body
+
+    %{ Args :defaults }
+    %{ . :function_prologue }
+
+    %{ Body :output }
+
+    %{ . :function_epilogue }
+
+
+* :function_prologue [ this.type() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-function_ :prologue [ this.type() === 'boolean' ]
+* :function_prologue [ this.type() === 'boolean' ]
 
     var r%{ Rid } = false;
 
-function_ :prologue [ this.type() === 'attr' ]
-
-    a%{ Rid } = { attrs: {} };
-
-function_ :prologue
+//  Функция типа attr не использует переменную rN.
+* :function_prologue [ this.type() !== 'attr' ]
 
     var r%{ Rid } = '';
 
-function_ :epilogue [ this.type() === 'attr' ]
+
+* :function_epilogue [ this.type() === 'attr' ]
 
     return a%{ Rid }.attrs;
 
-function_ :epilogue
+* :function_epilogue
 
     return r%{ Rid };
+
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+//  var_
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var_ :body
+
+    %{ Value :prologue }
+    %{ Value :output }
+    %{ . :epilogue }
+
+var_ :comment
+
+    //  var %{ Name } : %{ Value.type() }
+
+
+//  Глобальная переменная.
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var_ :defs [ this.isGlobal() ]
+
+    %{ . :comment }
+    M.v%{ Id } = %{ . :global };
+
+var_ :global [ this.Value.isConst() ]
+
+    %{ Value }
+
+var_ :global [ this.Value.inline() ]
+
+    function(m, c0, i0, l0) {
+        return %{ Value };
+    }
+
+var_ :global
+
+    function(m, c0, i0, l0) {
+        %{ . :body }
+    }
+
+var_ :epilogue [ this.isGlobal() && this.Value.type() === 'attr' ]
+
+    return a%{ Value.Rid }.attrs;
+
+var_ :epilogue [ this.isGlobal() ]
+
+    return r%{ Value.Rid };
+
+
+//  Локальная переменная
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+var_ :defs [ this.Value.inline() ]
+
+    %{ . :comment }
+    var v%{ Id } = %{ Value };
+
+var_ :defs
+
+    %{ . :comment }
+    %{ . :body }
+
+var_ :epilogue [ this.Value.type() === 'attr' ]
+
+    var v%{ Id } = a%{ Value.Rid }.attrs;
+
+var_ :epilogue
+
+    var v%{ Id } = r%{ Value.Rid };
+
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+key :defs
+
+    M.k%{ Id } = {};
+    M.k%{ Id }.n = %{ . :nodes };
+    //  %{ Use.type() }
+    M.k%{ Id }.u = %{ . :use };
+    //  %{ Body.type() }
+    M.k%{ Id }.b = %{ . :body };
+    %{ . :types }
+
+key :nodes
+
+    function k%{ Id }n(m, c0, i0, l0) {
+        return %{ Nodes };
+    }
+
+key :use
+
+    function k%{ Id }u(m, c0, i0, l0) {
+        return %{ Use };
+    }
+
+key :body
+
+    function k%{ Id }b(m, c0, i0, l0, a0) {
+        %{ . :function_body }
+    }
+
+key :types
+
+    M.k%{ Id }.ut = '%{ Use.type() }';
+    M.k%{ Id }.bt = '%{ Body.type() }';
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+//  jpath
+
+jpath :defs
+    var j%{ Id } = %{ . :def };
+
+jpath :def
+
+    [ %{ Steps } ]
+
+jpath_nametest
+
+    0, '%{ Name }'
+
+jpath_dots
+
+    1, %{ Length }
+
+jpath_predicate [ this.isLocal() ]
+
+    2, p%{ Id }
+
+jpath_predicate
+
+    3, %{ Expr }
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+//  jpath_predicate
+
+jpath_predicate :defs [ this.isLocal() ]
+
+    function p%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
+        return %{ Expr };
+    }
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
-block :defs
+body
 
-    %{ js__defs() }
-
-block :matcher
-
-    %{ js__matcher() }
+    %{ Block }
 
 body :output
 
     %{ Block :output }
 
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+block
+
+    %{ js__defs() }
+
+    %{ Exprs }
+
 block :output
 
-    %{ . :defs }
+    %{ js__defs() }
 
     %{ Exprs :output }
 
@@ -139,109 +312,26 @@ block :output
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-var_ :defs [ this.Value.inline() && this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) { return %{ Value }; });
-
-var_ :defs [ this.Value.inline() ]
-
-    var v%{ Vid } = %{ Value };
-
-var_ :defs [ this.Value.type() === 'attr' && this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return a%{ Value.Rid }.attrs;
-    });
-
-var_ :defs [ this.Value.type() === 'attr' ]
-
-    %{ Value :prologue }
-    %{ Value :output }
-    var v%{ Vid } = a%{ Value.Rid }.attrs;
-
-var_ :defs [ this.Lazy ]
-
-    vars.add("v%{ Vid }", function(c0) {
-        %{ Value :prologue }
-        %{ Value :output }
-        return r%{ Value.Rid };
-    });
-
-var_ :defs
-
-    %{ Value :prologue }
-    %{ Value :output }
-    var v%{ Vid } = r%{ Value.Rid };
-
-// ----------------------------------------------------------------------------------------------------------------- //
-
-key :defs
-
-    var k%{ Kid }_nodes;
-    var k%{ Kid }_values = {};
-    var k%{ Kid }_get = function(key) {
-        var value = k%{ Kid }_values[key];
-        if (!value) {
-            var c%{ Cid } = k%{ Kid }_nodes[key];
-            if (c%{ Cid }) {
-                %{ Body.Block :prologue }
-                %{ Body :output }
-                value = r%{ Body.Block.Rid };
-            }
-            if (value) {
-                k%{ Kid }_values[key] = value;
-            }
-        }
-        return value || [];
-    };
-    var k%{ Kid } = function(key) {
-        if (!k%{ Kid }_nodes) {
-            var c%{ Cid } = root[0]; // FIXME: Сделать root[0] отдельной переменной.
-            var nodes = %{ Nodes };
-            k%{ Kid }_nodes = {};
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                var c%{ Use.Cid }= nodes[i];
-                var use = %{ Use };
-                %{ . :use }
-            }
-
-            k%{ Kid } = k%{ Kid }_get;
-        }
-
-        return k%{ Kid }_get(key);
-    };
-
-key :use [ this.Use.type() === 'nodeset' ]
-
-    for (var j = 0, m = use.length; j < m; j++) {
-        k%{ Kid }_nodes[ yater.nodeValue(use[j]) ] = c%{ Use.Cid };
-    }
-
-key :use
-
-    k%{ Kid }_nodes[use] = c%{ Use.Cid };
-
-
-// ----------------------------------------------------------------------------------------------------------------- //
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-if_ :output [ this.Else ]
-
-    if (%{ Condition }) {
-        %{ Then :output }
-    } else {
-        %{ Else :output }
-    }
-
 if_ :output
 
-    if (%{ Condition }) {
-        %{ Then :output }
+    if (%{ Condition }) %{ Then :if_body } %{ Elses }
+
+* :if_body
+
+    {
+        %{ . :output }
     }
+
+else_if
+
+    else if (%{ Condition }) %{ Body :if_body }
+
+else_
+
+    else %{ Body :if_body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -255,13 +345,9 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ this.Args && !this.Args.empty() ]
-
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }, %{ Args });
-
 apply :output
 
-    r%{ Rid } += yater.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid });
+    r%{ Rid } += m.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 template_mode :string
 
@@ -304,7 +390,7 @@ attr :output
     a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
-    r%{ Rid } += yater.closeAttrs(a%{ Rid });
+    r%{ Rid } += m.closeAttrs(a%{ Rid });
 
 attrs_open :output
 
@@ -317,7 +403,7 @@ attrs_open :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-compound :output
+subexpr :output
 
     %{ Block :output }
 
@@ -329,7 +415,7 @@ compound :output
 
 root
 
-    root
+    c0.root
 
 // Для jpath выводим имя его переменной, для root -- null.
 
@@ -339,7 +425,7 @@ root :selector_ref
 
 jpath :selector_ref
 
-    j%{ Jid }
+    j%{ Id }
 
 jpath [ this.yate() === '.' ]
 
@@ -347,60 +433,31 @@ jpath [ this.yate() === '.' ]
 
 jpath
 
-    yater.select(j%{ Jid }, c%{ Cid })
+    m.selectN(j%{ Id }, c%{ Cid })
 
-jpath_predicate :defs
+// FIXME: Переименовать jpath_filter в inline_filter.
 
-    // %{ Key }
-    function p%{ Pid }(c%{ Cid }, i%{ Cid }, l%{ Cid }) {
-// FIXME: Если тут не добавить объявление a0, то ломается тест ../tests/functions.17.yate.
-        var a%{ Rid };
-        return %{ Expr };
-    };
+//  root не является nodeset'ом.
+jpath_filter [ this.Expr.is('root') ]
 
-jpath :defs
+    m.selectN(j%{ JPath.Id }, %{ Expr })
 
-    var j%{ Jid } = %{ . :compiled }; // %{ Key }
-
-jpath :compiled
-
-    [ %{ Steps :compiled } ]
-
-jpath_nametest :compiled
-
-    0, "%{ Name }"
-
-jpath_dots :compiled
-
-    1, %{ Length }
-
-jpath_predicate :compiled [ this.isLocal() ]
-
-    2, p%{ Pid }
-
-jpath_predicate :compiled
-
-    3, %{ Expr }
-
-// FIXME: Переименовать в inline_filter
 jpath_filter
 
-    yater.select(j%{ JPath.Jid }, %{ Expr })
-
+    m.selectNs(j%{ JPath.Id }, %{ Expr })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
 arglist_item
-    , v%{ Vid }
+    , v%{ Id }
 
 arglist_item :defaults [ this.Default ]
-    v%{ Vid } = v%{ Vid } || %{ Default };
-
+    v%{ Id } = v%{ Id } || %{ Default };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// inline expressions
+//  value
 // ----------------------------------------------------------------------------------------------------------------- //
 
 value
@@ -411,27 +468,23 @@ value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !t
 
     r%{ Rid } = %{ Value };
 
+value :output [ this.type() === 'attr' && this.Value.is('inline_var') ]
+
+    m.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+
+//  А тут всегда Value должно быть inline_function.
 value :output [ this.type() === 'attr' ]
 
-    yater.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    %{ Value };
 
 value :output
 
     r%{ Rid } += %{ Value };
 
-inline_var :inline_output [ this.type() === 'attr' && this.def.Lazy ]
-    yater.copyAttrs( a%{ Rid }.attrs, vars.get("v%{ def.Vid }", c%{ Cid }) );
 
-inline_var :inline_output [ this.type() === 'attr' ]
-    yater.copyAttrs(a%{ Rid }.attrs, v%{ def.Vid });
-
-//* :inline_output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !this.AsType ]
-//
-//    r%{ Rid } = %{ . };
-//
-//* :inline_output
-//
-//    r%{ Rid } += %{ . };
+// ----------------------------------------------------------------------------------------------------------------- //
+// inline expressions
+// ----------------------------------------------------------------------------------------------------------------- //
 
 inline_or
     %{ Left } || %{ Right }
@@ -460,33 +513,47 @@ inline_unary
 inline_union
     (%{ Left }).concat(%{ Right })
 
-inline_compound
+inline_subexpr
     (%{ Expr })
 
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_function [ this.External && !this.Args.empty() ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
-
+//  FIXME: Нужно ли тут передавать aN?
 inline_function [ this.External ]
-    (Yater.externals['%{ Name }'])(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
+    (yr.externals['%{ Name }'])(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
-inline_function [ this.Kid != null ]
-    k%{ Kid }(%{ Args }, root)
+inline_function [ this.IsKey ]
+    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid })
 
-inline_function [ this.Fid != null && !this.Args.empty() ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid }, %{ Args })
+inline_function [ this.IsUser && this.def.isGlobal() ]
+    m.funcs('f%{ def.Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
-inline_function [ this.Fid != null ]
-    f%{ Fid }(c%{ Cid }, a%{ Rid }, i%{ Cid }, l%{ Cid })
+inline_function [ this.IsUser ]
+    f%{ def.Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+
+//  Этот вызов функции сохраняется в переменную, а не просто используется.
+//  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
+inline_function :attrs [ this.type() === 'attr' && this.InlineVarValue ]
+
+    , { attrs: {} }
+
+inline_function :attrs [ this.type() === 'attr' || this.type() === 'xml' ]
+
+    , a%{ Rid }
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
 inline_function
     %{ js__internal() }
 
+callargs :comma [ !this.empty() ]
+    , %{ . }
+
+callarg
+
+    %{ Expr }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -497,7 +564,7 @@ internal_function_false
     false
 
 internal_function_name [ this.Signature === 'nodeset' ]
-    yater.nodeName( %{Args} )
+    m.nodeName( %{Args} )
 
 internal_function_name
     c%{ Cid }.name
@@ -512,21 +579,28 @@ internal_function_count
     l%{ Cid }
 
 internal_function_slice
-    yater.slice(%{ Args })
+    m.slice(%{ Args })
 
 internal_function_html
     %{ Args }
 
 internal_function_exists
-    yater.exists(%{ Args })
+    m.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ this.def.Lazy ]
-    vars.get("v%{ def.Vid }", c%{ Cid })
+inline_var [ this.def.isGlobal() && this.def.isConst() ]
+
+    m.v%{ def.Id }
+
+inline_var [ this.def.isGlobal() ]
+
+    m.vars('v%{ def.Id }', c%{ Cid })
 
 inline_var
-    v%{ def.Vid }
+    v%{ def.Id }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 inline_number
     %{ Value }
@@ -547,13 +621,13 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ this.From === 'nodeset' && (this.To === 'scalar' || this.To === 'xml' || this.To === 'attrvalue' || this.To === 'boolean') ]
-    yater.nodeset2%{ To }( %{ Expr } )
+    m.nodeset2%{ To }( %{ Expr } )
 
 cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
-    yater.scalar2%{ To }( %{ Expr } )
+    m.scalar2%{ To }( %{ Expr } )
 
 cast [ this.From === 'xml' && this.To == 'attrvalue' ]
-    yater.scalar2attrvalue( %{ Expr } )
+    m.scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ this.From === 'scalar' && this.To === 'boolean' ]
@@ -563,11 +637,11 @@ cast
     %{ Expr }
 
 quote
-    yater.%{ Mode }Quote(%{ Expr })
+    m.%{ Mode }Quote(%{ Expr })
 
 simple_jpath
 
-    yater.simpleJPath("%{ Name }", c%{ JPath.Cid })
+    m.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -577,6 +651,4 @@ simple_jpath
 * :yate
     %{ yate() }
 
-
-// vim: set filetype=javascript:
 

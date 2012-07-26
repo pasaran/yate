@@ -1,0 +1,32 @@
+/// {
+///     description: 'else if',
+///     data: {
+///         count: 42,
+///         first: "first",
+///         second: "second",
+///         third: "third"
+///     },
+///     result: 'thirdsecond'
+/// }
+
+match / {
+    item1 = if .count < 10 {
+        .first
+    } else if .count < 40 {
+        .second
+    } else {
+        .third
+    }
+
+    item2 = if .count > 100 {
+        .first
+    } else if .count > 40 {
+        .second
+    } else {
+        .third
+    }
+
+    name(item1)
+    name(item2)
+}
+

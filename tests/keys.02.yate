@@ -18,7 +18,7 @@
 ///             ]
 ///         }
 ///     },
-///     result: '<ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul><ul><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul>'
+///     result: '<ul id="1"><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul><ul id="2"><li class="b-item-first">First</li><li class="b-item-second">Second</li><li class="b-item-third">Third</li></ul>'
 /// }
 
 key item( .items.item, .id ) {
@@ -26,13 +26,13 @@ key item( .items.item, .id ) {
 }
 
 match / {
-    <ul>
+    <ul id="1">
         item("first")
         item("second")
         item("third")
     </ul>
 
-    <ul>
+    <ul id="2">
         for .items.item {
             item(.id)
         }
