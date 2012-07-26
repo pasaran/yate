@@ -1,27 +1,36 @@
 #!/usr/bin/env node
 
+var fs_ = require('fs');
+
 var yate = require('./lib/yate.js');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 var nopt = require('nopt');
 
-var parsed = nopt({
-    'ast': Boolean,
-    'print': Boolean,
-    'module': String,
-    'mode': String
-});
+var parsed = nopt(
+    {
+        'ast': Boolean,
+        'print': Boolean,
+        'mode': String,
+        'output': String
+    },
+    {
+        'a': '--ast',
+        'p': '--print',
+        'm': '--mode',
+        'o': '--output'
+    }
+);
 
 var mode = parsed.mode || '';
-var module = parsed.module || 'default';
 
 var template = parsed.argv.remain[0];
 var data = parsed.argv.remain[1];
 var externals = parsed.argv.remain[2];
 
 if (!template) {
-    console.log('Usage: yate [ --module name ] template.yate');
+    console.log('Usage: yate --output template.js template.yate');
     console.log('       yate [ --mode mode ] template.yate data.json [ external.js ]');
     console.log('       yate --ast template.yate');
     console.log('       yate --print template.yate');
@@ -42,8 +51,12 @@ if (parsed.ast) {
     console.log( yate.run(template, { filename: data }, externals, mode) );
 
 } else {
-    var js = yate.compile(template, module);
-    console.log(js);
+    var js = yate.compile(template);
+    if (parsed.output) {
+        fs_.writeFileSync(parsed.output, js, 'utf-8');
+    } else {
+        console.log(js);
+    }
 
 }
 

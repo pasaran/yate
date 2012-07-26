@@ -1,0 +1,26 @@
+/// {
+///     description: 'match jpath1 | jpath2',
+///     data: {
+///         first: 'first',
+///         second: 'second',
+///         third: 'third'
+///     },
+///     result: 'first @3 second @2 third @1 '
+/// }
+
+match / {
+    apply .*
+}
+
+match .first | .second | .third {
+    "{ name() } @1 "
+}
+
+match .first | .second {
+    "{ name() } @2 "
+}
+
+match .first {
+    "{ name() } @3 "
+}
+
