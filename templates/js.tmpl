@@ -315,19 +315,23 @@ block :output
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
-if_ :output [ this.Else ]
-
-    if (%{ Condition }) {
-        %{ Then :output }
-    } else {
-        %{ Else :output }
-    }
-
 if_ :output
 
-    if (%{ Condition }) {
-        %{ Then :output }
+    if (%{ Condition }) %{ Then :if_body } %{ Elses }
+
+* :if_body
+
+    {
+        %{ . :output }
     }
+
+else_if
+
+    else if (%{ Condition }) %{ Body :if_body }
+
+else_
+
+    else %{ Body :if_body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
