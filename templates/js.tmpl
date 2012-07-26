@@ -17,10 +17,15 @@ module
         %{ Block.Templates :defs }
 
         M.matcher = %{ Block.js__matcher() };
+        M.imports = [ %{ Block.Imports } ];
 
         yr.register('%{ Name }', M);
 
     })();
+
+import
+
+    %{ Name }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
