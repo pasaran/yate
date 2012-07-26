@@ -37,7 +37,7 @@ template :defs
 
     // match %{ Selector :yate } %{ Mode :yate }
     M.t%{ Id } = %{ . :def };
-    M.t%{ Id }.s = %{ Selector :selector_ref };
+    %{ . :selectors }
 
 template :def
     function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
@@ -48,6 +48,15 @@ template :def
 
         return r%{ Rid };
     }
+
+template :selectors [ this.Selectors.Items.length === 1 ]
+
+    M.t%{ Id }.j = %{ Selectors :selector_ref };
+
+template :selectors
+
+    M.t%{ Id }.s = [ %{ Selectors :selector_ref } ];
+
 //template :template_prologue [ this.type() === 'array' ]
 //
 //    var r%{ Rid } = [];
