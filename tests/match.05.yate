@@ -1,0 +1,47 @@
+/// {
+///     description: 'match /.foo',
+///     data: {
+///         foo: {
+///             id: 'first',
+///             foo: {
+///                 id: 'second'
+///             }
+///         },
+///         bar: {
+///             id: 'third',
+///             bar: {
+///                 id: 'fourth'
+///             }
+///         }
+///     },
+///     result: '/.foo@one first .foo@one second .foo@two first .foo@two second firstthirdfourth'
+/// }
+
+match / {
+    apply .foo | .foo.foo one
+
+    apply .foo | .foo.foo two
+
+    apply .foo | .foo.foo | .bar | .bar.bar three
+}
+
+match .foo one {
+    ".foo@one { .id } "
+}
+
+match /.foo one {
+    "/.foo@one { .id } "
+}
+
+match /.foo two {
+    "/.foo@two { .id } "
+}
+
+match .foo two {
+    ".foo@two { .id } "
+}
+
+match /.foo | .bar three {
+    .id
+}
+

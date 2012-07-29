@@ -1,0 +1,23 @@
+/// {
+///     description: 'external function in predicate',
+///     externals: 'functions.21.js',
+///     data: {
+///         item: [
+///             { title: 'a' },
+///             { title: 'b' },
+///             { title: 'c' }
+///         ]
+///     },
+///     result: '<ul><li>a</li><li>b</li></ul>'
+/// }
+
+external nodeset contains(nodeset, scalar)
+
+match / {
+    <ul>
+        for .item[ contains(.title, 'ab') ] {
+            <li>{ .title }</li>
+        }
+    </ul>
+}
+

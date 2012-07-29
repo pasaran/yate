@@ -51,11 +51,13 @@ template :def
 
 template :selectors [ this.Selectors.Items.length === 1 ]
 
-    M.t%{ Id }.j = %{ Selectors :selector_ref };
+    M.t%{ Id }.j = %{ Selectors :template_selector };
+    M.t%{ Id }.a = %{ Selectors :template_abs };
 
 template :selectors
 
-    M.t%{ Id }.s = [ %{ Selectors :selector_ref } ];
+    M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
+    M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
 
 //template :template_prologue [ this.type() === 'array' ]
 //
@@ -68,6 +70,25 @@ template :selectors
 template :template_prologue
 
     var r%{ Rid } = '';
+
+
+// Для jpath выводим имя его переменной, для / -- 1.
+
+jpath :template_selector [ this.isRoot() ]
+
+    1
+
+jpath :template_selector
+
+    j%{ Id }
+
+jpath :template_abs [ this.Abs ]
+
+    1
+
+jpath :template_abs
+
+    0
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -419,38 +440,26 @@ subexpr :output
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
-// Selectors: jpath and root.
+// Selectors: jpath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-root
+jpath [ this.isRoot() ]
 
-    c0.root
-
-// Для jpath выводим имя его переменной, для root -- null.
-
-root :selector_ref
-
-    null
-
-jpath :selector_ref
-
-    j%{ Id }
+    [ c%{ Cid }.root ]
 
 jpath [ this.yate() === '.' ]
 
     [ c%{ Cid } ]
+
+jpath [ this.Abs ]
+
+    m.selectN(j%{ Id }, c%{ Cid }.root)
 
 jpath
 
     m.selectN(j%{ Id }, c%{ Cid })
 
 // FIXME: Переименовать jpath_filter в inline_filter.
-
-//  root не является nodeset'ом.
-jpath_filter [ this.Expr.is('root') ]
-
-    m.selectN(j%{ JPath.Id }, %{ Expr })
-
 jpath_filter
 
     m.selectNs(j%{ JPath.Id }, %{ Expr })
