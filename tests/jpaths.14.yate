@@ -5,7 +5,7 @@
 ///         bar: [ 'one', 'two', 'three' ],
 ///         boo: [ 'first', 'two', 'three' ]
 ///     },
-///     result: ".foo == 'second'.foo == .boo"
+///     result: ".foo == 'second'.foo == .boo'first' == 'first'"
 /// }
 
 match / {
@@ -23,6 +23,14 @@ match / {
 
     if .foo == .boo {
         ".foo == .boo"
+    }
+
+    if "first" == "first" {
+        "'first' == 'first'"
+    }
+
+    if "first" == "second" {
+        "'first' == 'second'"
     }
 }
 

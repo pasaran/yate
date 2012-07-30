@@ -517,13 +517,13 @@ inline_and
 inline_not
     !%{ Left }
 
-inline_eq [ this.Op === '!=' ]
+inline_eq [ this.Op === '!=' && ( this.Left.type() === 'nodeset' || this.Right.type() === 'nodeset' ) ]
 
-    !%{ . :cmp }
+    !(%{ . :cmp })
 
 inline_eq
 
-    { . :cmp }
+    %{ . :cmp }
 
 inline_eq :cmp [ this.Left.type() === 'nodeset' && this.Right.type() === 'nodeset' ]
 
