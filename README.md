@@ -59,4 +59,5 @@ Yet Another Template Engine
 Можно прочитать про [базовый синтаксис](https://github.com/pasaran/yate/wiki/syntax)
 и про [синтаксис jpath](https://github.com/pasaran/yate/wiki/jpath).
 
+И еще есть [слайды](http://pasaran.github.com/slides/yate/) с внутреннего доклада в Яндексе.
 
