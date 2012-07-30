@@ -517,19 +517,27 @@ inline_and
 inline_not
     !%{ Left }
 
-inline_eq [ this.Left.type() === 'nodeset' && this.Right.type() === 'nodeset' ]
+inline_eq [ this.Op === '!=' ]
+
+    !%{ . :cmp }
+
+inline_eq
+
+    { . :cmp }
+
+inline_eq :cmp [ this.Left.type() === 'nodeset' && this.Right.type() === 'nodeset' ]
 
     yr.cmpNN(%{ Left }, %{ Right })
 
-inline_eq [ this.Left.type() === 'nodeset' ]
+inline_eq :cmp [ this.Left.type() === 'nodeset' ]
 
     yr.cmpSN(%{ Right }, %{ Left })
 
-inline_eq [ this.Right.type() === 'nodeset' ]
+inline_eq :cmp [ this.Right.type() === 'nodeset' ]
 
     yr.cmpSN(%{ Left }, %{ Right })
 
-inline_eq
+inline_eq :cmp
     %{ Left } %{ Op } %{ Right }
 
 inline_rel
