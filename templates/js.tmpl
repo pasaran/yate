@@ -517,6 +517,18 @@ inline_and
 inline_not
     !%{ Left }
 
+inline_eq [ this.Left.type() === 'nodeset' && this.Right.type() === 'nodeset' ]
+
+    yr.cmpNN(%{ Left }, %{ Right })
+
+inline_eq [ this.Left.type() === 'nodeset' ]
+
+    yr.cmpSN(%{ Left }, %{ Right })
+
+inline_eq [ this.Right.type() === 'nodeset' ]
+
+    yr.cmpSN(%{ Right }, %{ Left })
+
 inline_eq
     %{ Left } %{ Op } %{ Right }
 
