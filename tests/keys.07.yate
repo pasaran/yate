@@ -1,0 +1,23 @@
+/// {
+///     description: 'Cast callarg to scalar',
+///     data: {
+///         item: [
+///             { id: 'first' },
+///             { id: 'second' },
+///             { id: 'third' }
+///         ],
+///         id: 'ond'
+///     },
+///     result: 'second'
+/// }
+
+key item( .item, .id ) { . }
+
+match / {
+    apply item( "sec{ .id }" )
+}
+
+match .item {
+    .id
+}
+
