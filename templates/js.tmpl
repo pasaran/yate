@@ -420,7 +420,7 @@ attr :output
     a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
-    r%{ Rid } += m.closeAttrs(a%{ Rid });
+    r%{ Rid } += yr.closeAttrs(a%{ Rid });
 
 attrs_open :output
 
@@ -488,7 +488,11 @@ value :output [ ( this.type() === 'nodeset' || this.type() === 'boolean' ) && !t
 
 value :output [ this.type() === 'attr' && this.Value.is('inline_var') ]
 
-    m.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+
+value :output [ this.type() === 'attr' && this.Value.is('inline_function') && this.Value.def.is('external') ]
+
+    yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
 value :output [ this.type() === 'attr' ]
@@ -538,9 +542,8 @@ inline_subexpr
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-//  FIXME: Нужно ли тут передавать aN?
 inline_function [ this.External ]
-    (yr.externals['%{ Name }'])(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
+    (yr.externals['%{ Name }'])(%{ Args })
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ this.IsKey && this.Args.Items[0].type() === 'nodeset' ]
@@ -586,7 +589,7 @@ internal_function_false
     false
 
 internal_function_name [ this.Signature === 'nodeset' ]
-    m.nodeName( %{Args} )
+    yr.nodeName( %{Args} )
 
 internal_function_name
     c%{ Cid }.name
@@ -601,13 +604,13 @@ internal_function_count
     l%{ Cid }
 
 internal_function_slice
-    m.slice(%{ Args })
+    yr.slice(%{ Args })
 
 internal_function_html
     %{ Args }
 
 internal_function_exists
-    m.exists(%{ Args })
+    yr.exists(%{ Args })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -643,13 +646,13 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ this.From === 'nodeset' && (this.To === 'scalar' || this.To === 'xml' || this.To === 'attrvalue' || this.To === 'boolean') ]
-    m.nodeset2%{ To }( %{ Expr } )
+    yr.nodeset2%{ To }( %{ Expr } )
 
 cast [ this.From === 'scalar' && (this.To === 'xml' || this.To == 'attrvalue') ]
-    m.scalar2%{ To }( %{ Expr } )
+    yr.scalar2%{ To }( %{ Expr } )
 
 cast [ this.From === 'xml' && this.To == 'attrvalue' ]
-    m.scalar2attrvalue( %{ Expr } )
+    yr.scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ this.From === 'scalar' && this.To === 'boolean' ]
@@ -659,11 +662,11 @@ cast
     %{ Expr }
 
 quote
-    m.%{ Mode }Quote(%{ Expr })
+    yr.%{ Mode }Quote(%{ Expr })
 
 simple_jpath
 
-    m.simpleJPath('%{ Name }', c%{ JPath.Cid })
+    yr.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
