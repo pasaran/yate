@@ -542,6 +542,10 @@ inline_subexpr
 inline_function [ this.External ]
     (yr.externals['%{ Name }'])(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args :comma })
 
+//  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
+inline_function [ this.IsKey && this.Args.Items[0].type() === 'nodeset' ]
+    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }, true)
+
 inline_function [ this.IsKey ]
     m.keys('k%{ def.Id }', %{ Args }, c%{ Cid })
 

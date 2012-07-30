@@ -7,8 +7,7 @@
 ///             { title: 'Third', count: 5 }
 ///         ]
 ///     },
-///     result: 'SecondThird',
-///     known: true
+///     result: 'SecondThird'
 /// }
 
 key item( .item, .count) {

@@ -8,8 +8,7 @@
 ///         ],
 ///         selected: [ 'first', 'second' ]
 ///     },
-///     result: 'firstsecond',
-///     known: true
+///     result: 'firstsecond'
 /// }
 
 key items( .item, .id ) {
