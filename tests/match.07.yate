@@ -1,0 +1,13 @@
+/// {
+///     description: '/ should only be matched by /',
+///     result: '/'
+/// }
+
+match / {
+    "/"
+}
+
+match .* {
+    "*"
+}
+
