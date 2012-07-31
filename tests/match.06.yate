@@ -1,0 +1,24 @@
+/// {
+///     description: '.* before .foo',
+///     data: {
+///         item: [
+///             { id: 'first' },
+///             { title: 'foo' },
+///             { id: 'third' }
+///         ]
+///     },
+///     result: 'first*third'
+/// }
+
+match / {
+    apply .item content
+}
+
+match .* content {
+    "*"
+}
+
+match .item[ .id ] content {
+    .id
+}
+
