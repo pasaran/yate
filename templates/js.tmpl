@@ -550,7 +550,7 @@ inline_mul
     %{ Left } %{ Op } %{ Right }
 
 inline_unary
-    -%{ Expr }
+    -%{ Left }
 
 inline_union
     (%{ Left }).concat(%{ Right })
@@ -688,6 +688,15 @@ simple_jpath
 
     yr.simpleJPath('%{ Name }', c%{ JPath.Cid })
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+sort [ this.Order ]
+
+    yr.sort(%{ Nodes }, function(c0, i0, l0) { return %{ By }; }, %{ Order })
+
+sort
+
+    yr.sort(%{ Nodes }, function(c0, i0, l0) { return %{ By }; })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // misc

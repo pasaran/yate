@@ -1,0 +1,24 @@
+/// {
+///     description: 'sorts',
+///     data: {
+///         item: [
+///             { id: 'one', count: 42 },
+///             { id: 'two', count: 7 },
+///             { id: 'three', count: 18 },
+///             { id: 'four', count: 23 },
+///             { id: 'five', count: 66 }
+///         ]
+///     },
+///     result: 'two-7 three-18 four-23 one-42 five-66 \nfive-66 four-23 one-42 three-18 two-7 '
+/// }
+
+match / {
+    apply sort( .item, .count )
+    "\n"
+    apply sort( .item, .id )
+}
+
+match .item {
+    "{ .id }-{ .count } "
+}
+
