@@ -285,6 +285,10 @@ jpath_predicate [ this.isLocal() ]
 
     2, p%{ Id }
 
+jpath_predicate [ this.Expr.type() === 'boolean' ]
+
+    4, p%{ Id }
+
 jpath_predicate
 
     3, %{ Expr }
@@ -293,7 +297,9 @@ jpath_predicate
 
 //  jpath_predicate
 
-jpath_predicate :defs [ this.isLocal() ]
+jpath_predicate :defs
+//  FIXME
+//  [ this.isLocal() || this.Expr.type() === 'nodeset' ]
 
     function p%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
         return %{ Expr };

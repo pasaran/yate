@@ -1,0 +1,23 @@
+/// {
+///     description: 'Global boolean predicate',
+///     data: {
+///         flag: 'on',
+///         item: [
+///             { id: 'first' },
+///             { id: 'second' },
+///             { id: 'third' }
+///         ]
+///     },
+///     result: 'firstsecondthird'
+/// }
+
+isOn = (.flag == 'on')
+
+match / {
+    apply .item[ isOn ]
+}
+
+match .item[ isOn ] {
+    .id
+}
+
