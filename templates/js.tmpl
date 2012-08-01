@@ -690,9 +690,9 @@ simple_jpath
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-sort [ this.Order ]
+sort [ this.Order === 'desc' ]
 
-    yr.sort(%{ Nodes }, function(c0, i0, l0) { return %{ By }; }, %{ Order })
+    yr.sort(%{ Nodes }, function(c0, i0, l0) { return %{ By }; }, true)
 
 sort
 

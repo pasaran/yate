@@ -14,11 +14,11 @@
 
 match / {
     //  reverse nodeset.
-    apply sort( .item, -index() )
+    apply sort( .item, desc index() )
     "\n"
 
     //  sort with desc order
-    apply sort( .item, index(), true() )
+    apply sort( .item, desc index() )
 }
 
 match .item {
