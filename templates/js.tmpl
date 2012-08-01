@@ -641,6 +641,12 @@ internal_function_exists
 internal_function_number
     (+(%{ Args }))
 
+internal_function_boolean [ this.Signature === 'boolean' ]
+    %{ Args }
+
+internal_function_boolean
+    !!(%{ Args })
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_var [ this.def.isGlobal() && this.def.isConst() ]
