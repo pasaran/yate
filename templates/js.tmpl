@@ -567,10 +567,10 @@ inline_function [ this.External ]
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ this.IsKey && this.Args.Items[0].type() === 'nodeset' ]
-    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }, true)
+    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }.root, true)
 
 inline_function [ this.IsKey ]
-    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid })
+    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }.root)
 
 inline_function [ this.IsUser && this.def.isGlobal() ]
     m.funcs('f%{ def.Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
