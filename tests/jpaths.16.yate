@@ -1,0 +1,13 @@
+/// {
+///     description: 'absolute jpath is an index and not a predicate',
+///     data: {
+///         index: 2,
+///         item: [ 'one', 'two', 'three', 'four', 'five' ]
+///     },
+///     result: 'three'
+/// }
+
+match / {
+    .item[ /.index ]
+}
+
