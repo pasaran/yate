@@ -647,6 +647,12 @@ internal_function_boolean [ this.Signature === 'boolean' ]
 internal_function_boolean
     !!(%{ Args })
 
+internal_function_string [ this.Signature === 'nodeset' ]
+    ('' + yr.nodeset2scalar(%{ Args }))
+
+internal_function_string
+    ('' + %{ Args })
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_var [ this.def.isGlobal() && this.def.isConst() ]
