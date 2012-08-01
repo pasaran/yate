@@ -1,26 +1,30 @@
 /// {
 ///     description: 'Использование count() в предикате. См. https://github.com/pasaran/yate/issues/34',
 ///     data: {
-///         items: {
-///             item: [ 1, 2, 3 ]
-///         }
+///         items: [
+///             {
+///                 item: [ 1, 2, 3 ]
+///             },
+///             {
+///                 item: [ 4, 5, 6 ]
+///             }
+///         ]
 ///     },
-///     result: 'itemsitemitemitem',
-///     known: true
+///     result: '456\n123456'
 /// }
 
 match / {
-    //  FIXME: Не очень понятно, что значат такие предикаты.
 
-    apply .items[ count() ]
-    apply .items.item[ count() == 3 ]
-}
+    //  Здесь count() равен 1. И он будет использован как индекс.
+    apply .items[ count() ].item
+    "\n"
 
-match .items {
-    "items"
+    //  Здесь `count() == 1` будет истинным булевским выражением.
+    //  И оно будет использовано как гвард.
+    apply .items[ count() == 1 ].item
 }
 
 match .item {
-    "item"
+    .
 }
 
