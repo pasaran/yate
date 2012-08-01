@@ -3,8 +3,7 @@
 ///     data: {
 ///         username: 'nop'
 ///     },
-///     result: 'Hello, nop',
-///     known: true
+///     result: 'Hello, nop'
 /// }
 
 isValid = true()
@@ -20,6 +19,6 @@ match .username {
 //  Непонятно, должно ли такое работать.
 //  Выражение в предикате не локальное, т.е. это расценивается как индекс.
 match .username[ isValid ] {
-    "Hello, { .username }"
+    "Hello, { . }"
 }
 
