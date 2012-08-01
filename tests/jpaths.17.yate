@@ -1,0 +1,12 @@
+/// {
+///     description: 'select from null',
+///     data: {
+///         foo: null
+///     },
+///     result: ''
+/// }
+
+match / {
+    apply .foo.bar
+}
+
