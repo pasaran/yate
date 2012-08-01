@@ -1,0 +1,22 @@
+/// {
+///     description: 'number()',
+///     data: {
+///         count: "42",
+///         item: [ "3", "11", "5", "2", "7" ]
+///     },
+///     result: '421 43 2 3 5 7 11 11 2 3 5 7 '
+/// }
+
+match / {
+    .count + 1
+    " "
+    number(.count) + 1
+    " "
+    apply sort(.item, number(.))
+    apply sort(.item, .)
+}
+
+match .item {
+    "{ . } "
+}
+
