@@ -1,0 +1,17 @@
+/// {
+///     description: 'Cast default values',
+///     data: {
+///         title: 'World'
+///     },
+///     result: 'WorldHello'
+/// }
+
+match / {
+    apply / title
+    apply / title ( "Hello" )
+}
+
+match / title ( title = .title ) {
+    title
+}
+
