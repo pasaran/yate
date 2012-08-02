@@ -641,17 +641,17 @@ internal_function_exists
 internal_function_number
     (+(%{ Args }))
 
-internal_function_boolean [ this.Signature === 'boolean' ]
-    %{ Args }
-
-internal_function_boolean
-    !!(%{ Args })
-
 internal_function_string [ this.Signature === 'nodeset' ]
     ('' + yr.nodeset2scalar(%{ Args }))
 
 internal_function_string
     ('' + %{ Args })
+
+internal_function_scalar
+    %{ Args }
+
+internal_function_boolean
+    %{ Args }
 
 // ----------------------------------------------------------------------------------------------------------------- //
 

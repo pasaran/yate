@@ -1,0 +1,16 @@
+/// {
+///     description: 'scalar()',
+///     data: {
+///         id: 'first'
+///     },
+///     result: 'first or second'
+/// }
+
+match / {
+    id = scalar(.id)
+
+    if id == 'first' || id == 'second' {
+        'first or second'
+    }
+}
+
