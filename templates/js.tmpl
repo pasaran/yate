@@ -477,7 +477,7 @@ arglist_item
     , v%{ Id }
 
 arglist_item :defaults [ this.Default ]
-    v%{ Id } = v%{ Id } || %{ Default };
+    v%{ Id } = (v%{ Id } === undefined) ? %{ Default } : v%{ Id };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
