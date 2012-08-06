@@ -572,21 +572,21 @@ inline_function [ p.External ]
     (yr.externals['%{ Name }'])(%{ Args })
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
-inline_function [ p.IsKey && p.Args.p[0].type() === 'nodeset' ]
-    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }.root, true)
+inline_function [ f.IsKey && p.Args.first().type() === 'nodeset' ]
+    m.keys('k%{ Id }', %{ Args }, c%{ Cid }.root, true)
 
-inline_function [ p.IsKey ]
-    m.keys('k%{ def.Id }', %{ Args }, c%{ Cid }.root)
+inline_function [ f.IsKey ]
+    m.keys('k%{ Id }', %{ Args }, c%{ Cid }.root)
 
-inline_function [ p.IsUser && a.def.isGlobal() ]
-    m.funcs('f%{ def.Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+inline_function [ f.IsUser && a.def.isGlobal() ]
+    m.funcs('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
-inline_function [ p.IsUser ]
-    f%{ def.Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+inline_function [ f.IsUser ]
+    f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
-inline_function :attrs [ a.type() === 'attr' && p.InlineVarValue ]
+inline_function :attrs [ a.type() === 'attr' && f.InlineVarValue ]
 
     , { attrs: {} }
 
