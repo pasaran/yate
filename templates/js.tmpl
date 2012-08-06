@@ -658,14 +658,14 @@ internal_function_boolean
 //  FIXME: Кажется, это плохая идея. Все глобальные переменные должны быть доступны из другого модуля.
 inline_var [ a.def.isGlobal() && a.def.isConst() ]
 
-    m.v%{ def.Id }
+    m.v%{ Id }
 
 inline_var [ a.def.isGlobal() ]
 
-    m.vars('v%{ def.Id }', c%{ Cid })
+    m.vars('v%{ Id }', c%{ Cid })
 
 inline_var
-    v%{ def.Id }
+    v%{ Id }
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
