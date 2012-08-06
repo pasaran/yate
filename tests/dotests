@@ -18,6 +18,8 @@ var parsed = nopt({
 
 var yate = require('../lib/yate.js');
 
+require('../lib/actions.js');
+
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 var defaultData = '01.json';
