@@ -1,0 +1,20 @@
+/// {
+///     description: 'Default value of parameter is true',
+///     result: 'ononoff'
+/// }
+
+
+func foo( boolean on = true() ) {
+    if on {
+        "on"
+    } else {
+        "off"
+    }
+}
+
+match / {
+    foo()
+    foo( true() )
+    foo( false() )
+}
+
