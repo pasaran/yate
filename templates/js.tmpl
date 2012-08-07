@@ -19,9 +19,18 @@ module
         M.matcher = %{ Block.js__matcher() };
         M.imports = [ %{ Block.Imports } ];
 
-        yr.register('%{ Name }', M);
+        yr.register('%{ . :name }', M);
 
     })();
+
+module :name [ p.Name ]
+
+    %{ Name }
+
+//  Дефольтное название модуля.
+module :name
+
+    main
 
 import
 
