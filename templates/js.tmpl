@@ -34,7 +34,7 @@ module :name
 
 import
 
-    %{ Name }
+    '%{ Name }'
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // defs: template, function_, key, var_
@@ -102,11 +102,19 @@ jpath :template_abs
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+function_ :comment
+
+    func %{ Name }(%{ Args :yate }) : %{ type() }
+
+function_ :defs [ f.isImported ]
+
+    // imported %{ . :comment }
+
 // function_
 
 function_ :defs [ a.isGlobal() ]
 
-    // func %{ Name }(%{ Args :yate }) : %{ type() }
+    // %{ . :comment }
     M.f%{ Id } = %{ . :def };
 
 function_ :defs
@@ -178,15 +186,19 @@ var_ :body
 
 var_ :comment
 
-    //  var %{ Name } : %{ Value.type() }
+    var %{ Name } : %{ Value.type() }
 
 
 //  Глобальная переменная.
 //  ---------------------------------------------------------------------------------------------------------------  //
 
+var_ :defs [ f.isImported ]
+
+    //  imported %{ . :comment }
+
 var_ :defs [ a.isGlobal() ]
 
-    %{ . :comment }
+    //  %{ . :comment }
     M.v%{ Id } = %{ . :global };
 
 var_ :global [ p.Value.isConst() ]
@@ -219,12 +231,12 @@ var_ :epilogue [ a.isGlobal() ]
 
 var_ :defs [ p.Value.inline() ]
 
-    %{ . :comment }
+    //  %{ . :comment }
     var v%{ Id } = %{ Value };
 
 var_ :defs
 
-    %{ . :comment }
+    //  %{ . :comment }
     %{ . :body }
 
 var_ :epilogue [ p.Value.type() === 'attr' ]
@@ -237,6 +249,10 @@ var_ :epilogue
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+key :defs [ f.isImported ]
+
+    //  imported key %{ Name }()
 
 key :defs
 
