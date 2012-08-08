@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
+//  ---------------------------------------------------------------------------------------------------------------  //
+
 var fs_ = require('fs');
+var path_ = require('path');
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 var yate = require('./lib/yate.js');
+
+require('./lib/actions.js');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
@@ -13,13 +20,15 @@ var parsed = nopt(
         'ast': Boolean,
         'print': Boolean,
         'mode': String,
-        'output': String
+        'output': String,
+        'import': [ Array, path_ ]
     },
     {
         'a': '--ast',
         'p': '--print',
         'm': '--mode',
-        'o': '--output'
+        'o': '--output',
+        'i': '--import'
     }
 );
 
@@ -38,6 +47,16 @@ if (!template) {
 }
 
 //  ---------------------------------------------------------------------------------------------------------------  //
+
+yate.modules = {};
+var imports = parsed.import;
+if (imports) {
+    for (var i = 0, l = imports.length; i < l; i++) {
+        var filename = imports[i];
+        var obj = JSON.parse( fs_.readFileSync(filename, 'utf-8') );
+        yate.modules[ obj.name ] = obj;
+    }
+}
 
 if (parsed.ast) {
     var ast = yate.parse(template);
