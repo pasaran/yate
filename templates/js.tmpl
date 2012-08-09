@@ -408,7 +408,7 @@ for_ :output
 
 apply :output
 
-    r%{ Rid } += m.applyValue(%{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
+    r%{ Rid } += m.applyValue(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 template_mode :string
 
