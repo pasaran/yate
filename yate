@@ -15,8 +15,9 @@ require('./lib/actions.js');
 
 var nopt = require('nopt');
 
-var parsed = nopt(
+var parsed = yate.cliOptions = nopt(
     {
+        'write-ast': Boolean,
         'ast': Boolean,
         'print': Boolean,
         'mode': String,
