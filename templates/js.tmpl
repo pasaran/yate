@@ -68,11 +68,11 @@ template :selectors
     M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
     M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
 
-//template :template_prologue [ this.type() === 'array' ]
+//template :template_prologue [ this.getType() === 'array' ]
 //
 //    var r%{ Rid } = [];
 //
-//template :template_prologue [ this.type() === 'object' ]
+//template :template_prologue [ this.getType() === 'object' ]
 //
 //    var r%{ Rid } = {};
 
@@ -104,7 +104,7 @@ jpath :template_abs
 
 function_ :comment
 
-    func %{ Name }(%{ Args :yate }) : %{ type() }
+    func %{ Name }(%{ Args :yate }) : %{ getType() }
 
 function_ :defs [ f.isImported ]
 
@@ -123,7 +123,7 @@ function_ :defs
 
 
 //  Только функции с типом attr или xml используют параметр aN.
-function_ :def [ a.type() === 'attr' || a.type() === 'xml' ]
+function_ :def [ a.getType() === 'attr' || a.getType() === 'xml' ]
 
     function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ . :function_body }
@@ -151,21 +151,21 @@ function_ :def
     %{ . :function_epilogue }
 
 
-* :function_prologue [ a.type() === 'nodeset' ]
+* :function_prologue [ a.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-* :function_prologue [ a.type() === 'boolean' ]
+* :function_prologue [ a.getType() === 'boolean' ]
 
     var r%{ Rid } = false;
 
 //  Функция типа attr не использует переменную rN.
-* :function_prologue [ a.type() !== 'attr' ]
+* :function_prologue [ a.getType() !== 'attr' ]
 
     var r%{ Rid } = '';
 
 
-* :function_epilogue [ a.type() === 'attr' ]
+* :function_epilogue [ a.getType() === 'attr' ]
 
     return a%{ Rid }.attrs;
 
@@ -186,7 +186,7 @@ var_ :body
 
 var_ :comment
 
-    var %{ Name } : %{ Value.type() }
+    var %{ Name } : %{ Value.getType() }
 
 
 //  Глобальная переменная.
@@ -217,7 +217,7 @@ var_ :global
         %{ . :body }
     }
 
-var_ :epilogue [ a.isGlobal() && p.Value.type() === 'attr' ]
+var_ :epilogue [ a.isGlobal() && p.Value.getType() === 'attr' ]
 
     return a%{ Value.Rid }.attrs;
 
@@ -239,7 +239,7 @@ var_ :defs
     //  %{ . :comment }
     %{ . :body }
 
-var_ :epilogue [ p.Value.type() === 'attr' ]
+var_ :epilogue [ p.Value.getType() === 'attr' ]
 
     var v%{ Id } = a%{ Value.Rid }.attrs;
 
@@ -258,9 +258,9 @@ key :defs
 
     M.k%{ Id } = {};
     M.k%{ Id }.n = %{ . :nodes };
-    //  %{ Use.type() }
+    //  %{ Use.getType() }
     M.k%{ Id }.u = %{ . :use };
-    //  %{ Body.type() }
+    //  %{ Body.getType() }
     M.k%{ Id }.b = %{ . :body };
     %{ . :types }
 
@@ -284,8 +284,8 @@ key :body
 
 key :types
 
-    M.k%{ Id }.ut = '%{ Use.type() }';
-    M.k%{ Id }.bt = '%{ Body.type() }';
+    M.k%{ Id }.ut = '%{ Use.getType() }';
+    M.k%{ Id }.bt = '%{ Body.getType() }';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -310,7 +310,7 @@ jpath_predicate [ a.isLocal() ]
 
     2, p%{ Id }
 
-jpath_predicate [ p.Expr.type() === 'boolean' ]
+jpath_predicate [ p.Expr.getType() === 'boolean' ]
 
     4, p%{ Id }
 
@@ -324,7 +324,7 @@ jpath_predicate
 
 jpath_predicate :defs
 //  FIXME
-//  [ this.isLocal() || this.Expr.type() === 'nodeset' ]
+//  [ this.isLocal() || this.Expr.getType() === 'nodeset' ]
 
     function p%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
         return %{ Expr };
@@ -358,11 +358,11 @@ block :output
 
     %{ Exprs :output }
 
-* :prologue [ a.type() === 'nodeset' ]
+* :prologue [ a.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-* :prologue [ a.type() === 'boolean' ]
+* :prologue [ a.getType() === 'boolean' ]
 
     var r%{ Rid } = false;
 
@@ -513,20 +513,20 @@ value
 
     %{ Value }
 
-value :output [ ( a.type() === 'nodeset' || a.type() === 'boolean' ) && !p.AsType ]
+value :output [ ( a.getType() === 'nodeset' || a.getType() === 'boolean' ) && !p.AsType ]
 
     r%{ Rid } = %{ Value };
 
-value :output [ a.type() === 'attr' && p.Value.is('inline_var') ]
+value :output [ a.getType() === 'attr' && p.Value.is('inline_var') ]
 
     yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
 
-value :output [ a.type() === 'attr' && p.Value.is('inline_function') && p.Value.def.is('external') ]
+value :output [ a.getType() === 'attr' && p.Value.is('inline_function') && p.Value.def.is('external') ]
 
     yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
-value :output [ a.type() === 'attr' ]
+value :output [ a.getType() === 'attr' ]
 
     %{ Value };
 
@@ -548,7 +548,7 @@ inline_and
 inline_not
     !%{ Left }
 
-inline_eq [ p.Op === '!=' && ( p.Left.type() === 'nodeset' || p.Right.type() === 'nodeset' ) ]
+inline_eq [ p.Op === '!=' && ( p.Left.getType() === 'nodeset' || p.Right.getType() === 'nodeset' ) ]
 
     !(%{ . :cmp })
 
@@ -556,15 +556,15 @@ inline_eq
 
     %{ . :cmp }
 
-inline_eq :cmp [ p.Left.type() === 'nodeset' && p.Right.type() === 'nodeset' ]
+inline_eq :cmp [ p.Left.getType() === 'nodeset' && p.Right.getType() === 'nodeset' ]
 
     yr.cmpNN(%{ Left }, %{ Right })
 
-inline_eq :cmp [ p.Left.type() === 'nodeset' ]
+inline_eq :cmp [ p.Left.getType() === 'nodeset' ]
 
     yr.cmpSN(%{ Right }, %{ Left })
 
-inline_eq :cmp [ p.Right.type() === 'nodeset' ]
+inline_eq :cmp [ p.Right.getType() === 'nodeset' ]
 
     yr.cmpSN(%{ Left }, %{ Right })
 
@@ -597,7 +597,7 @@ inline_function [ f.IsExternal ]
     (yr.externals['%{ Name }'])(%{ Args })
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
-inline_function [ f.IsKey && p.Args.first().type() === 'nodeset' ]
+inline_function [ f.IsKey && p.Args.first().getType() === 'nodeset' ]
     m.keys('k%{ Id }', %{ Args }, c%{ Cid }.root, true)
 
 inline_function [ f.IsKey ]
@@ -611,11 +611,11 @@ inline_function [ f.IsUser ]
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
-inline_function :attrs [ a.type() === 'attr' && f.InlineVarValue ]
+inline_function :attrs [ a.getType() === 'attr' && f.InlineVarValue ]
 
     , { attrs: {} }
 
-inline_function :attrs [ a.type() === 'attr' || a.type() === 'xml' ]
+inline_function :attrs [ a.getType() === 'attr' || a.getType() === 'xml' ]
 
     , a%{ Rid }
 
