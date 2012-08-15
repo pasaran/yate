@@ -508,6 +508,9 @@ arglist_item
 arglist_item :defaults [ p.Default ]
     v%{ Id } = (v%{ Id } === undefined) ? %{ Default } : v%{ Id };
 
+arglist_item :defaults [ p.Typedef === 'nodeset' ]
+    v%{ Id } = (v%{ Id } === undefined) ? [] : v%{ Id };
+
 
 // ----------------------------------------------------------------------------------------------------------------- //
 //  value
