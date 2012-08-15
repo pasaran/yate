@@ -1,0 +1,26 @@
+/// {
+///     description: 'boolean() in predicate',
+///     data: {
+///         flag: 'on',
+///         item: [
+///             { id: 'first' }
+///         ]
+///     },
+///     result: '2'
+/// }
+
+match / {
+    apply .item
+}
+
+match .item {
+    '1'
+}
+
+match .item[ boolean(/.flag == 'on') ] {
+    '2'
+}
+
+match .item[ boolean(/.flag == 'off') ] {
+    '3'
+}
