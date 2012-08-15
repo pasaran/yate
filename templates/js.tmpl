@@ -44,7 +44,7 @@ import
 
 template :defs
 
-    // match %{ Selectors :yate } %{ Mode :yate }
+    // match %{ Selectors :yate } %{ Mode }
     M.t%{ Id } = %{ . :def };
     %{ . :selectors }
 
@@ -57,6 +57,10 @@ template :def
 
         return r%{ Rid };
     }
+
+template_mode [ p.Value ]
+
+    : %{ Value }
 
 template :selectors [ p.Selectors.length() === 1 ]
 
