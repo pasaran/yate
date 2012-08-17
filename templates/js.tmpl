@@ -10,6 +10,17 @@ module
 
     (function() {
 
+        var cmpNN = yr.cmpNN;
+        var cmpSN = yr.cmpSN;
+        var nodeset2xml = yr.nodeset2xml;
+        var nodeset2boolean = yr.nodeset2boolean;
+        var nodeset2attrvalue = yr.nodeset2attrvalue;
+        var nodeset2scalar = yr.nodeset2scalar;
+        var scalar2attrvalue = yr.scalar2attrvalue;
+        var scalar2xml = yr.scalar2xml;
+        var simpleJPath = yr.simpleJPath;
+        var closeAttrs = yr.closeAttrs;
+
         var M = new yr.Module();
 
         %{ Block.js__defs() }
@@ -171,7 +182,7 @@ function_ :def
 
 * :function_epilogue [ a.getType() === 'attr' ]
 
-    return a%{ Rid }.attrs;
+    return a%{ Rid }.a;
 
 * :function_epilogue
 
@@ -223,7 +234,7 @@ var_ :global
 
 var_ :epilogue [ a.isGlobal() && p.Value.getType() === 'attr' ]
 
-    return a%{ Value.Rid }.attrs;
+    return a%{ Value.Rid }.a;
 
 var_ :epilogue [ a.isGlobal() ]
 
@@ -245,7 +256,7 @@ var_ :defs
 
 var_ :epilogue [ p.Value.getType() === 'attr' ]
 
-    var v%{ Id } = a%{ Value.Rid }.attrs;
+    var v%{ Id } = a%{ Value.Rid }.a;
 
 var_ :epilogue
 
@@ -373,7 +384,7 @@ block :output
 * :prologue
 
     var r%{ Rid } = '';
-    var a%{ Rid } = { attrs: {} };
+    var a%{ Rid } = { a: {} };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -435,34 +446,34 @@ xml_line :content
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// FIXME: Закэшировать a0.attrs в отдельную переменную.
+// FIXME: Закэшировать a0.a в отдельную переменную.
 attr :output [ p.Value.inline() && p.Op === '+=' ]
-    a%{ Rid }.attrs[ %{ Name } ] = (a%{ Rid }.attrs[ %{ Name } ] || '') + %{ Value };
+    a%{ Rid }.a[ %{ Name } ] = (a%{ Rid }.a[ %{ Name } ] || '') + %{ Value };
 
 attr :output [ p.Value.inline() ]
-    a%{ Rid }.attrs[ %{ Name } ] %{ Op } %{ Value };
+    a%{ Rid }.a[ %{ Name } ] %{ Op } %{ Value };
 
 attr :output [ p.Op === '+=' ]
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.attrs[ %{ Name } ] = (a%{ Rid }.attrs[ %{ Name } ] || '') + r%{ Value.Rid };
+    a%{ Rid }.a[ %{ Name } ] = (a%{ Rid }.a[ %{ Name } ] || '') + r%{ Value.Rid };
 
 attr :output
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.attrs[ %{ Name } ] %{ Op } r%{ Value.Rid };
+    a%{ Rid }.a[ %{ Name } ] %{ Op } r%{ Value.Rid };
 
 attrs_close :output
-    r%{ Rid } += yr.closeAttrs(a%{ Rid });
+    r%{ Rid } += closeAttrs(a%{ Rid });
 
 attrs_open :output
 
-    a%{ Rid }.attrs = {
+    a%{ Rid }.a = {
         %{ Attrs :open }
     };
-    a%{ Rid }.start = '%{ Name }';
+    a%{ Rid }.s = '%{ Name }';
 
 
 
@@ -526,11 +537,11 @@ value :output [ ( a.getType() === 'nodeset' || a.getType() === 'boolean' ) && !p
 
 value :output [ a.getType() === 'attr' && p.Value.is('inline_var') ]
 
-    yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    yr.copyAttrs( a%{ Rid }.a, %{ Value } );
 
 value :output [ a.getType() === 'attr' && p.Value.is('inline_function') && p.Value.def.is('external') ]
 
-    yr.copyAttrs( a%{ Rid }.attrs, %{ Value } );
+    yr.copyAttrs( a%{ Rid }.a, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
 value :output [ a.getType() === 'attr' ]
@@ -565,15 +576,15 @@ inline_eq
 
 inline_eq :cmp [ p.Left.getType() === 'nodeset' && p.Right.getType() === 'nodeset' ]
 
-    yr.cmpNN(%{ Left }, %{ Right })
+    cmpNN(%{ Left }, %{ Right })
 
 inline_eq :cmp [ p.Left.getType() === 'nodeset' ]
 
-    yr.cmpSN(%{ Right }, %{ Left })
+    cmpSN(%{ Right }, %{ Left })
 
 inline_eq :cmp [ p.Right.getType() === 'nodeset' ]
 
-    yr.cmpSN(%{ Left }, %{ Right })
+    cmpSN(%{ Left }, %{ Right })
 
 inline_eq :cmp
     %{ Left } %{ Op } %{ Right }
@@ -620,7 +631,7 @@ inline_function [ f.IsUser ]
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
 inline_function :attrs [ a.getType() === 'attr' && f.InlineVarValue ]
 
-    , { attrs: {} }
+    , { a: {} }
 
 inline_function :attrs [ a.getType() === 'attr' || a.getType() === 'xml' ]
 
@@ -715,13 +726,13 @@ string_literal
 // ----------------------------------------------------------------------------------------------------------------- //
 
 cast [ p.From === 'nodeset' && (p.To === 'scalar' || p.To === 'xml' || p.To === 'attrvalue' || p.To === 'boolean') ]
-    yr.nodeset2%{ To }( %{ Expr } )
+    nodeset2%{ To }( %{ Expr } )
 
 cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
-    yr.scalar2%{ To }( %{ Expr } )
+    scalar2%{ To }( %{ Expr } )
 
 cast [ p.From === 'xml' && p.To == 'attrvalue' ]
-    yr.scalar2attrvalue( %{ Expr } )
+    scalar2attrvalue( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ p.From === 'scalar' && p.To === 'boolean' ]
@@ -735,7 +746,7 @@ quote
 
 simple_jpath
 
-    yr.simpleJPath('%{ Name }', c%{ JPath.Cid })
+    simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
