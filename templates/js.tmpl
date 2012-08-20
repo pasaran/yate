@@ -423,7 +423,7 @@ for_ :output
 
 apply :output
 
-    r%{ Rid } += m.applyValue(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
+    r%{ Rid } += m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 template_mode :string
 
@@ -499,16 +499,16 @@ jpath [ a.yate() === '.' ]
 
 jpath [ p.Abs ]
 
-    m.selectN(j%{ Id }, c%{ Cid }.root)
+    m.s(j%{ Id }, c%{ Cid }.root)
 
 jpath
 
-    m.selectN(j%{ Id }, c%{ Cid })
+    m.s(j%{ Id }, c%{ Cid })
 
 // FIXME: Переименовать jpath_filter в inline_filter.
 jpath_filter
 
-    m.selectNs(j%{ JPath.Id }, %{ Expr })
+    m.n(j%{ JPath.Id }, %{ Expr })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -616,13 +616,13 @@ inline_function [ f.IsExternal ]
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ f.IsKey && p.Args.first().getType() === 'nodeset' ]
-    m.keys('k%{ Id }', %{ Args }, c%{ Cid }.root, true)
+    m.k('k%{ Id }', %{ Args }, c%{ Cid }.root, true)
 
 inline_function [ f.IsKey ]
-    m.keys('k%{ Id }', %{ Args }, c%{ Cid }.root)
+    m.k('k%{ Id }', %{ Args }, c%{ Cid }.root)
 
 inline_function [ f.IsUser && a.def.isGlobal() ]
-    m.funcs('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+    m.f('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 inline_function [ f.IsUser ]
     f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
@@ -700,7 +700,7 @@ internal_function_boolean
 
 inline_var [ a.def.isGlobal() ]
 
-    m.vars('v%{ Id }', c%{ Cid })
+    m.v('v%{ Id }', c%{ Cid })
 
 inline_var
     v%{ Id }
