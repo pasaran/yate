@@ -18,7 +18,9 @@ module
         var nodeset2scalar = yr.nodeset2scalar;
         var scalar2attrvalue = yr.scalar2attrvalue;
         var scalar2xml = yr.scalar2xml;
-        var simpleJPath = yr.simpleJPath;
+        var simpleScalar = yr.simpleScalar;
+        var simpleBoolean = yr.simpleBoolean;
+        var selectNametest = yr.selectNametest;
         var closeAttrs = yr.closeAttrs;
 
         var M = new yr.Module();
@@ -497,13 +499,29 @@ jpath [ a.yate() === '.' ]
 
     [ c%{ Cid } ]
 
-jpath [ p.Abs ]
+jpath [ f.IsSimple && p.AsType === 'scalar' ]
 
-    m.s(j%{ Id }, c%{ Cid }.root)
+    simpleScalar('%{ Name }', %{ . :context })
+
+jpath [ f.IsSimple && p.AsType === 'boolean' ]
+
+    simpleBoolean('%{ Name }', %{ . :context })
+
+jpath [ f.IsSimple ]
+
+    selectNametest('%{ Name }', %{ . :context }, [])
 
 jpath
 
-    m.s(j%{ Id }, c%{ Cid })
+    m.s(j%{ Id }, %{ . :context })
+
+jpath :context [ p.Abs ]
+
+    c%{ Cid }.root
+
+jpath :context
+
+    c%{ Cid }
 
 // FIXME: Переименовать jpath_filter в inline_filter.
 jpath_filter
@@ -743,10 +761,6 @@ cast
 
 quote
     yr.%{ Mode }Quote(%{ Expr })
-
-simple_jpath
-
-    simpleJPath('%{ Name }', c%{ JPath.Cid })
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
