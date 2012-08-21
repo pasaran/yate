@@ -60,8 +60,7 @@ if (imports) {
 }
 
 if (parsed.ast) {
-    var ast = yate.parse(template);
-    console.log( yate.walk(ast).toString() );
+    console.log( yate.compile(template).ast.toString() );
 
 } else if (parsed.print) {
     var ast = yate.parse(template);
@@ -71,7 +70,7 @@ if (parsed.ast) {
     console.log( yate.run(template, { filename: data }, externals, mode) );
 
 } else {
-    var js = yate.compile(template);
+    var js = yate.compile(template).js;
     if (parsed.output) {
         fs_.writeFileSync(parsed.output, js, 'utf-8');
     } else {
