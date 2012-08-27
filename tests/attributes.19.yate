@@ -1,0 +1,18 @@
+/// {
+///     description: 'attributes in else',
+///     data: {
+///         valid: false,
+///         username: 'nop'
+///     },
+///     result: '<h1 class="g-hidden"></h1>'
+/// }
+
+match / {
+    <h1>
+        if .valid {
+            "Hello, { .username }"
+        } else {
+            @class = "g-hidden"
+        }
+    </h1>
+}
