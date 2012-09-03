@@ -1,0 +1,15 @@
+/// {
+///     description: 'attributes in else if',
+///     result: '<h1 class="g-hidden"></h1>'
+/// }
+
+match / {
+    <h1>
+        if false() {
+            "Hello"
+        } else if true() {
+            @class = "g-hidden"
+        }
+    </h1>
+}
+
