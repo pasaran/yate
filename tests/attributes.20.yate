@@ -7,8 +7,11 @@ match / {
     <h1>
         if false() {
             "Hello"
+        } else if false() {
+            "Bye"
         } else {
             @class = "g-hidden"
         }
     </h1>
 }
+
