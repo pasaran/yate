@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset='utf-8'/>
     <title>mailbox</title>
     <script type="text/javascript" src="mailbox.data.js"></script>
     <script type="text/javascript" src="../../lib/runtime.js"></script>
@@ -11,9 +12,9 @@
 <div id="result"></div>
 
 <script>
-    console.time('run');
-    var result = Yater.run(data);
-    console.timeEnd('run');
+    // console.time('run');
+    var result = yr.run('main', data);
+    // console.timeEnd('run');
     document.getElementById('result').innerHTML = result;
 </script>
 
