@@ -41,7 +41,7 @@ if (parsed.argv.remain.length) {
 
 for (var i = 0, l = files.length; i < l; i++) {
     var filename = files[i];
-    if ( !/\.yate$/.test(filename) ) {
+    if ( !/\.\d+\.yate$/.test(filename) ) {
         continue;
     }
 

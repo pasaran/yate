@@ -1,0 +1,11 @@
+/// {
+///     description: 'variables from included files',
+///     result: 'Hello, nop'
+/// }
+
+include "includes/var.yate"
+
+name = username
+match / {
+    "Hello, { name }"
+}
