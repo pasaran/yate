@@ -1,0 +1,7 @@
+/// {
+///     description: 'includes match order',
+///     result: 'Hello from B'
+/// }
+
+include "includes/match-a.yate"
+include "includes/match-b.yate"
