@@ -1,0 +1,11 @@
+/// {
+///     description: 'template from include override template',
+///     result: 'Hello from A'
+/// }
+
+match / {
+    "Hello"
+}
+
+include "includes/match-a.yate"
+
