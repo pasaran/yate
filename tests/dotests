@@ -129,7 +129,7 @@ console.log( 'Tests: ' + nTotal.toString().white + ' = ' + stat.join(' + ') );
 
 console.log('\n');
 
-if ( path.existsSync(tmpfile) ) {
+if ( fs.existsSync(tmpfile) ) {
     fs.unlink(tmpfile);
 }
 
