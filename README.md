@@ -61,3 +61,4 @@ Yet Another Template Engine
 
 И еще есть [слайды](http://pasaran.github.com/slides/yate/) с внутреннего доклада в Яндексе.
 
+
