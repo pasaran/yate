@@ -1,0 +1,14 @@
+/// {
+///     description: 'tabs and spaces',
+///     data: {
+///         username: 'nop'
+///     },
+///     result: '<div>Hello, nop</div>'
+/// }
+
+match / {
+	<div>
+	    "Hello, { .username }"
+	</div>
+}
+
