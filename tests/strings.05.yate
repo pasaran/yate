@@ -1,0 +1,13 @@
+/// {
+///     description: 'Escaping of { and } symbols',
+///     result: 'var a = {};<script>var a = {};</script><script>var a = {};</script>'
+/// }
+
+match / {
+    js = "var a = {{}};"
+    js
+
+    <script>var a = {{}};</script>
+    <script>{ js }</script>
+}
+
