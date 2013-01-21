@@ -89,9 +89,10 @@ template :selectors
 //
 //    var r%{ Rid } = [];
 //
-//template :template_prologue [ this.getType() === 'object' ]
-//
-//    var r%{ Rid } = {};
+
+template :template_prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
 
 template :template_prologue
 
@@ -375,6 +376,10 @@ block :output
 
     %{ Exprs :output }
 
+* :prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
+
 * :prologue [ a.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
@@ -570,6 +575,24 @@ value :output
 
     r%{ Rid } += %{ Value };
 
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+//  object
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+object :output
+
+    %{ Block :output }
+
+pair :output [ p.Value.inline() ]
+
+    r%{ Rid }[ %{ Key } ] = %{ Value };
+
+pair :output
+
+    %{ Value :prologue }
+    %{ Value :output }
+    r%{ Rid }[ %{ Key } ] = r%{ Value.Rid };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // inline expressions
