@@ -1,0 +1,28 @@
+/// {
+///     description: 'Simple chroot',
+///     data: {
+///         hello: 'External Hello',
+///         foo: {
+///             bar: 42,
+///             hello: 'Internal Hello'
+///         }
+///     },
+///     result: 'External HelloInternal Hello42'
+/// }
+
+hello = .hello
+
+match / {
+    hello
+    apply .foo
+}
+
+match .foo {
+    apply document(.) bar
+}
+
+match / bar {
+    hello
+    .bar
+}
+
