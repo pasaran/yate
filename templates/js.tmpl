@@ -493,7 +493,7 @@ subexpr :output
 
 jpath [ a.isRoot() ]
 
-    [ c%{ Cid }.root ]
+    [ c%{ Cid }.doc.root ]
 
 jpath [ a.yate() === '.' ]
 
@@ -517,7 +517,7 @@ jpath
 
 jpath :context [ p.Abs ]
 
-    c%{ Cid }.root
+    c%{ Cid }.doc.root
 
 jpath :context
 
@@ -634,10 +634,10 @@ inline_function [ f.IsExternal ]
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ f.IsKey && p.Args.first().getType() === 'nodeset' ]
-    m.k('k%{ Id }', %{ Args }, c%{ Cid }.root, true)
+    m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root, true)
 
 inline_function [ f.IsKey ]
-    m.k('k%{ Id }', %{ Args }, c%{ Cid }.root)
+    m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root)
 
 inline_function [ f.IsUser && a.def.isGlobal() ]
     m.f('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
