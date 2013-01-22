@@ -376,6 +376,10 @@ block :output
 
     %{ Exprs :output }
 
+* :prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
+
 * :prologue [ a.getType() === 'object' ]
 
     var r%{ Rid } = {};
@@ -558,6 +562,10 @@ value
 
     %{ Value }
 
+value :output [ f.AsList ]
+
+    r%{ Rid }.push(%{ Value });
+
 value :output [ ( a.getType() === 'nodeset' || a.getType() === 'boolean' ) && !p.AsType ]
 
     r%{ Rid } = %{ Value };
@@ -583,6 +591,10 @@ value :output
 //  ---------------------------------------------------------------------------------------------------------------  //
 //  object
 //  ---------------------------------------------------------------------------------------------------------------  //
+
+array :output
+
+    %{ Block :output }
 
 object :output
 
