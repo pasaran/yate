@@ -428,6 +428,10 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+apply :output [ p.Expr.getType() === 'object' ]
+
+    r%{ Rid } += m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
 apply :output
 
     r%{ Rid } += m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
