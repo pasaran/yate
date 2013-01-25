@@ -803,6 +803,9 @@ cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
 cast [ p.From === 'xml' && p.To == 'attrvalue' ]
     scalar2attrvalue( %{ Expr } )
 
+cast [ p.From === 'object' && p.To == 'nodeset' ]
+    yr.object2nodeset( %{ Expr } )
+
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ p.From === 'scalar' && p.To === 'boolean' ]
     %{ Expr }
