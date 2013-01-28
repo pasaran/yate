@@ -1,0 +1,18 @@
+/// {
+///     description: 'array as a root data',
+///     data: [
+///         'First',
+///         'Second',
+///         'Third'
+///     ],
+///     result: 'FirstSecondThird'
+/// }
+
+match / {
+    apply .item
+}
+
+match .item {
+    .
+}
+
