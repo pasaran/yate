@@ -1,0 +1,11 @@
+/// //  See #147.
+/// {
+///     description: '"}" in string',
+///     data: {},
+///     result: '}'
+/// }
+
+match / {
+    "}"
+}
+
