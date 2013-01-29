@@ -1,0 +1,18 @@
+/// {
+///     description: 'variable in match',
+///     data: {
+///         foo: 42
+///     },
+///     result: 'foo'
+/// }
+
+is-foo = .foo
+
+match / {
+    "not foo"
+}
+
+match /[ is-foo ] {
+    "foo"
+}
+
