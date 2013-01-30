@@ -1,3 +1,4 @@
+/// //  See #29.
 /// {
 ///     description: 'nested arrays',
 ///     data: [
