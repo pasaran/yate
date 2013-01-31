@@ -1,0 +1,17 @@
+/// {
+///     description: 'cdata with indents',
+///     result: '<script>\n    if (a < b) {\n        a = b;\n    }\n</script>'
+/// }
+
+match / {
+    js = :::
+        if (a < b) {
+            a = b;
+        }
+    :::
+
+    <script>
+        js
+    </script>
+}
+
