@@ -85,10 +85,9 @@ template :selectors
     M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
     M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
 
-//template :template_prologue [ this.getType() === 'array' ]
-//
-//    var r%{ Rid } = [];
-//
+template :template_prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
 
 template :template_prologue [ a.getType() === 'object' ]
 
@@ -438,9 +437,19 @@ apply :output [ p.Expr.id === 'object' ]
     %{ Expr :output }
     r%{ Rid } += m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
+apply :output [ p.Expr.id === 'array' ]
+
+    var r%{ Expr.Rid } = [];
+    %{ Expr :output }
+    r%{ Rid } += m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
 apply :output [ p.Expr.getType() === 'object' ]
 
     r%{ Rid } += m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
+apply :output [ p.Expr.getType() === 'array' ]
+
+    r%{ Rid } += m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 apply :output
 
@@ -805,6 +814,9 @@ cast [ p.From === 'xml' && p.To == 'attrvalue' ]
 
 cast [ p.From === 'object' && p.To == 'nodeset' ]
     yr.object2nodeset( %{ Expr } )
+
+cast [ p.From === 'array' && p.To == 'nodeset' ]
+    yr.array2nodeset( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ p.From === 'scalar' && p.To === 'boolean' ]

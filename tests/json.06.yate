@@ -1,5 +1,5 @@
 /// {
-///     description: 'object as function param',
+///     description: 'object as a function param',
 ///     data: {
 ///         item: [
 ///             { text: 'First' },

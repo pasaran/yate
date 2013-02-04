@@ -1,0 +1,19 @@
+/// {
+///     description: 'array as nodeset',
+///     result: 'FirstSecondThirdSecond'
+/// }
+
+match / {
+    a = [
+        "First"
+        "Second"
+        "Third"
+    ]
+
+    for a.item {
+        .
+    }
+
+    a.item[1]
+}
+
