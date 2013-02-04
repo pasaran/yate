@@ -1,0 +1,25 @@
+/// {
+///     description: 'save sorted nodeset to variable',
+///     data: {
+///         item: [
+///             { id: 'one', count: 23 },
+///             { id: 'two', count: 37 },
+///             { id: 'three', count: 17 },
+///             { id: 'four', count: 55 },
+///             { id: 'five', count: 44 }
+///         ]
+///     },
+///     result: 'threeonetwofivefour'
+/// }
+
+match / {
+    items = .item
+    sorted-items = sort( items, .count )
+
+    apply sorted-items
+}
+
+match .item {
+    .id
+}
+
