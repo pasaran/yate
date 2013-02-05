@@ -1,0 +1,21 @@
+/// {
+///     description: 'array as a function param',
+///     result: 'FirstSecondThird'
+/// }
+
+match / {
+    a = [
+        "First"
+        "Second"
+        "Third"
+    ]
+
+    foo(a)
+}
+
+func foo(nodeset a) {
+    for a.item {
+        .
+    }
+}
+

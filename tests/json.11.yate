@@ -1,0 +1,21 @@
+/// {
+///     description: 'apply to array',
+///     result: 'FirstSecondThird'
+/// }
+
+match / {
+    a = [
+        "First"
+        "Second"
+        "Third"
+    ]
+
+    apply a content
+}
+
+match / content {
+    for .item {
+        .
+    }
+}
+

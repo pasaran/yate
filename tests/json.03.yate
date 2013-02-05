@@ -1,0 +1,33 @@
+/// {
+///     description: 'xml in object',
+///     data: {
+///         class: 'b-text',
+///         text: 'Some text'
+///     },
+///     //  FIXME: Не должны ли тут быть заквочены кавычки?
+///     result: '&lt;h1&gt;Hello, World&lt;/h1&gt;&lt;div class="b-text"&gt;Some text&lt;/div&gt;&lt;b&gt;short&lt;/b&gt;'
+/// }
+
+match / {
+    a = {
+        "xml": (
+            <h1>Hello, World</h1>
+            <div>
+                if .class {
+                    @class = .class
+                }
+                .text
+            </div>
+        )
+
+        "short-xml": <b>short</b>
+    }
+
+    apply a content
+}
+
+match / content {
+    .xml
+    .short-xml
+}
+

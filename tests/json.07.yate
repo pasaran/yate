@@ -1,0 +1,30 @@
+/// {
+///     description: 'object as nodeset',
+///     data: {
+///         item: [
+///             { text: 'First' },
+///             { text: 'Second' },
+///             { text: 'Third' }
+///         ]
+///     },
+///     result: '<h1>Hello, World</h1><ul><li>First</li><li>Second</li><li>Third</li></ul>'
+/// }
+
+match / {
+    a = {
+        "title": "Hello, World"
+        "item": [
+            for .item {
+                .text
+            }
+        ]
+    }
+
+    <h1>{ a.title }</h1>
+    <ul>
+        for a.item {
+            <li>{ . }</li>
+        }
+    </ul>
+}
+

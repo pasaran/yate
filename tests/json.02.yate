@@ -1,0 +1,36 @@
+/// {
+///     description: 'constructing array',
+///     data: {
+///         item: [
+///             { text: 'First' },
+///             { text: 'Second' },
+///             { text: 'Third' }
+///         ]
+///     },
+///     result: '<h1>Hello, World</h1><ul><li>First</li><li>Third</li></ul>'
+/// }
+
+match / {
+    tree = {
+        "title": "Hello, World"
+        "item": [
+            for .item {
+                if .text != "Second" {
+                    .text
+                }
+            }
+        ]
+    }
+
+    apply tree content
+}
+
+match / content {
+    <h1>{ .title }</h1>
+    <ul>
+        for .item {
+            <li>{ . }</li>
+        }
+    </ul>
+}
+

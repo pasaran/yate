@@ -85,13 +85,13 @@ template :selectors
     M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
     M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
 
-//template :template_prologue [ this.getType() === 'array' ]
-//
-//    var r%{ Rid } = [];
-//
-//template :template_prologue [ this.getType() === 'object' ]
-//
-//    var r%{ Rid } = {};
+template :template_prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
+
+template :template_prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
 
 template :template_prologue
 
@@ -375,6 +375,14 @@ block :output
 
     %{ Exprs :output }
 
+* :prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
+
+* :prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
+
 * :prologue [ a.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
@@ -422,6 +430,26 @@ for_ :output
     }
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+apply :output [ p.Expr.id === 'object' ]
+
+    var r%{ Expr.Rid } = {};
+    %{ Expr :output }
+    r%{ Rid } += m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
+apply :output [ p.Expr.id === 'array' ]
+
+    var r%{ Expr.Rid } = [];
+    %{ Expr :output }
+    r%{ Rid } += m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
+apply :output [ p.Expr.getType() === 'object' ]
+
+    r%{ Rid } += m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+
+apply :output [ p.Expr.getType() === 'array' ]
+
+    r%{ Rid } += m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
 apply :output
 
@@ -555,6 +583,10 @@ value
 
     %{ Value }
 
+value :output [ f.AsList ]
+
+    r%{ Rid }.push(%{ Value });
+
 value :output [ ( a.getType() === 'nodeset' || a.getType() === 'boolean' ) && !p.AsType ]
 
     r%{ Rid } = %{ Value };
@@ -576,6 +608,28 @@ value :output
 
     r%{ Rid } += %{ Value };
 
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+//  object
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+array :output
+
+    %{ Block :output }
+
+object :output
+
+    %{ Block :output }
+
+pair :output [ p.Value.inline() ]
+
+    r%{ Rid }[ %{ Key } ] = %{ Value };
+
+pair :output
+
+    %{ Value :prologue }
+    %{ Value :output }
+    r%{ Rid }[ %{ Key } ] = r%{ Value.Rid };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // inline expressions
@@ -763,6 +817,12 @@ cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
 
 cast [ p.From === 'xml' && p.To == 'attrvalue' ]
     scalar2attrvalue( %{ Expr } )
+
+cast [ p.From === 'object' && p.To == 'nodeset' ]
+    yr.object2nodeset( %{ Expr } )
+
+cast [ p.From === 'array' && p.To == 'nodeset' ]
+    yr.array2nodeset( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
 cast [ p.From === 'scalar' && p.To === 'boolean' ]

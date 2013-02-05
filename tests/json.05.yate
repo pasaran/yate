@@ -1,0 +1,32 @@
+/// {
+///     description: 'apply directly to an object',
+///     data: {
+///         item: [
+///             { text: 'First' },
+///             { text: 'Second' },
+///             { text: 'Third' }
+///         ]
+///     },
+///     result: '<h1>Hello, World</h1><ul><li>First</li><li>Second</li><li>Third</li></ul>'
+/// }
+
+match / {
+    apply {
+        "title": "Hello, World"
+        "item": [
+            for .item {
+                .text
+            }
+        ]
+    } content
+}
+
+match / content {
+    <h1>{ .title }</h1>
+    <ul>
+        for .item {
+            <li>{ . }</li>
+        }
+    </ul>
+}
+

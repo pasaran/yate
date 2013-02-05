@@ -1,0 +1,24 @@
+/// {
+///     description: 'apply to a simple object',
+///     data: {
+///         foo: 42,
+///         bar: 24
+///     },
+///     result: 'foo=42bar=24foo=24bar=42'
+/// }
+
+match / {
+    tree = {
+        "foo": .bar
+        "bar": .foo
+    }
+
+    apply . content
+    apply tree content
+}
+
+match / content {
+    "foo={ .foo }"
+    "bar={ .bar }"
+}
+
