@@ -1,0 +1,91 @@
+/// {
+///     description: 'sorts',
+///     data: {
+///            nickname: "Binary",
+///            my_presence: {
+///                priority: 0,
+///                status: 'Hey ho!',
+///                show: 'dnd'
+///            },
+///            view: [{
+///                pk: 'singleton',
+///                collapsed_groups: []
+///            }],
+///            roster: {
+///                items: [
+///                    {
+///                        ask: undefined,
+///                        groups: [1],
+///                        jid: undefined,
+///                        nick: 'z',
+///                        pk: 1,
+///                        presences: [],
+///                        subscription: 'none'
+///                    },
+///                    {
+///                        ask: undefined,
+///                        groups: [1],
+///                        jid: undefined,
+///                        nick: 'f',
+///                        pk: 2,
+///                        presences: [],
+///                        subscription: 'none'
+///                    },
+///                    {
+///                        ask: undefined,
+///                        groups: [1],
+///                        jid: undefined,
+///                        nick: 'a',
+///                        pk: 2,
+///                        presences: [],
+///                        subscription: 'none'
+///                    },
+///                    {
+///                        ask: undefined,
+///                        groups: [2],
+///                        jid: undefined,
+///                        nick: '2nd_group',
+///                        pk: 2,
+///                        presences: [],
+///                        subscription: 'none'
+///                    }
+///                ],
+///                groups: [
+///                    {
+///                        name: 'Undefined',
+///                        pk: 0,
+///                        special_group: 'undefined'
+///                    },
+///                    {
+///                        name: 'group b',
+///                        pk: 2
+///                    },
+///                    {
+///                        name: 'group a',
+///                        pk: 1
+///                    }
+///                ]
+///            }
+///        },
+///     result: 'group a:a f z group b:2nd_group '
+/// }
+
+match / {
+    apply .roster render_roster
+}
+
+match .roster render_roster {
+    for sort(.groups, .name) {
+        gpk = .pk
+        contacts = ..items[ .groups == gpk ]
+        if exists(contacts) {
+            "{ .name }:"
+            if !exists(...view.collapsed_groups[. == gpk]) {
+                sorted_contacts = sort(contacts, .nick)
+                for sorted_contacts {
+                    "{ .nick } "
+                }
+            }
+        }
+    }
+}
