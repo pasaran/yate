@@ -3,7 +3,8 @@
 ///     data: {
 ///         foo: 42
 ///     },
-///     result: 'foo'
+///     result: 'foo',
+///     known: true
 /// }
 
 is-foo = .foo
