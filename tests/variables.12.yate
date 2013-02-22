@@ -1,0 +1,13 @@
+/// {
+///     description: 'empty string as a value of variable',
+///     result: '<a href="/foo">Foo</a>'
+/// }
+
+root = ""
+
+match / {
+    url = "{ root }/foo"
+
+    <a href="{ url }">Foo</a>
+}
+
