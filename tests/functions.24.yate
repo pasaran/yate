@@ -1,0 +1,14 @@
+/// {
+///     description: 'external function signature is not checked',
+///     externals: 'functions.24.js',
+///     data: {},
+///     result: '',
+///     throws: true
+/// }
+
+external object makeObject(scalar)
+
+match / {
+    o = makeObject(1, 2)
+}
+
