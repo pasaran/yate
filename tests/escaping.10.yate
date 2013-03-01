@@ -1,0 +1,20 @@
+/// //  См. #157.
+/// {
+///     description: 'ampersand quoting',
+///     data: {
+///         filename: '&quot;hello.jpg&quot;'
+///     },
+///     result: '<div>"hello.jpg"</div><div>&amp;quot;hello.jpg&amp;quot;</div><div>&quot;hello.jpg&quot;</div>'
+/// }
+
+match / {
+    //  Энтити в строковых литералах сразу раскрываются.
+    <div>&quot;hello.jpg&quot;</div>
+
+    //  Предполагается, что в json'е энтитей не бывает, так что они квотятся.
+    <div>{ .filename }</div>
+
+    //  Если таки не нужно их квотить, нужно пользоваться функцией html().
+    <div>{ html(.filename) }</div>
+}
+

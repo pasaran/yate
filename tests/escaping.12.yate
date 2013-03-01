@@ -1,0 +1,13 @@
+/// //  См. #157.
+/// {
+///     description: 'html() in attributes',
+///     data: {
+///         title: '"><span>hello.jpg</span></div>'
+///     },
+///     result: '<div title="&quot;&gt;&lt;span&gt;hello.jpg&lt;/span&gt;&lt;/div&gt;"></div>'
+/// }
+
+match / {
+    <div title="{ html(.title) }"></div>
+}
+
