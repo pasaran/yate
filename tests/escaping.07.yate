@@ -1,13 +1,14 @@
 /// {
 ///     description: 'don\'t escape html-entities',
-///     result: '<div title="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3." subtitle="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.">Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.</div>'
+///     /// result: '<div title="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3." subtitle="Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.">Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.Hello A &amp; B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.</div>'
+///     result: '<div title="Hello A &amp; B. I ♥ NY™. &quot;π + σ&quot;" subtitle="Hello A &amp; B. I ♥ NY™. &quot;π + σ&quot;">Hello A &amp; B. I ♥ NY™. "π + σ"Hello A &amp; B. I ♥ NY™. "π + σ"</div>'
 /// }
 
-text = "Hello A & B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3."
+text = "Hello A & B. I &hearts; NY&trade;. &quot;&#960; + &#x3C3&quot;"
 
 match / {
-    <div title="{ text }" subtitle="Hello A & B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3.">
-        "Hello A & B. I &hearts;&nbsp;NY. 1&#8212;2&#x7c;3."
+    <div title="{ text }" subtitle="Hello A & B. I &hearts; NY&trade;. &quot;&#960; + &#x3C3&quot;">
+        "Hello A & B. I &hearts; NY&trade;. &quot;&#960; + &#x3C3&quot;"
         text
     </div>
 }

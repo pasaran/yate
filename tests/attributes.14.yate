@@ -3,19 +3,13 @@
 ///     data: {
 ///         title: 'I &hearts; NY, SF & "Moscow"'
 ///     },
-///     result: '<div class="b-hello" title="I &hearts; NY, SF &amp; &quot;Moscow&quot;I &hearts; NY, SF &amp; &quot;Moscow&quot;">Hello</div>'
+///     result: '<div title="I ♥ NY, SF &amp; &quot;Moscow&quot;I &amp;hearts; NY, SF &amp; &quot;Moscow&quot;"></div>'
 /// }
 
 match / {
-    class = apply . class
     title = apply . title
-    <div class="{ class }" title="{ title }">
-        "Hello"
-    </div>
-}
 
-match / class {
-    "b-hello"
+    <div title="{ title }"></div>
 }
 
 match / title {
