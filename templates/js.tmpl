@@ -470,7 +470,7 @@ cdata :output
 
 xml_attr :open
 
-    '%{ Name }': %{ Value }
+    '%{ Name }': new yr.scalarAttr(%{ Value })
 
 xml_line :output
 
@@ -485,22 +485,33 @@ xml_line :content
 
 // FIXME: Закэшировать a0.a в отдельную переменную.
 attr :output [ p.Value.inline() && p.Op === '+=' ]
-    a%{ Rid }.a[ %{ Name } ] = (a%{ Rid }.a[ %{ Name } ] || '') + %{ Value };
+
+    var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
+    if (tmp%{ Cid }) {
+        a%{ Rid }.a[ %{ Name } ] = tmp%{ Cid }.add%{ AttrType }(%{ Value });
+    } else {
+        a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
+    }
 
 attr :output [ p.Value.inline() ]
-    a%{ Rid }.a[ %{ Name } ] %{ Op } %{ Value };
+    a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
 
 attr :output [ p.Op === '+=' ]
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.a[ %{ Name } ] = (a%{ Rid }.a[ %{ Name } ] || '') + r%{ Value.Rid };
+    var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
+    if (tmp%{ Cid }) {
+        a%{ Rid }.a[ %{ Name } ] = tmp%{ Cid }.add%{ AttrType }(r%{ Value.Rid });
+    } else {
+        a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.Rid });
+    }
 
 attr :output
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.a[ %{ Name } ] %{ Op } r%{ Value.Rid };
+    a%{ Rid }.a[ %{ Name } ] = new yr.%{ Value.getType() }Attr(r%{ Value.Rid });
 
 attrs_close :output
     r%{ Rid } += closeAttrs(a%{ Rid });

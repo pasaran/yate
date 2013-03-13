@@ -1,7 +1,7 @@
 yr.externals.attrs = function() {
     return {
-        'class': 'b-hello',
-        'id': 'hello'
+        'class': new yr.scalarAttr('b-hello'),
+        'id': new yr.scalarAttr('hello')
     };
 };
 
