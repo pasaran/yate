@@ -40,16 +40,10 @@ Yet Another Template Engine
         npm link ../parse-tools
 
 
-Компиляция
-----------
+Компиляция и использование
+--------------------------
 
-  * Компиляция шаблона запускается так:
-
-        yate test.yate > test.js
-
-  * Компиляция и исполнения шаблона:
-
-        yate test.yate test.json > test.html
+[Быстрый старт](docs/quick-start.md)
 
 
 Документация
