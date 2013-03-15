@@ -4,47 +4,55 @@
 Установка
 ---------
 
-    npm install yate
-
+```sh
+npm install yate
+```
 
 Пишем шаблон
 ------------
 
 Файл `hello.yate`:
 
-    module "hello"
+```
+module "hello"
 
-    match / {
-        "Hello, { .username }"
-    }
+match / {
+    "Hello, { .username }"
+}
+```
 
 Строчка `module "hello"` должна быть первой строчкой в файле.
 
 Компилируем шаблон
 ------------------
 
-    yate hello.yate > hello.js
+```sh
+yate hello.yate > hello.js
+```
+
 
 Выполняем шаблон
 ----------------
 
 ### В браузере
 
-    <!-- Подключаем рантайм. -->
-    <script src="node_modules/yate/lib/runtime.js"></script>
+```html
+<!-- Подключаем рантайм. -->
+<script src="node_modules/yate/lib/runtime.js"></script>
 
-    <!-- Подключаем шаблон. -->
-    <script src="hello.js"></script>
+<!-- Подключаем шаблон. -->
+<script src="hello.js"></script>
 
-    <script>
-    //  Данные для наложения шаблона.
-    var data = { username: 'nop' };
+<script>
+//  Данные для наложения шаблона.
+var data = { username: 'nop' };
 
-    //  Запускаем шаблонизатор:
-    var result = yr.run('hello', data);
+//  Запускаем шаблонизатор:
+var result = yr.run('hello', data);
 
-    console.log(result); // 'Hello, nop'
-    </script>
+console.log(result); // 'Hello, nop'
+</script>
+```
 
 Что такое 'hello' тут --- это название модуля.
 Если в шаблоне не указать явно название модуля, то будет использоваться дефолтное: 'main'.
@@ -52,15 +60,16 @@
 
 ### В node.js
 
-    //  Подгружаем рантайм.
-    var yr = require('yate/lib/runtime.js');
+```js
+//  Подгружаем рантайм.
+var yr = require('yate/lib/runtime.js');
 
-    //  Подгружаем шаблон.
-    require('./hello.js');
+//  Подгружаем шаблон.
+require('./hello.js');
 
-    var data = { username: 'nop' };
-    var result = yr.run('hello', data);
+var data = { username: 'nop' };
+var result = yr.run('hello', data);
 
-    console.log(result); // 'Hello, nop'
-
+console.log(result); // 'Hello, nop'
+```
 
