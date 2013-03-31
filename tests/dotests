@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var existsSync = fs.existsSync || path.existsSync;
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
@@ -129,7 +130,7 @@ console.log( 'Tests: ' + nTotal.toString().white + ' = ' + stat.join(' + ') );
 
 console.log('\n');
 
-if ( fs.existsSync(tmpfile) ) {
+if ( existsSync(tmpfile) ) {
     fs.unlink(tmpfile);
 }
 
