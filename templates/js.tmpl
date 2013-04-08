@@ -512,7 +512,7 @@ attr :output
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.a[ %{ Name } ] = new yr.%{ Value.getType() }Attr(r%{ Value.Rid });
+    a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.Rid });
 
 attrs_close :output
     r%{ Rid } += closeAttrs(a%{ Rid });
