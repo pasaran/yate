@@ -1,0 +1,16 @@
+/// {
+///     description: '@attr = ( .foo )',
+///     data: {
+///         foo: 'bar'
+///     },
+///     result: '<h1 attr="bar"></h1>'
+/// }
+
+match / {
+    <h1>
+        @attr = (
+            .foo
+        )
+    </h1>
+}
+
