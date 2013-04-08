@@ -1,0 +1,18 @@
+/// {
+///     description: 'xmlAttr',
+///     data: {
+///         foo: 'hello'
+///     },
+///     result: '<div foo="hello"></div>'
+/// }
+
+match / {
+    <div>
+        @foo = if true() {
+                .foo
+            } else {
+                <b>{ .foo }</b>
+            }
+    </div>
+}
+
