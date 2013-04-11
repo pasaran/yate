@@ -1,0 +1,17 @@
+/// {
+///     description: 'convert xml to boolean',
+///     result: 'true'
+/// }
+
+match / {
+    xml = <div></div>
+
+    if xml {
+        "true"
+    }
+
+    if !xml {
+        "false"
+    }
+}
+
