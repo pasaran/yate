@@ -34,3 +34,4 @@ html('<!-- comment -->') // или HTML-комментариев
 ```
 
 * ```name()``` – возвращает имя текущего ```nodeset```
+* ```scalar(nodeset|xml)``` - преобразует nodeset или xml в [скаляр](./types.md#)
