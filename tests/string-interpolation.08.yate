@@ -1,0 +1,17 @@
+/// {
+///     description: 'nested string interpolation',
+///     data: {
+///         name: 'foo'
+///     },
+///     result: 'foo<div foo="42"></div>',
+///     known: true
+/// }
+
+match / {
+    "{ "{ .name }" }"
+
+    <div>
+        @{ "{ .name }" } = 42
+    </div>
+}
+
