@@ -1,0 +1,16 @@
+/// {
+///     description: '+= scalar to attribute with xml type',
+///     result: '<div class="foobar"></div>'
+/// }
+
+match / {
+    <div>
+        @class = apply . class-name
+        @class += "bar"
+    </div>
+}
+
+match / class-name {
+    "foo"
+}
+
