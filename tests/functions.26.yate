@@ -1,0 +1,13 @@
+/// {
+///     description: 'recursive function inside template body #2',
+///     result: 24
+/// }
+
+match / {
+    fact(4)
+
+    func fact(n) {
+        if n == 1 { 1 } else { n * fact(n - 1) }
+    }
+}
+
