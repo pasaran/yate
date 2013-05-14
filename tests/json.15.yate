@@ -1,0 +1,29 @@
+/// {
+///     description: 'several objects in array',
+///     result: 'foo bar boo '
+/// }
+
+match / {
+    apply {
+        "item": [
+            {
+                "foo": 42
+            }
+            {
+                "bar": 24
+            }
+            {
+                "boo": 66
+            }
+        ]
+    } content
+}
+
+match / content {
+    apply .item.*
+}
+
+match .* name {
+    name()
+}
+
