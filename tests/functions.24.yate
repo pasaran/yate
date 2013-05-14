@@ -1,6 +1,7 @@
 /// {
 ///     description: 'recursive function',
-///     result: 24
+///     result: 24,
+///     known: true
 /// }
 
 func fact(n) {

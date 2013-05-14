@@ -1,6 +1,7 @@
 /// {
 ///     description: 'recursive function inside template body #1',
-///     result: 24
+///     result: 24,
+///     known: true
 /// }
 
 match / {
