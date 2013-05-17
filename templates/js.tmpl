@@ -170,6 +170,14 @@ function_ :def
     %{ . :function_epilogue }
 
 
+* :function_prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
+
+* :function_prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
+
 * :function_prologue [ a.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
