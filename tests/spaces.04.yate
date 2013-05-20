@@ -1,0 +1,37 @@
+/// {
+///     description: 'multiline expr in function argument',
+///     data: {
+///         item: {
+///             foo: 42,
+///             bar: 24
+///         }
+///     },
+///     result: '1066'
+/// }
+
+
+func add(x, y) {
+    x + y
+}
+
+match / {
+    count(
+        .item[
+            .foo == 42 &&
+            .bar == 24
+        ]
+    )
+
+    count(
+        .item[
+            .foo == 24 ||
+            .bar == 42
+        ]
+    )
+
+    add(
+        .item.foo,
+        .item.bar
+    )
+}
+
