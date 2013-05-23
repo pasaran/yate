@@ -385,6 +385,12 @@ block :output
 
     %{ Exprs :output }
 
+block :listitem
+
+    %{ js__defs() }
+
+    %{ Exprs :listitem }
+
 * :prologue [ a.getType() === 'array' ]
 
     var r%{ Rid } = [];
@@ -604,7 +610,7 @@ value
 
     %{ Value }
 
-value :output [ f.AsList ]
+value :listitem
 
     r%{ Rid }.push(%{ Value });
 
@@ -636,7 +642,7 @@ value :output
 
 array :output
 
-    %{ Block :output }
+    %{ Block :listitem }
 
 object :output
 
