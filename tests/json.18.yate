@@ -1,0 +1,20 @@
+/// {
+///     description: 'object as function argument',
+///     data: {
+///         foo: 42,
+///         bar: 24
+///     },
+///     result: 15
+/// }
+
+func foo(object x, scalar y) {
+    x.foo - x.bar + y
+}
+
+match / {
+    foo({
+        "foo": .bar
+        "bar": .foo
+    }, 33)
+}
+

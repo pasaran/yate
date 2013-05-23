@@ -744,6 +744,14 @@ inline_function
 callargs :comma [ !a.empty() ]
     , %{ . }
 
+callarg [ p.Expr.id === 'object' || p.Expr.id === 'array' ]
+    (function() {
+        %{ Expr :prologue }
+        %{ Expr :output }
+
+        return r%{ Expr.Rid };
+    })()
+
 callarg
 
     %{ Expr }
