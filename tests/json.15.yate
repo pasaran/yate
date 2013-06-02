@@ -20,10 +20,10 @@ match / {
 }
 
 match / content {
-    apply .item.*
+    apply .item.* name
 }
 
 match .* name {
-    name()
+    "{ name() } "
 }
 

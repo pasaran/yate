@@ -402,10 +402,12 @@ block :listitem
 * :prologue [ a.getType() === 'array' ]
 
     var r%{ Rid } = [];
+    var a%{ Rid } = { a: {} };
 
 * :prologue [ a.getType() === 'object' ]
 
     var r%{ Rid } = {};
+    var a%{ Rid } = { a: {} };
 
 * :prologue [ a.getType() === 'nodeset' ]
 
@@ -463,35 +465,53 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ p.Expr.id === 'object' ]
+apply :output
+
+    %{ . :output-prologue }
+    r%{ Rid } += %{ . :output-value }
+
+apply :listitem
+
+    %{ . :output-prologue }
+    r%{ Rid }.push(%{ . :output-value });
+
+apply :output-prologue [ p.Expr.id === 'object' ]
 
     var r%{ Expr.Rid } = {};
     %{ Expr :output }
-    r%{ Rid } += m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
-apply :output [ p.Expr.id === 'array' ]
+apply :output-value [ p.Expr.id === 'object' ]
+    m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+
+apply :output-prologue [ p.Expr.id === 'array' ]
 
     var r%{ Expr.Rid } = [];
     %{ Expr :output }
-    r%{ Rid } += m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
-apply :output [ p.Expr.getType() === 'object' ]
+apply :output-value [ p.Expr.id === 'array' ]
+    m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value [ p.Expr.getType() === 'object' ]
 
-apply :output [ p.Expr.getType() === 'array' ]
+    m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value [ p.Expr.getType() === 'array' ]
 
-apply :output
+    m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value
+
+    m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 template_mode :string
 
     '%{ Value }'
 
 //  ---------------------------------------------------------------------------------------------------------------  //
+
+cdata :listitem
+
+    r%{ Rid }.push(%{ Value });
 
 cdata :output
 
@@ -561,6 +581,12 @@ attrs_open :output
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+subexpr :listitem
+
+    %{ Block :prologue }
+    %{ Block :output }
+    r%{ Rid }.push(r%{ Block.Rid });
 
 subexpr :output
 
@@ -660,9 +686,21 @@ value :output
 //  object
 //  ---------------------------------------------------------------------------------------------------------------  //
 
+array :listitem
+
+    %{ . :prologue }
+    %{ . :output }
+    r%{ ~.Rid }.push(r%{ Block.Rid });
+
 array :output
 
     %{ Block :listitem }
+
+object :listitem
+
+    %{ . :prologue }
+    %{ . :output }
+    r%{ ~.Rid }.push(r%{ Block.Rid });
 
 object :output
 
