@@ -902,6 +902,9 @@ string_literal
 // cast and quote
 // ----------------------------------------------------------------------------------------------------------------- //
 
+cast [ p.From === 'nodeset' && p.To === 'data' ]
+    yr.nodeset2data(%{ Expr })
+
 cast [ p.From === 'nodeset' && (p.To === 'scalar' || p.To === 'xml' || p.To === 'attrvalue' || p.To === 'boolean') ]
     nodeset2%{ To }( %{ Expr } )
 

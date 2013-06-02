@@ -1,0 +1,25 @@
+/// {
+///     description: "don't cast value of pair to scalar",
+///     data: {
+///         foo: {
+///             bar: 42
+///         },
+///         quu: 24
+///     },
+///     result: '424224'
+/// }
+
+match / {
+    apply {
+        "x": .
+        "y": .foo
+        "z": .quu
+    } content
+}
+
+match / content {
+    .x.foo.bar
+    .y.bar
+    .z
+}
+
