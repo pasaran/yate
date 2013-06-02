@@ -362,6 +362,10 @@ jpath_predicate :defs
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
+body [ f.AsList ]
+
+    %{ Block :listitem ]
+
 body
 
     %{ Block }
@@ -372,6 +376,10 @@ body :output
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+block :output [ f.AsList ]
+
+    %{ . :listitem }
 
 block
 
@@ -417,6 +425,10 @@ block :listitem
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
+if_ :listitem
+
+    %{ . :output }
+
 if_ :output
 
     if (%{ Condition }) %{ Then :if_body } %{ Elses }
@@ -436,6 +448,10 @@ else_
     else %{ Body :if_body }
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+for_ :listitem
+
+    %{ . :output }
 
 for_ :output
 
@@ -490,6 +506,10 @@ xml_attr :open
 xml_line :output
 
     r%{ Rid } += %{ . :content };
+
+xml_line :listitem
+
+    r%{ Rid }.push(%{ . :content });
 
 xml_line :content
 
