@@ -6,7 +6,7 @@
     },
     "name": "yate",
     "description": "Yet Another Template Engine",
-    "version": "0.0.48",
+    "version": "0.0.49",
     "homepage": "https://github.com/pasaran/yate",
     "repository": {
         "type": "git",
@@ -15,7 +15,7 @@
     "dependencies": {
         "nopt": "*",
         "nommon": "0.0.21",
-        "parse-tools": "0.0.15"
+        "parse-tools": "0.0.16"
     },
     "devDependencies": {},
     "optionalDependencies": {},
