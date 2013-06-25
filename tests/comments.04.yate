@@ -1,0 +1,9 @@
+/// {
+///     description: 'html comments inside xml node',
+///     result: '<div></div>'
+/// }
+
+match / {
+    <div><!-- comments --></div>
+}
+
