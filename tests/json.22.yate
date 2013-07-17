@@ -1,0 +1,38 @@
+/// {
+///     description: 'subnode',
+///     data: {
+///         foo: 42
+///     },
+///     result: '.foo.bar: 24 .foo.quu.bar: 66 123'
+/// }
+
+match / {
+    apply .foo
+}
+
+match .foo {
+    apply subnode(24, "bar")
+
+    apply subnode({
+        "quu": 66
+    }, "bar").quu
+
+    apply subnode([
+        1
+        2
+        3
+    ], "item")
+}
+
+match .foo.bar {
+    ".foo.bar: { . } "
+}
+
+match .foo.bar.quu {
+    ".foo.quu.bar: { . } "
+}
+
+match .foo.item {
+    .
+}
+
