@@ -11,17 +11,17 @@ match / {
 }
 
 match .foo {
-    apply subnode(24, "bar")
+    apply subnode("bar", 24)
 
-    apply subnode({
+    apply subnode("bar", {
         "quu": 66
-    }, "bar").quu
+    }).quu
 
-    apply subnode([
+    apply subnode("item", [
         1
         2
         3
-    ], "item")
+    ])
 }
 
 match .foo.bar {
