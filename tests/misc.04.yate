@@ -1,0 +1,10 @@
+﻿/// {
+///     description: 'utf-8 BOM in the beginning of file',
+///     result: '<div>Hello, nop</div>'
+/// }
+include "includes/utf8bom.yate"
+match / {
+	<div>
+	    "Hello, { username }"
+	</div>
+}

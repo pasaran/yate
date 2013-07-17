@@ -51,7 +51,12 @@ for (var i = 0, l = files.length; i < l; i++) {
     }
     prevSection = section;
 
-    var test = parseTest( fs.readFileSync(filename, 'utf-8') );
+    var testSrc = fs.readFileSync(filename, 'utf-8');
+    // Strip UTF-8 BOM
+    if (testSrc.charAt(0) === '\uFEFF') {
+        testSrc = testSrc.slice(1);
+    }
+    var test = parseTest(testSrc);
     var options = test.options;
     options.yate = filename;
 
