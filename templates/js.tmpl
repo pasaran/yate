@@ -20,6 +20,7 @@ module
         var scalar2attrvalue = yr.scalar2attrvalue;
         var xml2attrvalue = yr.xml2attrvalue;
         var scalar2xml = yr.scalar2xml;
+        var xml2scalar = yr.xml2scalar;
         var simpleScalar = yr.simpleScalar;
         var simpleBoolean = yr.simpleBoolean;
         var selectNametest = yr.selectNametest;
@@ -916,6 +917,9 @@ cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
 
 cast [ p.From === 'xml' && p.To == 'attrvalue' ]
     xml2attrvalue( %{ Expr } )
+
+cast [ p.From === 'xml' && p.To == 'scalar' ]
+    xml2scalar( %{ Expr } )
 
 cast [ p.From === 'object' && p.To == 'nodeset' ]
     yr.object2nodeset( %{ Expr } )
