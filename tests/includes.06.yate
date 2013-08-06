@@ -1,0 +1,9 @@
+/// {
+///     description: 'include xml inside of block',
+///     result: '<div class="hello">Hello</div>'
+/// }
+
+match / {
+    include "includes.06.xml"
+}
+
