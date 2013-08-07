@@ -15,7 +15,7 @@
     "dependencies": {
         "nopt": "*",
         "nommon": "0.0.23",
-        "parse-tools": "0.0.16"
+        "parse-tools": "0.0.17"
     },
     "devDependencies": {},
     "optionalDependencies": {},
