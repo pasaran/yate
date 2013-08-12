@@ -39,7 +39,7 @@ module
 
     })();
 
-module :name [ p.Name ]
+module :name [ ast.Name ]
 
     %{ Name }
 
@@ -74,11 +74,11 @@ template :def
         return r%{ Rid };
     }
 
-template_mode [ p.Value ]
+template_mode [ ast.Value ]
 
     : %{ Value }
 
-template :selectors [ p.Selectors.length() === 1 ]
+template :selectors [ ast.Selectors.length() === 1 ]
 
     M.t%{ Id }.j = %{ Selectors :template_selector };
     M.t%{ Id }.a = %{ Selectors :template_abs };
@@ -88,11 +88,11 @@ template :selectors
     M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
     M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
 
-template :template_prologue [ a.getType() === 'array' ]
+template :template_prologue [ ast.getType() === 'array' ]
 
     var r%{ Rid } = [];
 
-template :template_prologue [ a.getType() === 'object' ]
+template :template_prologue [ ast.getType() === 'object' ]
 
     var r%{ Rid } = {};
 
@@ -103,7 +103,7 @@ template :template_prologue
 
 // Для jpath выводим имя его переменной, для / -- 1.
 
-jpath :template_selector [ a.isRoot() ]
+jpath :template_selector [ ast.isRoot() ]
 
     1
 
@@ -111,7 +111,7 @@ jpath :template_selector
 
     j%{ Id }
 
-jpath :template_abs [ p.Abs ]
+jpath :template_abs [ ast.Abs ]
 
     1
 
@@ -126,13 +126,13 @@ function_ :comment
 
     func %{ Name }(%{ Args :yate }) : %{ getType() }
 
-function_ :defs [ f.isImported ]
+function_ :defs [ ast.isImported ]
 
     // imported %{ . :comment }
 
 // function_
 
-function_ :defs [ a.isGlobal() ]
+function_ :defs [ ast.isGlobal() ]
 
     // %{ . :comment }
     M.f%{ Id } = %{ . :def };
@@ -143,7 +143,7 @@ function_ :defs
 
 
 //  Только функции с типом attr или xml используют параметр aN.
-function_ :def [ a.getType() === 'attr' || a.getType() === 'xml' ]
+function_ :def [ ast.getType() === 'attr' || ast.getType() === 'xml' ]
 
     function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ . :function_body }
@@ -156,7 +156,7 @@ function_ :def
     }
 
 //  Тело функции состоит из одного инлайнового выражения (без каких-либо определений).
-* :function_body [ p.Body.inline() ]
+* :function_body [ ast.Body.inline() ]
     %{ Args :defaults }
 
     return %{ Body };
@@ -171,29 +171,29 @@ function_ :def
     %{ . :function_epilogue }
 
 
-* :function_prologue [ a.getType() === 'object' ]
+* :function_prologue [ ast.getType() === 'object' ]
 
     var r%{ Rid } = {};
 
-* :function_prologue [ a.getType() === 'array' ]
+* :function_prologue [ ast.getType() === 'array' ]
 
     var r%{ Rid } = [];
 
-* :function_prologue [ a.getType() === 'nodeset' ]
+* :function_prologue [ ast.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-* :function_prologue [ a.getType() === 'boolean' ]
+* :function_prologue [ ast.getType() === 'boolean' ]
 
     var r%{ Rid } = false;
 
 //  Функция типа attr не использует переменную rN.
-* :function_prologue [ a.getType() !== 'attr' ]
+* :function_prologue [ ast.getType() !== 'attr' ]
 
     var r%{ Rid } = '';
 
 
-* :function_epilogue [ a.getType() === 'attr' ]
+* :function_epilogue [ ast.getType() === 'attr' ]
 
     return a%{ Rid }.a;
 
@@ -220,20 +220,20 @@ var_ :comment
 //  Глобальная переменная.
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var_ :defs [ f.isImported ]
+var_ :defs [ ast.isImported ]
 
     //  imported %{ . :comment }
 
-var_ :defs [ a.isGlobal() ]
+var_ :defs [ ast.isGlobal() ]
 
     //  %{ . :comment }
     M.v%{ Id } = %{ . :global };
 
-var_ :global [ p.Value.isConst() ]
+var_ :global [ ast.Value.isConst() ]
 
     %{ Value }
 
-var_ :global [ p.Value.inline() ]
+var_ :global [ ast.Value.inline() ]
 
     function(m, c0, i0, l0) {
         return %{ Value };
@@ -245,11 +245,11 @@ var_ :global
         %{ . :body }
     }
 
-var_ :epilogue [ a.isGlobal() && p.Value.getType() === 'attr' ]
+var_ :epilogue [ ast.isGlobal() && ast.Value.getType() === 'attr' ]
 
     return a%{ Value.Rid }.a;
 
-var_ :epilogue [ a.isGlobal() ]
+var_ :epilogue [ ast.isGlobal() ]
 
     return r%{ Value.Rid };
 
@@ -257,7 +257,7 @@ var_ :epilogue [ a.isGlobal() ]
 //  Локальная переменная
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var_ :defs [ p.Value.inline() ]
+var_ :defs [ ast.Value.inline() ]
 
     //  %{ . :comment }
     var v%{ Id } = %{ Value };
@@ -267,7 +267,7 @@ var_ :defs
     //  %{ . :comment }
     %{ . :body }
 
-var_ :epilogue [ p.Value.getType() === 'attr' ]
+var_ :epilogue [ ast.Value.getType() === 'attr' ]
 
     var v%{ Id } = a%{ Value.Rid }.a;
 
@@ -278,7 +278,7 @@ var_ :epilogue
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key :defs [ f.isImported ]
+key :defs [ ast.isImported ]
 
     //  imported key %{ Name }()
 
@@ -334,11 +334,11 @@ jpath_dots
 
     1, %{ Length }
 
-jpath_predicate [ a.isLocal() ]
+jpath_predicate [ ast.isLocal() ]
 
     2, p%{ Id }
 
-jpath_predicate [ p.Expr.getType() === 'boolean' ]
+jpath_predicate [ ast.Expr.getType() === 'boolean' ]
 
     4, p%{ Id }
 
@@ -363,9 +363,9 @@ jpath_predicate :defs
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
-body [ f.AsList ]
+body [ ast.AsList ]
 
-    %{ Block :listitem ]
+    %{ Block :listitem }
 
 body
 
@@ -378,7 +378,7 @@ body :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-block :output [ f.AsList ]
+block :output [ ast.AsList ]
 
     %{ . :listitem }
 
@@ -400,21 +400,21 @@ block :listitem
 
     %{ Exprs :listitem }
 
-* :prologue [ a.getType() === 'array' ]
+* :prologue [ ast.getType() === 'array' ]
 
     var r%{ Rid } = [];
     var a%{ Rid } = { a: {} };
 
-* :prologue [ a.getType() === 'object' ]
+* :prologue [ ast.getType() === 'object' ]
 
     var r%{ Rid } = {};
     var a%{ Rid } = { a: {} };
 
-* :prologue [ a.getType() === 'nodeset' ]
+* :prologue [ ast.getType() === 'nodeset' ]
 
     var r%{ Rid } = [];
 
-* :prologue [ a.getType() === 'boolean' ]
+* :prologue [ ast.getType() === 'boolean' ]
 
     var r%{ Rid } = false;
 
@@ -476,27 +476,27 @@ apply :listitem
     %{ . :output-prologue }
     r%{ Rid }.push(%{ . :output-value });
 
-apply :output-prologue [ p.Expr.id === 'object' ]
+apply :output-prologue [ ast.Expr.id === 'object' ]
 
     var r%{ Expr.Rid } = {};
     %{ Expr :output }
 
-apply :output-value [ p.Expr.id === 'object' ]
+apply :output-value [ ast.Expr.id === 'object' ]
     m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-apply :output-prologue [ p.Expr.id === 'array' ]
+apply :output-prologue [ ast.Expr.id === 'array' ]
 
     var r%{ Expr.Rid } = [];
     %{ Expr :output }
 
-apply :output-value [ p.Expr.id === 'array' ]
+apply :output-value [ ast.Expr.id === 'array' ]
     m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-apply :output-value [ p.Expr.getType() === 'object' ]
+apply :output-value [ ast.Expr.getType() === 'object' ]
 
     m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-apply :output-value [ p.Expr.getType() === 'array' ]
+apply :output-value [ ast.Expr.getType() === 'array' ]
 
     m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
@@ -540,7 +540,7 @@ xml_line :content
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // FIXME: Закэшировать a0.a в отдельную переменную.
-attr :output [ p.Value.inline() && p.Op === '+=' ]
+attr :output [ ast.Value.inline() && ast.Op === '+=' ]
 
     var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
     if (tmp%{ Cid }) {
@@ -549,10 +549,10 @@ attr :output [ p.Value.inline() && p.Op === '+=' ]
         a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
     }
 
-attr :output [ p.Value.inline() ]
+attr :output [ ast.Value.inline() ]
     a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
 
-attr :output [ p.Op === '+=' ]
+attr :output [ ast.Op === '+=' ]
 
     %{ Value :prologue }
     %{ Value :output }
@@ -599,23 +599,23 @@ subexpr :output
 // Selectors: jpath
 // ----------------------------------------------------------------------------------------------------------------- //
 
-jpath [ a.isRoot() ]
+jpath [ ast.isRoot() ]
 
     [ c%{ Cid }.doc.root ]
 
-jpath [ a.yate() === '.' ]
+jpath [ ast.isSelf() ]
 
     [ c%{ Cid } ]
 
-jpath [ f.IsSimple && p.AsType === 'scalar' ]
+jpath [ ast.IsSimple && ast.AsType === 'scalar' ]
 
     simpleScalar('%{ Name }', %{ . :context })
 
-jpath [ f.IsSimple && p.AsType === 'boolean' ]
+jpath [ ast.IsSimple && ast.AsType === 'boolean' ]
 
     simpleBoolean('%{ Name }', %{ . :context })
 
-jpath [ f.IsSimple ]
+jpath [ ast.IsSimple ]
 
     selectNametest('%{ Name }', %{ . :context }, [])
 
@@ -623,7 +623,7 @@ jpath
 
     m.s(j%{ Id }, %{ . :context })
 
-jpath :context [ p.Abs ]
+jpath :context [ ast.Abs ]
 
     c%{ Cid }.doc.root
 
@@ -642,10 +642,10 @@ jpath_filter
 arglist_item
     , v%{ Id }
 
-arglist_item :defaults [ p.Default ]
+arglist_item :defaults [ ast.Default ]
     v%{ Id } = (v%{ Id } === undefined) ? %{ Default } : v%{ Id };
 
-arglist_item :defaults [ p.Typedef === 'nodeset' ]
+arglist_item :defaults [ ast.Typedef === 'nodeset' ]
     v%{ Id } = (v%{ Id } === undefined) ? [] : v%{ Id };
 
 
@@ -661,20 +661,20 @@ value :listitem
 
     r%{ Rid }.push(%{ Value });
 
-value :output [ ( a.getType() === 'nodeset' || a.getType() === 'boolean' ) && !p.AsType ]
+value :output [ ( ast.getType() === 'nodeset' || ast.getType() === 'boolean' ) && !ast.AsType ]
 
     r%{ Rid } = %{ Value };
 
-value :output [ a.getType() === 'attr' && p.Value.is('inline_var') ]
+value :output [ ast.getType() === 'attr' && ast.Value.is('inline_var') ]
 
     yr.copyAttrs( a%{ Rid }.a, %{ Value } );
 
-value :output [ a.getType() === 'attr' && p.Value.is('inline_function') && p.Value.def.is('external') ]
+value :output [ ast.getType() === 'attr' && ast.Value.is('inline_function') && ast.Value.def.is('external') ]
 
     yr.copyAttrs( a%{ Rid }.a, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
-value :output [ a.getType() === 'attr' ]
+value :output [ ast.getType() === 'attr' ]
 
     %{ Value };
 
@@ -707,7 +707,7 @@ object :output
 
     %{ Block :output }
 
-pair :output [ p.Value.inline() ]
+pair :output [ ast.Value.inline() ]
 
     r%{ Rid }[ %{ Key } ] = %{ Value };
 
@@ -730,7 +730,7 @@ inline_and
 inline_not
     !%{ Left }
 
-inline_eq [ p.Op === '!=' && ( p.Left.getType() === 'nodeset' || p.Right.getType() === 'nodeset' ) ]
+inline_eq [ ast.Op === '!=' && ( ast.Left.getType() === 'nodeset' || ast.Right.getType() === 'nodeset' ) ]
 
     !(%{ . :cmp })
 
@@ -738,15 +738,15 @@ inline_eq
 
     %{ . :cmp }
 
-inline_eq :cmp [ p.Left.getType() === 'nodeset' && p.Right.getType() === 'nodeset' ]
+inline_eq :cmp [ ast.Left.getType() === 'nodeset' && ast.Right.getType() === 'nodeset' ]
 
     cmpNN(%{ Left }, %{ Right })
 
-inline_eq :cmp [ p.Left.getType() === 'nodeset' ]
+inline_eq :cmp [ ast.Left.getType() === 'nodeset' ]
 
     cmpSN(%{ Right }, %{ Left })
 
-inline_eq :cmp [ p.Right.getType() === 'nodeset' ]
+inline_eq :cmp [ ast.Right.getType() === 'nodeset' ]
 
     cmpSN(%{ Left }, %{ Right })
 
@@ -775,29 +775,29 @@ inline_subexpr
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_function [ f.IsExternal ]
+inline_function [ ast.IsExternal ]
     (yr.externals['%{ Name }'])(%{ Args })
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
-inline_function [ f.IsKey && p.Args.first().getType() === 'nodeset' ]
+inline_function [ ast.IsKey && ast.Args.first().getType() === 'nodeset' ]
     m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root, true)
 
-inline_function [ f.IsKey ]
+inline_function [ ast.IsKey ]
     m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root)
 
-inline_function [ f.IsUser && a.def.isGlobal() ]
+inline_function [ ast.IsUser && ast.def.isGlobal() ]
     m.f('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
-inline_function [ f.IsUser ]
+inline_function [ ast.IsUser ]
     f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
-inline_function :attrs [ a.getType() === 'attr' && f.InlineVarValue ]
+inline_function :attrs [ ast.getType() === 'attr' && ast.InlineVarValue ]
 
     , { a: {} }
 
-inline_function :attrs [ a.getType() === 'attr' || a.getType() === 'xml' ]
+inline_function :attrs [ ast.getType() === 'attr' || ast.getType() === 'xml' ]
 
     , a%{ Rid }
 
@@ -806,10 +806,10 @@ inline_function :attrs [ a.getType() === 'attr' || a.getType() === 'xml' ]
 inline_function
     %{ js__internal() }
 
-callargs :comma [ !a.empty() ]
+callargs :comma [ !ast.empty() ]
     , %{ . }
 
-callarg [ p.Expr.id === 'object' || p.Expr.id === 'array' ]
+callarg [ ast.Expr.id === 'object' || ast.Expr.id === 'array' ]
     (function() {
         %{ Expr :prologue }
         %{ Expr :output }
@@ -829,7 +829,7 @@ internal_function_true
 internal_function_false
     false
 
-internal_function_name [ p.Signature === 'nodeset' ]
+internal_function_name [ ast.Signature === 'nodeset' ]
     yr.nodeName( %{Args} )
 
 internal_function_name
@@ -838,7 +838,7 @@ internal_function_name
 internal_function_index
     i%{ Cid }
 
-internal_function_count [ p.Signature === 'nodeset' ]
+internal_function_count [ ast.Signature === 'nodeset' ]
     ( %{Args} ).length
 
 internal_function_count
@@ -856,7 +856,7 @@ internal_function_exists
 internal_function_number
     (+(%{ Args }))
 
-internal_function_string [ p.Signature === 'nodeset' ]
+internal_function_string [ ast.Signature === 'nodeset' ]
     ('' + yr.nodeset2scalar(%{ Args }))
 
 internal_function_string
@@ -879,7 +879,7 @@ internal_function_subnode
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ a.def.isGlobal() ]
+inline_var [ ast.def.isGlobal() ]
 
     m.v('v%{ Id }', c%{ Cid })
 
@@ -906,29 +906,29 @@ string_literal
 // cast and quote
 // ----------------------------------------------------------------------------------------------------------------- //
 
-cast [ p.From === 'nodeset' && p.To === 'data' ]
+cast [ ast.From === 'nodeset' && ast.To === 'data' ]
     yr.nodeset2data(%{ Expr })
 
-cast [ p.From === 'nodeset' && (p.To === 'scalar' || p.To === 'xml' || p.To === 'attrvalue' || p.To === 'boolean') ]
+cast [ ast.From === 'nodeset' && (ast.To === 'scalar' || ast.To === 'xml' || ast.To === 'attrvalue' || ast.To === 'boolean') ]
     nodeset2%{ To }( %{ Expr } )
 
-cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
+cast [ ast.From === 'scalar' && (ast.To === 'xml' || ast.To == 'attrvalue') ]
     scalar2%{ To }( %{ Expr } )
 
-cast [ p.From === 'xml' && p.To == 'attrvalue' ]
+cast [ ast.From === 'xml' && ast.To == 'attrvalue' ]
     xml2attrvalue( %{ Expr } )
 
-cast [ p.From === 'xml' && p.To == 'scalar' ]
+cast [ ast.From === 'xml' && ast.To == 'scalar' ]
     xml2scalar( %{ Expr } )
 
-cast [ p.From === 'object' && p.To == 'nodeset' ]
+cast [ ast.From === 'object' && ast.To == 'nodeset' ]
     yr.object2nodeset( %{ Expr } )
 
-cast [ p.From === 'array' && p.To == 'nodeset' ]
+cast [ ast.From === 'array' && ast.To == 'nodeset' ]
     yr.array2nodeset( %{ Expr } )
 
 // FIXME: Не бывает ли ситуации, когда таки нужно нетривиально приводить scalar к boolean?
-cast [ p.From === 'scalar' && p.To === 'boolean' ]
+cast [ ast.From === 'scalar' && ast.To === 'boolean' ]
     %{ Expr }
 
 cast
@@ -939,7 +939,7 @@ quote
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-sort [ p.Order === 'desc' ]
+sort [ ast.Order === 'desc' ]
 
     yr.sort(%{ Nodes }, function(c%{ Cid }, i%{ Cid }, l%{ Cid }) { return %{ By }; }, true)
 

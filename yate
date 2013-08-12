@@ -72,15 +72,12 @@ if (parsed.ast) {
 } else {
     var js = yate.compile(template);
 
-    //  console.log( js.toString() );
-    /*
     var js = yate.compile(template).js;
     if (parsed.output) {
         fs_.writeFileSync(parsed.output, js, 'utf-8');
     } else {
         console.log(js);
     }
-    */
 
 }
 
