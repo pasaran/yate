@@ -33,7 +33,7 @@ module
         %{ Block.Templates :defs }
 
         M.matcher = %{ Block.js__matcher() };
-        M.imports = %{ Block.Imports };
+        M.imports = %{ Block.imports };
 
         yr.register('%{ . :name }', M);
 
@@ -65,13 +65,13 @@ template :defs
     %{ . :selectors }
 
 template :def
-    function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function t%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
 
         %{ Body :output }
 
-        return r%{ Rid };
+        return r%{ rid };
     }
 
 template_mode [ ast.Value ]
@@ -90,15 +90,15 @@ template :selectors
 
 template :template_prologue [ ast.get_type() === 'array' ]
 
-    var r%{ Rid } = [];
+    var r%{ rid } = [];
 
 template :template_prologue [ ast.get_type() === 'object' ]
 
-    var r%{ Rid } = {};
+    var r%{ rid } = {};
 
 template :template_prologue
 
-    var r%{ Rid } = '';
+    var r%{ rid } = '';
 
 
 // Для jpath выводим имя его переменной, для / -- 1.
@@ -132,7 +132,7 @@ function_ :defs [ ast.isImported ]
 
 // function_
 
-function_ :defs [ ast.isGlobal() ]
+function_ :defs [ ast.is_global() ]
 
     // %{ . :comment }
     M.f%{ Id } = %{ . :def };
@@ -145,13 +145,13 @@ function_ :defs
 //  Только функции с типом attr или xml используют параметр aN.
 function_ :def [ ast.get_type() === 'attr' || ast.get_type() === 'xml' ]
 
-    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
+    function f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
         %{ . :function_body }
     }
 
 function_ :def
 
-    function f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ Args }) {
+    function f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ Args }) {
         %{ . :function_body }
     }
 
@@ -173,33 +173,33 @@ function_ :def
 
 * :function_prologue [ ast.get_type() === 'object' ]
 
-    var r%{ Rid } = {};
+    var r%{ rid } = {};
 
 * :function_prologue [ ast.get_type() === 'array' ]
 
-    var r%{ Rid } = [];
+    var r%{ rid } = [];
 
 * :function_prologue [ ast.get_type() === 'nodeset' ]
 
-    var r%{ Rid } = [];
+    var r%{ rid } = [];
 
 * :function_prologue [ ast.get_type() === 'boolean' ]
 
-    var r%{ Rid } = false;
+    var r%{ rid } = false;
 
 //  Функция типа attr не использует переменную rN.
 * :function_prologue [ ast.get_type() !== 'attr' ]
 
-    var r%{ Rid } = '';
+    var r%{ rid } = '';
 
 
 * :function_epilogue [ ast.get_type() === 'attr' ]
 
-    return a%{ Rid }.a;
+    return a%{ rid }.a;
 
 * :function_epilogue
 
-    return r%{ Rid };
+    return r%{ rid };
 
 
 //  ---------------------------------------------------------------------------------------------------------------  //
@@ -224,12 +224,12 @@ var_ :defs [ ast.isImported ]
 
     //  imported %{ . :comment }
 
-var_ :defs [ ast.isGlobal() ]
+var_ :defs [ ast.is_global() ]
 
     //  %{ . :comment }
     M.v%{ Id } = %{ . :global };
 
-var_ :global [ ast.Value.isConst() ]
+var_ :global [ ast.Value.is_const() ]
 
     %{ Value }
 
@@ -245,13 +245,13 @@ var_ :global
         %{ . :body }
     }
 
-var_ :epilogue [ ast.isGlobal() && ast.Value.get_type() === 'attr' ]
+var_ :epilogue [ ast.is_global() && ast.Value.get_type() === 'attr' ]
 
-    return a%{ Value.Rid }.a;
+    return a%{ Value.rid }.a;
 
-var_ :epilogue [ ast.isGlobal() ]
+var_ :epilogue [ ast.is_global() ]
 
-    return r%{ Value.Rid };
+    return r%{ Value.rid };
 
 
 //  Локальная переменная
@@ -269,11 +269,11 @@ var_ :defs
 
 var_ :epilogue [ ast.Value.get_type() === 'attr' ]
 
-    var v%{ Id } = a%{ Value.Rid }.a;
+    var v%{ Id } = a%{ Value.rid }.a;
 
 var_ :epilogue
 
-    var v%{ Id } = r%{ Value.Rid };
+    var v%{ Id } = r%{ Value.rid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -334,7 +334,7 @@ jpath_dots
 
     1, %{ Length }
 
-jpath_predicate [ ast.isLocal() ]
+jpath_predicate [ ast.is_local() ]
 
     2, p%{ Id }
 
@@ -352,9 +352,9 @@ jpath_predicate
 
 jpath_predicate :defs
 //  FIXME
-//  [ this.isLocal() || this.Expr.get_type() === 'nodeset' ]
+//  [ this.is_local() || this.Expr.get_type() === 'nodeset' ]
 
-    function p%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }) {
+    function p%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }) {
         return %{ Expr };
     }
 
@@ -402,26 +402,26 @@ block :listitem
 
 * :prologue [ ast.get_type() === 'array' ]
 
-    var r%{ Rid } = [];
-    var a%{ Rid } = { a: {} };
+    var r%{ rid } = [];
+    var a%{ rid } = { a: {} };
 
 * :prologue [ ast.get_type() === 'object' ]
 
-    var r%{ Rid } = {};
-    var a%{ Rid } = { a: {} };
+    var r%{ rid } = {};
+    var a%{ rid } = { a: {} };
 
 * :prologue [ ast.get_type() === 'nodeset' ]
 
-    var r%{ Rid } = [];
+    var r%{ rid } = [];
 
 * :prologue [ ast.get_type() === 'boolean' ]
 
-    var r%{ Rid } = false;
+    var r%{ rid } = false;
 
 * :prologue
 
-    var r%{ Rid } = '';
-    var a%{ Rid } = { a: {} };
+    var r%{ rid } = '';
+    var a%{ rid } = { a: {} };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -458,9 +458,9 @@ for_ :listitem
 
 for_ :output
 
-    var items%{ Cid } = %{ Selector };
-    for (var i%{ Body.Cid } = 0, l%{ Body.Cid } = items%{ Cid }.length; i%{ Body.Cid } < l%{ Body.Cid }; i%{ Body.Cid }++) {
-        var c%{ Body.Cid } = items%{ Cid }[ i%{ Body.Cid } ];
+    var items%{ cid } = %{ Selector };
+    for (var i%{ Body.cid } = 0, l%{ Body.cid } = items%{ cid }.length; i%{ Body.cid } < l%{ Body.cid }; i%{ Body.cid }++) {
+        var c%{ Body.cid } = items%{ cid }[ i%{ Body.cid } ];
         %{ Body :output }
     }
 
@@ -469,40 +469,40 @@ for_ :output
 apply :output
 
     %{ . :output-prologue }
-    r%{ Rid } += %{ . :output-value }
+    r%{ rid } += %{ . :output-value }
 
 apply :listitem
 
     %{ . :output-prologue }
-    r%{ Rid }.push(%{ . :output-value });
+    r%{ rid }.push(%{ . :output-value });
 
 apply :output-prologue [ ast.Expr.id === 'object' ]
 
-    var r%{ Expr.Rid } = {};
+    var r%{ Expr.rid } = {};
     %{ Expr :output }
 
 apply :output-value [ ast.Expr.id === 'object' ]
-    m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, yr.object2nodeset(r%{ Expr.rid }), %{ Mode :string }, a%{ rid }%{ Args :comma })
 
 apply :output-prologue [ ast.Expr.id === 'array' ]
 
-    var r%{ Expr.Rid } = [];
+    var r%{ Expr.rid } = [];
     %{ Expr :output }
 
 apply :output-value [ ast.Expr.id === 'array' ]
-    m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, yr.array2nodeset(r%{ Expr.rid }), %{ Mode :string }, a%{ rid }%{ Args :comma })
 
 apply :output-value [ ast.Expr.get_type() === 'object' ]
 
-    m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ rid }%{ Args :comma })
 
 apply :output-value [ ast.Expr.get_type() === 'array' ]
 
-    m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ rid }%{ Args :comma })
 
 apply :output-value
 
-    m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Expr }, %{ Mode :string }, a%{ rid }%{ Args :comma })
 
 template_mode :string
 
@@ -512,11 +512,11 @@ template_mode :string
 
 cdata :listitem
 
-    r%{ Rid }.push(%{ Value });
+    r%{ rid }.push(%{ Value });
 
 cdata :output
 
-    r%{ Rid } += %{ Value };
+    r%{ rid } += %{ Value };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -526,11 +526,11 @@ xml_attr :open
 
 xml_line :output
 
-    r%{ Rid } += %{ . :content };
+    r%{ rid } += %{ . :content };
 
 xml_line :listitem
 
-    r%{ Rid }.push(%{ . :content });
+    r%{ rid }.push(%{ . :content });
 
 xml_line :content
 
@@ -542,42 +542,42 @@ xml_line :content
 // FIXME: Закэшировать a0.a в отдельную переменную.
 attr :output [ ast.Value.is_inline() && ast.Op === '+=' ]
 
-    var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
-    if (tmp%{ Cid }) {
-        a%{ Rid }.a[ %{ Name } ] = tmp%{ Cid }.add%{ AttrType }(%{ Value });
+    var tmp%{ cid } = a%{ rid }.a[ %{ Name } ];
+    if (tmp%{ cid }) {
+        a%{ rid }.a[ %{ Name } ] = tmp%{ cid }.add%{ AttrType }(%{ Value });
     } else {
-        a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
+        a%{ rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
     }
 
 attr :output [ ast.Value.is_inline() ]
-    a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
+    a%{ rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
 
 attr :output [ ast.Op === '+=' ]
 
     %{ Value :prologue }
     %{ Value :output }
-    var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
-    if (tmp%{ Cid }) {
-        a%{ Rid }.a[ %{ Name } ] = tmp%{ Cid }.add%{ AttrType }(r%{ Value.Rid });
+    var tmp%{ cid } = a%{ rid }.a[ %{ Name } ];
+    if (tmp%{ cid }) {
+        a%{ rid }.a[ %{ Name } ] = tmp%{ cid }.add%{ AttrType }(r%{ Value.rid });
     } else {
-        a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.Rid });
+        a%{ rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.rid });
     }
 
 attr :output
 
     %{ Value :prologue }
     %{ Value :output }
-    a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.Rid });
+    a%{ rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.rid });
 
 attrs_close :output
-    r%{ Rid } += closeAttrs(a%{ Rid });
+    r%{ rid } += closeAttrs(a%{ rid });
 
 attrs_open :output
 
-    a%{ Rid }.a = {
+    a%{ rid }.a = {
         %{ Attrs :open }
     };
-    a%{ Rid }.s = '%{ Name }';
+    a%{ rid }.s = '%{ Name }';
 
 
 
@@ -587,7 +587,7 @@ subexpr :listitem
 
     %{ Block :prologue }
     %{ Block :output }
-    r%{ Rid }.push(r%{ Block.Rid });
+    r%{ rid }.push(r%{ Block.rid });
 
 subexpr :output
 
@@ -601,11 +601,11 @@ subexpr :output
 
 jpath [ ast.is_root() ]
 
-    [ c%{ Cid }.doc.root ]
+    [ c%{ cid }.doc.root ]
 
 jpath [ ast.is_self() ]
 
-    [ c%{ Cid } ]
+    [ c%{ cid } ]
 
 jpath [ ast.IsSimple && ast.AsType === 'scalar' ]
 
@@ -625,11 +625,11 @@ jpath
 
 jpath :context [ ast.Abs ]
 
-    c%{ Cid }.doc.root
+    c%{ cid }.doc.root
 
 jpath :context
 
-    c%{ Cid }
+    c%{ cid }
 
 // FIXME: Переименовать jpath_filter в inline_filter.
 jpath_filter
@@ -659,19 +659,19 @@ value
 
 value :listitem
 
-    r%{ Rid }.push(%{ Value });
+    r%{ rid }.push(%{ Value });
 
 value :output [ ( ast.get_type() === 'nodeset' || ast.get_type() === 'boolean' ) && !ast.AsType ]
 
-    r%{ Rid } = %{ Value };
+    r%{ rid } = %{ Value };
 
 value :output [ ast.get_type() === 'attr' && ast.Value.is('inline_var') ]
 
-    yr.copyAttrs( a%{ Rid }.a, %{ Value } );
+    yr.copyAttrs( a%{ rid }.a, %{ Value } );
 
 value :output [ ast.get_type() === 'attr' && ast.Value.is('inline_function') && ast.Value.def.is('external') ]
 
-    yr.copyAttrs( a%{ Rid }.a, %{ Value } );
+    yr.copyAttrs( a%{ rid }.a, %{ Value } );
 
 //  А тут всегда Value должно быть inline_function.
 value :output [ ast.get_type() === 'attr' ]
@@ -680,7 +680,7 @@ value :output [ ast.get_type() === 'attr' ]
 
 value :output
 
-    r%{ Rid } += %{ Value };
+    r%{ rid } += %{ Value };
 
 
 //  ---------------------------------------------------------------------------------------------------------------  //
@@ -691,7 +691,7 @@ array :listitem
 
     %{ . :prologue }
     %{ . :output }
-    r%{ ~.Rid }.push(r%{ Block.Rid });
+    r%{ ~.rid }.push(r%{ Block.rid });
 
 array :output
 
@@ -701,7 +701,7 @@ object :listitem
 
     %{ . :prologue }
     %{ . :output }
-    r%{ ~.Rid }.push(r%{ Block.Rid });
+    r%{ ~.rid }.push(r%{ Block.rid });
 
 object :output
 
@@ -709,13 +709,13 @@ object :output
 
 pair :output [ ast.Value.is_inline() ]
 
-    r%{ Rid }[ %{ Key } ] = %{ Value };
+    r%{ rid }[ %{ Key } ] = %{ Value };
 
 pair :output
 
     %{ Value :prologue }
     %{ Value :output }
-    r%{ Rid }[ %{ Key } ] = r%{ Value.Rid };
+    r%{ rid }[ %{ Key } ] = r%{ Value.rid };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // inline expressions
@@ -780,16 +780,16 @@ inline_function [ ast.IsExternal ]
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ ast.IsKey && ast.Args.first().get_type() === 'nodeset' ]
-    m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root, true)
+    m.k('k%{ Id }', %{ Args }, c%{ cid }.doc.root, true)
 
 inline_function [ ast.IsKey ]
-    m.k('k%{ Id }', %{ Args }, c%{ Cid }.doc.root)
+    m.k('k%{ Id }', %{ Args }, c%{ cid }.doc.root)
 
-inline_function [ ast.IsUser && ast.def.isGlobal() ]
-    m.f('f%{ Id }', c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+inline_function [ ast.IsUser && ast.def.is_global() ]
+    m.f('f%{ Id }', c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
 
 inline_function [ ast.IsUser ]
-    f%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }%{ . :attrs }%{ Args :comma })
+    f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
@@ -799,7 +799,7 @@ inline_function :attrs [ ast.get_type() === 'attr' && ast.InlineVarValue ]
 
 inline_function :attrs [ ast.get_type() === 'attr' || ast.get_type() === 'xml' ]
 
-    , a%{ Rid }
+    , a%{ rid }
 
 //  Все остальное -- это встроенные функции, для них есть индивидуальные шаблоны ниже.
 //  js__internal() вызывает соответствующий шаблон.
@@ -814,7 +814,7 @@ callarg [ ast.Expr.id === 'object' || ast.Expr.id === 'array' ]
         %{ Expr :prologue }
         %{ Expr :output }
 
-        return r%{ Expr.Rid };
+        return r%{ Expr.rid };
     })()
 
 callarg
@@ -833,16 +833,16 @@ internal_function_name [ ast.Signature === 'nodeset' ]
     yr.nodeName( %{Args} )
 
 internal_function_name
-    c%{ Cid }.name
+    c%{ cid }.name
 
 internal_function_index
-    i%{ Cid }
+    i%{ cid }
 
 internal_function_count [ ast.Signature === 'nodeset' ]
     ( %{Args} ).length
 
 internal_function_count
-    l%{ Cid }
+    l%{ cid }
 
 internal_function_slice
     yr.slice(%{ Args })
@@ -875,13 +875,13 @@ internal_function_document
     yr.document(%{ Args })
 
 internal_function_subnode
-    yr.subnode(%{ Args }, c%{ Cid })
+    yr.subnode(%{ Args }, c%{ cid })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-inline_var [ ast.def.isGlobal() ]
+inline_var [ ast.def.is_global() ]
 
-    m.v('v%{ Id }', c%{ Cid })
+    m.v('v%{ Id }', c%{ cid })
 
 inline_var
     v%{ Id }
@@ -941,11 +941,11 @@ quote
 
 sort [ ast.Order === 'desc' ]
 
-    yr.sort(%{ Nodes }, function(c%{ Cid }, i%{ Cid }, l%{ Cid }) { return %{ By }; }, true)
+    yr.sort(%{ Nodes }, function(c%{ cid }, i%{ cid }, l%{ cid }) { return %{ By }; }, true)
 
 sort
 
-    yr.sort(%{ Nodes }, function(c%{ Cid }, i%{ Cid }, l%{ Cid }) { return %{ By }; })
+    yr.sort(%{ Nodes }, function(c%{ cid }, i%{ cid }, l%{ cid }) { return %{ By }; })
 
 // ----------------------------------------------------------------------------------------------------------------- //
 // misc
