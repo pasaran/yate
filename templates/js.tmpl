@@ -607,11 +607,11 @@ jpath [ ast.is_self() ]
 
     [ c%{ cid } ]
 
-jpath [ ast.IsSimple && ast.AsType === 'scalar' ]
+jpath [ ast.IsSimple && ast.as_type === 'scalar' ]
 
     simpleScalar('%{ Name }', %{ . :context })
 
-jpath [ ast.IsSimple && ast.AsType === 'boolean' ]
+jpath [ ast.IsSimple && ast.as_type === 'boolean' ]
 
     simpleBoolean('%{ Name }', %{ . :context })
 
@@ -661,7 +661,7 @@ value :listitem
 
     r%{ rid }.push(%{ Value });
 
-value :output [ ( ast.get_type() === 'nodeset' || ast.get_type() === 'boolean' ) && !ast.AsType ]
+value :output [ ( ast.get_type() === 'nodeset' || ast.get_type() === 'boolean' ) && !ast.as_type ]
 
     r%{ rid } = %{ Value };
 
