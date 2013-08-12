@@ -61,11 +61,11 @@ import
 template :defs
 
     // match %{ Selectors :yate } %{ Mode }
-    M.t%{ Id } = %{ . :def };
+    M.t%{ tid } = %{ . :def };
     %{ . :selectors }
 
 template :def
-    function t%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
+    function t%{ tid }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
 
@@ -80,13 +80,13 @@ template_mode [ ast.Value ]
 
 template :selectors [ ast.Selectors.length() === 1 ]
 
-    M.t%{ Id }.j = %{ Selectors :template_selector };
-    M.t%{ Id }.a = %{ Selectors :template_abs };
+    M.t%{ tid }.j = %{ Selectors :template_selector };
+    M.t%{ tid }.a = %{ Selectors :template_abs };
 
 template :selectors
 
-    M.t%{ Id }.s = [ %{ Selectors :template_selector } ];
-    M.t%{ Id }.a = [ %{ Selectors :template_abs } ];
+    M.t%{ tid }.s = [ %{ Selectors :template_selector } ];
+    M.t%{ tid }.a = [ %{ Selectors :template_abs } ];
 
 template :template_prologue [ ast.get_type() === 'array' ]
 
@@ -640,13 +640,13 @@ jpath_filter
 // ----------------------------------------------------------------------------------------------------------------- //
 
 arglist_item
-    , v%{ Id }
+    , v%{ vid }
 
 arglist_item :defaults [ ast.Default ]
-    v%{ Id } = (v%{ Id } === undefined) ? %{ Default } : v%{ Id };
+    v%{ vid } = (v%{ vid } === undefined) ? %{ Default } : v%{ vid };
 
 arglist_item :defaults [ ast.Typedef === 'nodeset' ]
-    v%{ Id } = (v%{ Id } === undefined) ? [] : v%{ Id };
+    v%{ vid } = (v%{ vid } === undefined) ? [] : v%{ vid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -785,11 +785,11 @@ inline_function [ ast.IsKey && ast.Args.first().get_type() === 'nodeset' ]
 inline_function [ ast.IsKey ]
     m.k('k%{ Id }', %{ Args }, c%{ cid }.doc.root)
 
-inline_function [ ast.IsUser && ast.def.is_global() ]
-    m.f('f%{ Id }', c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
+inline_function [ ast.is_user && ast.def.is_global() ]
+    m.f('f%{ fid }', c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
 
-inline_function [ ast.IsUser ]
-    f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
+inline_function [ ast.is_user ]
+    f%{ fid }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
 
 //  Этот вызов функции сохраняется в переменную, а не просто используется.
 //  Поэтому мы передаем вместо aN новый пустой объект для атрибутов.
@@ -881,10 +881,10 @@ internal_function_subnode
 
 inline_var [ ast.def.is_global() ]
 
-    m.v('v%{ Id }', c%{ cid })
+    m.v('v%{ vid }', c%{ cid })
 
 inline_var
-    v%{ Id }
+    v%{ vid }
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
