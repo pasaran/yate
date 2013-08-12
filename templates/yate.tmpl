@@ -1,4 +1,4 @@
-module [ p.Name ]
+module [ ast.Name ]
 
 // FIXME экранировать кавычки
     module "%{ Name }"
@@ -37,7 +37,7 @@ arglist :list
 
     (%{ . })
 
-arglist_item [ p.Default ]
+arglist_item [ ast.Default ]
 
     %{ Typedef } %{ Name } = %{ Default }
 
@@ -53,7 +53,7 @@ var_
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-body [ p.AsList ]
+body [ ast.AsList ]
 
     [
         %{ Block }
@@ -161,7 +161,7 @@ callarg
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-jpath [ p.Abs ]
+jpath [ ast.Abs ]
     /%{ Steps }
 
 jpath

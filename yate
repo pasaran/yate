@@ -70,7 +70,9 @@ if (parsed.ast) {
     console.log( yate.run(template, { filename: data }, externals, mode) );
 
 } else {
-    console.log( yate.compile(template).toString() );
+    var js = yate.compile(template);
+
+    //  console.log( js.toString() );
     /*
     var js = yate.compile(template).js;
     if (parsed.output) {
