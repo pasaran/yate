@@ -156,7 +156,7 @@ function_ :def
     }
 
 //  Тело функции состоит из одного инлайнового выражения (без каких-либо определений).
-* :function_body [ ast.Body.inline() ]
+* :function_body [ ast.Body.is_inline() ]
     %{ Args :defaults }
 
     return %{ Body };
@@ -233,7 +233,7 @@ var_ :global [ ast.Value.isConst() ]
 
     %{ Value }
 
-var_ :global [ ast.Value.inline() ]
+var_ :global [ ast.Value.is_inline() ]
 
     function(m, c0, i0, l0) {
         return %{ Value };
@@ -257,7 +257,7 @@ var_ :epilogue [ ast.isGlobal() ]
 //  Локальная переменная
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var_ :defs [ ast.Value.inline() ]
+var_ :defs [ ast.Value.is_inline() ]
 
     //  %{ . :comment }
     var v%{ Id } = %{ Value };
@@ -540,7 +540,7 @@ xml_line :content
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // FIXME: Закэшировать a0.a в отдельную переменную.
-attr :output [ ast.Value.inline() && ast.Op === '+=' ]
+attr :output [ ast.Value.is_inline() && ast.Op === '+=' ]
 
     var tmp%{ Cid } = a%{ Rid }.a[ %{ Name } ];
     if (tmp%{ Cid }) {
@@ -549,7 +549,7 @@ attr :output [ ast.Value.inline() && ast.Op === '+=' ]
         a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
     }
 
-attr :output [ ast.Value.inline() ]
+attr :output [ ast.Value.is_inline() ]
     a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(%{ Value });
 
 attr :output [ ast.Op === '+=' ]
@@ -707,7 +707,7 @@ object :output
 
     %{ Block :output }
 
-pair :output [ ast.Value.inline() ]
+pair :output [ ast.Value.is_inline() ]
 
     r%{ Rid }[ %{ Key } ] = %{ Value };
 
