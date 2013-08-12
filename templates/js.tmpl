@@ -227,7 +227,7 @@ var_ :defs [ ast.isImported ]
 var_ :defs [ ast.is_global() ]
 
     //  %{ . :comment }
-    M.v%{ Id } = %{ . :global };
+    M.v%{ vid } = %{ . :global };
 
 var_ :global [ ast.Value.is_const() ]
 
@@ -260,7 +260,7 @@ var_ :epilogue [ ast.is_global() ]
 var_ :defs [ ast.Value.is_inline() ]
 
     //  %{ . :comment }
-    var v%{ Id } = %{ Value };
+    var v%{ vid } = %{ Value };
 
 var_ :defs
 
@@ -269,11 +269,11 @@ var_ :defs
 
 var_ :epilogue [ ast.Value.get_type() === 'attr' ]
 
-    var v%{ Id } = a%{ Value.rid }.a;
+    var v%{ vid } = a%{ Value.rid }.a;
 
 var_ :epilogue
 
-    var v%{ Id } = r%{ Value.rid };
+    var v%{ vid } = r%{ Value.rid };
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
