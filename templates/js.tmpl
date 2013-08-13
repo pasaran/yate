@@ -35,16 +35,16 @@ module
         M.matcher = %{ Block.js__matcher() };
         M.imports = %{ Block.imports };
 
-        yr.register('%{ . :name }', M);
+        yr.register('%{ Name }', M);
 
     })();
 
-module :name [ ast.Name ]
+module_name [ ast.Value ]
 
-    %{ Name }
+    %{ Value }
 
 //  Дефольтное название модуля.
-module :name
+module_name
 
     main
 
