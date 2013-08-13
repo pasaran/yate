@@ -135,7 +135,7 @@ function_ :defs [ ast.isImported ]
 function_ :defs [ ast.is_global() ]
 
     // %{ . :comment }
-    M.f%{ Id } = %{ . :def };
+    M.f%{ fid } = %{ . :def };
 
 function_ :defs
 
@@ -145,13 +145,13 @@ function_ :defs
 //  Только функции с типом attr или xml используют параметр aN.
 function_ :def [ ast.get_type() === 'attr' || ast.get_type() === 'xml' ]
 
-    function f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
+    function f%{ fid }(m, c%{ cid }, i%{ cid }, l%{ cid }, a%{ rid }%{ Args }) {
         %{ . :function_body }
     }
 
 function_ :def
 
-    function f%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ Args }) {
+    function f%{ fid }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ Args }) {
         %{ . :function_body }
     }
 
