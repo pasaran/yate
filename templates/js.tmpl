@@ -109,7 +109,7 @@ jpath :template_selector [ ast.is_root() ]
 
 jpath :template_selector
 
-    j%{ Id }
+    j%{ jid }
 
 jpath :template_abs [ ast.Abs ]
 
@@ -320,7 +320,7 @@ key :types
 //  jpath
 
 jpath :defs
-    var j%{ Id } = %{ . :def };
+    var j%{ jid } = %{ . :def };
 
 jpath :def
 
@@ -336,11 +336,11 @@ jpath_dots
 
 jpath_predicate [ ast.is_local() ]
 
-    2, p%{ Id }
+    2, p%{ pid }
 
 jpath_predicate [ ast.Expr.get_type() === 'boolean' ]
 
-    4, p%{ Id }
+    4, p%{ pid }
 
 jpath_predicate
 
@@ -354,7 +354,7 @@ jpath_predicate :defs
 //  FIXME
 //  [ this.is_local() || this.Expr.get_type() === 'nodeset' ]
 
-    function p%{ Id }(m, c%{ cid }, i%{ cid }, l%{ cid }) {
+    function p%{ pid }(m, c%{ cid }, i%{ cid }, l%{ cid }) {
         return %{ Expr };
     }
 
@@ -621,7 +621,7 @@ jpath [ ast.IsSimple ]
 
 jpath
 
-    m.s(j%{ Id }, %{ . :context })
+    m.s(j%{ jid }, %{ . :context })
 
 jpath :context [ ast.Abs ]
 
@@ -634,7 +634,7 @@ jpath :context
 // FIXME: Переименовать jpath_filter в inline_filter.
 jpath_filter
 
-    m.n(j%{ JPath.Id }, %{ Expr })
+    m.n(j%{ JPath.jid }, %{ Expr })
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
