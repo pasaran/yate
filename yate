@@ -60,7 +60,7 @@ if (imports) {
 }
 
 if (parsed.ast) {
-    console.log( yate.parse(template).toString() );
+    console.log( yate.compile(template).ast.toString() );
 
 } else if (parsed.print) {
     var ast = yate.parse(template);
