@@ -1,5 +1,7 @@
 {
     "eqnull": true,
-    "shadow": true
+    "shadow": true,
+    "evil": true,
+    "expr": true
 }
 
