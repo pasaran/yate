@@ -320,6 +320,7 @@ key :types
 //  jpath
 
 jpath :defs
+    //  "%{ Key }"
     var j%{ jid } = %{ . :def };
 
 jpath :def
@@ -354,6 +355,7 @@ jpath_predicate :defs
 //  FIXME
 //  [ this.is_local() || this.Expr.get_type() === 'nodeset' ]
 
+    //  "%{ Key }"
     function p%{ pid }(m, c%{ cid }, i%{ cid }, l%{ cid }) {
         return %{ Expr };
     }
