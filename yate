@@ -35,7 +35,7 @@ var parsed = yate.cliOptions = nopt(
 
 var mode = parsed.mode || '';
 
-var template = parsed.argv.remain[0];
+var template = path_.resolve( parsed.argv.remain[0] );
 var data = parsed.argv.remain[1];
 var externals = parsed.argv.remain[2];
 
@@ -71,6 +71,7 @@ if (parsed.ast) {
 
 } else {
     var js = yate.compile(template).js;
+
     if (parsed.output) {
         fs_.writeFileSync(parsed.output, js, 'utf-8');
     } else {
