@@ -1,0 +1,5 @@
+{
+    "description": "html comments inside xml node",
+    "result": "<div>Hello</div><div>Hello</div><div>Hello</div><div>Hello</div><div>Hello</div><div>Hello</div>"
+}
+

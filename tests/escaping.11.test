@@ -1,0 +1,5 @@
+{
+    "description": "ampersand quoting",
+    "result": "<div title=\"&quot;hello.jpg&quot;\"></div><div title=\"&amp;quot;hello.jpg&amp;quot;\"></div><div title=\"&quot;hello.jpg&quot;\"></div>"
+}
+

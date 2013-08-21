@@ -1,0 +1,18 @@
+{
+    "foo": [
+        "first",
+        "second",
+        "third"
+    ],
+    "bar": [
+        "one",
+        "two",
+        "three"
+    ],
+    "boo": [
+        "first",
+        "two",
+        "three"
+    ]
+}
+

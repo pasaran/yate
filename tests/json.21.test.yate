@@ -1,0 +1,14 @@
+match / {
+    apply {
+        "x": .
+        "y": .foo
+        "z": .quu
+    } content
+}
+
+match / content {
+    .x.foo.bar
+    .y.bar
+    .z
+}
+

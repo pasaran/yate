@@ -1,0 +1,8 @@
+match / {
+    apply .id (.username)
+}
+
+match .id (nodeset name) {
+    "{ name }: { . }"
+}
+

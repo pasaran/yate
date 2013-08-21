@@ -1,0 +1,5 @@
+{
+    "description": "Cannot use uninitialized variable",
+    "throws": true
+}
+

@@ -1,0 +1,5 @@
+{
+    "description": "attributes overescaping",
+    "result": "<tag a=\"&lt;\" b=\"&lt;\" c=\"&lt;\"></tag><tag a=\"&amp;\" b=\"&amp;\" c=\"&amp;\"></tag><tag a=\"&lt;\" b=\"&lt;\"></tag><tag a=\"&amp;\" b=\"&amp;\"></tag>"
+}
+

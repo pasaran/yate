@@ -1,9 +1,0 @@
-/// {
-///     description: 'expand non-short tags',
-///     result: '<div class="b-hello"></div>'
-/// }
-
-match / {
-    <div class="b-hello"/>
-}
-

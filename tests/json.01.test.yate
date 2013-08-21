@@ -1,0 +1,15 @@
+match / {
+    tree = {
+        "foo": .bar
+        "bar": .foo
+    }
+
+    apply . content
+    apply tree content
+}
+
+match / content {
+    "foo={ .foo }"
+    "bar={ .bar }"
+}
+

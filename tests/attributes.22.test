@@ -1,0 +1,5 @@
+{
+    "description": "@attr = ( .foo )",
+    "result": "<h1 attr=\"bar\"></h1>"
+}
+

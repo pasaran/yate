@@ -1,0 +1,13 @@
+match / {
+    .count + 1
+    " "
+    number(.count) + 1
+    " "
+    apply sort(.item, number(.))
+    apply sort(.item, .)
+}
+
+match .item {
+    "{ . } "
+}
+

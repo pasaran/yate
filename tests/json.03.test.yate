@@ -1,0 +1,23 @@
+match / {
+    a = {
+        "xml": (
+            <h1>Hello, World</h1>
+            <div>
+                if .class {
+                    @class = .class
+                }
+                .text
+            </div>
+        )
+
+        "short-xml": <b>short</b>
+    }
+
+    apply a content
+}
+
+match / content {
+    .xml
+    .short-xml
+}
+

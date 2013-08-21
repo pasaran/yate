@@ -1,0 +1,8 @@
+match / {
+    id = scalar(.id)
+
+    if id == 'first' || id == 'second' {
+        'first or second'
+    }
+}
+

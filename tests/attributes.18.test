@@ -1,0 +1,5 @@
+{
+    "description": "@{ expr } = expr",
+    "result": "<div class=\"hello\" id=\"hello\" id-33662468=\"42\" count-43=\"24\" data-foo-bar=\"66\" foo-bar=\"37\"></div>"
+}
+

@@ -1,0 +1,9 @@
+match / {
+    apply .blocks walk
+}
+
+match .* walk {
+    name()
+    apply .* walk
+}
+

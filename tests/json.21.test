@@ -1,0 +1,5 @@
+{
+    "description": "don't cast value of pair to scalar",
+    "result": "424224"
+}
+

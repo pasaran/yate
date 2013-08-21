@@ -1,0 +1,12 @@
+match / {
+    if .valid {
+        <h1>{ .username } is valid</h1>
+    }
+
+    if !.valid {
+        <h1>{ .username } is not valid</h1>
+    } else {
+        <h1>{ .username } is valid</h1>
+    }
+}
+

@@ -1,0 +1,5 @@
+{
+    "description": "escape xml text",
+    "result": "<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>"
+}
+

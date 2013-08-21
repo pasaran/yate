@@ -1,0 +1,16 @@
+match / {
+    if
+        false()
+    {
+        "no"
+    } else if
+        .foo
+        +
+        .bar
+        ==
+        66
+    {
+        "yes"
+    }
+}
+

@@ -1,0 +1,18 @@
+match / {
+    a = [
+        "First"
+        "Second"
+        "Third"
+    ]
+
+    apply / content (a)
+}
+
+match / content (array a) {
+    for a.item {
+        .
+    }
+
+    a.item[1]
+}
+

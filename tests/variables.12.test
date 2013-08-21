@@ -1,0 +1,5 @@
+{
+    "description": "empty string as a value of variable",
+    "result": "<a href=\"/foo\">Foo</a>"
+}
+

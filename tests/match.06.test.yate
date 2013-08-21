@@ -1,0 +1,12 @@
+match / {
+    apply .item content
+}
+
+match .* content {
+    "*"
+}
+
+match .item[ .id ] content {
+    .id
+}
+

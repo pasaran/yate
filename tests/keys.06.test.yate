@@ -1,0 +1,12 @@
+key items( .item, .id ) {
+    .
+}
+
+match / {
+    apply items(.selected)
+}
+
+match .item {
+   .id
+}
+

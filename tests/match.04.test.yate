@@ -1,0 +1,16 @@
+match / {
+    apply .*
+}
+
+match .first | .second | .third {
+    "{ name() } @1 "
+}
+
+match .first | .second {
+    "{ name() } @2 "
+}
+
+match .first {
+    "{ name() } @3 "
+}
+

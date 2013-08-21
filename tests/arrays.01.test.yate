@@ -1,0 +1,18 @@
+match / {
+    <table>
+        apply .item row
+    </table>
+}
+
+match .item row {
+    <tr>
+        apply .item cell
+    </tr>
+}
+
+match .item cell {
+    <td>
+        .foo
+    </td>
+}
+

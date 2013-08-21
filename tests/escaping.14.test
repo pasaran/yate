@@ -1,0 +1,5 @@
+{
+    "description": "xml value should be converted to scalar",
+    "result": "&lt;b&gt;Hello &amp; Bye&lt;/b&gt;"
+}
+

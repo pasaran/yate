@@ -1,0 +1,11 @@
+match / {
+    title = apply . title
+
+    <div title="{ title }"></div>
+}
+
+match / title {
+    'I &hearts; NY, SF & "Moscow"'
+    .title
+}
+

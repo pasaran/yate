@@ -1,0 +1,14 @@
+func foo(scalar x) {
+    x
+}
+
+match / {
+    html = apply / content
+
+    foo(html)
+}
+
+match / content {
+    .html
+}
+

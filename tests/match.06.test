@@ -1,0 +1,5 @@
+{
+    "description": ".* before .foo",
+    "result": "first*third"
+}
+

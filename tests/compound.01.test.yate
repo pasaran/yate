@@ -1,0 +1,8 @@
+match / {
+    yes = ( .valid ) && ( .count > 40 )
+
+    if yes {
+        "yes"
+    }
+}
+

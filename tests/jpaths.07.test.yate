@@ -1,0 +1,8 @@
+match / {
+    apply .label[ index() < count() / 2 ]
+}
+
+match .label {
+    index()
+}
+

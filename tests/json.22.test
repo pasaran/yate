@@ -1,0 +1,5 @@
+{
+    "description": "subnode",
+    "result": ".foo.bar: 24 .foo.quu.bar: 66 123"
+}
+

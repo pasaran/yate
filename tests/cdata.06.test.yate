@@ -1,0 +1,12 @@
+match / {
+    js = :::
+        if (a < b) {
+            a = b;
+        }
+    :::
+
+    <script>
+        js
+    </script>
+}
+

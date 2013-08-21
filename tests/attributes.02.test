@@ -1,0 +1,5 @@
+{
+    "description": "xml attribute",
+    "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+}
+

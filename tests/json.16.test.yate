@@ -1,0 +1,14 @@
+func foo() {
+    [
+        1
+        2
+        3
+    ]
+}
+
+match / {
+    for foo().item {
+        .
+    }
+}
+

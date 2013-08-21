@@ -1,0 +1,10 @@
+match / {
+    <h1>
+        if false() {
+            "Hello"
+        } else if true() {
+            @class = "g-hidden"
+        }
+    </h1>
+}
+

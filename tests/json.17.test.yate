@@ -1,0 +1,14 @@
+func foo() {
+    {
+        "foo": 42
+    }
+}
+
+match / {
+    apply foo() content
+}
+
+match / content {
+    .foo
+}
+

@@ -1,0 +1,8 @@
+match / {
+    apply .items.item.title
+}
+
+match .title {
+    .
+}
+

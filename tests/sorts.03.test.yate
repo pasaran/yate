@@ -1,0 +1,11 @@
+match / {
+    items = .item
+    sorted-items = sort( items, .count )
+
+    apply sorted-items
+}
+
+match .item {
+    .id
+}
+

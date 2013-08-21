@@ -1,0 +1,8 @@
+{
+    "hello": "External Hello",
+    "foo": {
+        "bar": 42,
+        "hello": "Internal Hello"
+    }
+}
+

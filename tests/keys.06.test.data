@@ -1,0 +1,18 @@
+{
+    "item": [
+        {
+            "id": "first"
+        },
+        {
+            "id": "second"
+        },
+        {
+            "id": "third"
+        }
+    ],
+    "selected": [
+        "first",
+        "second"
+    ]
+}
+

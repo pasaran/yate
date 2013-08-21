@@ -1,0 +1,20 @@
+match / {
+    apply .roster render_roster
+}
+
+match .roster render_roster {
+    for sort(.groups, .name) {
+        gpk = .pk
+        contacts = ..items[ .groups == gpk ]
+        if exists(contacts) {
+            "{ .name }:"
+            if !exists(...view.collapsed_groups[. == gpk]) {
+                sorted_contacts = sort(contacts, .nick)
+                for sorted_contacts {
+                    "{ .nick } "
+                }
+            }
+        }
+    }
+}
+

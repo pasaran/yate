@@ -1,0 +1,10 @@
+match / {
+
+    func a(s) {
+        html(s)
+    }
+
+    a("<b>Hello</b>")
+
+}
+

@@ -1,0 +1,11 @@
+func foo() {
+    @class += " nop"
+}
+
+match / {
+    <div>
+        @class = "hello"
+        foo()
+    </div>
+}
+

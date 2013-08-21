@@ -1,0 +1,5 @@
+{
+    "description": "attribute with false value (e.g. 0)",
+    "result": "<div zero=\"0\">Hello</div>"
+}
+

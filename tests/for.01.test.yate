@@ -1,0 +1,6 @@
+match / {
+    for .items.item {
+        index()
+    }
+}
+

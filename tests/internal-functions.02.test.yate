@@ -1,0 +1,13 @@
+match / {
+    apply .items
+}
+
+match .items {
+    count()
+    apply .item
+}
+
+match .item {
+    count()
+}
+

@@ -1,0 +1,14 @@
+key item1( .*, name() ) {
+    .
+}
+
+key item2( .item, "{ .id }{ .title }" ) {
+    .
+}
+
+match / {
+    item1("username")
+
+    item2("secondSecond").title
+}
+

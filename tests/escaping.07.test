@@ -1,0 +1,5 @@
+{
+    "description": "don't escape html-entities",
+    "result": "<div title=\"Hello A &amp; B. I ♥ NY™. &quot;π + σ&quot;\" subtitle=\"Hello A &amp; B. I ♥ NY™. &quot;π + σ&quot;\">Hello A &amp; B. I ♥ NY™. \"π + σ\"Hello A &amp; B. I ♥ NY™. \"π + σ\"</div>"
+}
+

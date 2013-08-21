@@ -1,0 +1,5 @@
+{
+    "description": "add class to empty (undefined) class",
+    "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+}
+

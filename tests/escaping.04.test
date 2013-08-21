@@ -1,0 +1,5 @@
+{
+    "description": "escape text inside interpolation",
+    "result": "&lt;b&gt;Some &amp;text&lt;/b&gt;"
+}
+

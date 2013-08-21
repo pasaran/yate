@@ -1,0 +1,16 @@
+match / {
+    <h1 class="b-hello">
+        apply .items
+        "Hello, { .username }"
+    </h1>
+}
+
+match .items {
+    @class += " b-items"
+    apply .item
+}
+
+match .item {
+    @class += " b-{ .id }"
+}
+

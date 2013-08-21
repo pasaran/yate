@@ -1,0 +1,5 @@
+{
+    "description": "xml in object",
+    "result": "&lt;h1&gt;Hello, World&lt;/h1&gt;&lt;div class=\"b-text\"&gt;Some text&lt;/div&gt;&lt;b&gt;short&lt;/b&gt;"
+}
+

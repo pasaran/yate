@@ -1,0 +1,5 @@
+{
+    "description": "function adds to @class",
+    "result": "<div class=\"hello nop\"></div>"
+}
+

@@ -1,0 +1,28 @@
+match / {
+    <a>
+        @href = (
+            apply . href
+        )
+    </a>
+
+    <a>
+        @href = apply . href
+    </a>
+
+    <a>
+        @href = (
+            "?param=1&param=2"
+        )
+    </a>
+
+    <a>
+        @href = "?param=1&param=2"
+    </a>
+
+    <a href="?param=1&param=2"></a>
+}
+
+match / href {
+    "?param=1&param=2"
+}
+

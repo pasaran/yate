@@ -1,0 +1,5 @@
+{
+    "description": "string concatenation via +",
+    "result": "<h1>Hello, nop</h1>"
+}
+

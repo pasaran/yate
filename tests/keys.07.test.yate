@@ -1,0 +1,10 @@
+key item( .item, .id ) { . }
+
+match / {
+    apply item( "sec{ .id }" )
+}
+
+match .item {
+    .id
+}
+

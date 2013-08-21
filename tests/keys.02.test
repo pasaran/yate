@@ -1,0 +1,5 @@
+{
+    "description": "key with xml-typed values",
+    "result": "<ul id=\"1\"><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul><ul id=\"2\"><li class=\"b-item-first\">First</li><li class=\"b-item-second\">Second</li><li class=\"b-item-third\">Third</li></ul>"
+}
+

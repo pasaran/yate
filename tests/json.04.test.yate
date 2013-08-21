@@ -1,0 +1,20 @@
+match / {
+    a = {
+        "item": [
+            for .item {
+                for .item {
+                    .
+                }
+            }
+        ]
+    }
+
+    apply a content
+}
+
+match / content {
+    for .item {
+        .
+    }
+}
+

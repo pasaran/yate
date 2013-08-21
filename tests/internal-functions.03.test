@@ -1,0 +1,5 @@
+{
+    "description": "Использование count() в предикате. См. https://github.com/pasaran/yate/issues/34",
+    "result": "456\n123456"
+}
+

@@ -1,0 +1,17 @@
+lt = "<"
+amp = "&"
+
+match / {
+    <tag a="<" b="{ lt }">
+        @c = lt
+    </>
+
+    <tag a="&" b="{ amp }">
+        @c = amp
+    </>
+
+    <tag a="<" b="{ lt }"/>
+
+    <tag a="&" b="{ amp }"/>
+}
+

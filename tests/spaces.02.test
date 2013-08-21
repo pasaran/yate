@@ -1,0 +1,5 @@
+{
+    "description": "multiline expr in else if condition",
+    "result": "yes"
+}
+

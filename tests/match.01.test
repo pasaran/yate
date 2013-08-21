@@ -1,0 +1,5 @@
+{
+    "description": "predicate in match",
+    "result": "<ul><li>First</li><li class=\"disabled\">Second</li><li>Third</li></ul>"
+}
+

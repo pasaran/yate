@@ -1,0 +1,6 @@
+{
+    "description": "external function in predicate",
+    "externals": "functions.21.js",
+    "result": "<ul><li>a</li><li>b</li></ul>"
+}
+

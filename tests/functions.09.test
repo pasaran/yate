@@ -1,0 +1,6 @@
+{
+    "description": "external function",
+    "externals": "functions.09.js",
+    "result": "<ul><li>Third</li><li>Second</li><li>First</li></ul>"
+}
+

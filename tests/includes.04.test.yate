@@ -1,0 +1,6 @@
+include "includes/match-a.yate"
+
+match / {
+    "Hello"
+}
+

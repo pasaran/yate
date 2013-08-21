@@ -1,0 +1,5 @@
+{
+    "description": "inline cdata in variable",
+    "result": "<script> a > b || a < b </script>"
+}
+

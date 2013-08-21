@@ -1,0 +1,14 @@
+func items() {
+    .item
+}
+
+match / {
+    <ul>
+        apply items()
+    </ul>
+}
+
+match .item {
+    <li>{ .title }</li>
+}
+

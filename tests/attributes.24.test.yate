@@ -1,0 +1,11 @@
+match / {
+    <div>
+        @class = apply . class-name
+        @class += "bar"
+    </div>
+}
+
+match / class-name {
+    "foo"
+}
+

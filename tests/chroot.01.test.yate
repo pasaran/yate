@@ -1,0 +1,16 @@
+hello = .hello
+
+match / {
+    hello
+    apply .foo
+}
+
+match .foo {
+    apply document(.) bar
+}
+
+match / bar {
+    hello
+    .bar
+}
+

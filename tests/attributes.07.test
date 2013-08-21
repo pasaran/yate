@@ -1,0 +1,5 @@
+{
+    "description": "attributes in for",
+    "result": "<h1 class=\"b-hello b-first b-second b-third\">Hello, nop</h1>"
+}
+

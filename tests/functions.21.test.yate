@@ -1,0 +1,10 @@
+external nodeset contains(nodeset, scalar)
+
+match / {
+    <ul>
+        for .item[ contains(.title, 'ab') ] {
+            <li>{ .title }</li>
+        }
+    </ul>
+}
+

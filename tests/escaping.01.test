@@ -1,0 +1,5 @@
+{
+    "description": "escape inline attribute",
+    "result": "<h1 class=\"b-hello &quot;Some &lt;b&gt;&amp;attribute&lt;/b&gt;&quot;\">Hello, nop</h1>"
+}
+

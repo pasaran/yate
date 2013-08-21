@@ -1,0 +1,16 @@
+match / {
+    apply / title
+    apply / title ("Hello")
+
+    title()
+    title("Hello")
+}
+
+match / title ( title = .title ) {
+    title
+}
+
+func title( title = .title ) {
+    title
+}
+

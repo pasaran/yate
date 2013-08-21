@@ -1,0 +1,10 @@
+key folders( .folders.folder, .id | .symbol ) {
+    .
+}
+
+match / {
+    folders("draft").id
+
+    folders("3").symbol
+}
+

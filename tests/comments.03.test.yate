@@ -1,0 +1,10 @@
+match / {
+    <div>
+    <!--
+        @class = "b-hello"
+    -->
+        "Hello"
+    </div>
+    <!-- <span>{ .username }</span> -->
+}
+

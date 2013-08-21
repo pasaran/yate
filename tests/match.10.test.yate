@@ -1,0 +1,10 @@
+is-foo = .foo
+
+match / {
+    "not foo"
+}
+
+match /[ is-foo ] {
+    "foo"
+}
+

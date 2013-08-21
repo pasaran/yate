@@ -1,0 +1,10 @@
+isOn = (.flag == 'on')
+
+match / {
+    apply .item[ isOn ]
+}
+
+match .item[ isOn ] {
+    .id
+}
+

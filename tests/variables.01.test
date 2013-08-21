@@ -1,0 +1,5 @@
+{
+    "description": "variable with scalar block value",
+    "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+}
+

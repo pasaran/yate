@@ -1,0 +1,5 @@
+{
+    "description": "apply to a simple object",
+    "result": "foo=42bar=24foo=24bar=42"
+}
+

@@ -1,0 +1,14 @@
+match / {
+    apply [
+        "First"
+        "Second"
+        "Third"
+    ] content
+}
+
+match / content {
+    for .item {
+        .
+    }
+}
+

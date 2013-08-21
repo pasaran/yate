@@ -1,0 +1,4 @@
+match / {
+    "{ name() } : { name(.items) } : { name(.items.item) } : { name( .foo.bar ) }"
+}
+

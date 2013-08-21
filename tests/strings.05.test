@@ -1,0 +1,5 @@
+{
+    "description": "Escaping of { and } symbols",
+    "result": "var a = {};<script>var a = {};</script><script>var a = {};</script>"
+}
+

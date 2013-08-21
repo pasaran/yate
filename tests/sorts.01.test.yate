@@ -1,0 +1,10 @@
+match / {
+    apply sort( .item, .count )
+    "\n"
+    apply sort( .item, .id )
+}
+
+match .item {
+    "{ .id }-{ .count } "
+}
+

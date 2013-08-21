@@ -1,0 +1,5 @@
+{
+    "description": "cdata with indents",
+    "result": "<script>\n    if (a < b) {\n        a = b;\n    }\n</script>"
+}
+

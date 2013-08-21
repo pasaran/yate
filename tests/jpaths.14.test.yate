@@ -1,0 +1,26 @@
+match / {
+    if .foo == "second" {
+        ".foo == 'second'"
+    }
+
+    if .bar == "second" {
+        ".bar == 'second'"
+    }
+
+    if .foo == .bar {
+        ".foo == .bar"
+    }
+
+    if .foo == .boo {
+        ".foo == .boo"
+    }
+
+    if "first" == "first" {
+        "'first' == 'first'"
+    }
+
+    if "first" == "second" {
+        "'first' == 'second'"
+    }
+}
+

@@ -1,0 +1,5 @@
+{
+    "description": "ampersand escaping",
+    "result": "<a href=\"?param=1&amp;param=2\"></a><a href=\"?param=1&amp;param=2\"></a><a href=\"?param=1&amp;param=2\"></a><a href=\"?param=1&amp;param=2\"></a><a href=\"?param=1&amp;param=2\"></a>"
+}
+

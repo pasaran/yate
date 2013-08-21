@@ -1,0 +1,5 @@
+{
+    "description": "Compare nodeset to nodeset and nodeset to scalar",
+    "result": ".bar != 'second'.foo != .bar'first' != 'second'"
+}
+

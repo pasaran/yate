@@ -1,0 +1,13 @@
+func h1(x) {
+    <h1>{ x }</h1>
+}
+
+func h2(x) {
+    <h2>{ x }</h2>
+}
+
+match / {
+    h1("Hello")
+    h2("Hello")
+}
+

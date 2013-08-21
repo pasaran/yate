@@ -1,0 +1,5 @@
+{
+    "description": "attributes in nested applies",
+    "result": "<h1 class=\"b-hello b-items b-first b-second b-third\">Hello, nop</h1>"
+}
+

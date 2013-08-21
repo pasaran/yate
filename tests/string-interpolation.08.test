@@ -1,0 +1,6 @@
+{
+    "description": "nested string interpolation",
+    "result": "foo<div foo=\"42\"></div>",
+    "known": true
+}
+

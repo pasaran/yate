@@ -1,0 +1,8 @@
+match / {
+    apply .label[ index() >= 5 ] | .label[ index() < 5 ]
+}
+
+match .label {
+    .
+}
+

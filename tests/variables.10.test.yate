@@ -1,0 +1,10 @@
+items = .item
+
+match / {
+    apply items
+}
+
+match .item {
+    .title
+}
+

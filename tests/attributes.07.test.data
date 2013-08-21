@@ -1,0 +1,17 @@
+{
+    "username": "nop",
+    "items": {
+        "item": [
+            {
+                "id": "first"
+            },
+            {
+                "id": "second"
+            },
+            {
+                "id": "third"
+            }
+        ]
+    }
+}
+

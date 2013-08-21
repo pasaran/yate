@@ -1,0 +1,5 @@
+{
+    "description": "/ should only be matched by /",
+    "result": "/"
+}
+

@@ -1,0 +1,12 @@
+match / {
+    apply .item
+}
+
+match .item {
+    apply .item
+}
+
+match .item.item {
+    .
+}
+

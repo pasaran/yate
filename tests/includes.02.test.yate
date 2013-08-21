@@ -1,0 +1,7 @@
+include "includes/var.yate"
+
+name = username
+match / {
+    "Hello, { name }"
+}
+

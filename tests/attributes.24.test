@@ -1,0 +1,5 @@
+{
+    "description": "+= scalar to attribute with xml type",
+    "result": "<div class=\"foobar\"></div>"
+}
+

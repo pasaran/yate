@@ -1,0 +1,13 @@
+{
+    "blocks": {
+        "app": {
+            "content": {
+                "user": {
+                    "left": "profile",
+                    "right": "photo"
+                }
+            }
+        }
+    }
+}
+

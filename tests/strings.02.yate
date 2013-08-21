@@ -1,9 +1,0 @@
-/// {
-///     description: 'empty string',
-///     result: ''
-/// }
-
-match / {
-    ""
-}
-

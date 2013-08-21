@@ -1,0 +1,31 @@
+match / {
+    a = "hello"
+    b = ""
+    c = 0
+
+    if boolean(a) {
+        "a"
+    }
+    if boolean(b) {
+        "b"
+    }
+    if boolean(c) {
+        "c"
+    }
+    if boolean(b) == boolean(c) {
+        "b == c"
+    }
+
+    if boolean(boolean(a)) {
+        "aaa!"
+    }
+
+    apply .*[ boolean(.) ] dump
+
+    apply .*[ !boolean(.) ] dump
+}
+
+match .* dump {
+    name()
+}
+

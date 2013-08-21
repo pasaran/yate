@@ -1,0 +1,8 @@
+match / {
+    fact(4)
+
+    func fact(n) {
+        if n == 1 { 1 } else { n * fact(n - 1) }
+    }
+}
+

@@ -1,0 +1,6 @@
+{
+    "description": "variable in match",
+    "result": "foo",
+    "known": true
+}
+

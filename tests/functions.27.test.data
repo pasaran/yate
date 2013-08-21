@@ -1,0 +1,70 @@
+{
+    "nickname": "Binary",
+    "my_presence": {
+        "priority": 0,
+        "status": "Hey ho!",
+        "show": "dnd"
+    },
+    "view": [
+        {
+            "pk": "singleton",
+            "collapsed_groups": []
+        }
+    ],
+    "roster": {
+        "items": [
+            {
+                "groups": [
+                    1
+                ],
+                "nick": "z",
+                "pk": 1,
+                "presences": [],
+                "subscription": "none"
+            },
+            {
+                "groups": [
+                    1
+                ],
+                "nick": "f",
+                "pk": 2,
+                "presences": [],
+                "subscription": "none"
+            },
+            {
+                "groups": [
+                    1
+                ],
+                "nick": "a",
+                "pk": 2,
+                "presences": [],
+                "subscription": "none"
+            },
+            {
+                "groups": [
+                    2
+                ],
+                "nick": "2nd_group",
+                "pk": 2,
+                "presences": [],
+                "subscription": "none"
+            }
+        ],
+        "groups": [
+            {
+                "name": "Undefined",
+                "pk": 0,
+                "special_group": "undefined"
+            },
+            {
+                "name": "group b",
+                "pk": 2
+            },
+            {
+                "name": "group a",
+                "pk": 1
+            }
+        ]
+    }
+}
+

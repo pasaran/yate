@@ -1,0 +1,14 @@
+match / {
+    items = (
+        .item
+    )
+
+    <ul>
+        apply items
+    </ul>
+}
+
+match .item {
+    <li>{ .title }</li>
+}
+

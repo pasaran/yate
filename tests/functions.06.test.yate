@@ -1,0 +1,8 @@
+func add(a, b) {
+    a + b
+}
+
+match / {
+    add(42, 24)
+}
+

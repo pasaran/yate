@@ -1,0 +1,8 @@
+root = ""
+
+match / {
+    url = "{ root }/foo"
+
+    <a href="{ url }">Foo</a>
+}
+

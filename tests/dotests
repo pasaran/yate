@@ -22,9 +22,6 @@ require('../lib/actions.js');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var defaultData = '01.json';
-var tmpfile = '.tests.tmp';
-
 var format = '    %s    %s\t%s';
 
 var prevSection = '';
@@ -41,45 +38,46 @@ if (parsed.argv.remain.length) {
 
 for (var i = 0, l = files.length; i < l; i++) {
     var filename = files[i];
-    if ( !/\.\d+\.yate$/.test(filename) ) {
+    if ( !/\.\d+\.test$/.test(filename) ) {
         continue;
     }
 
-    var section = /^(.*?)\.\d+\.yate$/.exec(filename)[1];
+    var section = /^(.*?)\.\d+\.test/.exec(filename)[1];
     if ( !parsed['only-total'] && section !== prevSection && !parsed['only-errors'] ) {
         console.log('');
     }
     prevSection = section;
 
-    var testSrc = fs.readFileSync(filename, 'utf-8');
-    // Strip UTF-8 BOM
-    if (testSrc.charAt(0) === '\uFEFF') {
-        testSrc = testSrc.slice(1);
+    var test = eval( '(' + fs.readFileSync(filename, 'utf-8') + ')' );
+
+    var yatename = filename.replace(/\.test$/, '.test.yate');
+
+    var dataname = filename.replace(/\.test$/, '.test.data');
+    var data;
+    try {
+        data = eval( '(' + fs.readFileSync(dataname, 'utf-8') + ')' );
+    } catch (e) {
+        data = {};
     }
-    var test = parseTest(testSrc);
-    var options = test.options;
-    options.yate = filename;
 
-    var filename = strpad(options.yate);
-
-    fs.writeFileSync(tmpfile, test.yate, 'utf-8');
+    var filename = strpad(yatename);
 
     var status, desc;
 
     try {
-        var result = yate.run( tmpfile, { data: options.data || {} }, options.externals );
+        var result = yate.run( yatename, { data: data }, test.externals );
 
-        if (options.throws) {
+        if (test.throws) {
             status = 'fail';
             desc = 'doesn\'t throw';
         } else {
-            status = (result == options.result) ? 'ok' : 'fail';
-            desc = options.description;
+            status = (result == test.result) ? 'ok' : 'fail';
+            desc = test.description;
         }
     } catch (e) {
-        if (options.throws) {
+        if (test.throws) {
             status = 'ok';
-            desc = options.description;
+            desc = test.description;
         } else {
             status = 'throw';
             desc = e.message || 'unknown error';
@@ -92,7 +90,7 @@ for (var i = 0, l = files.length; i < l; i++) {
 
     if (status != 'ok') {
         nError++;
-        if (options.known) {
+        if (test.known) {
             nKnown++;
         }
 
@@ -100,7 +98,7 @@ for (var i = 0, l = files.length; i < l; i++) {
         filenameColor = descColor = 'white';
     }
 
-    if (options.known) {
+    if (test.known) {
         statusColor = 'yellow';
     }
 
@@ -108,7 +106,7 @@ for (var i = 0, l = files.length; i < l; i++) {
         console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
         if (status === 'fail' && parsed.diff) {
             console.log( format, strpad('result:').red, JSON.stringify(result).red, '' );
-            console.log( format, strpad('expected:').green, JSON.stringify(options.result).green, '' );
+            console.log( format, strpad('expected:').green, JSON.stringify(test.result).green, '' );
             console.log();
         } else if (parsed.result) {
             var color = (status === 'ok') ? 'green' : 'red';
@@ -134,10 +132,6 @@ console.log( 'Tests: ' + nTotal.toString().white + ' = ' + stat.join(' + ') );
 
 console.log('\n');
 
-if ( fs.existsSync(tmpfile) ) {
-    fs.unlink(tmpfile);
-}
-
 if (nError) {
     process.exit(1);
 } else {
@@ -150,21 +144,6 @@ function strpad(s) {
         return Array(l - 1).join(' ') + s;
     }
     return s;
-}
-
-function parseTest(content) {
-    var options = content.match(/^\/\/\/.*?$/gm);
-    for (var i = 0, l = options.length; i < l; i++) {
-        options[i] = options[i].replace(/^\/\/\/\s*/, '');
-    }
-    options = eval( '(' + options.join('\n') + ')' );
-
-    var yate = content.match(/^(?!\/\/\/).*?$/gm).join('\n');
-
-    return {
-        yate: yate,
-        options: options
-    };
 }
 
 // vim: set ft=javascript: //

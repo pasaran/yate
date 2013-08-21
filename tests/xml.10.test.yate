@@ -1,0 +1,13 @@
+match / {
+    <div class="b-hello"
+        id="hello-{ .id }"
+        >
+        "Hello"
+    </div>
+
+    <div
+        class="b-hello" id="hello-{ .id }">
+        "Hello"
+    </div>
+}
+

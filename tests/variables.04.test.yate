@@ -1,0 +1,14 @@
+match / {
+    a = if .valid {
+        .item
+    }
+
+    <ul>
+        apply a
+    </ul>
+}
+
+match .item {
+    <li class="b-{ .id }">{ .title }</li>
+}
+

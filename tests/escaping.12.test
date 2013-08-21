@@ -1,0 +1,5 @@
+{
+    "description": "html() in attributes",
+    "result": "<div title=\"&quot;&gt;&lt;span&gt;hello.jpg&lt;/span&gt;&lt;/div&gt;\"></div>"
+}
+

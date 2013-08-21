@@ -1,0 +1,9 @@
+match / {
+    /*
+    <div>
+        @class = "b-hello"
+        "Hello"
+    */
+    /* .username */ "Hello"
+}
+

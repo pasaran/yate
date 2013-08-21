@@ -1,0 +1,5 @@
+{
+    "description": "variable with nodeset block value",
+    "result": "<ul><li>First</li><li>Second</li><li>Third</li></ul>"
+}
+

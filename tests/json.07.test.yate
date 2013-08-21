@@ -1,0 +1,18 @@
+match / {
+    a = {
+        "title": "Hello, World"
+        "item": [
+            for .item {
+                .text
+            }
+        ]
+    }
+
+    <h1>{ a.title }</h1>
+    <ul>
+        for a.item {
+            <li>{ . }</li>
+        }
+    </ul>
+}
+

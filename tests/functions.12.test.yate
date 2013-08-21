@@ -1,0 +1,13 @@
+func attrs() {
+    @class = "b-hello"
+    @id = "hello"
+}
+
+match / {
+    a = attrs()
+    <div>
+        a
+        "Hello"
+    </div>
+}
+

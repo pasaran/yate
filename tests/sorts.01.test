@@ -1,0 +1,5 @@
+{
+    "description": "sorts",
+    "result": "two-7 three-18 four-23 one-42 five-66 \nfive-66 four-23 one-42 three-18 two-7 "
+}
+

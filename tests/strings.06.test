@@ -1,0 +1,6 @@
+{
+    "description": "\"}\" in string",
+    "result": "}",
+    "throws": true
+}
+

@@ -1,0 +1,4 @@
+match / {
+    "{ count() } : { count(.items) } : { count(.items.item) } : { count( .foo.bar ) }"
+}
+

@@ -1,0 +1,22 @@
+match / {
+    apply .blocks.app.content.user.left
+}
+
+match .left {
+    "/ "
+    name(.)
+    " / "
+    name(..)
+    " / "
+    name(...)
+    " / "
+    name(....)
+    " / "
+    name(..right)
+    " / "
+    name(...user)
+    " / "
+    name(....content)
+    " /"
+}
+

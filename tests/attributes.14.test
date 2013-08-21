@@ -1,0 +1,5 @@
+{
+    "description": "Result of apply as an inline attribute's value",
+    "result": "<div title=\"I ♥ NY, SF &amp; &quot;Moscow&quot;I &amp;hearts; NY, SF &amp; &quot;Moscow&quot;\"></div>"
+}
+

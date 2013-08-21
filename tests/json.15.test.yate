@@ -1,0 +1,24 @@
+match / {
+    apply {
+        "item": [
+            {
+                "foo": 42
+            }
+            {
+                "bar": 24
+            }
+            {
+                "boo": 66
+            }
+        ]
+    } content
+}
+
+match / content {
+    apply .item.* name
+}
+
+match .* name {
+    "{ name() } "
+}
+

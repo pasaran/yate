@@ -1,0 +1,5 @@
+{
+    "description": "match /.foo",
+    "result": "/.foo@one first .foo@one second .foo@two first .foo@two second firstthirdfourth"
+}
+

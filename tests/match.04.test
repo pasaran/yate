@@ -1,0 +1,5 @@
+{
+    "description": "match jpath1 | jpath2",
+    "result": "first @3 second @2 third @1 "
+}
+

@@ -1,0 +1,8 @@
+match / {
+    js = "var a = {{}};"
+    js
+
+    <script>var a = {{}};</script>
+    <script>{ js }</script>
+}
+

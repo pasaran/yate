@@ -1,0 +1,7 @@
+match / {
+    <div>
+        @zero = 0
+        "Hello"
+    </div>
+}
+

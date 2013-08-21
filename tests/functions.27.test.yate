@@ -1,0 +1,37 @@
+func get_contact_jid(nodeset contact) {
+    node = if contact.jid._node {
+        "{ contact.jid._node }@"
+    } else {
+        ""
+    }
+    "{ node }{ contact.jid._domain }"
+}
+
+func get_contact_display(nodeset contact) {
+    if contact.nick {
+        "{ contact.nick }"
+    } else {
+        get_contact_jid(contact)
+    }
+}
+
+match / {
+    apply .roster render_roster
+}
+
+match .roster render_roster {
+    for sort(.groups, .name) {
+        gpk = .pk
+        contacts = ..items[ .groups == gpk ]
+        if exists(contacts) {
+            "{ .name }:"
+            if !exists(...view.collapsed_groups[. == gpk]) {
+                filtered_contacts = contacts[get_contact_display(.) == "f"]
+                for filtered_contacts {
+                    "{ .nick } "
+                }
+            }
+        }
+    }
+}
+

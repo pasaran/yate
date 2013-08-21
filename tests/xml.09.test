@@ -1,0 +1,5 @@
+{
+    "description": "</> as a universal closing tag",
+    "result": "<div>Hello</div><div>Hello</div><b><i>nop</i></b>"
+}
+

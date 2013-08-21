@@ -1,0 +1,15 @@
+{
+    "foo": {
+        "id": "first",
+        "foo": {
+            "id": "second"
+        }
+    },
+    "bar": {
+        "id": "third",
+        "bar": {
+            "id": "fourth"
+        }
+    }
+}
+

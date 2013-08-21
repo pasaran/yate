@@ -1,0 +1,5 @@
+{
+    "description": "using attribute-typed variable several times doesn't multiply attributes",
+    "result": "<h1 class=\"b-hello\">Hello, nop</h1>"
+}
+

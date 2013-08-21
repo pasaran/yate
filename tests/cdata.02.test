@@ -1,0 +1,5 @@
+{
+    "description": "cdata without indents",
+    "result": "<script>\nif (a < b) {\n    a = b;\n}\n</script>"
+}
+
