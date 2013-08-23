@@ -1,0 +1,17 @@
+Usage:
+
+    yate --help                     # Show this help.
+    yate --version                  # Print version.
+    yate foo.yate --print           # Pretty print.
+    yate foo.yate --ast             # Parse and print ast.
+
+    yate foo.yate                   # Compile foo.yate to foo.yate.js.
+    foo.yate -I project/modules     # Compile and search for modules in project/modules.
+    yate foo.yate bar.yate          # Compile several files.
+    yate foo.yate --target nodejs   # Compile for nodejs.
+
+    yate foo.yate data.json         # Compile and run.
+    yate foo.yate '{ data: 42 }'
+    yate foo.yate data.json --mode content
+    yate foo.yate data.json --external external.js
+
