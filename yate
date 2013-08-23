@@ -2,83 +2,11 @@
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var fs_ = require('fs');
-var path_ = require('path');
+var Yate = require('./lib/yate.js');
 
-//  ---------------------------------------------------------------------------------------------------------------  //
+var yate = new Yate();
 
-var yate = require('./lib/yate.js');
-
-require('./lib/actions.js');
-
-//  ---------------------------------------------------------------------------------------------------------------  //
-
-var nopt = require('nopt');
-
-var parsed = yate.cliOptions = nopt(
-    {
-        'write-ast': Boolean,
-        'ast': Boolean,
-        'print': Boolean,
-        'mode': String,
-        'output': String,
-        'import': [ Array, path_ ]
-    },
-    {
-        'a': '--ast',
-        'p': '--print',
-        'm': '--mode',
-        'o': '--output',
-        'i': '--import'
-    }
-);
-
-var mode = parsed.mode || '';
-
-var template = path_.resolve( parsed.argv.remain[0] );
-var data = parsed.argv.remain[1];
-var externals = parsed.argv.remain[2];
-
-if (!template) {
-    console.log('Usage: yate --output template.js template.yate');
-    console.log('       yate [ --mode mode ] template.yate data.json [ external.js ]');
-    console.log('       yate --ast template.yate');
-    console.log('       yate --print template.yate');
-    return 10;
-}
-
-//  ---------------------------------------------------------------------------------------------------------------  //
-
-yate.modules = {};
-var imports = parsed.import;
-if (imports) {
-    for (var i = 0, l = imports.length; i < l; i++) {
-        var filename = imports[i];
-        var obj = JSON.parse( fs_.readFileSync(filename, 'utf-8') );
-        yate.modules[ obj.name ] = obj;
-    }
-}
-
-if (parsed.ast) {
-    console.log( yate.compile(template).ast.toString() );
-
-} else if (parsed.print) {
-    var ast = yate.parse(template);
-    console.log( ast.yate() );
-
-} else if (data) {
-    console.log( yate.run(template, { filename: data }, externals, mode) );
-
-} else {
-    var js = yate.compile(template).js;
-
-    if (parsed.output) {
-        fs_.writeFileSync(parsed.output, js, 'utf-8');
-    } else {
-        console.log(js);
-    }
-
-}
+yate.work();
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
