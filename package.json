@@ -14,7 +14,8 @@
     },
     "dependencies": {
         "nopt": "*",
-        "no.colors": "0.0.1"
+        "no.colors": "0.0.1",
+        "nommon": "0.0.23"
     },
     "devDependencies": {},
     "optionalDependencies": {},
