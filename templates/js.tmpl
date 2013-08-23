@@ -6,8 +6,21 @@
 
 // На первое время, шаблоны (и соответственно matcher) выводятся только на верхнем уровне.
 
+module [ ast.target === 'node' ]
+
+    var yr = require('yate/lib/runtime.js');
+
+    %{ . :content }
+
+    module.exports = function(data, mode) {
+        return yr.run('%{ Name }', data, mode);
+    };
+
 module
-    var yr = yr || require('yate/lib/runtime.js');
+
+    %{ . :content }
+
+module :content
 
     (function() {
 

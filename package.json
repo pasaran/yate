@@ -22,7 +22,7 @@
         "node": "*"
     },
     "bin": "./yate",
-    "main": "./lib/actions.js",
+    "main": "./lib/yate.js",
     "files": [
         "lib",
         "templates",
