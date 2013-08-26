@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var path = require('path');
+var fs_ = require('fs');
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
 var nopt = require('nopt');
 
-var parsed = nopt({
-    'result': Boolean,
-    'diff': Boolean,
-    'only-total': Boolean,
-    'only-errors': Boolean,
+var options = nopt({
+    result: Boolean,
+    diff: Boolean,
+    only_total: Boolean,
+    only_errors: Boolean,
 });
 
 //  ---------------------------------------------------------------------------------------------------------------  //
@@ -24,17 +23,21 @@ var compiler = new yate.Compiler();
 
 var format = '    %s    %s\t%s';
 
-var prevSection = '';
-var nTotal = 0;
-var nError = 0;
-var nKnown = 0;
+var prev_section = '';
+var n_total = 0;
+var n_error = 0;
+var n_known = 0;
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 var files;
-if (parsed.argv.remain.length) {
-    files = parsed.argv.remain;
+if (options.argv.remain.length) {
+    files = options.argv.remain;
 } else {
-    files = fs.readdirSync('.').sort();
+    files = fs_.readdirSync('.').sort();
 }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 for (var i = 0, l = files.length; i < l; i++) {
     var filename = files[i];
@@ -43,19 +46,19 @@ for (var i = 0, l = files.length; i < l; i++) {
     }
 
     var section = /^(.*?)\.\d+\.test/.exec(filename)[1];
-    if ( !parsed['only-total'] && section !== prevSection && !parsed['only-errors'] ) {
-        console.log('');
+    if ( !options.only_total && section !== prev_section && !options.only_errors ) {
+        console.log();
     }
-    prevSection = section;
+    prev_section = section;
 
-    var test = eval( '(' + fs.readFileSync(filename, 'utf-8') + ')' );
+    var test = load(filename);
 
-    var yatename = filename.replace(/\.test$/, '.test.yate');
+    var yatename = filename + '.yate';
+    var dataname = filename + '.data';
 
-    var dataname = filename.replace(/\.test$/, '.test.data');
     var data;
     try {
-        data = eval( '(' + fs.readFileSync(dataname, 'utf-8') + ')' );
+        data = load(dataname);
     } catch (e) {
         data = {};
     }
@@ -73,10 +76,10 @@ for (var i = 0, l = files.length; i < l; i++) {
         }
         var js = compiler.compile(yatename, params);
 
-        fs.writeFileSync(yatename + '.node.js', js, 'utf-8');
+        //  FIXME: Унести в Compiler?
+        fs_.writeFileSync(yatename + '.node.js', js, 'utf-8');
         var module = require( './' + yatename + '.node.js' );
-        var result = module(data);
-        //yate.run( yatename, { data: data }, test.externals );
+        var result = module( data, test.mode || '' );
 
         if (test.throws) {
             status = 'fail';
@@ -85,6 +88,7 @@ for (var i = 0, l = files.length; i < l; i++) {
             status = (result == test.result) ? 'ok' : 'fail';
             desc = test.description;
         }
+
     } catch (e) {
         if (test.throws) {
             status = 'ok';
@@ -93,61 +97,71 @@ for (var i = 0, l = files.length; i < l; i++) {
             status = 'throw';
             desc = e.message || 'unknown error';
         }
+
     }
 
-    var statusColor = 'green', filenameColor = 'gray', descColor = 'gray';
+    var status_color = 'green';
+    var filename_color = 'gray';
+    var descColor = 'gray';
 
-    nTotal++;
+    n_total++;
 
     if (status != 'ok') {
-        nError++;
+        n_error++;
         if (test.known) {
-            nKnown++;
+            n_known++;
         }
 
-        statusColor = 'red';
-        filenameColor = descColor = 'white';
+        status_color = 'red';
+        filename_color = descColor = 'white';
     }
 
     if (test.known) {
-        statusColor = 'yellow';
+        status_color = 'yellow';
     }
 
-    if ( !parsed['only-total'] && ( status !== 'ok' || !parsed['only-errors'] ) ) {
-        console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
-        if (status === 'fail' && parsed.diff) {
+    if ( !options.only_total && ( status !== 'ok' || !options.only_errors ) ) {
+        console.log(format, filename[filename_color], status[status_color], desc[descColor]);
+
+        if (status === 'fail' && options.diff) {
             console.log( format, strpad('result:').red, JSON.stringify(result).red, '' );
             console.log( format, strpad('expected:').green, JSON.stringify(test.result).green, '' );
             console.log();
-        } else if (parsed.result) {
+
+        } else if (options.result) {
             var color = (status === 'ok') ? 'green' : 'red';
             console.log( format, strpad('result:')[color], JSON.stringify(result)[color], '' );
             console.log();
+
         }
     }
 }
 
-console.log('');
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+console.log();
+
 var stat = [];
-if (nTotal - nError) {
-    stat.push( (nTotal - nError).toString().green );
+if (n_total - n_error) {
+    stat.push( (n_total - n_error).toString().green );
 }
-if (nError - nKnown) {
-    stat.push( (nError - nKnown).toString().red );
+if (n_error - n_known) {
+    stat.push( (n_error - n_known).toString().red );
 }
-if (nKnown) {
-    stat.push( nKnown.toString().yellow );
+if (n_known) {
+    stat.push( n_known.toString().yellow );
 }
 
-console.log( 'Tests: ' + nTotal.toString().white + ' = ' + stat.join(' + ') );
-
+console.log( 'Tests: ' + n_total.toString().white + ' = ' + stat.join(' + ') );
 console.log('\n');
 
-if (nError) {
+if (n_error) {
     process.exit(1);
 } else {
     process.exit(0);
 }
+
+//  ---------------------------------------------------------------------------------------------------------------  //
 
 function strpad(s) {
     var l = 36 - s.length;
@@ -157,5 +171,11 @@ function strpad(s) {
     return s;
 }
 
-// vim: set ft=javascript: //
+function load(filename) {
+    return eval( '(' + fs_.readFileSync(filename, 'utf-8') + ')' );
+}
+
+//  ---------------------------------------------------------------------------------------------------------------  //
+
+//  vim: set ft=javascript: //
 
