@@ -4,4 +4,9 @@ tests:
 jshint:
 	jshint lib/*.js
 
-.PHONY: tests
+clean:
+	gfind -name "*.yate.js" | xargs rm
+	gfind -name "*.yate.node.js" | xargs rm
+
+.PHONY: tests clean
+

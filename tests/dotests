@@ -16,9 +16,9 @@ var parsed = nopt({
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var yate = require('../lib/yate.js');
+var Compiler = require('../lib/compiler.js');
 
-require('../lib/actions.js');
+var compiler = new Compiler();
 
 //  ---------------------------------------------------------------------------------------------------------------  //
 
@@ -65,7 +65,16 @@ for (var i = 0, l = files.length; i < l; i++) {
     var status, desc;
 
     try {
-        var result = yate.run( yatename, { data: data }, test.externals );
+        var js = compiler.compile(
+            yatename,
+            {
+                target: 'node'
+            }
+        );
+        fs.writeFileSync(yatename + '.node.js', js, 'utf-8');
+        var module = require( './' + yatename + '.node.js' );
+        var result = module(data);
+        //yate.run( yatename, { data: data }, test.externals );
 
         if (test.throws) {
             status = 'fail';
