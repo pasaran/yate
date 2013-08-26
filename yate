@@ -188,7 +188,8 @@ function compile() {
 
 function compile_to_string(filename) {
     var params = {
-        include_dir: options.include_dir,
+        include_dirs: options.include_dir,
+        externals: options.external,
         target: options.target
     };
 

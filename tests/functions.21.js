@@ -1,3 +1,5 @@
+var yr = require('yate/lib/runtime.js');
+
 yr.externals.contains = function(nodeset, scalar) {
     var r = [];
     for (var i = 0; i < nodeset.length; i++) {

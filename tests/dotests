@@ -65,12 +65,14 @@ for (var i = 0, l = files.length; i < l; i++) {
     var status, desc;
 
     try {
-        var js = compiler.compile(
-            yatename,
-            {
-                target: 'node'
-            }
-        );
+        var params = {
+            target: 'node'
+        };
+        if (test.externals) {
+            params.externals = [ test.externals ];
+        }
+        var js = compiler.compile(yatename, params);
+
         fs.writeFileSync(yatename + '.node.js', js, 'utf-8');
         var module = require( './' + yatename + '.node.js' );
         var result = module(data);

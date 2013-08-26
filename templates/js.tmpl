@@ -10,11 +10,16 @@ module [ ast.target === 'node' ]
 
     var yr = require('yate/lib/runtime.js');
 
+    %{ Externals :require }
+
     %{ . :content }
 
     module.exports = function(data, mode) {
         return yr.run('%{ Name }', data, mode);
     };
+
+external_file :require
+    require(%{ Filename });
 
 module
 
