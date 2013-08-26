@@ -1,6 +1,6 @@
 *.swp
-*.yate.ast
-/yatelib.js
+*.yate.js
+*.yate.node.js
 /todo.md
 /node_modules
 
