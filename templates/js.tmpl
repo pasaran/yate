@@ -247,7 +247,7 @@ var_ :defs [ ast.isImported ]
 var_ :defs [ ast.is_global() ]
 
     //  %{ . :comment }
-    M.v%{ vid } = %{ . :global };
+    M['v%{ Name }'] = %{ . :global };
 
 var_ :global [ ast.Value.is_const() ]
 
@@ -903,7 +903,7 @@ internal_function_subnode
 
 inline_var [ ast.def.is_global() ]
 
-    m.v('v%{ vid }', c%{ cid })
+    m.v('v%{ Name }', c%{ cid })
 
 inline_var
     v%{ vid }
