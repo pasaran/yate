@@ -155,7 +155,7 @@ function_ :defs [ ast.isImported ]
 function_ :defs [ ast.is_global() ]
 
     // %{ . :comment }
-    M.f%{ fid } = %{ . :def };
+    M['f%{ Name }'] = %{ . :def };
 
 function_ :defs
 
@@ -304,12 +304,13 @@ key :defs [ ast.isImported ]
 
 key :defs
 
-    M.k%{ kid } = {};
-    M.k%{ kid }.n = %{ . :nodes };
+    //  key %{ Name }, kid = %{ kid }.
+    M['k%{ Name }'] = {};
+    M['k%{ Name }'].n = %{ . :nodes };
     //  %{ Use.get_type() }
-    M.k%{ kid }.u = %{ . :use };
+    M['k%{ Name }'].u = %{ . :use };
     //  %{ Body.get_type() }
-    M.k%{ kid }.b = %{ . :body };
+    M['k%{ Name }'].b = %{ . :body };
     %{ . :types }
 
 key :nodes
@@ -332,8 +333,8 @@ key :body
 
 key :types
 
-    M.k%{ kid }.ut = '%{ Use.get_type() }';
-    M.k%{ kid }.bt = '%{ Body.get_type() }';
+    M['k%{ Name }'].ut = '%{ Use.get_type() }';
+    M['k%{ Name }'].bt = '%{ Body.get_type() }';
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -802,13 +803,13 @@ inline_function [ ast.is_external ]
 
 //  FIXME: Положить в какой-нибудь флаг инфу о том, что аргументом ключа является нодесет.
 inline_function [ ast.is_key && ast.Args.first().get_type() === 'nodeset' ]
-    m.k('k%{ kid }', %{ Args }, c%{ cid }.doc.root, true)
+    m.k('k%{ Name }', %{ Args }, c%{ cid }.doc.root, true)
 
 inline_function [ ast.is_key ]
-    m.k('k%{ kid }', %{ Args }, c%{ cid }.doc.root)
+    m.k('k%{ Name }', %{ Args }, c%{ cid }.doc.root)
 
 inline_function [ ast.is_user && ast.def.is_global() ]
-    m.f('f%{ fid }', c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
+    m.f('f%{ Name }', c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
 
 inline_function [ ast.is_user ]
     f%{ fid }(m, c%{ cid }, i%{ cid }, l%{ cid }%{ . :attrs }%{ Args :comma })
