@@ -67,7 +67,7 @@ function get_options() {
             'a': '--ast_before',
             'ast': '--ast_before',
             'v': '--version',
-            'I': 'include_dir',
+            'I': '--include_dir',
             'node': [ '--target', 'node' ],
         }
     );

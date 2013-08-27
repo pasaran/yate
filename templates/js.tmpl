@@ -12,7 +12,7 @@ module [ ast.target === 'node' ]
 
     var yr = require('yate/lib/runtime.js');
 
-    %{ Externals :require }
+    %{ requires :require }
 
     %{ . :content }
 
@@ -20,7 +20,7 @@ module [ ast.target === 'node' ]
         return yr.run(%{ name }, data, mode);
     };
 
-external_file :require
+require :require
     require(%{ Filename });
 
 module
@@ -53,7 +53,7 @@ module :content
         %{ Block.Templates :defs }
 
         M.matcher = %{ Block.js__matcher() };
-        M.imports = %{ Block.imports };
+//        M.imports = %{ Block.imports };
 
         yr.register(%{ name }, M);
 
