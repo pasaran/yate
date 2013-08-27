@@ -146,7 +146,7 @@ function_ :comment
 
     func %{ Name }(%{ Args :yate }) : %{ get_type() }
 
-function_ :defs [ ast.isImported ]
+function_ :defs [ ast.is_imported ]
 
     // imported %{ . :comment }
 
@@ -240,7 +240,7 @@ var_ :comment
 //  Глобальная переменная.
 //  ---------------------------------------------------------------------------------------------------------------  //
 
-var_ :defs [ ast.isImported ]
+var_ :defs [ ast.is_imported ]
 
     //  imported %{ . :comment }
 
@@ -298,7 +298,7 @@ var_ :epilogue
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-key :defs [ ast.isImported ]
+key :defs [ ast.is_imported ]
 
     //  imported key %{ Name }()
 
