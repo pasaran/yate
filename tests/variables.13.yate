@@ -6,8 +6,7 @@
 ///         },
 ///         foo: true
 ///     },
-///     result: '42',
-///     known: true
+///     result: '42'
 /// }
 
 params = .params
