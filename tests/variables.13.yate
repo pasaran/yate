@@ -1,0 +1,23 @@
+/// {
+///     description: 'global variable evaluated in non-root context',
+///     data: {
+///         params: {
+///             a: 42
+///         },
+///         foo: true
+///     },
+///     result: '42',
+///     known: true
+/// }
+
+params = .params
+
+match / {
+    //  b = params.a
+    apply .foo
+}
+
+match .foo {
+    params.a
+}
+
