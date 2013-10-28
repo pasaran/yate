@@ -809,7 +809,16 @@ inline_function
 callargs :comma [ !a.empty() ]
     , %{ . }
 
+callarg [ p.AsType === 'nodeset' && p.Expr.id === 'object' ]
+    yr.object2nodeset(%{ . :object })
+
+callarg [ p.AsType === 'nodeset' && p.Expr.id === 'array' ]
+    yr.array2nodeset(%{ . :object })
+
 callarg [ p.Expr.id === 'object' || p.Expr.id === 'array' ]
+    %{ . :object }
+
+callarg :object
     (function() {
         %{ Expr :prologue }
         %{ Expr :output }
