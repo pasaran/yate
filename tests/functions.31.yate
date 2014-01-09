@@ -1,0 +1,13 @@
+/// {
+///     description: 'Type of body cannot be casted to declared type',
+///     throws: true
+/// }
+
+func boolean foo() {
+    <h1>Hello</h1>
+}
+
+match / {
+    foo()
+}
+

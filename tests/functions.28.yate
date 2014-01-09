@@ -1,0 +1,17 @@
+/// {
+///     description: 'Hoisting',
+///     result: 'Hello'
+/// }
+
+func foo() {
+    bar()
+}
+
+func bar() {
+    "Hello"
+}
+
+match / {
+    foo()
+}
+

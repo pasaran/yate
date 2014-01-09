@@ -1,0 +1,26 @@
+/// {
+///     description: 'Recursive function without type declaration',
+///     throws: true
+/// }
+
+func foo(n) {
+    if (n == 0) {
+        "Foo"
+    } else {
+        bar(n - 1)
+    }
+}
+
+func bar(n) {
+    if (n == 0) {
+        "Bar"
+    } else {
+        foo(n - 1)
+    }
+}
+
+match / {
+    foo(4)
+    foo(5)
+}
+
