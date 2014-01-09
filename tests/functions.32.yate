@@ -1,0 +1,16 @@
+/// {
+///     description: 'Recursive function with xml type',
+///     result: '<div>3</div><div>2</div><div>1</div>'
+/// }
+
+func xml foo(n) {
+    if (n > 0) {
+        <div>{ n }</div>
+        foo(n - 1)
+    }
+}
+
+match / {
+    foo(3)
+}
+
