@@ -482,7 +482,7 @@ apply :output-prologue [ p.Expr.id === 'object' ]
     %{ Expr :output }
 
 apply :output-value [ p.Expr.id === 'object' ]
-    m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Start }, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 apply :output-prologue [ p.Expr.id === 'array' ]
 
@@ -490,19 +490,19 @@ apply :output-prologue [ p.Expr.id === 'array' ]
     %{ Expr :output }
 
 apply :output-value [ p.Expr.id === 'array' ]
-    m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Start }, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 apply :output-value [ p.Expr.getType() === 'object' ]
 
-    m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Start }, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 apply :output-value [ p.Expr.getType() === 'array' ]
 
-    m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Start }, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 apply :output-value
 
-    m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma })
+    m.a(m, %{ Start }, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 template_mode :string
 
