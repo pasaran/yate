@@ -1,0 +1,10 @@
+/// {
+///     description: 'namespaces in attributes',
+///     result: '<div ns:a="a" ns:b="b"></div>'
+/// }
+
+match / {
+    <div ns:a="a">
+        @ns:b = "b"
+    </div>
+}
