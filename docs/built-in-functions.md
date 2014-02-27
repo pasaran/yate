@@ -27,6 +27,34 @@ match / {
 true
 false
 ```
+* ```exists(jpath)``` – возвращает true, если nodeset по указанному jpath не пустой
+```
+/*
+{
+  "foo": "1",
+  "foo-empty": ""
+}
+*/
+match / {
+    if exists(.foo) {
+        // true
+    }
+
+    if exists(.bar) {
+        // false
+    }
+    
+    if exists(.foo-empty) {
+        // true
+    }
+
+    // пустая строка приведется к false, поэтому условие не выполнится
+    if .foo-empty {
+        // false
+    }
+}
+
+```
 * ```index()``` – возвращает индекс обрабатываемого элемента массива, аналог ```position()``` в XSL
 * ```html(scalar)``` – возвращает значение "как есть" без каких-либо преобразований, аналог ```disable-output-escaping``` в XSL.
 ```js
