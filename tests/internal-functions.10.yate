@@ -8,11 +8,16 @@
 ///             { id: 3, title: 'Third' }
 ///         ]
 ///     },
-///     result: 'SecondThird'
+///     result: 'SecondSecondSecondThird'
 /// }
 
 match / {
     .item[ .id == current().id ].title
+    .item[ .id[ . == current().id ] ].title
+    if .id {
+        .item[ .id == current().id ].title
+    }
+
     .item[ current().id ].title
 }
 
