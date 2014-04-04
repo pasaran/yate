@@ -6,7 +6,7 @@
     },
     "name": "yate",
     "description": "Yet Another Template Engine",
-    "version": "0.0.68",
+    "version": "0.0.69",
     "homepage": "https://github.com/pasaran/yate",
     "repository": {
         "type": "git",
