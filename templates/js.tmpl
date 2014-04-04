@@ -721,6 +721,10 @@ pair :output
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
 
+inline_ternary
+
+    ( %{ Condition } ) ? %{ Then } : %{ Else }
+
 inline_or
     %{ Left } || %{ Right }
 
