@@ -68,6 +68,7 @@ template :def
     function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
+        var current = [ c%{ Cid } ];
 
         %{ Body :output }
 
@@ -889,6 +890,9 @@ internal_function_document
 
 internal_function_subnode
     yr.subnode(%{ Args }, c%{ Cid })
+
+internal_function_current
+    current
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
