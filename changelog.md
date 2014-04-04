@@ -1,6 +1,35 @@
 Changelog
 =========
 
+0.0.70
+------
+
+  * В `runtime.js` повсюду использовалась конструкция `foo instanceof Array`,
+    которая не работает, например, когда шаблон исполняется в ноде через модуль `vm`
+    т.к. данные и шаблон используют разные `Array`.
+
+    Начиная с этой версии, в `runtime.js` используется `Array.isArray(foo)`.
+
+    **Важно**. `Array.isArray()` нет, например, в IE7 и IE8.
+    Так что, если нужна подддержка этих (и других старых браузеров), нужно позаботиться о полифиле.
+    Например, вот такой:
+
+        if ( !Array.isArray ) {
+            Array.isArray = function( a ) {
+                return Object.prototype.toString.call( a ) === '[object Array]';
+            };
+        }
+
+    или даже (в браузере, если нет нескольких фреймов):
+
+        if ( !Array.isArray ) {
+            Array.isArray = function( a ) {
+                return ( a instanceof Array );
+            };
+        }
+
+    Я не стал добавлять это в `runtime.js` автоматически.
+
 0.0.69
 ------
 
