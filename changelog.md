@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.0.71
+------
+
+  * Merged #227. Метод `yr.isRegistered(id)`.
+
 0.0.70
 ------
 
