@@ -67,7 +67,7 @@ for (var i = 0, l = files.length; i < l; i++) {
     var status, desc;
 
     try {
-        var result = yate.run( tmpfile, { data: options.data || {} }, options.externals );
+        var result = yate.run( tmpfile, {}, { data: options.data || {} }, options.externals );
 
         if (options.throws) {
             status = 'fail';
