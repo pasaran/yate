@@ -1,0 +1,24 @@
+/// {
+///     description: 'two array items per for iteration',
+///     data: {
+///         item: [ 1, 2, 3 ],
+///     },
+///     result: '42,true,42,true,42,true'
+/// }
+
+match / {
+    list = [
+        for .item {
+            42
+            true()
+        }
+    ]
+
+    for list.item {
+        if index() {
+            ","
+        }
+        .
+    }
+}
+
