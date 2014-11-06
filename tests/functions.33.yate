@@ -1,0 +1,15 @@
+/// {
+///     description: 'Function can modify parent node attributes and generate own output at the same time',
+///     result: '<div class="parent"><span>inner</span></div>'
+/// }
+
+func foo() {
+    @class += 'parent'
+    <span>inner</span>
+}
+
+match / {
+    <div>
+        foo()
+    </div>
+}
