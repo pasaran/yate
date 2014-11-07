@@ -1,0 +1,29 @@
+/// {
+///     description: 'iteration over constructed array and using global non-constant variables',
+///     data: {
+///         foo: 42
+///     },
+///     result: '123'
+/// }
+
+//  NOTE: В контексте массива .foo вернет пустую строку, а вовсе не 42.
+//
+foo = .foo
+
+func get-foo() {
+    foo
+}
+
+match / {
+    arr = [
+        1
+        2
+        3
+    ]
+
+    for arr.item {
+        .
+        get-foo()
+    }
+}
+
