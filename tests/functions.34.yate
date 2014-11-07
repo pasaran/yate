@@ -1,0 +1,20 @@
+/// {
+///     description: 'recursive xml/attr function',
+///     result: '<div data-5="5" data-4="4" data-3="3" data-2="2" data-1="1">Hello</div>'
+/// }
+
+func xml content( n ) {
+    if n {
+        @data-{ n } = n
+        content( n - 1 )
+    } else {
+        "Hello"
+    }
+}
+
+match / {
+    <div>
+        content( 5 )
+    </div>
+}
+
