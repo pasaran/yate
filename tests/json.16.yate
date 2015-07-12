@@ -1,0 +1,19 @@
+/// {
+///     description: 'function returning array',
+///     result: '123'
+/// }
+
+func foo() {
+    [
+        1
+        2
+        3
+    ]
+}
+
+match / {
+    for foo().item {
+        .
+    }
+}
+

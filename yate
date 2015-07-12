@@ -15,14 +15,15 @@ require('./lib/actions.js');
 
 var nopt = require('nopt');
 
-var parsed = yate.cliOptions = nopt(
+var parsed = nopt(
     {
         'write-ast': Boolean,
         'ast': Boolean,
         'print': Boolean,
         'mode': String,
         'output': String,
-        'import': [ Array, path_ ]
+        'import': [ Array, path_ ],
+        'module-name': String
     },
     {
         'a': '--ast',
@@ -60,17 +61,17 @@ if (imports) {
 }
 
 if (parsed.ast) {
-    console.log( yate.compile(template).ast.toString() );
+    console.log( yate.compile(template, parsed).ast.toString() );
 
 } else if (parsed.print) {
-    var ast = yate.parse(template);
+    var ast = yate.parse(template, parsed);
     console.log( ast.yate() );
 
 } else if (data) {
-    console.log( yate.run(template, { filename: data }, externals, mode) );
+    console.log( yate.run(template, parsed, { filename: data }, externals, mode) );
 
 } else {
-    var js = yate.compile(template).js;
+    var js = yate.compile(template, parsed).js;
     if (parsed.output) {
         fs_.writeFileSync(parsed.output, js, 'utf-8');
     } else {

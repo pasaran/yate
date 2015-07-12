@@ -5,7 +5,7 @@
 ---------
 
 ```sh
-npm install yate
+npm install -g yate
 ```
 
 Пишем шаблон

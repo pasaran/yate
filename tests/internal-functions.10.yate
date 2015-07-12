@@ -1,0 +1,23 @@
+/// {
+///     description: 'current()',
+///     data: {
+///         id: 2,
+///         item: [
+///             { id: 1, title: 'First' },
+///             { id: 2, title: 'Second' },
+///             { id: 3, title: 'Third' }
+///         ]
+///     },
+///     result: 'SecondSecondSecondThird'
+/// }
+
+match / {
+    .item[ .id == current().id ].title
+    .item[ .id[ . == current().id ] ].title
+    if .id {
+        .item[ .id == current().id ].title
+    }
+
+    .item[ current().id ].title
+}
+

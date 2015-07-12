@@ -6,7 +6,7 @@
     },
     "name": "yate",
     "description": "Yet Another Template Engine",
-    "version": "0.0.42",
+    "version": "0.0.78",
     "homepage": "https://github.com/pasaran/yate",
     "repository": {
         "type": "git",
@@ -14,7 +14,8 @@
     },
     "dependencies": {
         "nopt": "*",
-        "parse-tools": "0.0.12"
+        "nommon": "0.0.23",
+        "parse-tools": "0.0.17"
     },
     "devDependencies": {},
     "optionalDependencies": {},
@@ -27,6 +28,10 @@
         "lib",
         "templates",
         "yate"
-    ]
+    ],
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/pasaran/yate/raw/master/LICENSE"
+    }
 }
 

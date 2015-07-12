@@ -1,0 +1,32 @@
+/// {
+///     description: 'for with objects inside',
+///     data: {
+///         item: [ 1, 2, 3 ]
+///     },
+///     result: '234'
+/// }
+
+match / {
+    a = {
+        "item": [
+            for .item {
+                {
+                    "foo": . + 1
+                }
+            }
+        ]
+    }
+
+    //  log(a)
+
+    apply a content
+}
+
+match / content {
+    apply .item
+}
+
+match .item {
+    .foo
+}
+

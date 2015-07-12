@@ -1,0 +1,57 @@
+/// {
+///     description: 'else/else if in list context',
+///     data: {
+///         item: [ 1, 2, 3 ]
+///     },
+///     result: '123123123'
+/// }
+
+match / {
+
+    a = {
+        "item": [
+            for .item {
+                if true() {
+                    { "id": . }
+                } else {
+                    { "id": . }
+                }
+            }
+        ]
+    }
+
+    b = {
+        "item": [
+            for .item {
+                if false() {
+                    { "id": . }
+                } else {
+                    { "id": . }
+                }
+            }
+        ]
+    }
+
+    c = {
+        "item": [
+            for .item {
+                if false() {
+                    { "id": . }
+                } else if true() {
+                    { "id": . }
+                } else {
+                    { "id": . }
+                }
+            }
+        ]
+    }
+
+    apply a.item item
+    apply b.item item
+    apply c.item item
+}
+
+match .item item {
+    .id
+}
+

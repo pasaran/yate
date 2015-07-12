@@ -1,0 +1,21 @@
+/// {
+///     description: 'multiline expr in if condition',
+///     data: {
+///         foo: 42,
+///         bar: 24
+///     },
+///     result: 'yes'
+/// }
+
+match / {
+    if
+        .foo
+        +
+        .bar
+        ==
+        66
+    {
+        "yes"
+    }
+}
+

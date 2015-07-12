@@ -20,6 +20,7 @@ module
         var scalar2attrvalue = yr.scalar2attrvalue;
         var xml2attrvalue = yr.xml2attrvalue;
         var scalar2xml = yr.scalar2xml;
+        var xml2scalar = yr.xml2scalar;
         var simpleScalar = yr.simpleScalar;
         var simpleBoolean = yr.simpleBoolean;
         var selectNametest = yr.selectNametest;
@@ -67,6 +68,7 @@ template :def
     function t%{ Id }(m, c%{ Cid }, i%{ Cid }, l%{ Cid }, a%{ Rid }%{ Args }) {
         %{ Args :defaults }
         %{ . :template_prologue }
+        var current = [ c%{ Cid } ];
 
         %{ Body :output }
 
@@ -169,6 +171,14 @@ function_ :def
 
     %{ . :function_epilogue }
 
+
+* :function_prologue [ a.getType() === 'object' ]
+
+    var r%{ Rid } = {};
+
+* :function_prologue [ a.getType() === 'array' ]
+
+    var r%{ Rid } = [];
 
 * :function_prologue [ a.getType() === 'nodeset' ]
 
@@ -354,6 +364,10 @@ jpath_predicate :defs
 // block and body
 // ----------------------------------------------------------------------------------------------------------------- //
 
+body [ f.AsList ]
+
+    %{ Block :listitem ]
+
 body
 
     %{ Block }
@@ -364,6 +378,10 @@ body :output
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+block :output [ f.AsList ]
+
+    %{ . :listitem }
 
 block
 
@@ -377,13 +395,21 @@ block :output
 
     %{ Exprs :output }
 
+block :listitem
+
+    %{ js__defs() }
+
+    %{ Exprs :listitem }
+
 * :prologue [ a.getType() === 'array' ]
 
     var r%{ Rid } = [];
+    var a%{ Rid } = { a: {} };
 
 * :prologue [ a.getType() === 'object' ]
 
     var r%{ Rid } = {};
+    var a%{ Rid } = { a: {} };
 
 * :prologue [ a.getType() === 'nodeset' ]
 
@@ -402,6 +428,10 @@ block :output
 // ----------------------------------------------------------------------------------------------------------------- //
 // block expressions
 // ----------------------------------------------------------------------------------------------------------------- //
+
+if_ :listitem
+
+    %{ . :output }
 
 if_ :output
 
@@ -423,6 +453,10 @@ else_
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+for_ :listitem
+
+    %{ . :output }
+
 for_ :output
 
     var items%{ Cid } = %{ Selector };
@@ -433,35 +467,53 @@ for_ :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-apply :output [ p.Expr.id === 'object' ]
+apply :output
+
+    %{ . :output-prologue }
+    r%{ Rid } += %{ . :output-value }
+
+apply :listitem
+
+    %{ . :output-prologue }
+    r%{ Rid }.push(%{ . :output-value });
+
+apply :output-prologue [ p.Expr.id === 'object' ]
 
     var r%{ Expr.Rid } = {};
     %{ Expr :output }
-    r%{ Rid } += m.a(m, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
-apply :output [ p.Expr.id === 'array' ]
+apply :output-value [ p.Expr.id === 'object' ]
+    m.a(m, %{ Start }, yr.object2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
+
+apply :output-prologue [ p.Expr.id === 'array' ]
 
     var r%{ Expr.Rid } = [];
     %{ Expr :output }
-    r%{ Rid } += m.a(m, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
 
-apply :output [ p.Expr.getType() === 'object' ]
+apply :output-value [ p.Expr.id === 'array' ]
+    m.a(m, %{ Start }, yr.array2nodeset(r%{ Expr.Rid }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value [ p.Expr.getType() === 'object' ]
 
-apply :output [ p.Expr.getType() === 'array' ]
+    m.a(m, %{ Start }, yr.object2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value [ p.Expr.getType() === 'array' ]
 
-apply :output
+    m.a(m, %{ Start }, yr.array2nodeset(%{ Expr }), %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
-    r%{ Rid } += m.a(m, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma });
+apply :output-value
+
+    m.a(m, %{ Start }, %{ Expr }, %{ Mode :string }, a%{ Rid }%{ Args :comma })
 
 template_mode :string
 
     '%{ Value }'
 
 //  ---------------------------------------------------------------------------------------------------------------  //
+
+cdata :listitem
+
+    r%{ Rid }.push(%{ Value });
 
 cdata :output
 
@@ -476,6 +528,10 @@ xml_attr :open
 xml_line :output
 
     r%{ Rid } += %{ . :content };
+
+xml_line :listitem
+
+    r%{ Rid }.push(%{ . :content });
 
 xml_line :content
 
@@ -528,6 +584,12 @@ attrs_open :output
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+subexpr :listitem
+
+    %{ Block :prologue }
+    %{ Block :output }
+    r%{ Rid }.push(r%{ Block.Rid });
+
 subexpr :output
 
     %{ Block :output }
@@ -542,7 +604,7 @@ jpath [ a.isRoot() ]
 
     [ c%{ Cid }.doc.root ]
 
-jpath [ a.yate() === '.' ]
+jpath [ a.isSelf() ]
 
     [ c%{ Cid } ]
 
@@ -596,7 +658,7 @@ value
 
     %{ Value }
 
-value :output [ f.AsList ]
+value :listitem
 
     r%{ Rid }.push(%{ Value });
 
@@ -626,9 +688,21 @@ value :output
 //  object
 //  ---------------------------------------------------------------------------------------------------------------  //
 
+array :listitem
+
+    %{ . :prologue }
+    %{ . :output }
+    r%{ ~.Rid }.push(r%{ Block.Rid });
+
 array :output
 
-    %{ Block :output }
+    %{ Block :listitem }
+
+object :listitem
+
+    %{ . :prologue }
+    %{ . :output }
+    r%{ ~.Rid }.push(r%{ Block.Rid });
 
 object :output
 
@@ -647,6 +721,10 @@ pair :output
 // ----------------------------------------------------------------------------------------------------------------- //
 // inline expressions
 // ----------------------------------------------------------------------------------------------------------------- //
+
+inline_ternary
+
+    ( %{ Condition } ) ? %{ Then } : %{ Else }
 
 inline_or
     %{ Left } || %{ Right }
@@ -736,6 +814,23 @@ inline_function
 callargs :comma [ !a.empty() ]
     , %{ . }
 
+callarg [ p.AsType === 'nodeset' && p.Expr.id === 'object' ]
+    yr.object2nodeset(%{ . :object })
+
+callarg [ p.AsType === 'nodeset' && p.Expr.id === 'array' ]
+    yr.array2nodeset(%{ . :object })
+
+callarg [ p.Expr.id === 'object' || p.Expr.id === 'array' ]
+    %{ . :object }
+
+callarg :object
+    (function() {
+        %{ Expr :prologue }
+        %{ Expr :output }
+
+        return r%{ Expr.Rid };
+    })()
+
 callarg
 
     %{ Expr }
@@ -793,11 +888,17 @@ internal_function_log
 internal_function_document
     yr.document(%{ Args })
 
+internal_function_subnode
+    yr.subnode(%{ Args }, c%{ Cid })
+
+internal_function_current
+    current
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 inline_var [ a.def.isGlobal() ]
 
-    m.v('v%{ Id }', c%{ Cid })
+    m.v('v%{ Id }', c%{ Cid }.doc.root)
 
 inline_var
     v%{ Id }
@@ -822,6 +923,9 @@ string_literal
 // cast and quote
 // ----------------------------------------------------------------------------------------------------------------- //
 
+cast [ p.From === 'nodeset' && p.To === 'data' ]
+    yr.nodeset2data(%{ Expr })
+
 cast [ p.From === 'nodeset' && (p.To === 'scalar' || p.To === 'xml' || p.To === 'attrvalue' || p.To === 'boolean') ]
     nodeset2%{ To }( %{ Expr } )
 
@@ -830,6 +934,9 @@ cast [ p.From === 'scalar' && (p.To === 'xml' || p.To == 'attrvalue') ]
 
 cast [ p.From === 'xml' && p.To == 'attrvalue' ]
     xml2attrvalue( %{ Expr } )
+
+cast [ p.From === 'xml' && p.To == 'scalar' ]
+    xml2scalar( %{ Expr } )
 
 cast [ p.From === 'object' && p.To == 'nodeset' ]
     yr.object2nodeset( %{ Expr } )

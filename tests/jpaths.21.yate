@@ -1,0 +1,12 @@
+/// {
+///     description: 'scalar(0) should be "0"',
+///     data: {
+///         foo: 0
+///     },
+///     result: '0'
+/// }
+
+match / {
+    scalar(.foo)
+}
+

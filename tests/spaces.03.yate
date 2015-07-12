@@ -1,0 +1,26 @@
+/// {
+///     description: 'multiline expr in predicate',
+///     data: {
+///         item: {
+///             foo: 42,
+///             bar: 24
+///         }
+///     },
+///     result: '10'
+/// }
+
+match / {
+    item1 = .item[
+        .foo == 42 &&
+        .bar == 24
+    ]
+
+    item2 = .item[
+        .foo == 24 ||
+        .bar == 42
+    ]
+
+    count(item1)
+    count(item2)
+}
+

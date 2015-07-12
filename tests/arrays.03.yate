@@ -1,0 +1,32 @@
+/// {
+///     description: 'two array items per for iteration',
+///     data: {
+///         item: [
+///             { a: 33, b: 42 },
+///             { a: 77, b: 24 },
+///             { a: 82, b: 66 }
+///         ]
+///     },
+///     result: '33,42,77,24,82,66'
+/// }
+
+match / {
+    list = [
+        for .item {
+            {
+                "c": .a
+            }
+            {
+                "c": .b
+            }
+        }
+    ]
+
+    for list.item {
+        if index() {
+            ","
+        }
+        .c
+    }
+}
+

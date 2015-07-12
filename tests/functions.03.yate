@@ -6,11 +6,11 @@
 ///     result: '<h1>&lt;b&gt;Some &amp;text&lt;/b&gt;</h1>'
 /// }
 
-func xml() {
+func foo() {
     <h1>{ .text }</h1>
 }
 
 match / {
-    xml()
+    foo()
 }
 

@@ -1,0 +1,9 @@
+/// {
+///     description: 'simpleScalar(undefined) should be empty string',
+///     result: 'bar'
+/// }
+
+match / {
+    .foo + 'bar'
+}
+

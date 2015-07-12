@@ -1,0 +1,23 @@
+/// //  Test for #195.
+/// {
+///     description: 'xml value should be converted to scalar',
+///     data: {
+///         html: '<b>Hello & Bye</b>'
+///     },
+///     result: '&lt;b&gt;Hello &amp; Bye&lt;/b&gt;'
+/// }
+
+func foo(scalar x) {
+    x
+}
+
+match / {
+    html = apply / content
+
+    foo(html)
+}
+
+match / content {
+    .html
+}
+
