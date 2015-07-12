@@ -517,7 +517,7 @@ cdata :listitem
 
 cdata :output
 
-    r%{ Rid } += %{ Value };
+    yr.text(%{ Value });
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -525,9 +525,29 @@ xml_attr :open
 
     '%{ Name }': new yr.scalarAttr(%{ Value })
 
-xml_line :output
+xml_attr :void
 
-    r%{ Rid } += %{ . :content };
+    , '%{ Name }', %{ Value }
+
+xml_attrs :start
+
+    , null%{ Attrs :void }
+
+xml_start :output
+
+    yr.elementOpen('%{ Name }', %{ Key }%{ Attrs :start });
+
+xml_empty :output
+
+    yr.elementVoid('%{ Name }', %{ Key }, null%{ Attrs :void });
+
+xml_end :output
+
+    yr.elementClose('%{ Name }');
+
+xml_text :output
+
+    yr.text(%{ Text });
 
 xml_line :listitem
 
@@ -571,7 +591,7 @@ attr :output
     a%{ Rid }.a[ %{ Name } ] = new yr.%{ AttrType }Attr(r%{ Value.Rid });
 
 attrs_close :output
-    r%{ Rid } += closeAttrs(a%{ Rid });
+    closeAttrs(a%{ Rid });
 
 attrs_open :output
 
@@ -681,7 +701,7 @@ value :output [ a.getType() === 'attr' ]
 
 value :output
 
-    r%{ Rid } += %{ Value };
+    yr.text(%{ Value });
 
 
 //  ---------------------------------------------------------------------------------------------------------------  //
