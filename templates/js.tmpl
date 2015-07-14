@@ -517,7 +517,7 @@ cdata :listitem
 
 cdata :output
 
-    yr.text(%{ Value });
+    r%{ Rid } += %{ Value };
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -531,7 +531,7 @@ xml_attr :void
 
 xml_attrs :start
 
-    , null%{ Attrs :void }
+    , null%{ . :void }
 
 xml_start :output
 
