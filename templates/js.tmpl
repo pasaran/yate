@@ -735,6 +735,9 @@ inline_and
 inline_not
     !%{ Left }
 
+inline_eq [ p.Op === '===' || p.Op === '!==' ]
+    %{ Left } %{ Op } %{ Right }
+
 inline_eq [ p.Op === '!=' && ( p.Left.getType() === 'nodeset' || p.Right.getType() === 'nodeset' ) ]
 
     !(%{ . :cmp })
