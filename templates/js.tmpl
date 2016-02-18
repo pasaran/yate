@@ -25,6 +25,8 @@ module
         var simpleBoolean = yr.simpleBoolean;
         var selectNametest = yr.selectNametest;
         var closeAttrs = yr.closeAttrs;
+        var tagName = yr.tagName;
+        var isShort = yr.isShort;
 
         var M = new yr.Module();
 
@@ -527,16 +529,35 @@ xml_attr :open
 
 xml_line :output
 
-    r%{ Rid } += %{ . :content };
+    %{ Names }
+    r%{ Rid } += %{ Items :content };
 
 xml_line :listitem
 
-    r%{ Rid }.push(%{ . :content });
+    %{ Names }
+    r%{ Rid }.push(%{ Items :content });
 
-xml_line :content
+xml_items :content
 
     %{ js__content() }
 
+xml_names [ !a.empty() ]
+    var %{ . :init };
+
+xml_name
+    xn%{ Xid }
+
+xml_name :init
+    xn%{ Xid } = tagName(%{ Expr })
+
+xml_start :open
+    xn%{ Xid }
+
+xml_start :open_close
+    ( isShort(xn%{ Xid }) ? '/>' : '>' )
+
+xml_end :close
+    ( isShort(xn%{ Xid }) ? '' : '</' + xn%{ Xid } + '>' )
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
@@ -572,6 +593,13 @@ attr :output
 
 attrs_close :output
     r%{ Rid } += closeAttrs(a%{ Rid });
+
+attrs_open :output [ p.Xid ]
+
+    a%{ Rid }.a = {
+        %{ Attrs :open }
+    };
+    a%{ Rid }.s = xn%{ Xid };
 
 attrs_open :output
 

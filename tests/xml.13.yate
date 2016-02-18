@@ -1,0 +1,18 @@
+/// {
+///     description: 'dynamic tag name',
+///     data: {
+///         name: 'img',
+///         title: 'Hello'
+///     },
+///     result: '<div><img class="foo bar"/>Hello</div>'
+/// }
+
+match / {
+    <div>
+        <{ .name } class="foo">
+            @class += " bar"
+            .title
+        </>
+    </div>
+}
+
