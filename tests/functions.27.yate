@@ -67,7 +67,8 @@
 ///                ]
 ///            }
 ///        },
-///     result: 'group a:f '
+///     result: 'group a:f ',
+///     known: true
 /// }
 
 func get_contact_jid(nodeset contact) {
