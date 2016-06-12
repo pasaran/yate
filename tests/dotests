@@ -57,29 +57,30 @@ for (var i = 0, l = files.length; i < l; i++) {
         testSrc = testSrc.slice(1);
     }
     var test = parseTest(testSrc);
-    var options = test.options;
-    options.yate = filename;
+    var meta = test.options;
+    meta.yate = filename;
 
-    var filename = strpad(options.yate);
+    var filename = strpad(meta.yate);
 
     fs.writeFileSync(tmpfile, test.yate, 'utf-8');
 
     var status, desc;
 
     try {
-        var result = yate.run( tmpfile, {}, { data: options.data || {} }, options.externals );
+        var options = { imports: meta.imports };
+        var result = yate.run( tmpfile, options, { data: meta.data || {} }, meta.externals );
 
-        if (options.throws) {
+        if (meta.throws) {
             status = 'fail';
             desc = 'doesn\'t throw';
         } else {
-            status = (result == options.result) ? 'ok' : 'fail';
-            desc = options.description;
+            status = (result == meta.result) ? 'ok' : 'fail';
+            desc = meta.description;
         }
     } catch (e) {
-        if (options.throws) {
+        if (meta.throws) {
             status = 'ok';
-            desc = options.description;
+            desc = meta.description;
         } else {
             status = 'throw';
             desc = e.message || 'unknown error';
@@ -92,7 +93,7 @@ for (var i = 0, l = files.length; i < l; i++) {
 
     if (status != 'ok') {
         nError++;
-        if (options.known) {
+        if (meta.known) {
             nKnown++;
         }
 
@@ -100,7 +101,7 @@ for (var i = 0, l = files.length; i < l; i++) {
         filenameColor = descColor = 'white';
     }
 
-    if (options.known) {
+    if (meta.known) {
         statusColor = 'yellow';
     }
 
@@ -108,7 +109,7 @@ for (var i = 0, l = files.length; i < l; i++) {
         console.log(format, filename[filenameColor], status[statusColor], desc[descColor]);
         if (status === 'fail' && parsed.diff) {
             console.log( format, strpad('result:').red, JSON.stringify(result).red, '' );
-            console.log( format, strpad('expected:').green, JSON.stringify(options.result).green, '' );
+            console.log( format, strpad('expected:').green, JSON.stringify(meta.result).green, '' );
             console.log();
         } else if (parsed.result) {
             var color = (status === 'ok') ? 'green' : 'red';
