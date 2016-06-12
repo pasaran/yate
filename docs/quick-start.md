@@ -32,6 +32,33 @@ match / {
 yate hello.yate > hello.js
 ```
 
+In-memory компиляция
+--------------------
+
+Можно компилировать шаблоны in-memory. Для начала компилируем все модули, если они есть:
+```javascript
+var yate = require('yate');
+
+var hello = fs.readFileSync('hello.yate', 'utf8');
+var mod = yate.compile({ input: hello }); // {ast, obj, js}
+
+// Ещё можно напрямую из файла.
+var mod = yate.compile({ filename: 'hello.yate', saveObj: false });
+```
+
+В объектнике `obj` хранятся все глобальные определения переменных, функций и ключей модуля `hello` в свойстве `defs` и имя модуля в свойстве `name`.
+
+Теперь компилируем основной шаблон:
+```javascript
+var main = fs.readFileSync('main.yate', 'utf8');
+
+var js = yate.compile({ input: main, modules: { hello: mod.obj } }).js;
+```
+
+Для лучших сообщений об ошибках так же можно передавать `filename`.
+
+Для in-memory инклюдов можно предоставить функцию `resolve(path: string) -> string`, принимающую путь (`include "path"`) и возвращающую содержимое. Кроме того, вместо `modules` можно передать `provide(name: string) -> Object`, принимающую имя модуля (`import "name"`) и возращающую объектник (`obj` выше).
+
 
 Выполняем шаблон
 ----------------
