@@ -1,0 +1,19 @@
+/// {
+///     description: 'it should allow inline comments inside new nodesets',
+///     data: {},
+///     result: 'Hello, World! Answer is 42 number'
+/// }
+
+match / {
+    test({
+        // comment before arg
+        "name": "World"
+        // Comment between args
+        "answer": 42 // and after it
+    })
+}
+
+func test(nodeset params) {
+    "Hello, {params.name}! Answer is {params.answer} number"
+}
+
