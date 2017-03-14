@@ -1,0 +1,9 @@
+module "add"
+
+func add(x, y) {
+    x + y
+}
+
+match / {
+    "Hello, { .username }"
+}

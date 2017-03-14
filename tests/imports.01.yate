@@ -1,0 +1,17 @@
+/// {
+///     description: 'some imports',
+///     imports: ['imports/user.yate', 'imports/add.yate'],
+///     data: {
+///         a: 20,
+///         b: 22
+///     },
+///     result: 'nop42'
+/// }
+
+import "add"
+import "user"
+
+match / {
+    username
+    add(.a, .b)
+}
