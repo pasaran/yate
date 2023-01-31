@@ -1,0 +1,15 @@
+/// {
+///     description: 'dynamic tag name with a number',
+///     data: {
+///         name: 'h1',
+///         title: 'Hello'
+///     },
+///     result: '<h1>Hello</h1>'
+/// }
+
+match / {
+    <{ .name }>
+        .title
+    </>
+}
+
